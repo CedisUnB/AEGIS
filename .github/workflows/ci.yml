@@ -7,7 +7,9 @@ on:
     branches: [main, dev]
 
 jobs:
+  # ==========================================
   # JOB 1: Análise Estática (Lint & Type-Check)
+  # ==========================================
   code-quality:
     name: Lint & Type Check
     runs-on: ubuntu-latest
@@ -18,7 +20,7 @@ jobs:
       - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "24.19.0"
+          node-version: 20
           cache: "npm"
 
       - name: Instalar Dependências
@@ -30,7 +32,9 @@ jobs:
       - name: Executar Verificação de Tipos (TypeScript)
         run: npm run type-check
 
+  # ==========================================
   # JOB 2: Testes Unitários (Jest)
+  # ==========================================
   unit-tests:
     name: Testes Unitários
     runs-on: ubuntu-latest
@@ -41,7 +45,7 @@ jobs:
       - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "24.19.0"
+          node-version: 20
           cache: "npm"
 
       - name: Instalar Dependências
@@ -50,7 +54,9 @@ jobs:
       - name: Executar Jest Unitário
         run: npm run test:unit
 
-  # JOB 3: Testes de Integração (com MySQL Service)
+  # ==========================================
+  # JOB 3: Testes de Integração (com MySQL e Migrações)
+  # ==========================================
   integration-tests:
     name: Testes de Integração
     runs-on: ubuntu-latest
@@ -65,7 +71,7 @@ jobs:
           MYSQL_PASSWORD: tcc_password
         ports:
           - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
 
     steps:
       - name: Checkout do Código
@@ -74,28 +80,44 @@ jobs:
       - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "24.19.0"
+          node-version: 20
           cache: "npm"
 
       - name: Instalar Dependências
         run: npm ci
 
-      # Quando você configurar o Prisma/Migrations, descomente a linha abaixo:
-      # - name: Rodar Migrações no Banco de Teste
-      #   run: npx prisma migrate deploy
-      #   env:
-      #     DATABASE_URL: mysql://user:user_password@127.0.0.1:3306/sec-app_db
+      - name: Gerar Cliente Prisma
+        run: npx prisma generate
+
+      - name: Executar Migrações no Banco de Teste
+        env:
+          DATABASE_URL: mysql://tcc_user:tcc_password@127.0.0.1:3306/tcc_db_test
+        run: npx prisma migrate deploy
 
       - name: Executar Testes de Integração
         env:
-          DATABASE_URL: mysql://user:user_password@127.0.0.1:3306/sec-app_db
+          DATABASE_URL: mysql://tcc_user:tcc_password@127.0.0.1:3306/tcc_db_test
         run: npm run test:integration
 
-  # JOB 4: Build & Testes End-to-End (Playwright / E2E)
+  # ==========================================
+  # JOB 4: Testes End-to-End (Playwright)
+  # ==========================================
   e2e-tests:
-    name: Testes E2E
+    name: Testes E2E (Playwright)
     runs-on: ubuntu-latest
     needs: [integration-tests]
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root_password
+          MYSQL_DATABASE: tcc_db_e2e
+          MYSQL_USER: tcc_user
+          MYSQL_PASSWORD: tcc_password
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
+
     steps:
       - name: Checkout do Código
         uses: actions/checkout@v4
@@ -109,12 +131,26 @@ jobs:
       - name: Instalar Dependências
         run: npm ci
 
-      # Quando instalar o Playwright futuramente, descomente:
-      # - name: Instalar Navegadores do Playwright
-      #   run: npx playwright install --with-deps
+      - name: Gerar Cliente Prisma
+        run: npx prisma generate
 
-      - name: Executar Build da Aplicação Next.js
-        run: npm run build
+      - name: Executar Migrações para E2E
+        env:
+          DATABASE_URL: mysql://tcc_user:tcc_password@127.0.0.1:3306/tcc_db_e2e
+        run: npx prisma migrate deploy
+
+      - name: Instalar Navegadores do Playwright
+        run: npx playwright install --with-deps chromium
 
       - name: Executar Testes E2E
+        env:
+          DATABASE_URL: mysql://tcc_user:tcc_password@127.0.0.1:3306/tcc_db_e2e
         run: npm run test:e2e
+
+      - name: Salvar Relatório do Playwright (em caso de falha)
+        uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7

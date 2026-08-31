@@ -1,0 +1,100 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model User {
+  email     String    @id @db.VarChar(255)
+  username  String    @db.VarChar(100)
+  password  String    @db.VarChar(255)
+  role      String    @default("student") @db.VarChar(50)
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  answers   Answers[]
+  takes     Takes[]
+
+  @@map("users")
+}
+
+model Track {
+  id             Int             @id @default(autoincrement())
+  theme          String          @db.VarChar(150)
+  sequence       String          @db.VarChar(50)
+  createdAt      DateTime        @default(now()) @map("created_at")
+  updatedAt      DateTime        @updatedAt @map("updated_at")
+  exercises      Exercise[]
+  lessons        Lesson[]
+  reviewContents ReviewContent[]
+  takes          Takes[]
+
+  @@map("tracks")
+}
+
+model Lesson {
+  id      Int    @id @default(autoincrement())
+  title   String @db.VarChar(200)
+  text    String @db.Text
+  trackId Int    @map("fk_track_id")
+  track   Track  @relation(fields: [trackId], references: [id], onDelete: Cascade)
+
+  @@index([trackId], map: "lessons_fk_track_id_fkey")
+  @@map("lessons")
+}
+
+model Exercise {
+  id       Int       @id @default(autoincrement())
+  type     String    @db.VarChar(50)
+  command  String    @db.Text
+  response String    @db.VarChar(255)
+  trackId  Int       @map("fk_track_id")
+  answers  Answers[]
+  track    Track     @relation(fields: [trackId], references: [id], onDelete: Cascade)
+
+  @@index([trackId], map: "exercises_fk_track_id_fkey")
+  @@map("exercises")
+}
+
+model ReviewContent {
+  id      Int    @id @default(autoincrement())
+  title   String @db.VarChar(200)
+  text    String @db.Text
+  trackId Int    @map("fk_track_id")
+  track   Track  @relation(fields: [trackId], references: [id], onDelete: Cascade)
+
+  @@index([trackId], map: "review_contents_fk_track_id_fkey")
+  @@map("review_contents")
+}
+
+model Takes {
+  userEmail        String    @map("fk_user_email") @db.VarChar(255)
+  trackId          Int       @map("fk_track_id")
+  status           String    @default("NOT_STARTED") @db.VarChar(50)
+  completedAt      DateTime? @map("completed_at")
+  unlockedRevision Boolean   @default(false) @map("unlocked_revision")
+  track            Track     @relation(fields: [trackId], references: [id], onDelete: Cascade)
+  user             User      @relation(fields: [userEmail], references: [email], onDelete: Cascade)
+
+  @@id([userEmail, trackId])
+  @@index([trackId], map: "takes_fk_track_id_fkey")
+  @@map("takes")
+}
+
+model Answers {
+  exerciseId     Int       @map("fk_exercise_id")
+  userEmail      String    @map("fk_user_email") @db.VarChar(255)
+  isCompleted    Boolean   @default(false) @map("is_completed")
+  attemptsCount  Int       @default(0) @map("attempts_count")
+  correctCount   Int       @default(0) @map("correct_count")
+  incorrectCount Int       @default(0) @map("incorrect_count")
+  lastAnsweredAt DateTime? @map("last_answered_at")
+  exercise       Exercise  @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+  user           User      @relation(fields: [userEmail], references: [email], onDelete: Cascade)
+
+  @@id([exerciseId, userEmail])
+  @@index([userEmail], map: "answers_fk_user_email_fkey")
+  @@map("answers")
+}

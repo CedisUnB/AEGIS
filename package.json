@@ -12,25 +12,31 @@
     "test:watch": "jest --watch",
     "test:unit": "jest --ci",
     "test:coverage": "jest --ci --coverage",
-    "test:integration": "echo \"Testes de integracao serao implementados aqui\" && exit 0",
-    "test:e2e": "echo \"Testes E2E serao implementados aqui\" && exit 0"
+    "test:integration": "jest --testPathPattern=__tests__/integration --runInBand",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui"
   },
   "dependencies": {
+    "@prisma/adapter-mariadb": "^7.10.0",
+    "@prisma/client": "^7.10.0",
+    "dotenv": "^17.4.2",
     "next": "16.3.1",
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "server-only": "^0.0.1"
   },
   "devDependencies": {
+    "@playwright/test": "^1.62.1",
     "@tailwindcss/postcss": "^4",
     "@types/jest": "^30.0.0",
-    "@types/node": "^20",
+    "@types/node": "^20.19.43",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.3.1",
     "jest": "^30.4.2",
     "jest-environment-jsdom": "^30.4.1",
+    "prisma": "^7.10.0",
     "tailwindcss": "^4",
     "ts-node": "^10.9.2",
     "typescript": "^5"
