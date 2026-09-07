@@ -1,23 +1,31 @@
 /**
  * @jest-environment node
  */
-import { prisma } from "@/app/lib/prisma";
+import { prisma } from '@/app/lib/prisma';
+
+// Aumenta o timeout padrão deste arquivo de teste para 30 segundos
+jest.setTimeout(30000);
 
 describe('Integração: Operações de Usuário e Trilhas', () => {
   const testEmail = 'integration_test@example.com';
 
-  // Limpeza antes e depois dos testes
   beforeAll(async () => {
+    // 1. Força a conexão imediata antes de rodar queries
+    await prisma.$connect();
+    // 2. Limpeza inicial
     await prisma.user.deleteMany({ where: { email: testEmail } });
-  });
+  }, 30000); // 30s de timeout no hook
 
   afterAll(async () => {
-    await prisma.user.deleteMany({ where: { email: testEmail } });
-    await prisma.$disconnect();
-  });
+    try {
+      await prisma.user.deleteMany({ where: { email: testEmail } });
+    } finally {
+      // 3. Garante que o pool TCP seja fechado para liberar o Jest
+      await prisma.$disconnect();
+    }
+  }, 30000);
 
   it('deve persistir um usuário no MySQL e associar a uma trilha', async () => {
-    // 1. Cria usuário
     const user = await prisma.user.create({
       data: {
         email: testEmail,
@@ -28,7 +36,6 @@ describe('Integração: Operações de Usuário e Trilhas', () => {
     });
     expect(user.email).toBe(testEmail);
 
-    // 2. Cria trilha
     const track = await prisma.track.create({
       data: {
         theme: 'Introdução à Segurança Web',
@@ -36,7 +43,6 @@ describe('Integração: Operações de Usuário e Trilhas', () => {
       },
     });
 
-    // 3. Cria vínculo na tabela associativa Takes (RF08 / Progresso)
     const take = await prisma.takes.create({
       data: {
         userEmail: user.email,
@@ -48,7 +54,6 @@ describe('Integração: Operações de Usuário e Trilhas', () => {
     expect(take.status).toBe('IN_PROGRESS');
     expect(take.trackId).toBe(track.id);
 
-    // Limpeza da trilha criada
     await prisma.track.delete({ where: { id: track.id } });
   });
 });

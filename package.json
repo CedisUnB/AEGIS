@@ -12,7 +12,7 @@
     "test:watch": "jest --watch",
     "test:unit": "jest --ci",
     "test:coverage": "jest --ci --coverage",
-    "test:integration": "jest --testPathPattern=__tests__/integration --runInBand",
+    "test:integration": "jest tests/integration --runInBand",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui"
   },
@@ -26,12 +26,13 @@
     "server-only": "^0.0.1"
   },
   "devDependencies": {
-    "@playwright/test": "^1.62.1",
+    "@playwright/test": "^1.63.0",
     "@tailwindcss/postcss": "^4",
     "@types/jest": "^30.0.0",
     "@types/node": "^20.19.43",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "cross-env": "^10.1.0",
     "eslint": "^9",
     "eslint-config-next": "16.3.1",
     "jest": "^30.4.2",
@@ -40,5 +41,10 @@
     "tailwindcss": "^4",
     "ts-node": "^10.9.2",
     "typescript": "^5"
+  },
+  "allowScripts": {
+    "prisma@7.10.0": true,
+    "@prisma/engines@7.10.0": true,
+    "unrs-resolver@1.12.2": true
   }
 }
