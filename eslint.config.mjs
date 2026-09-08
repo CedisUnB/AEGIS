@@ -13,6 +13,7 @@ const eslintConfig = [
       "dist/**",
       "*.config.js",
       "*.config.mjs",
+      "generated/**",
     ],
   },
 

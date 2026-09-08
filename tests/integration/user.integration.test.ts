@@ -1,7 +1,6 @@
 /**
  * @jest-environment node
  */
-import 'dotenv/config';
 import { prisma } from '@/app/lib/prisma';
 
 // Aumenta o timeout padrão deste arquivo de teste para 30 segundos

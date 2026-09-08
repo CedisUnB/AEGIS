@@ -5,9 +5,8 @@ const createJestConfig = nextJest({
   dir: './',
 });
 
-const config: Config = {
+const baseConfig: Config = {
   coverageProvider: 'v8',
-  testEnvironment: 'node', // Garante runtime Node.js para os testes de banco
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/$1',
   },
@@ -17,4 +16,27 @@ const config: Config = {
   ],
 };
 
-export default createJestConfig(config);
+export default async function jestConfig(): Promise<Config> {
+  const nextConfig = await createJestConfig(baseConfig)();
+
+  return {
+    ...nextConfig,
+    testPathIgnorePatterns: ['./tests/e2e'],
+    projects: [
+      {
+        ...nextConfig,
+        displayName: 'unit',
+        testEnvironment: 'jsdom',
+        roots: ['<rootDir>/app'],
+        testPathIgnorePatterns: ['./tests/e2e', './tests/integration'],
+      },
+      {
+        ...nextConfig,
+        displayName: 'integration',
+        testEnvironment: 'node',
+        roots: ['<rootDir>/tests/integration'],
+        testPathIgnorePatterns: ['./tests/e2e'],
+      },
+    ],
+  };
+}

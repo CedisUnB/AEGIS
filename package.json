@@ -11,9 +11,9 @@
     "type-check": "tsc --noEmit",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:unit": "jest --ci",
-    "test:coverage": "jest --ci --coverage",
-    "test:integration": "jest tests/integration --runInBand",
+    "test:unit": "jest --ci --selectProjects unit",
+    "test:coverage": "jest --ci --coverage --selectProjects unit",
+    "test:integration": "jest --ci --selectProjects integration",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui"
   },
