@@ -21,8 +21,12 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - DATABASE_URL=mysql://user:user_password@db:3306/sec-app_db
-      - WATCHPACK_POLLING=true
+      DATABASE_HOST: db
+      DATABASE_PORT: 3306
+      DATABASE_USER: user
+      DATABASE_PASSWORD: user_password
+      DATABASE_NAME: sec-app_db
+      DATABASE_URL: mysql://user:user_password@db:3306/sec-app_db
     volumes:
       - .:/app
       - /app/node_modules
