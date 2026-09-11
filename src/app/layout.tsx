@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Security App",
-  description: "Plataforma de aprendizagem sobre segurança",
+  description: "Plataforma de apoio ao aprendizado sobre segurança de software",
 };
 
 export default function RootLayout({

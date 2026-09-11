@@ -4,7 +4,7 @@ if (process.env.NODE_ENV !== 'test') {
 
 import 'dotenv/config';
 import { PrismaMariaDb } from '@prisma/adapter-mariadb';
-import { PrismaClient } from '@/generated/prisma/client';
+import { PrismaClient } from '@generated/prisma/client';
 
 const adapter = new PrismaMariaDb({
     host: process.env.DATABASE_HOST || '127.0.0.1',
