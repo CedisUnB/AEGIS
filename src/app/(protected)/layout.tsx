@@ -1,6 +1,7 @@
 // src/app/(protected)/layout.tsx
 import { redirect } from "next/navigation";
 import { getSession } from "@/core/security";
+import { logoutAction } from "@/features/auth";
 
 export default async function ProtectedLayout({
   children,
@@ -12,5 +13,16 @@ export default async function ProtectedLayout({
     redirect("/auth/login");
   }
 
-  return <>{children}</>;
+  return (
+    <>
+      <header className="flex justify-end border-b px-4 py-3">
+        <form action={logoutAction}>
+          <button type="submit" className="rounded-md border px-3 py-2 text-sm">
+            Sair
+          </button>
+        </form>
+      </header>
+      {children}
+    </>
+  );
 }
