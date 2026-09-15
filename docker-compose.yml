@@ -27,6 +27,7 @@ services:
       DATABASE_PASSWORD: user_password
       DATABASE_NAME: sec-app_db
       DATABASE_URL: mysql://user:user_password@db:3306/sec-app_db
+      JWT_SECRET: ${JWT_SECRET}
     volumes:
       - .:/app
       - /app/node_modules
