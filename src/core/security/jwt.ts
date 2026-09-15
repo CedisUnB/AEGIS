@@ -1,4 +1,5 @@
 import { SignJWT, jwtVerify, type JWTPayload } from "jose";
+import type { Role } from "@generated/prisma/client";
 
 const jwtSecret = process.env.JWT_SECRET;
 
@@ -9,12 +10,12 @@ if (!jwtSecret || jwtSecret.length < 32) {
 const secret = new TextEncoder().encode(jwtSecret);
 
 export interface SessionPayload extends JWTPayload {
-  userId: string;
-  role: "student" | "admin";
+  sub: string;
+  role: Role;
 }
 
 export async function signToken(
-  payload: Pick<SessionPayload, "userId" | "role">,
+  payload: Pick<SessionPayload, "sub" | "role">,
 ): Promise<string> {
   return new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256", typ: "JWT" })
@@ -32,7 +33,7 @@ export async function verifyToken(
     });
 
     if (
-      typeof payload.userId !== "string" ||
+      typeof payload.sub !== "string" ||
       (payload.role !== "student" && payload.role !== "admin")
     ) {
       return null;
