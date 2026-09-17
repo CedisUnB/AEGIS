@@ -4,10 +4,17 @@ import { verifyToken } from "@/core/security";
 
 export async function proxy(request: NextRequest) {
   const token = request.cookies.get("token")?.value;
-  const isValid = token && (await verifyToken(token));
+  const session = token ? await verifyToken(token) : null;
 
-  if (!isValid) {
+  if (!session) {
     return NextResponse.redirect(new URL("/auth/login", request.url));
+  }
+
+  if (
+    request.nextUrl.pathname.startsWith("/admin") &&
+    session.role !== "admin"
+  ) {
+    return NextResponse.redirect(new URL("/trails", request.url));
   }
 
   return NextResponse.next();
