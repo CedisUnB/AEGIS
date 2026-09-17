@@ -1,5 +1,5 @@
 import { SignJWT, jwtVerify, type JWTPayload } from "jose";
-import type { Role } from "@generated/prisma/client";
+import { Role, type Role as RoleValue } from "@generated/prisma/client";
 
 const jwtSecret = process.env.JWT_SECRET;
 
@@ -11,7 +11,7 @@ const secret = new TextEncoder().encode(jwtSecret);
 
 export interface SessionPayload extends JWTPayload {
   sub: string;
-  role: Role;
+  role: RoleValue;
 }
 
 export async function signToken(
@@ -32,10 +32,9 @@ export async function verifyToken(
       algorithms: ["HS256"],
     });
 
-    if (
-      typeof payload.sub !== "string" ||
-      (payload.role !== "student" && payload.role !== "admin")
-    ) {
+    const validRoles = Object.values(Role);
+    
+    if (typeof payload.sub !== "string" || !validRoles.includes(payload.role as Role)) {
       return null;
     }
 
