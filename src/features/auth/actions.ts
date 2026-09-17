@@ -3,10 +3,14 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { signUpSchema } from "./types/auth.types";
+import type { SignUpInput } from "./types/auth.types";
 import { EmailAlreadyExistsError, registerUser } from "../services/auth";
+
+export type SignUpField = keyof SignUpInput;
 
 export interface SignUpState {
   error: string | null;
+  fieldErrors: Partial<Record<SignUpField, string>>;
 }
 
 export async function logoutAction(): Promise<never> {
@@ -24,15 +28,25 @@ export async function signUpAction(
     password: formData.get("password"),
   });
 
-  // AC1 + AC2: validação de campos obrigatórios e força da senha
   if (!parsed.success) {
-    return { error: parsed.error.issues[0].message };
+    const fieldErrors: Partial<Record<SignUpField, string>> = {};
+
+    for (const issue of parsed.error.issues) {
+      const field = issue.path[0];
+      if (
+        (field === "username" || field === "email" || field === "password") &&
+        !fieldErrors[field]
+      ) {
+        fieldErrors[field] = issue.message;
+      }
+    }
+
+    return { error: null, fieldErrors };
   }
 
   try {
     const { token } = await registerUser(parsed.data);
 
-    // AC5: autentica o usuário após o cadastro
     (await cookies()).set("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -41,11 +55,16 @@ export async function signUpAction(
       maxAge: 60 * 60 * 2, // 2 hours, same time of the signToken
     });
   } catch (err) {
-    // AC3: e-mail já cadastrado
     if (err instanceof EmailAlreadyExistsError) {
-      return { error: err.message };
+      return {
+        error: null,
+        fieldErrors: { email: err.message },
+      };
     }
-    return { error: "Não foi possível criar a conta. Tente novamente." };
+    return {
+      error: "Não foi possível criar a conta. Tente novamente.",
+      fieldErrors: {},
+    };
   }
 
   redirect("/trails");
