@@ -1,13 +1,13 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Página Inicial / Auth', () => {
-  test('deve carregar a home e exibir o status da aplicação', async ({ page }) => {
-    await page.goto('/');
+  test('deve carregar a home e exibir a landing page', async ({ page }) => {
+  await page.goto('/');
 
-    const heading = page.locator('h1');
-    await expect(heading).toBeVisible();
-    await expect(page.getByText(/Hello World/i)).toBeVisible();
-  });
+  await expect(page.getByRole('heading', { name: 'Security App' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Entrar' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Criar conta' })).toBeVisible();
+});
 
   test('deve fazer login com usuário existente e redirecionar para /trails', async ({ page }) => {
     await page.goto('/auth/login');
@@ -21,11 +21,13 @@ test.describe('Página Inicial / Auth', () => {
   });
 
   test('deve criar uma conta nova e redirecionar para /trails', async ({ page }) => {
+    const timestamp = Date.now();
     const uniqueEmail = `playwright-${Date.now()}@example.com`;
+    const uniqueUsername = `playwright_user_${timestamp}`;
 
     await page.goto('/auth/register');
 
-    await page.getByLabel('Nome de usuário').fill('playwright_user');
+    await page.getByLabel('Nome de usuário').fill(uniqueUsername);
     await page.getByLabel('E-mail').fill(uniqueEmail);
     await page.getByLabel('Senha').fill('Senha@123');
     await page.getByRole('button', { name: 'Criar conta' }).click();

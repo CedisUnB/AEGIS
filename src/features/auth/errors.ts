@@ -29,6 +29,8 @@ export function getAuthErrorState<TField extends string = string>(
     };
   }
 
+  console.error("[auth] erro não tratado:", error);
+  
   return {
     error: fallbackMessage,
     fieldErrors: {} as Partial<Record<TField, string>>,
