@@ -11,36 +11,73 @@ export function SignUpForm() {
   return (
     <form action={formAction} className="flex flex-col gap-4">
       <div className="flex flex-col gap-1">
-        <label htmlFor="username" className="text-sm font-medium">Nome de usuário</label>
-        <input id="username" name="username" type="text" required
+        <label htmlFor="username" className="text-sm font-medium text-foreground">
+          Nome de usuário
+        </label>
+        <input
+          id="username"
+          name="username"
+          type="text"
+          required
           aria-invalid={Boolean(state.fieldErrors.username)}
           aria-describedby={state.fieldErrors.username ? "username-error" : undefined}
-          className="rounded-md border px-3 py-2" />
-        {state.fieldErrors.username && <p id="username-error" className="text-sm text-red-600">{state.fieldErrors.username}</p>}
+          className="rounded-md border border-brand-primary px-3 py-2 text-foreground outline-none focus:ring-2 focus:ring-brand-secondary"
+        />
+        {state.fieldErrors.username && (
+          <p id="username-error" className="text-sm text-cancel">
+            {state.fieldErrors.username}
+          </p>
+        )}
       </div>
 
       <div className="flex flex-col gap-1">
-        <label htmlFor="email" className="text-sm font-medium">E-mail</label>
-        <input id="email" name="email" type="email" required
+        <label htmlFor="email" className="text-sm font-medium text-foreground">
+          E-mail
+        </label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          required
           aria-invalid={Boolean(state.fieldErrors.email)}
           aria-describedby={state.fieldErrors.email ? "email-error" : undefined}
-          className="rounded-md border px-3 py-2" />
-        {state.fieldErrors.email && <p id="email-error" className="text-sm text-red-600">{state.fieldErrors.email}</p>}
+          className="rounded-md border border-brand-primary px-3 py-2 text-foreground outline-none focus:ring-2 focus:ring-brand-secondary"
+        />
+        {state.fieldErrors.email && (
+          <p id="email-error" className="text-sm text-cancel">
+            {state.fieldErrors.email}
+          </p>
+        )}
       </div>
 
       <div className="flex flex-col gap-1">
-        <label htmlFor="password" className="text-sm font-medium">Senha</label>
-        <input id="password" name="password" type="password" required minLength={8}
+        <label htmlFor="password" className="text-sm font-medium text-foreground">
+          Senha
+        </label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          required
+          minLength={8}
           aria-invalid={Boolean(state.fieldErrors.password)}
           aria-describedby={state.fieldErrors.password ? "password-error" : undefined}
-          className="rounded-md border px-3 py-2" />
-        {state.fieldErrors.password && <p id="password-error" className="text-sm text-red-600">{state.fieldErrors.password}</p>}
+          className="rounded-md border border-brand-primary px-3 py-2 text-foreground outline-none focus:ring-2 focus:ring-brand-secondary"
+        />
+        {state.fieldErrors.password && (
+          <p id="password-error" className="text-sm text-cancel">
+            {state.fieldErrors.password}
+          </p>
+        )}
       </div>
 
-      {state.error && <p className="text-sm text-red-600">{state.error}</p>}
+      {state.error && <p className="text-sm text-cancel">{state.error}</p>}
 
-      <button type="submit" disabled={isPending}
-        className="rounded-md bg-black text-white py-2 font-medium disabled:opacity-50">
+      <button
+        type="submit"
+        disabled={isPending}
+        className="rounded-md bg-brand-primary py-2 font-medium text-white transition hover:opacity-90 disabled:opacity-50"
+      >
         {isPending ? "Criando conta..." : "Criar conta"}
       </button>
     </form>
