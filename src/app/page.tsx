@@ -5,7 +5,7 @@ export default function Home() {
     <main className="flex min-h-screen flex-col items-center justify-center px-4 text-center">
       <div className="max-w-2xl">
         <span className="mb-4 inline-block rounded-full border px-3 py-1 text-xs font-medium text-muted-foreground">
-          Plataforma de apoio ao aprendizado
+          Plataforma de apoio ao aprendizado em desenvolvimento de software seguro
         </span>
 
         <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
@@ -13,7 +13,7 @@ export default function Home() {
         </h1>
 
         <p className="mt-4 text-lg text-muted-foreground">
-          Aprenda como se desenvolver em segurança de software na prática, com trilhas guiadas,
+          Aprenda como aplicar segurança no processo de desenvolvimento de software na prática, com trilhas guiadas,
           desafios reais e conteúdo pensado para desenvolvedores.
         </p>
 
