@@ -12,4 +12,10 @@ export const signUpSchema = z.object({
     .regex(passwordRegex, "A senha deve conter maiúscula, minúscula, número e caractere especial"),
 });
 
+export const signInSchema = z.object({
+  email: z.email("E-mail inválido"),
+  password: z.string().min(8, "Senha inválida"),
+});
+
 export type SignUpInput = z.infer<typeof signUpSchema>;
+export type SignInInput = z.infer<typeof signInSchema>;

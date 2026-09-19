@@ -2,13 +2,40 @@ import bcrypt from "bcryptjs";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/client";
 import { signToken } from "@/core/security";
 import { findByEmail, createUser } from "../auth/repositories/auth.repository";
-import type { SignUpInput } from "../auth/types/auth.types";
+import type { SignUpInput, SignInInput } from "../auth/types/auth.types";
 
 export class EmailAlreadyExistsError extends Error {
   constructor() {
     super("Este e-mail já foi cadastrado.");
     this.name = "EmailAlreadyExistsError";
   }
+}
+
+export class InvalidCredentialsError extends Error {
+  constructor() {
+    super("E-mail ou senha inválidos.");
+    this.name = "InvalidCredentialsError";
+  }
+}
+
+export async function loginUser(input: SignInInput) {
+  const user = await findByEmail(input.email);
+
+  if (!user) {
+    throw new InvalidCredentialsError();
+  }
+
+  const isValidPassword = await bcrypt.compare(input.password, user.password);
+
+  if (!isValidPassword) {
+    throw new InvalidCredentialsError();
+  }
+  const token = await signToken({
+    sub: user.email,
+    role: user.role,
+  });
+
+  return { user, token };
 }
 
 export async function registerUser(input: SignUpInput) {

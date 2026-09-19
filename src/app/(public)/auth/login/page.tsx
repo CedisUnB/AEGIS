@@ -1,4 +1,4 @@
-import { LoginForm } from "@/features/auth/components";
+import { SignInForm } from "@/features/auth/components";
 
 export default function LoginPage() {
   return (
@@ -7,7 +7,7 @@ export default function LoginPage() {
         <h1 className="mb-6 text-center text-2xl font-semibold">
           Entre na sua conta
         </h1>
-        <LoginForm />
+        <SignInForm />
       </div>
     </main>
   );
