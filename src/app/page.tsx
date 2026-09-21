@@ -3,8 +3,8 @@ import Link from "next/link";
 export default function Home() {
   return (
     <main className="flex min-h-screen bg-surface text-center">
-      <div className="[clip-path:polygon(0_0,45%_0,75%_100%,0_100%)] bg-brand-primary flex flex-col justify-center align-center p-16 pr-128">
-          <h1 className="text-4xl mb-64 font-bold tracking-tight text-foreground sm:text-5xl">
+      <div className="max-w-3/4 [clip-path:polygon(0_0,45%_0,75%_100%,0_100%)] bg-brand-primary flex flex-col justify-start align-center p-16 pr-175">
+          <h1 className="text-4xl mt-16 mb-32 font-bold tracking-tight text-foreground sm:text-5xl">
             SAFE
           </h1>
           
@@ -18,16 +18,16 @@ export default function Home() {
           </p>
       </div>
 
-      <div className="mt-8 flex items-center justify-center gap-3 sm:flex-row">
+      <div className="mt-8 pr-32 flex flex-col items-center justify-center align-center gap-3">
         <Link
           href="/auth/login"
-          className="w-full rounded-md bg-brand-primary px-6 py-3 text-sm font-medium text-white transition hover:bg-neutral-800 sm:w-auto"
+          className="w-96 rounded-md bg-brand-primary px-6 py-3 font-medium text-white transition hover:bg-neutral-800"
         >
           Entrar
         </Link>
         <Link
           href="/auth/register"
-          className="w-full rounded-md border border-brand-primary px-6 py-3 text-sm text-brand-primary font-medium transition hover:bg-neutral-100 sm:w-auto"
+          className="w-96 rounded-md border border-brand-primary px-6 py-3 text-brand-primary font-medium transition hover:bg-neutral-100"
         >
           Criar conta
         </Link>
