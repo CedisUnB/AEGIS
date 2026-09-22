@@ -2,8 +2,14 @@
 
 import { useActionState } from "react";
 import { signInAction, type SignInState } from "@/features/auth";
+import { PasswordInput } from "@/components/inputs/PasswordInput";
 
-const initialState: SignInState = { error: null, fieldErrors: {} };
+const initialState: SignInState = { 
+  error: null, 
+  fieldErrors: {},
+  fieldValues: { email: "" },
+  resetKey: "initial",
+};
 
 export function SignInForm() {
   const [state, formAction, isPending] = useActionState(signInAction, initialState);
@@ -15,10 +21,12 @@ export function SignInForm() {
           E-mail
         </label>
         <input
+          key={`email-${state.resetKey}`}
           id="email"
           name="email"
           type="email"
           required
+          defaultValue={state.fieldValues.email}
           aria-invalid={Boolean(state.fieldErrors.email)}
           aria-describedby={state.fieldErrors.email ? "email-error" : undefined}
           className="rounded-md border border-brand-primary px-3 py-2 text-foreground outline-none focus:ring-2 focus:ring-brand-secondary"
@@ -30,26 +38,15 @@ export function SignInForm() {
         )}
       </div>
 
-      <div className="flex flex-col gap-1">
-        <label htmlFor="password" className="text-sm font-medium text-foreground">
-          Senha
-        </label>
-        <input
-          id="password"
-          name="password"
-          type="password"
-          required
-          minLength={8}
-          aria-invalid={Boolean(state.fieldErrors.password)}
-          aria-describedby={state.fieldErrors.password ? "password-error" : undefined}
-          className="rounded-md border border-brand-primary px-3 py-2 text-foreground outline-none focus:ring-2 focus:ring-brand-secondary"
-        />
-        {state.fieldErrors.password && (
-          <p id="password-error" className="text-sm text-cancel">
-            {state.fieldErrors.password}
-          </p>
-        )}
-      </div>
+      <PasswordInput
+        key={`password-${state.resetKey}`}
+        id="password"
+        name="password"
+        label="Senha"
+        required
+        minLength={8}
+        error={state.fieldErrors.password}
+      />
 
       {state.error && <p className="text-sm text-cancel">{state.error}</p>}
 
