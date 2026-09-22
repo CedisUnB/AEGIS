@@ -1,6 +1,7 @@
 // src/app/(protected)/layout.tsx
 import { redirect } from "next/navigation";
 import { getSession } from "@/core/security";
+import { AppHeader } from "@/components/layout/AppHeader";
 
 export default async function ProtectedLayout({
   children,
@@ -12,5 +13,10 @@ export default async function ProtectedLayout({
     redirect("/auth/login");
   }
 
-  return <>{children}</>;
+  return (
+    <>
+      <AppHeader />
+      {children}
+    </>
+  );
 }

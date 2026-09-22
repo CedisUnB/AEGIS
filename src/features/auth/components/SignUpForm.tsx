@@ -1,57 +1,84 @@
 "use client";
 
-import { useState, type SyntheticEvent } from "react";
+import { useActionState } from "react";
+import { signUpAction, type SignUpState } from "@/features/auth";
+
+const initialState: SignUpState = { error: null, fieldErrors: {} };
 
 export function SignUpForm() {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  async function handleSubmit(event: SyntheticEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setError(null);
-    setIsSubmitting(true);
-
-    try {
-      // TODO: substituir pelo Server Action real (features/auth/actions.ts)
-      console.log({ username, email, password });
-    } catch {
-      setError("Não foi possível criar a conta. Tente novamente.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  }
+  const [state, formAction, isPending] = useActionState(signUpAction, initialState);
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+    <form action={formAction} className="flex flex-col gap-4">
       <div className="flex flex-col gap-1">
-        <label htmlFor="username" className="text-sm font-medium">Nome de usuário</label>
-        <input id="username" type="text" value={username}
-          onChange={(e) => setUsername(e.target.value)} required
-          className="rounded-md border px-3 py-2" />
+        <label htmlFor="username" className="text-sm font-medium text-foreground">
+          Nome de usuário
+        </label>
+        <input
+          id="username"
+          name="username"
+          type="text"
+          required
+          aria-invalid={Boolean(state.fieldErrors.username)}
+          aria-describedby={state.fieldErrors.username ? "username-error" : undefined}
+          className="rounded-md border border-brand-primary px-3 py-2 text-foreground outline-none focus:ring-2 focus:ring-brand-secondary"
+        />
+        {state.fieldErrors.username && (
+          <p id="username-error" className="text-sm text-cancel">
+            {state.fieldErrors.username}
+          </p>
+        )}
       </div>
 
       <div className="flex flex-col gap-1">
-        <label htmlFor="email" className="text-sm font-medium">E-mail</label>
-        <input id="email" type="email" value={email}
-          onChange={(e) => setEmail(e.target.value)} required
-          className="rounded-md border px-3 py-2" />
+        <label htmlFor="email" className="text-sm font-medium text-foreground">
+          E-mail
+        </label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          required
+          aria-invalid={Boolean(state.fieldErrors.email)}
+          aria-describedby={state.fieldErrors.email ? "email-error" : undefined}
+          className="rounded-md border border-brand-primary px-3 py-2 text-foreground outline-none focus:ring-2 focus:ring-brand-secondary"
+        />
+        {state.fieldErrors.email && (
+          <p id="email-error" className="text-sm text-cancel">
+            {state.fieldErrors.email}
+          </p>
+        )}
       </div>
 
       <div className="flex flex-col gap-1">
-        <label htmlFor="password" className="text-sm font-medium">Senha</label>
-        <input id="password" type="password" value={password}
-          onChange={(e) => setPassword(e.target.value)} required minLength={8}
-          className="rounded-md border px-3 py-2" />
+        <label htmlFor="password" className="text-sm font-medium text-foreground">
+          Senha
+        </label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          required
+          minLength={8}
+          aria-invalid={Boolean(state.fieldErrors.password)}
+          aria-describedby={state.fieldErrors.password ? "password-error" : undefined}
+          className="rounded-md border border-brand-primary px-3 py-2 text-foreground outline-none focus:ring-2 focus:ring-brand-secondary"
+        />
+        {state.fieldErrors.password && (
+          <p id="password-error" className="text-sm text-cancel">
+            {state.fieldErrors.password}
+          </p>
+        )}
       </div>
 
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {state.error && <p className="text-sm text-cancel">{state.error}</p>}
 
-      <button type="submit" disabled={isSubmitting}
-        className="rounded-md bg-black text-white py-2 font-medium disabled:opacity-50">
-        {isSubmitting ? "Criando conta..." : "Criar conta"}
+      <button
+        type="submit"
+        disabled={isPending}
+        className="rounded-md bg-brand-primary py-2 font-medium text-white transition hover:opacity-90 disabled:opacity-50"
+      >
+        {isPending ? "Criando conta..." : "Criar conta"}
       </button>
     </form>
   );
