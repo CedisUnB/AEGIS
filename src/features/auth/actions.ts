@@ -13,11 +13,15 @@ export type SignInField = keyof SignInInput;
 export interface SignUpState {
   error: string | null;
   fieldErrors: Partial<Record<SignUpField, string>>;
+  fieldValues: { username: string; email: string };
+  resetKey: string;
 }
 
 export interface SignInState {
   error: string | null;
   fieldErrors: Partial<Record<SignInField, string>>;
+  fieldValues: { email: string };
+  resetKey: string;
 }
 
 export async function logoutAction(): Promise<never> {
@@ -29,8 +33,11 @@ export async function signInAction(
   _prevState: SignInState,
   formData: FormData
 ): Promise<SignInState> {
+  const fieldValues = { email: String(formData.get("email") ?? "") };
+  const resetKey = crypto.randomUUID();
+
   const parsed = signInSchema.safeParse({
-    email: formData.get("email"),
+    email: fieldValues.email,
     password: formData.get("password"),
   });
 
@@ -47,10 +54,7 @@ export async function signInAction(
       }
     }
 
-    return {
-      error: null,
-      fieldErrors,
-    };
+    return { error: null, fieldErrors, fieldValues, resetKey };
   }
 
   try {
@@ -61,7 +65,7 @@ export async function signInAction(
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       path: "/",
-      maxAge: 60 * 60 * 2, // 2 hours, same time of the signToken
+      maxAge: 60 * 60 * 2,
     });
   } catch (err) {
     const result = getAuthErrorState(
@@ -69,7 +73,7 @@ export async function signInAction(
       "Não foi possível logar a conta. Tente novamente."
     );
 
-    return result;
+    return { ...result, fieldValues, resetKey };
   }
 
   redirect("/trails");
@@ -79,10 +83,17 @@ export async function signUpAction(
   _prevState: SignUpState,
   formData: FormData
 ): Promise<SignUpState> {
+  const fieldValues = {
+    username: String(formData.get("username") ?? ""),
+    email: String(formData.get("email") ?? ""),
+  };
+  const resetKey = crypto.randomUUID();
+
   const parsed = signUpSchema.safeParse({
-    username: formData.get("username"),
-    email: formData.get("email"),
+    username: fieldValues.username,
+    email: fieldValues.email,
     password: formData.get("password"),
+    confirmPassword: formData.get("confirmPassword"),
   });
 
   if (!parsed.success) {
@@ -91,25 +102,30 @@ export async function signUpAction(
     for (const issue of parsed.error.issues) {
       const field = issue.path[0];
       if (
-        (field === "username" || field === "email" || field === "password") &&
+        (field === "username" || field === "email" || field === "password" || field === "confirmPassword") &&
         !fieldErrors[field]
       ) {
         fieldErrors[field] = issue.message;
       }
     }
 
-    return { error: null, fieldErrors };
+    return { error: null, fieldErrors, fieldValues, resetKey };
   }
 
   try {
-    const { token } = await registerUser(parsed.data);
+    const { token } = await registerUser({
+      username: parsed.data.username,
+      email: parsed.data.email,
+      password: parsed.data.password,
+      confirmPassword: parsed.data.confirmPassword,
+    });
 
     (await cookies()).set("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       path: "/",
-      maxAge: 60 * 60 * 2, // 2 hours, same time of the signToken
+      maxAge: 60 * 60 * 2,
     });
   } catch (err) {
     const result = getAuthErrorState(
@@ -118,7 +134,7 @@ export async function signUpAction(
       "email"
     );
 
-    return result;
+    return { ...result, fieldValues, resetKey };
   }
 
   redirect("/trails");
