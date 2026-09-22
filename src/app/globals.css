@@ -37,3 +37,11 @@ body {
   background-color: var(--color-background-light-1);
   color: var(--color-foreground);
 }
+
+.field-error {
+  display: none;
+}
+
+input:user-invalid ~ .field-error {
+  display: block;
+}
