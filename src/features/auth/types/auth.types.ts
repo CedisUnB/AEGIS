@@ -17,5 +17,12 @@ export const signInSchema = z.object({
   password: z.string().min(8, "Senha inválida"),
 });
 
+export const UserProfileSchema = z.object({
+  email: z.email(),
+  username: z.string(),
+  createdAt: z.date()
+})
+
 export type SignUpInput = z.infer<typeof signUpSchema>;
 export type SignInInput = z.infer<typeof signInSchema>;
+export type UserProfile = z.infer<typeof UserProfileSchema>;
