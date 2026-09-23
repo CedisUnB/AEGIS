@@ -31,12 +31,11 @@ export async function loginUser(input: SignInInput) {
     throw new InvalidCredentialsError();
   }
   const token = await signToken({
-    username: user.username,
-    email: user.email,
+    sub: user.id,
     role: user.role,
   });
 
-  return { user, token };
+  return { user: user.username, token };
 }
 
 export async function registerUser(input: SignUpInput) {
@@ -64,17 +63,17 @@ export async function registerUser(input: SignUpInput) {
     throw error;
   }
 
-  const token = await signToken({ username: user.username, email: user.email, role: user.role });
+  const token = await signToken({ sub: user.id, role: user.role });
 
-  return { user, token };
+  return { user: user.username, token };
 }
 
-export async function getUserProfile(email: string): Promise <UserProfile> {
-  if(!email) {
+export async function getUserProfile(id: string): Promise <UserProfile> {
+  if(!id) {
     throw new Error("Identificador do usuário é obrigatório.")
   }
 
-  const user = await authRepository.findProfileByEmail(email);
+  const user = await authRepository.findProfileById(id);
 
   if (!user) {
     throw new Error("Usuário não encontrado.");

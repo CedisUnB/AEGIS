@@ -33,8 +33,10 @@ export interface SignInState {
 
 export async function logoutAction(): Promise<never> {
   (await cookies()).delete("token");
+  (await cookies()).delete("username")
   redirect("/");
 }
+
 
 export async function signInAction(
   _prevState: SignInState,
@@ -65,7 +67,7 @@ export async function signInAction(
   }
 
   try {
-    const { token } = await loginUser(parsed.data);
+    const { user, token } = await loginUser(parsed.data);
 
     (await cookies()).set("token", token, {
       httpOnly: true,
@@ -74,6 +76,15 @@ export async function signInAction(
       path: "/",
       maxAge: TOKEN_AGE,
     });
+
+    (await cookies()).set("username", user, {
+      httpOnly: false,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      maxAge: TOKEN_AGE,
+    });
+
   } catch (err) {
     const result = getAuthErrorState(
       err,
@@ -120,7 +131,7 @@ export async function signUpAction(
   }
 
   try {
-    const { token } = await registerUser({
+    const { user, token } = await registerUser({
       username: parsed.data.username,
       email: parsed.data.email,
       password: parsed.data.password,
@@ -129,6 +140,14 @@ export async function signUpAction(
 
     (await cookies()).set("token", token, {
       httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      maxAge: TOKEN_AGE,
+    });
+
+    (await cookies()).set("username", user, {
+      httpOnly: false,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       path: "/",
@@ -149,19 +168,18 @@ export async function signUpAction(
 
 export async function getProfileUserAction(): Promise<ActionResponse<UserProfile>> {
   try {
-    const cookieStore = await cookies();
-    const token = cookieStore.get("token")?.value;
+    const token = (await cookies()).get("token")?.value;
 
     if (!token) {
       return { success: false, error: "Não autorizado", statusCode: 401 };
     }
 
     const session = await verifyToken(token);
-    if (!session || !session.email) {
+    if (!session || !session.sub) {
       return { success: false, error: "Sessão inválida ou expirada", statusCode: 401 };
     }
 
-    const profile = await getUserProfile(session.email);
+    const profile = await getUserProfile(session.sub);
 
     return {
       success: true,

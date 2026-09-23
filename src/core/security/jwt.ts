@@ -10,13 +10,12 @@ if (!jwtSecret || jwtSecret.length < 32) {
 const secret = new TextEncoder().encode(jwtSecret);
 
 export interface SessionPayload extends JWTPayload {
-  username: string;
-  email: string;
+  sub: string;
   role: RoleValue;
 }
 
 export async function signToken(
-  payload: Pick<SessionPayload, "username" | "email" | "role">,
+  payload: Pick<SessionPayload, "sub" | "role">,
 ): Promise<string> {
   return new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256", typ: "JWT" })
@@ -35,7 +34,7 @@ export async function verifyToken(
 
     const validRoles = Object.values(Role);
     
-    if (typeof payload.email !== "string" || !validRoles.includes(payload.role as Role)) {
+    if (typeof payload.sub !== "string" || !validRoles.includes(payload.role as Role)) {
       return null;
     }
 

@@ -11,9 +11,9 @@ export class AuthRepository {
     return prisma.user.create({ data });
   }
   
-  async findProfileByEmail(email: string): Promise<UserProfile | null> {
+  async findProfileById(id: string): Promise<UserProfile | null> {
     return prisma.user.findUnique({
-      where: {email},
+      where: {id},
       select: {
         username: true,
         email: true,
