@@ -15,7 +15,7 @@ export default async function ProtectedLayout({
 
   return (
     <>
-      <AppHeader />
+      <AppHeader user={session}/>
       {children}
     </>
   );

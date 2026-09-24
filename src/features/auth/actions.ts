@@ -3,12 +3,19 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { signUpSchema, signInSchema } from "./types/auth.types";
-import type { SignInInput, SignUpInput } from "./types/auth.types";
-import { loginUser, registerUser } from "../services/auth";
+import type { SignInInput, SignUpInput, UserProfile } from "./types/auth.types";
+import { getUserProfile, loginUser, registerUser } from "../services/auth";
 import { getAuthErrorState } from "./errors";
+import { verifyToken } from "@/core/security";
+
+const TOKEN_AGE = 60 * 60 * 2; // 2 hours, same time of the signToken
 
 export type SignUpField = keyof SignUpInput;
 export type SignInField = keyof SignInInput;
+
+type ActionResponse<T> = 
+  | { success: true; data: T }
+  | { success: false; error: string; statusCode: number };
 
 export interface SignUpState {
   error: string | null;
@@ -26,7 +33,7 @@ export interface SignInState {
 
 export async function logoutAction(): Promise<never> {
   (await cookies()).delete("token");
-  redirect("/auth/register");
+  redirect("/");
 }
 
 export async function signInAction(
@@ -65,7 +72,7 @@ export async function signInAction(
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       path: "/",
-      maxAge: 60 * 60 * 2,
+      maxAge: TOKEN_AGE,
     });
   } catch (err) {
     const result = getAuthErrorState(
@@ -125,7 +132,7 @@ export async function signUpAction(
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       path: "/",
-      maxAge: 60 * 60 * 2,
+      maxAge: TOKEN_AGE,
     });
   } catch (err) {
     const result = getAuthErrorState(
@@ -138,4 +145,34 @@ export async function signUpAction(
   }
 
   redirect("/trails");
+}
+
+export async function getProfileUserAction(): Promise<ActionResponse<UserProfile>> {
+  try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token")?.value;
+
+    if (!token) {
+      return { success: false, error: "Não autorizado", statusCode: 401 };
+    }
+
+    const session = await verifyToken(token);
+    if (!session || !session.email) {
+      return { success: false, error: "Sessão inválida ou expirada", statusCode: 401 };
+    }
+
+    const profile = await getUserProfile(session.email);
+
+    return {
+      success: true,
+      data: profile
+    }
+  } catch(err) {
+    return {
+      success: false,
+      error: (err as Error).message || "Erro ao carregar perfil",
+      statusCode: 500,
+    }
+  }
+
 }
