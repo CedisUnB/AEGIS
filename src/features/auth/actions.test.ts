@@ -5,7 +5,7 @@ import {
   InvalidCredentialsError,
   loginUser,
   registerUser,
-} from "../services/auth";
+} from "./services/auth";
 import { signInAction, signUpAction, type SignInState, type SignUpState } from "./actions";
 
 jest.mock("next/headers", () => ({

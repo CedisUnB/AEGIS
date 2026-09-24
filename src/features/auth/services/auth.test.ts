@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/client";
 import { signToken } from "@/core/security";
-import { createUser, findByEmail } from "../auth/repositories/auth.repository";
+import { createUser, findByEmail } from "../repositories/auth.repository";
 import {
   EmailAlreadyExistsError,
   registerUser,

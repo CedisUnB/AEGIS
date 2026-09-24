@@ -11,14 +11,34 @@ export class AuthRepository {
     return prisma.user.create({ data });
   }
   
-  async findProfileByEmail(email: string): Promise<UserProfile | null> {
+  async findById(id: string): Promise<UserProfile | null> {
     return prisma.user.findUnique({
-      where: {email},
+      where: {id},
       select: {
         username: true,
         email: true,
         createdAt: true
       }
+    })
+  }
+
+  async updateUser(
+    id: string,
+    data: {
+      username: string,
+      email: string,
+      password?: string
+    }
+  ): Promise<UserProfile> {
+    return prisma.user.update({
+      where: { id },
+      data,
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        createdAt: true,
+      },
     })
   }
 }

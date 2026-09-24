@@ -9,24 +9,18 @@ export default async function ProfilePage() {
     redirect("/auth/login");
   }
 
-  const user = {
-    username: result.data.username,
-    email: result.data.email,
-    createdAt: result.data.createdAt
-  }
-
   return (
-    <div className="container mx-auto flex flex-col items-center justify-center px-4 py-10">
-      <div className="mb-6 w-full max-w-md">
+    <main className="flex flex-col items-center justify-center px-4 py-10 bg-surface min-h-screen">
+      <div className="mb-6 w-full max-w-lg">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
           Meu Perfil
         </h1>
         <p className="text-sm text-gray-500 dark:text-gray-400">
-          Dados cadastrais da sua conta de estudante.
+          Visualize ou atualize os seus dados cadastrais.
         </p>
       </div>
 
-      <ProfileCard user={user} />
-    </div>
+      <ProfileCard initialUser={result.data} />
+    </main>
   );
 }

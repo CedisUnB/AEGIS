@@ -14,7 +14,8 @@ enum Role {
 }
 
 model User {
-  email     String    @id @db.VarChar(255)
+  id        String    @id @default(uuid())
+  email     String    @unique @db.VarChar(255)
   username  String    @db.VarChar(100)
   password  String    @db.VarChar(255)
   role      Role      @default(student)
@@ -76,31 +77,31 @@ model ReviewContent {
 }
 
 model Takes {
-  userEmail        String    @map("fk_user_email") @db.VarChar(255)
+  userId           String    @map("fk_user_id") 
   trackId          Int       @map("fk_track_id")
   status           String    @default("NOT_STARTED") @db.VarChar(50)
   completedAt      DateTime? @map("completed_at")
   unlockedRevision Boolean   @default(false) @map("unlocked_revision")
   track            Track     @relation(fields: [trackId], references: [id], onDelete: Cascade)
-  user             User      @relation(fields: [userEmail], references: [email], onDelete: Cascade)
+  user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@id([userEmail, trackId])
+  @@id([userId, trackId])
   @@index([trackId], map: "takes_fk_track_id_fkey")
   @@map("takes")
 }
 
 model Answers {
   exerciseId     Int       @map("fk_exercise_id")
-  userEmail      String    @map("fk_user_email") @db.VarChar(255)
+  userId         String    @map("fk_user_id") 
   isCompleted    Boolean   @default(false) @map("is_completed")
   attemptsCount  Int       @default(0) @map("attempts_count")
   correctCount   Int       @default(0) @map("correct_count")
   incorrectCount Int       @default(0) @map("incorrect_count")
   lastAnsweredAt DateTime? @map("last_answered_at")
   exercise       Exercise  @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
-  user           User      @relation(fields: [userEmail], references: [email], onDelete: Cascade)
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@id([exerciseId, userEmail])
-  @@index([userEmail], map: "answers_fk_user_email_fkey")
+  @@id([exerciseId, userId])
+  @@index([userId], map: "answers_fk_user_id_fkey")
   @@map("answers")
 }

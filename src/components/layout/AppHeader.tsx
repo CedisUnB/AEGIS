@@ -2,15 +2,11 @@ import Link from "next/link";
 import { logoutAction } from "@/features/auth";
 
 interface AppHeaderProps {
-  user: {
-    username?: string;
-    email?: string;
-    createdAt?: Date;
-  }
+  user?: string | null;
 }
 
 export function AppHeader({ user }: AppHeaderProps) {
-  const displayName = user.username || user.email?.split("@")[0] || "Estudante"
+  const displayName = user || "Estudante";
 
   return (
     <header className="flex items-center justify-between bg-brand-primary px-4 py-3">
