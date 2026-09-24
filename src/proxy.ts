@@ -10,12 +10,13 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL("/auth/login", request.url));
   }
 
-  if (
-    request.nextUrl.pathname.startsWith("/admin") &&
-    session.role !== "admin"
-  ) {
-    return NextResponse.redirect(new URL("/trails", request.url));
-  }
+  // Testando página de erro padrão, controle de acesso sendo feito direto na página do admin
+  // if (
+  //   request.nextUrl.pathname.startsWith("/admin") &&
+  //   session.role !== "admin"
+  // ) {
+  //   return NextResponse.redirect(new URL("/trails", request.url));
+  // }
 
   return NextResponse.next();
 }

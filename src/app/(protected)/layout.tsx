@@ -16,9 +16,10 @@ export default async function ProtectedLayout({
 
   const cookieStore = await cookies();
   const username = cookieStore.get("username")?.value ?? null;
+  const role = session.role as string;
   return (
     <>
-      <AppHeader user={username}/>
+      <AppHeader user={username} role={role}/>
       {children}
     </>
   );

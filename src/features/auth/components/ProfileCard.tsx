@@ -29,7 +29,9 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ initialUser }) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Partial<Record<keyof UpdateProfileInput, string>>>({});
 
-  const formattedDate = FormatDate(user);
+  const formattedCreatedDate = FormatDate(user.createdAt);
+  const formattedUpdatedDate = FormatDate(user.updatedAt);
+
 
   const handleCancel = () => {
     setFormData({
@@ -98,7 +100,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ initialUser }) => {
               {user.username}
             </h2>
             <span className="text-xs font-medium text-blue-600 dark:text-blue-400">
-              Estudante
+              {user.role === "admin" ? "Administrador" : "Estudante"}
             </span>
           </div>
         </div>
@@ -139,9 +141,20 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ initialUser }) => {
               Data de Cadastro
             </label>
             <p className="mt-1 font-medium text-gray-800 dark:text-gray-200">
-              {formattedDate}
+              {formattedCreatedDate}
             </p>
           </div>
+
+          {user.updatedAt && (
+            <div>
+              <label className="block text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                Última Edição Registrada
+              </label>
+              <p className="mt-1 font-medium text-gray-800 dark:text-gray-200">
+                {formattedUpdatedDate}
+              </p>
+            </div>
+          )}
         </div>
       ) : (
         <form onSubmit={handleSave} className="space-y-4 text-sm">

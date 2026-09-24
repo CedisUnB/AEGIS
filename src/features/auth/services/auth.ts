@@ -18,6 +18,13 @@ export class InvalidCredentialsError extends Error {
   }
 }
 
+export class ForbiddenError extends Error {
+  constructor(message = "Acesso restrito a administradores.") {
+    super(message);
+    this.name = "ForbiddenError";
+  }
+}
+
 export async function loginUser(input: SignInInput) {
   const user = await authRepository.findByEmail(input.email);
 
@@ -132,4 +139,23 @@ export async function deleteUserAccount(userId: string, input: DeleteAccountInpu
   }
 
   await authRepository.softDeleteAndAnonymize(userId);
+}
+
+
+export async function getAdminProfile(userId: string): Promise<UserProfile> {
+  if (!userId) {
+    throw new Error("Identificador do usuário é obrigatório.");
+  }
+
+  const user = await authRepository.findById(userId);
+
+  if (!user) {
+    throw new Error("Usuário não encontrado.");
+  }
+
+  if (user.role !== "admin") {
+    throw new ForbiddenError();
+  }
+
+  return UserProfileSchema.parse(user);
 }

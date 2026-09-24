@@ -17,7 +17,9 @@ export class AuthRepository {
       select: {
         username: true,
         email: true,
-        createdAt: true
+        role: true,
+        createdAt: true,
+        updatedAt: true
       }
     })
   }
@@ -46,7 +48,9 @@ export class AuthRepository {
         id: true,
         username: true,
         email: true,
+        role: true,
         createdAt: true,
+        updatedAt: true,
       },
     })
   }
