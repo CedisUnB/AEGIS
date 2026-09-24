@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { UserProfile, UpdateProfileInput } from "../types/auth.types";
 import { updateProfileUserAction } from "../actions";
 import { FormatDate } from "@/utils/dateFormatter";
+import { DeleteAccountModal } from "./DeleteAccountModal";
 
 interface ProfileCardProps {
   initialUser: UserProfile;
@@ -15,6 +16,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ initialUser }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [user, setUser] = useState<UserProfile>(initialUser);
   const [isPending, startTransition] = useTransition();
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const [formData, setFormData] = useState<UpdateProfileInput>({
     username: initialUser.username,
@@ -27,7 +29,9 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ initialUser }) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Partial<Record<keyof UpdateProfileInput, string>>>({});
 
-  const formattedDate = FormatDate(user);
+  const formattedCreatedDate = FormatDate(user.createdAt);
+  const formattedUpdatedDate = FormatDate(user.updatedAt);
+
 
   const handleCancel = () => {
     setFormData({
@@ -96,7 +100,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ initialUser }) => {
               {user.username}
             </h2>
             <span className="text-xs font-medium text-blue-600 dark:text-blue-400">
-              Estudante
+              {user.role === "admin" ? "Administrador" : "Estudante"}
             </span>
           </div>
         </div>
@@ -137,9 +141,20 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ initialUser }) => {
               Data de Cadastro
             </label>
             <p className="mt-1 font-medium text-gray-800 dark:text-gray-200">
-              {formattedDate}
+              {formattedCreatedDate}
             </p>
           </div>
+
+          {user.updatedAt && (
+            <div>
+              <label className="block text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                Última Edição Registrada
+              </label>
+              <p className="mt-1 font-medium text-gray-800 dark:text-gray-200">
+                {formattedUpdatedDate}
+              </p>
+            </div>
+          )}
         </div>
       ) : (
         <form onSubmit={handleSave} className="space-y-4 text-sm">
@@ -227,6 +242,30 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ initialUser }) => {
           </div>
         </form>
       )}
+      <div className="mt-8 border-t border-gray-200 pt-6 dark:border-gray-800">
+        <div className="flex items-center justify-between">
+          <div>
+            <h4 className="text-sm font-semibold text-gray-900 dark:text-white">
+              Zona de Perigo
+            </h4>
+            <p className="text-xs text-gray-500 dark:text-gray-400">
+              Excluir sua conta e anonimizar seus dados permanentemente.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setIsDeleteModalOpen(true)}
+            className="rounded-md border border-red-300 px-3 py-1.5 text-xs font-semibold text-red-600 hover:bg-red-50 dark:border-red-900/60 dark:text-red-400 dark:hover:bg-red-950/40 transition"
+          >
+            Excluir Conta
+          </button>
+        </div>
+      </div>
+
+      <DeleteAccountModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+      />
     </div>
   );
 };

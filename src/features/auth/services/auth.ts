@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/client";
 import { signToken } from "@/core/security";
 import { authRepository } from "../repositories/auth.repository";
-import { SignUpInput, SignInInput, UserProfileSchema, UserProfile, UpdateProfileInput } from "../types/auth.types";
+import { SignUpInput, SignInInput, UserProfileSchema, UserProfile, UpdateProfileInput, DeleteAccountInput } from "../types/auth.types";
 
 export class EmailAlreadyExistsError extends Error {
   constructor() {
@@ -15,6 +15,13 @@ export class InvalidCredentialsError extends Error {
   constructor() {
     super("E-mail ou senha inválidos.");
     this.name = "InvalidCredentialsError";
+  }
+}
+
+export class ForbiddenError extends Error {
+  constructor(message = "Acesso restrito a administradores.") {
+    super(message);
+    this.name = "ForbiddenError";
   }
 }
 
@@ -118,4 +125,37 @@ export async function updateUserProfile(
     }
     throw error;
   }
+}
+
+export async function deleteUserAccount(userId: string, input: DeleteAccountInput) {
+  const user = await authRepository.findPasswordHashById(userId);
+  if (!user) {
+    throw new Error("Usuário não encontrado.");
+  }
+
+  const isPasswordValid = await bcrypt.compare(input.password, user.password);
+  if (!isPasswordValid) {
+    throw new InvalidCredentialsError();
+  }
+
+  await authRepository.softDeleteAndAnonymize(userId);
+}
+
+
+export async function getAdminProfile(userId: string): Promise<UserProfile> {
+  if (!userId) {
+    throw new Error("Identificador do usuário é obrigatório.");
+  }
+
+  const user = await authRepository.findById(userId);
+
+  if (!user) {
+    throw new Error("Usuário não encontrado.");
+  }
+
+  if (user.role !== "admin") {
+    throw new ForbiddenError();
+  }
+
+  return UserProfileSchema.parse(user);
 }

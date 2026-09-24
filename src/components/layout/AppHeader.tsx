@@ -3,10 +3,12 @@ import { logoutAction } from "@/features/auth";
 
 interface AppHeaderProps {
   user?: string | null;
+  role: string | null
 }
 
-export function AppHeader({ user }: AppHeaderProps) {
+export function AppHeader({ user, role }: AppHeaderProps) {
   const displayName = user || "Estudante";
+  const profileRoute = role === "admin" ? "/admin/profile" : "/profile";
 
   return (
     <header className="flex items-center justify-between bg-brand-primary px-4 py-3">
@@ -16,7 +18,7 @@ export function AppHeader({ user }: AppHeaderProps) {
 
       <nav className="flex items-center space-x-4">
         <Link
-          href="/profile"
+          href={profileRoute}
           className="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-3 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-blue-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:text-blue-400 transition"
           title="Ver meu perfil"
         >

@@ -1,4 +1,3 @@
-import { redirect } from "next/navigation";
 import { getProfileUserAction } from "@/features/auth/actions";
 import { ProfileCard } from "@/features/auth/components";
 
@@ -6,7 +5,7 @@ export default async function ProfilePage() {
   const result = await getProfileUserAction();
 
   if (!result.success) {
-    redirect("/auth/login");
+    throw new Error("401: Acesso não autorizado");
   }
 
   return (

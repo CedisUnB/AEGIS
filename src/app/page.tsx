@@ -1,8 +1,18 @@
+import { DeletedAccountToast } from "@/components/layout/DeletedAccountToast";
 import Link from "next/link";
 
-export default function Home() {
+interface HomePageProps {
+  searchParams: Promise<{ deleted?: string }>;
+}
+
+export default async function Home({ searchParams}: HomePageProps) {
+  const { deleted } = await searchParams;
+  
   return (
     <main className="flex min-h-screen bg-surface text-center">
+      {deleted === "true" && <DeletedAccountToast />}
+  
+
       <div className="max-w-3/4 [clip-path:polygon(0_0,45%_0,75%_100%,0_100%)] bg-brand-primary flex flex-col justify-start align-center p-16 pr-175">
           <h1 className="text-4xl mt-16 mb-32 font-bold tracking-tight text-foreground sm:text-5xl">
             SAFE
