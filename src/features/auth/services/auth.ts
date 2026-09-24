@@ -1,8 +1,8 @@
 import bcrypt from "bcryptjs";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/client";
 import { signToken } from "@/core/security";
-import { authRepository } from "../auth/repositories/auth.repository";
-import { SignUpInput, SignInInput, UserProfileSchema, UserProfile, UpdateProfileInput } from "../auth/types/auth.types";
+import { authRepository } from "../repositories/auth.repository";
+import { SignUpInput, SignInInput, UserProfileSchema, UserProfile, UpdateProfileInput } from "../types/auth.types";
 
 export class EmailAlreadyExistsError extends Error {
   constructor() {

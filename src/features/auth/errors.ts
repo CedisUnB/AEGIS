@@ -1,4 +1,4 @@
-import { EmailAlreadyExistsError, InvalidCredentialsError } from "../services/auth";
+import { EmailAlreadyExistsError, InvalidCredentialsError } from "./services/auth";
 import type { SignInField, SignUpField } from "./actions";
 
 export type AuthErrorField = SignInField | SignUpField;

@@ -8,7 +8,7 @@ import {
   InvalidCredentialsError,
   loginUser,
   registerUser,
-} from '@/features/services/auth';
+} from '@/features/auth/services/auth';
 
 jest.mock('@/core/security', () => ({
   signToken: jest.fn().mockResolvedValue('integration-test-token'),

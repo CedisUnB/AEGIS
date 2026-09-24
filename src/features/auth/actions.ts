@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { signUpSchema, signInSchema, updateProfileSchema } from "./types/auth.types";
 import type { SignInInput, SignUpInput, UpdateProfileInput, UserProfile } from "./types/auth.types";
-import { getUserProfile, loginUser, registerUser, updateUserProfile } from "../services/auth";
+import { getUserProfile, loginUser, registerUser, updateUserProfile } from "./services/auth";
 import { getAuthErrorState } from "./errors";
 import { verifyToken } from "@/core/security";
 import { authRepository } from "./repositories/auth.repository";
