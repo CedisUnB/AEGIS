@@ -2,20 +2,21 @@
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { signUpSchema, signInSchema } from "./types/auth.types";
-import type { SignInInput, SignUpInput, UserProfile } from "./types/auth.types";
-import { getUserProfile, loginUser, registerUser } from "../services/auth";
+import { signUpSchema, signInSchema, updateProfileSchema } from "./types/auth.types";
+import type { SignInInput, SignUpInput, UpdateProfileInput, UserProfile } from "./types/auth.types";
+import { getUserProfile, loginUser, registerUser, updateUserProfile } from "../services/auth";
 import { getAuthErrorState } from "./errors";
 import { verifyToken } from "@/core/security";
+import { authRepository } from "./repositories/auth.repository";
 
 const TOKEN_AGE = 60 * 60 * 2; // 2 hours, same time of the signToken
 
 export type SignUpField = keyof SignUpInput;
 export type SignInField = keyof SignInInput;
 
-type ActionResponse<T> = 
-  | { success: true; data: T }
-  | { success: false; error: string; statusCode: number };
+type ActionResponse<TData, TFields extends string = string> = 
+  | { success: true; data: TData; requiresReauth: boolean }
+  | { success: false; error: string; fieldErrors?: Partial<Record<TFields, string>>; statusCode: number };
 
 export interface SignUpState {
   error: string | null;
@@ -183,7 +184,8 @@ export async function getProfileUserAction(): Promise<ActionResponse<UserProfile
 
     return {
       success: true,
-      data: profile
+      data: profile,
+      requiresReauth: false
     }
   } catch(err) {
     return {
@@ -193,4 +195,84 @@ export async function getProfileUserAction(): Promise<ActionResponse<UserProfile
     }
   }
 
+}
+
+export async function updateProfileUserAction(input: UpdateProfileInput): Promise<ActionResponse<UserProfile>> {
+  try {
+    const token = (await cookies()).get("token")?.value;
+
+    if (!token) {
+      return { success: false, error: "Não autorizado", statusCode: 401 };
+    }
+
+    const session = await verifyToken(token);
+    const userId = session?.sub as string;
+
+    if (!session || !userId) {
+      return { success: false, error: "Sessão inválida ou expirada", statusCode: 401 };
+    }
+
+    const parsed = updateProfileSchema.safeParse(input);
+    if (!parsed.success) {
+      const fieldErrors: Partial<Record<keyof UpdateProfileInput, string>> = {};
+
+      for (const issue of parsed.error.issues) {
+        const field = issue.path[0] as keyof UpdateProfileInput;
+        if (!fieldErrors[field]) {
+          fieldErrors[field] = issue.message;
+        }
+      }
+
+      return {
+        success: false,
+        error: "Dados inválidos",
+        fieldErrors,
+        statusCode: 400,
+      };
+    }
+
+    const currentUser = await authRepository.findById(userId);
+    if (!currentUser) {
+      return { success: false, error: "Usuário não encontrado", statusCode: 404 };
+    }
+
+    const emailChanged = currentUser.email !== parsed.data.email;
+    const passwordChanged = Boolean(parsed.data.password && parsed.data.password.trim().length > 0);
+    const usernameChanged = currentUser.username !== parsed.data.username;
+    const requiresReauth = emailChanged || passwordChanged;
+
+    const updatedProfile = await updateUserProfile(userId, parsed.data);
+    
+    if (requiresReauth) {
+      (await cookies()).delete("token");
+      (await cookies()).delete("username");
+
+      return {
+        success: true,
+        data: updatedProfile,
+        requiresReauth: true,
+      };
+    } else if (usernameChanged) {
+      (await cookies()).delete("username");
+      (await cookies()).set("username", parsed.data.username, {
+        httpOnly: false,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        path: "/",
+        maxAge: TOKEN_AGE,
+      });
+    }
+
+    return {
+      success: true,
+      data: updatedProfile,
+      requiresReauth: false,
+    };
+  } catch (err) {
+    return {
+      success: false,
+      error: (err as Error).message || "Erro ao atualizar perfil",
+      statusCode: 500,
+    };
+  }
 }

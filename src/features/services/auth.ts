@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/client";
 import { signToken } from "@/core/security";
 import { authRepository } from "../auth/repositories/auth.repository";
-import { SignUpInput, SignInInput, UserProfileSchema, UserProfile } from "../auth/types/auth.types";
+import { SignUpInput, SignInInput, UserProfileSchema, UserProfile, UpdateProfileInput } from "../auth/types/auth.types";
 
 export class EmailAlreadyExistsError extends Error {
   constructor() {
@@ -73,11 +73,49 @@ export async function getUserProfile(id: string): Promise <UserProfile> {
     throw new Error("Identificador do usuário é obrigatório.")
   }
 
-  const user = await authRepository.findProfileById(id);
+  const user = await authRepository.findById(id);
 
   if (!user) {
     throw new Error("Usuário não encontrado.");
   }
 
   return UserProfileSchema.parse(user);
+}
+
+export async function updateUserProfile(
+  userId: string,
+  input: UpdateProfileInput
+): Promise<UserProfile> {
+  const currentUser = await authRepository.findById(userId);
+  if (!currentUser) {
+    throw new Error("Utilizador não encontrado");
+  }
+
+  if (input.email !== currentUser.email) {
+    const emailInUse = await authRepository.findByEmail(input.email);
+    if (emailInUse && emailInUse.id !== userId) {
+      throw new EmailAlreadyExistsError();
+    }
+  }
+
+  const updatePayload: { username: string; email: string; password?: string } = {
+    username: input.username,
+    email: input.email,
+  };
+
+  if (input.password && input.password.trim() !== "") {
+    updatePayload.password = await bcrypt.hash(input.password, 10);
+  }
+
+  try {
+    return await authRepository.updateUser(userId, updatePayload);
+  } catch (error) {
+    if (
+      error instanceof PrismaClientKnownRequestError &&
+      error.code === "P2002"
+    ) {
+      throw new EmailAlreadyExistsError();
+    }
+    throw error;
+  }
 }

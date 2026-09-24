@@ -17,17 +17,17 @@
 }
 
 :root {
-  --surface: #f3f4f6;       /* background-light-1 */
-  --surface-alt: #b6c0d3;   /* background-light-2 */
-  --foreground: #121625;    /* texto escuro no modo claro */
-  --foreground-muted: #4b5563;
+  --surface: #f3f4f6; /* background-light-1 */
+  --surface-alt: #b6c0d3; /* background-light-2 */
+  --foreground: #121625; /* texto escuro no modo claro */
+  --foreground-muted: #192038;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --surface: #121625;       /* background-dark-1 */
-    --surface-alt: #192038;   /* background-dark-2 */
-    --foreground: #f9fafb;    /* texto branco no modo escuro */
+    --surface: #121625; /* background-dark-1 */
+    --surface-alt: #192038; /* background-dark-2 */
+    --foreground: #f3f4f6; /* texto branco no modo escuro */
     --foreground-muted: #b6c0d3;
   }
 }
