@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { UserProfile, UpdateProfileInput } from "../types/auth.types";
 import { updateProfileUserAction } from "../actions";
 import { FormatDate } from "@/utils/dateFormatter";
+import { DeleteAccountModal } from "./DeleteAccountModal";
 
 interface ProfileCardProps {
   initialUser: UserProfile;
@@ -15,6 +16,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ initialUser }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [user, setUser] = useState<UserProfile>(initialUser);
   const [isPending, startTransition] = useTransition();
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const [formData, setFormData] = useState<UpdateProfileInput>({
     username: initialUser.username,
@@ -227,6 +229,30 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ initialUser }) => {
           </div>
         </form>
       )}
+      <div className="mt-8 border-t border-gray-200 pt-6 dark:border-gray-800">
+        <div className="flex items-center justify-between">
+          <div>
+            <h4 className="text-sm font-semibold text-gray-900 dark:text-white">
+              Zona de Perigo
+            </h4>
+            <p className="text-xs text-gray-500 dark:text-gray-400">
+              Excluir sua conta e anonimizar seus dados permanentemente.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setIsDeleteModalOpen(true)}
+            className="rounded-md border border-red-300 px-3 py-1.5 text-xs font-semibold text-red-600 hover:bg-red-50 dark:border-red-900/60 dark:text-red-400 dark:hover:bg-red-950/40 transition"
+          >
+            Excluir Conta
+          </button>
+        </div>
+      </div>
+
+      <DeleteAccountModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+      />
     </div>
   );
 };

@@ -52,7 +52,12 @@ export const updateProfileSchema = z.object({
   }
 );
 
+export const deleteAccountSchema = z.object({
+  password: z.string().min(1, "A senha é obrigatória para confirmar a exclusão"),
+});
+
 export type SignUpInput = z.infer<typeof signUpSchema>;
 export type SignInInput = z.infer<typeof signInSchema>;
 export type UserProfile = z.infer<typeof UserProfileSchema>;
 export type UpdateProfileInput = z.infer<typeof updateProfileSchema>;
+export type DeleteAccountInput = z.infer<typeof deleteAccountSchema>;

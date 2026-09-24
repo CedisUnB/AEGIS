@@ -2,9 +2,9 @@
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { signUpSchema, signInSchema, updateProfileSchema } from "./types/auth.types";
-import type { SignInInput, SignUpInput, UpdateProfileInput, UserProfile } from "./types/auth.types";
-import { getUserProfile, loginUser, registerUser, updateUserProfile } from "./services/auth";
+import { signUpSchema, signInSchema, updateProfileSchema, deleteAccountSchema } from "./types/auth.types";
+import type { DeleteAccountInput, SignInInput, SignUpInput, UpdateProfileInput, UserProfile } from "./types/auth.types";
+import { deleteUserAccount, getUserProfile, InvalidCredentialsError, loginUser, registerUser, updateUserProfile } from "./services/auth";
 import { getAuthErrorState } from "./errors";
 import { verifyToken } from "@/core/security";
 import { authRepository } from "./repositories/auth.repository";
@@ -272,6 +272,56 @@ export async function updateProfileUserAction(input: UpdateProfileInput): Promis
     return {
       success: false,
       error: (err as Error).message || "Erro ao atualizar perfil",
+      statusCode: 500,
+    };
+  }
+}
+
+export async function deleteAccountAction(
+  input: DeleteAccountInput
+): Promise<ActionResponse<null, keyof DeleteAccountInput>> {
+  try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token")?.value;
+
+    if (!token) {
+      return { success: false, error: "Não autorizado", statusCode: 401 };
+    }
+
+    const session = await verifyToken(token);
+    const userId = session?.sub as string;
+
+    if (!session || !userId) {
+      return { success: false, error: "Sessão inválida ou expirada", statusCode: 401 };
+    }
+
+    const parsed = deleteAccountSchema.safeParse(input);
+    if (!parsed.success) {
+      return {
+        success: false,
+        error: parsed.error.issues[0]?.message || "Senha inválida",
+        statusCode: 400,
+      };
+    }
+
+    await deleteUserAccount(userId, parsed.data);
+
+    // Destrói imediatamente a sessão do usuário
+    cookieStore.delete("token");
+
+    return {
+      success: true,
+      data: null,
+      requiresReauth: true,
+    };
+  } catch (err) {
+    if (err instanceof InvalidCredentialsError) {
+      return { success: false, error: "Senha incorreta.", statusCode: 400 };
+    }
+
+    return {
+      success: false,
+      error: (err as Error).message || "Erro ao excluir conta",
       statusCode: 500,
     };
   }

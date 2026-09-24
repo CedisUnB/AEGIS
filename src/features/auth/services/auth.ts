@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/client";
 import { signToken } from "@/core/security";
 import { authRepository } from "../repositories/auth.repository";
-import { SignUpInput, SignInInput, UserProfileSchema, UserProfile, UpdateProfileInput } from "../types/auth.types";
+import { SignUpInput, SignInInput, UserProfileSchema, UserProfile, UpdateProfileInput, DeleteAccountInput } from "../types/auth.types";
 
 export class EmailAlreadyExistsError extends Error {
   constructor() {
@@ -118,4 +118,18 @@ export async function updateUserProfile(
     }
     throw error;
   }
+}
+
+export async function deleteUserAccount(userId: string, input: DeleteAccountInput) {
+  const user = await authRepository.findPasswordHashById(userId);
+  if (!user) {
+    throw new Error("Usuário não encontrado.");
+  }
+
+  const isPasswordValid = await bcrypt.compare(input.password, user.password);
+  if (!isPasswordValid) {
+    throw new InvalidCredentialsError();
+  }
+
+  await authRepository.softDeleteAndAnonymize(userId);
 }

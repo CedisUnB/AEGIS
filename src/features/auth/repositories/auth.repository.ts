@@ -3,12 +3,12 @@ import { UserProfile } from "../types";
 import "server-only";
 
 export class AuthRepository {
-  async findByEmail(email: string) {
-    return prisma.user.findUnique({ where: { email } });
-  }
-  
   async createUser(data: { email: string; username: string; password: string }) {
     return prisma.user.create({ data });
+  }
+
+  async findByEmail(email: string) {
+    return prisma.user.findUnique({ where: { email } });
   }
   
   async findById(id: string): Promise<UserProfile | null> {
@@ -20,6 +20,15 @@ export class AuthRepository {
         createdAt: true
       }
     })
+  }
+
+  async findPasswordHashById(id: string): Promise<{ password: string } | null> {
+    return prisma.user.findUnique({
+      where: { id },
+      select: {
+        password: true,
+      },
+    });
   }
 
   async updateUser(
@@ -40,6 +49,20 @@ export class AuthRepository {
         createdAt: true,
       },
     })
+  }
+
+  async softDeleteAndAnonymize(userId: string) {
+    const anonymizedEmail = `deleted_${userId}@anonymized.local`;
+    const anonymizedUsername = `usuario_deletado_${userId.slice(0, 8)}`;
+
+    return prisma.user.update({
+      where: { id: userId },
+      data: {
+        email: anonymizedEmail,
+        username: anonymizedUsername,
+        password: "",
+      },
+    });
   }
 }
 
