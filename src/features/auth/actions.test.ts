@@ -16,7 +16,17 @@ jest.mock("next/navigation", () => ({
   redirect: jest.fn(),
 }));
 
-jest.mock("../services/auth", () => {
+jest.mock("@/core/security", () => ({
+  verifyToken: jest.fn(),
+}));
+
+jest.mock("./repositories/auth.repository", () => ({
+  authRepository: {
+    findById: jest.fn(),
+  },
+}));
+
+jest.mock("./services/auth", () => {
   class MockEmailAlreadyExistsError extends Error {
     constructor() {
       super("Este e-mail já foi cadastrado.");
@@ -48,11 +58,17 @@ const mockCookieStore = {
   delete: jest.fn(),
 };
 
-const initialState: SignUpState = { error: null, fieldErrors: {} };
+const initialState: SignUpState = {
+  error: null,
+  fieldErrors: {},
+  fieldValues: { username: "", email: "" },
+  resetKey: "initial-reset-key",
+};
 const validFields = {
   username: "student",
   email: "student@example.com",
   password: "Senha@123",
+  confirmPassword: "Senha@123",
 };
 
 function createFormData(
@@ -66,11 +82,17 @@ function createFormData(
 
   formData.set("email", fields.email);
   formData.set("password", fields.password);
+  formData.set("confirmPassword", fields.confirmPassword ?? fields.password);
   return formData;
 }
 
 describe("signInAction", () => {
-  const initialSignInState: SignInState = { error: null, fieldErrors: {} };
+  const initialSignInState: SignInState = {
+    error: null,
+    fieldErrors: {},
+    fieldValues: { email: "" },
+    resetKey: "initial-reset-key",
+  };
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -88,6 +110,8 @@ describe("signInAction", () => {
     expect(result).toEqual({
       error: null,
       fieldErrors: { email: "E-mail inválido" },
+      fieldValues: { email: "invalid-email" },
+      resetKey: expect.any(String),
     });
     expect(mockedLoginUser).not.toHaveBeenCalled();
     expect(mockedCookies).not.toHaveBeenCalled();
@@ -101,13 +125,15 @@ describe("signInAction", () => {
     expect(result).toEqual({
       error: "E-mail ou senha inválidos.",
       fieldErrors: {},
+      fieldValues: { email: "student@example.com" },
+      resetKey: expect.any(String),
     });
     expect(mockedCookies).not.toHaveBeenCalled();
     expect(mockedRedirect).not.toHaveBeenCalled();
   });
 
   it("sets the session cookie and redirects after successful sign-in", async () => {
-    mockedLoginUser.mockResolvedValue({ user: {} as never, token: "signed-token" });
+    mockedLoginUser.mockResolvedValue({ user: "student", token: "signed-token" });
 
     await signInAction(initialSignInState, createFormData());
 
@@ -145,6 +171,8 @@ describe("signUpAction", () => {
     expect(result).toEqual({
       error: null,
       fieldErrors: { email: "E-mail inválido" },
+      fieldValues: { username: "student", email: "invalid-email" },
+      resetKey: expect.any(String),
     });
     expect(mockedRegisterUser).not.toHaveBeenCalled();
     expect(mockedCookies).not.toHaveBeenCalled();
@@ -158,6 +186,8 @@ describe("signUpAction", () => {
     expect(result).toEqual({
       error: "Este e-mail já foi cadastrado.",
       fieldErrors: { email: "Este e-mail já foi cadastrado." },
+      fieldValues: { username: "student", email: "student@example.com" },
+      resetKey: expect.any(String),
     });
     expect(mockedCookies).not.toHaveBeenCalled();
     expect(mockedRedirect).not.toHaveBeenCalled();
@@ -171,6 +201,8 @@ describe("signUpAction", () => {
     expect(result).toEqual({
       error: "Não foi possível criar a conta. Tente novamente.",
       fieldErrors: {},
+      fieldValues: { username: "student", email: "student@example.com" },
+      resetKey: expect.any(String),
     });
     expect(mockedCookies).not.toHaveBeenCalled();
     expect(mockedRedirect).not.toHaveBeenCalled();
@@ -178,13 +210,18 @@ describe("signUpAction", () => {
 
   it("sets the session cookie and redirects after successful registration", async () => {
     mockedRegisterUser.mockResolvedValue({
-      user: {} as never,
+      user: "student",
       token: "signed-token",
     });
 
     await signUpAction(initialState, createFormData());
 
-    expect(mockedRegisterUser).toHaveBeenCalledWith(validFields);
+    expect(mockedRegisterUser).toHaveBeenCalledWith({
+      username: validFields.username,
+      email: validFields.email,
+      password: validFields.password,
+      confirmPassword: validFields.confirmPassword,
+    });
     expect(mockCookieStore.set).toHaveBeenCalledWith("token", "signed-token", {
       httpOnly: true,
       secure: false,
