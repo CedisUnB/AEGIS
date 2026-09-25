@@ -10,7 +10,7 @@ export default async function AdminProfilePage() {
     }
 
     if (result.statusCode === 403) {
-      throw new Error("401: Acesso não autorizado");
+      throw new Error("403: Acesso não autorizado");
     }
 
     throw new Error(result.error);
