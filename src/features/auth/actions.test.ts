@@ -194,6 +194,8 @@ describe("signUpAction", () => {
   });
 
   it("returns a generic error when the service fails unexpectedly", async () => {
+    const consoleSpy = jest.spyOn(console, "error").mockImplementation(() => {});
+
     mockedRegisterUser.mockRejectedValue(new Error("database unavailable"));
 
     const result = await signUpAction(initialState, createFormData());
@@ -206,6 +208,13 @@ describe("signUpAction", () => {
     });
     expect(mockedCookies).not.toHaveBeenCalled();
     expect(mockedRedirect).not.toHaveBeenCalled();
+
+    expect(consoleSpy).toHaveBeenCalledWith(
+      "[auth] erro não tratado:",
+      expect.any(Error)
+    );
+
+    consoleSpy.mockRestore();
   });
 
   it("sets the session cookie and redirects after successful registration", async () => {
