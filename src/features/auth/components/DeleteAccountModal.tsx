@@ -52,10 +52,11 @@ export const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({ isOpen, 
 
         <form onSubmit={handleDelete} className="mt-4 space-y-4">
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-gray-700 dark:text-gray-300">
+            <label htmlFor="delete-account-password" className="block text-xs font-semibold uppercase tracking-wider text-gray-700 dark:text-gray-300">
               Digite sua senha atual para confirmar
             </label>
             <input
+              id="delete-account-password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}

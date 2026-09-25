@@ -159,10 +159,11 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ initialUser }) => {
       ) : (
         <form onSubmit={handleSave} className="space-y-4 text-sm">
           <div>
-            <label className="block text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+            <label htmlFor="profile-username" className="block text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
               Nome de Utilizador
             </label>
             <input
+              id="profile-username"
               type="text"
               value={formData.username}
               onChange={(e) => setFormData({ ...formData, username: e.target.value })}
@@ -175,10 +176,11 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ initialUser }) => {
           </div>
 
           <div>
-            <label className="block text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+            <label htmlFor="profile-email" className="block text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
               E-mail
             </label>
             <input
+              id="profile-email"
               type="email"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -191,10 +193,11 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ initialUser }) => {
           </div>
 
           <div>
-            <label className="block text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+            <label htmlFor="profile-password" className="block text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
               Nova Senha (opcional)
             </label>
             <input
+              id="profile-password"
               type="password"
               placeholder="Deixe em branco para manter a atual"
               value={formData.password}
@@ -208,10 +211,11 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ initialUser }) => {
 
           {formData.password && (
             <div>
-              <label className="block text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+              <label htmlFor="profile-confirm-password" className="block text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
                 Confirmar Nova Senha
               </label>
               <input
+                id="profile-confirm-password"
                 type="password"
                 value={formData.confirmPassword}
                 onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
