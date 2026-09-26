@@ -1,0 +1,43 @@
+site_name: SecurityApp — Processo e Segurança
+site_description: Documentação de arquitetura, processo e diretrizes de desenvolvimento seguro do TCC
+repo_url: https://github.com/<seu-usuario-ou-org>/<seu-repo>
+
+theme:
+  name: material
+  language: pt-BR
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - toc.integrate
+    - search.suggest
+
+plugins:
+  - search
+  - awesome-pages
+  - git-revision-date-localized:
+      type: date
+      locale: pt-BR
+
+markdown_extensions:
+  - admonition          # permite blocos de destaque (nota, aviso, dica)
+  - pymdownx.tasklist:  # permite checkboxes de verdade nos checklists
+      custom_checkbox: true
+  - toc:
+      permalink: true
+
+nav:
+  - Início: index.md
+  - Arquitetura:
+      - DAS: architecture/das.md
+  - Processo:
+      - Sprints:
+          - Sprint 1: process/sprints/sprint_1.md
+          - Sprint 2: process/sprints/sprint_2.md
+          - Template: process/sprints/template.md
+      - Refinamento: process/refinamento/
+  - Segurança:
+      - Diretrizes: security/guidelines.md
+      - Checklist API/Backend: security/checklist-api-backend.md
+      - Checklist Frontend: security/checklist-frontend.md
+      - Checklist Uso de IA: security/checklist-ai-usage.md
+      - Referências: security/references.md
