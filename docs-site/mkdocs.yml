@@ -28,7 +28,7 @@ markdown_extensions:
 nav:
   - Início: index.md
   - Arquitetura:
-      - DAS: architecture/das.md
+      - DAS: architecture/software-architecture-document.md
   - Processo:
       - Sprints:
           - Sprint 1: process/sprints/sprint_1.md
@@ -37,7 +37,8 @@ nav:
       - Refinamento: process/refinamento/
   - Segurança:
       - Diretrizes: security/guidelines.md
-      - Checklist API/Backend: security/checklist-api-backend.md
+      - Checklist Backend: security/checklist-backend.md
       - Checklist Frontend: security/checklist-frontend.md
+      - Checklist API: security/checklist-api.md
       - Checklist Uso de IA: security/checklist-ai-usage.md
       - Referências: security/references.md
