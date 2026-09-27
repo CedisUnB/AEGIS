@@ -1,6 +1,6 @@
-site_name: SecurityApp — Processo e Segurança
-site_description: Documentação de arquitetura, processo e diretrizes de desenvolvimento seguro do TCC
-repo_url: https://github.com/<seu-usuario-ou-org>/<seu-repo>
+site_name: SecurityApp — Plataforma de Apoio ao Aprendizado em Desenvolvimento de Software Seguro
+site_description: Documentação do projeto do TCC
+repo_url: https://github.com/CedisUnB/SecurityAPP
 
 theme:
   name: material
