@@ -4,6 +4,7 @@ const validInput = {
 	username: "student",
 	email: "student@example.com",
 	password: "Senha@123",
+	confirmPassword: "Senha@123",
 };
 
 describe("signUpSchema", () => {
@@ -40,6 +41,7 @@ describe("signUpSchema", () => {
 			const result = signUpSchema.safeParse({
 				...validInput,
 				password: "senha@123",
+				confirmPassword: "senha@123",
 			});
 
 			expect(result.success).toBe(false);
@@ -49,6 +51,7 @@ describe("signUpSchema", () => {
             const result = signUpSchema.safeParse({
                 ...validInput,
                 password: "Senh@1",
+                confirmPassword: "Senh@1",
             });
 
             expect(result.success).toBe(false);
@@ -57,6 +60,7 @@ describe("signUpSchema", () => {
             const result = signUpSchema.safeParse({
                 ...validInput,
                 password: "senha@789101120324939232",
+                confirmPassword: "senha@789101120324939232",
             });
 
             expect(result.success).toBe(false);
@@ -65,6 +69,7 @@ describe("signUpSchema", () => {
 			const result = signUpSchema.safeParse({
 				...validInput,
 				password: "SENHA@123",
+				confirmPassword: "SENHA@123",
 			});
 
             expect(result.success).toBe(false);
@@ -73,6 +78,7 @@ describe("signUpSchema", () => {
 			const result = signUpSchema.safeParse({
 				...validInput,
 				password: "Senha@abc",
+				confirmPassword: "Senha@abc",
 			});
 
 			expect(result.success).toBe(false);
@@ -81,6 +87,15 @@ describe("signUpSchema", () => {
 			const result = signUpSchema.safeParse({
 				...validInput,
 				password: "Senha123",
+				confirmPassword: "Senha123",
+			});
+
+			expect(result.success).toBe(false);
+		});
+		it("rejects mismatched password confirmation", () => {
+			const result = signUpSchema.safeParse({
+				...validInput,
+				confirmPassword: "Outra@123",
 			});
 
 			expect(result.success).toBe(false);
@@ -89,6 +104,7 @@ describe("signUpSchema", () => {
 			const result = signUpSchema.safeParse({
 				...validInput,
 				password: "Sena@123",
+				confirmPassword: "Sena@123",
 			});
 
 			expect(result.success).toBe(true);
@@ -97,6 +113,7 @@ describe("signUpSchema", () => {
 			const result = signUpSchema.safeParse({
 				...validInput,
 				password: "SenhaMuito@123456789",
+				confirmPassword: "SenhaMuito@123456789",
 			});
 
 			expect(result.success).toBe(true);

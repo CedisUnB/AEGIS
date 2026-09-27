@@ -45,21 +45,21 @@ describe('Integração: cadastro de usuário', () => {
       username: 'integration_user',
       email: emails[0],
       password: 'Senha@123',
+      confirmPassword: 'Senha@123',
     };
 
     const result = await registerUser(input);
 
-    expect(result.user.email).toBe(input.email);
-    expect(result.user.username).toBe(input.username);
-    expect(result.user.role).toBe('student');
-    expect(result.user.password).not.toBe(input.password);
-    expect(await bcrypt.compare(input.password, result.user.password)).toBe(true);
+    expect(result.user).toBe(input.username);
     expect(typeof result.token).toBe('string');
     expect(result.token.length).toBeGreaterThan(20);
 
     const persistedUser = await prisma.user.findUnique({ where: { email: input.email } });
     expect(persistedUser).not.toBeNull();
-    expect(persistedUser?.password).toBe(result.user.password);
+    expect(persistedUser?.username).toBe(input.username);
+    expect(persistedUser?.role).toBe('student');
+    expect(persistedUser?.password).not.toBe(input.password);
+    expect(await bcrypt.compare(input.password, persistedUser!.password)).toBe(true);
   });
 
   it('deve rejeitar e-mail duplicado usando a constraint real do banco', async () => {
@@ -67,6 +67,7 @@ describe('Integração: cadastro de usuário', () => {
       username: 'duplicate_user',
       email: emails[1],
       password: 'Senha@123',
+      confirmPassword: 'Senha@123',
     };
 
     await prisma.user.create({
@@ -128,10 +129,7 @@ describe('Integração: cadastro de usuário', () => {
       password,
     });
 
-    expect(result.user.email).toBe(emails[2]);
-    expect(result.user.username).toBe('login_user');
-    expect(result.user.role).toBe('student');
-    expect(await bcrypt.compare(password, result.user.password)).toBe(true);
+    expect(result.user).toBe('login_user');
     expect(typeof result.token).toBe('string');
     expect(result.token.length).toBeGreaterThan(20);
   });

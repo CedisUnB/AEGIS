@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/client";
 import { signToken } from "@/core/security";
-import { createUser, findByEmail } from "../repositories/auth.repository";
+import { authRepository } from "../repositories/auth.repository";
 import {
   EmailAlreadyExistsError,
   registerUser,
@@ -18,9 +18,11 @@ jest.mock("@/core/security", () => ({
   signToken: jest.fn(),
 }));
 
-jest.mock("../auth/repositories/auth.repository", () => ({
-  findByEmail: jest.fn(),
-  createUser: jest.fn(),
+jest.mock("../repositories/auth.repository", () => ({
+  authRepository: {
+    findByEmail: jest.fn(),
+    createUser: jest.fn(),
+  },
 }));
 
 type HashFunction = (
@@ -29,14 +31,19 @@ type HashFunction = (
 ) => Promise<string>;
 
 const mockedHash = bcrypt.hash as jest.MockedFunction<HashFunction>;
-const mockedFindByEmail = findByEmail as jest.MockedFunction<typeof findByEmail>;
-const mockedCreateUser = createUser as jest.MockedFunction<typeof createUser>;
+const mockedFindByEmail = authRepository.findByEmail as jest.MockedFunction<
+  typeof authRepository.findByEmail
+>;
+const mockedCreateUser = authRepository.createUser as jest.MockedFunction<
+  typeof authRepository.createUser
+>;
 const mockedSignToken = signToken as jest.MockedFunction<typeof signToken>;
 
 const input = {
   username: "student",
   email: "student@example.com",
   password: "Senha@123",
+  confirmPassword: "Senha@123",
 };
 
 describe("registerUser", () => {
@@ -45,7 +52,8 @@ describe("registerUser", () => {
   });
 
   it("verifica duplicidade, criptografa a senha e cria o usuário", async () => {
-    const user = {
+    const createdUser = {
+      id: "user-id-123",
       email: input.email,
       username: input.username,
       password: "hashed-password",
@@ -53,8 +61,8 @@ describe("registerUser", () => {
     };
 
     mockedFindByEmail.mockResolvedValue(null);
-    mockedHash.mockResolvedValue(user.password);
-    mockedCreateUser.mockResolvedValue(user as never);
+    mockedHash.mockResolvedValue(createdUser.password);
+    mockedCreateUser.mockResolvedValue(createdUser as never);
     mockedSignToken.mockResolvedValue("signed-token");
 
     const result = await registerUser(input);
@@ -64,13 +72,14 @@ describe("registerUser", () => {
     expect(mockedCreateUser).toHaveBeenCalledWith({
       email: input.email,
       username: input.username,
-      password: user.password,
+      password: createdUser.password,
     });
+    // O token de sessão deve ser gerado a partir do id do usuário, não do e-mail
     expect(mockedSignToken).toHaveBeenCalledWith({
-      sub: user.email,
-      role: user.role,
+      sub: createdUser.id,
+      role: createdUser.role,
     });
-    expect(result).toEqual({ user, token: "signed-token" });
+    expect(result).toEqual({ user: createdUser.username, token: "signed-token" });
   });
 
   it("recusa um e-mail já cadastrado antes de criptografar ou criar", async () => {
