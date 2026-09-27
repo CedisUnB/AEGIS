@@ -33,8 +33,10 @@ nav:
       - Sprints:
           - Sprint 1: process/sprints/sprint_1.md
           - Sprint 2: process/sprints/sprint_2.md
-          - Template: process/sprints/template.md
-      - Refinamento: process/refinamento/
+          - Template: process/sprints/template_de_sprint.md
+      - Estratégia de Testes: process/strategies/estrategia_testes.md
+      - Plano de Métricas do Projeto: process/strategies/estrategia_acompanhamento_projeto.md
+      - Documento de Requisitos: requirements/docs_requisitos_v2.md
   - Segurança:
       - Diretrizes: security/guidelines.md
       - Checklist Backend: security/checklist-backend.md

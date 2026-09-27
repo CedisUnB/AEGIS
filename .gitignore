@@ -48,3 +48,6 @@ next-env.d.ts
 
 # python virtual environment
 /.venv-docs
+
+#mkdocs
+/docs-site/site
