@@ -1,0 +1,1460 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentação de arquitetura, processo e diretrizes de desenvolvimento seguro do TCC">
+      
+      
+      
+      
+        <link rel="prev" href="../..">
+      
+      
+        <link rel="next" href="../../process/sprints/sprint_1/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>DAS - SecurityApp — Processo e Segurança</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#documento-de-arquitetura-de-software" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href="../.." title="SecurityApp — Processo e Segurança" class="md-header__button md-logo" aria-label="SecurityApp — Processo e Segurança" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            SecurityApp — Processo e Segurança
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              DAS
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/<seu-usuario-ou-org>/<seu-repo>" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Abas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Início
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+  Arquitetura
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../process/sprints/sprint_1/" class="md-tabs__link">
+          
+  
+  
+  Processo
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../security/guidelines/" class="md-tabs__link">
+          
+  
+  
+  Segurança
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="SecurityApp — Processo e Segurança" class="md-nav__button md-logo" aria-label="SecurityApp — Processo e Segurança" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    SecurityApp — Processo e Segurança
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/<seu-usuario-ou-org>/<seu-repo>" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitetura
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Arquitetura
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DAS
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DAS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#software-architecture-document" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        (Software Architecture Document)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#historico-de-revisao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Histórico de Revisão
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tabela-de-conteudos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tabela de Conteúdos
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Processo
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Processo
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sprints
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sprints
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../process/sprints/sprint_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sprint 1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../process/sprints/sprint_2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sprint 2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../process/sprints/template_de_sprint/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Template
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../process/strategies/estrategia_testes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estratégia de Testes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../process/strategies/estrategia_acompanhamento_projeto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plano de Métricas do Projeto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../requirements/docs_requisitos_v2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documento de Requisitos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Segurança
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Segurança
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security/guidelines/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Diretrizes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security/checklist-backend/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Checklist Backend
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security/checklist-frontend/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Checklist Frontend
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security/checklist-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Checklist API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security/checklist-ai-usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Checklist Uso de IA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security/references/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Referências
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="documento-de-arquitetura-de-software">Documento de Arquitetura de Software<a class="headerlink" href="#documento-de-arquitetura-de-software" title="Permanent link">&para;</a></h1>
+<h3 id="software-architecture-document">(Software Architecture Document)<a class="headerlink" href="#software-architecture-document" title="Permanent link">&para;</a></h3>
+<p><em>Plataforma de Apoio ao Aprendizado de Segurança de Software</em></p>
+<p><strong>Projeto:</strong> \&lt;TCC-Plataforma&gt;
+<strong>Versão:</strong> 1.2
+<strong>Data:</strong> 17 de Agosto de 2026</p>
+<p><strong>Autores:</strong>
+João Pedro Rodrigues Morbeck
+Pedro Henrique da Silva Melo</p>
+<p><strong>Universidade de Brasília (UnB)</strong>
+<strong>Faculdade de Ciências e Tecnologias em Engenharia (FCTE)</strong>
+<strong>Curso de Engenharia de Software</strong></p>
+<hr />
+<h2 id="historico-de-revisao">Histórico de Revisão<a class="headerlink" href="#historico-de-revisao" title="Permanent link">&para;</a></h2>
+<p>O histórico de revisões registra todas as modificações formais efetuadas no Documento de Arquitetura de Software (DAS), garantindo o controle de versão e a rastreabilidade das decisões de <em>design</em>.</p>
+<table>
+<thead>
+<tr>
+<th>Data</th>
+<th>Versão</th>
+<th>Descrição</th>
+<th>Autores</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>17/Ago/2026</td>
+<td>1.0</td>
+<td>Elaboração e detalhamento inicial da arquitetura do sistema baseado na stack Next.js e no padrão de pastas modular Folder-by-Feature para o início das Sprints de desenvolvimento do TCC 2.</td>
+<td>P. H. Melo</td>
+</tr>
+<tr>
+<td>23/Ago/2026</td>
+<td>1.1</td>
+<td>Desenvolvimento dos diagramas de pacote, sequência e de implantação</td>
+<td>P. H. Melo</td>
+</tr>
+<tr>
+<td>25/Ago/2026</td>
+<td>1.2</td>
+<td>DER e DLD, revisão geral do documento</td>
+<td>P. H. Melo e J. P. Morbeck</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tabela-de-conteudos">Tabela de Conteúdos<a class="headerlink" href="#tabela-de-conteudos" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Introdução</li>
+<li>1.1 Propósito</li>
+<li>1.2 Escopo</li>
+<li>1.3 Definições, Acrônimos e Abreviações</li>
+<li>1.4 Referências</li>
+<li>1.5 Visão Geral</li>
+<li>Representação Arquitetural</li>
+<li>Objetivos e Restrições Arquiteturais</li>
+<li>Visão Lógica</li>
+<li>4.1 Organização das Rotas</li>
+<li>4.2 Organização das Features</li>
+<li>4.3 Representação Visual (Diagrama de Pacotes)</li>
+<li>Visão de Processo</li>
+<li>5.1 Fluxo de Submissão e Correção de Exercícios (practice-labs)<ul>
+<li>5.1.1 Representação Dinâmica (Diagrama de Sequência)</li>
+</ul>
+</li>
+<li>5.2 Consumo de Trilha e Desbloqueio</li>
+<li>5.3 Fluxo de Autenticação e Autorização</li>
+<li>Visão de Implantação (Deploy)</li>
+<li>Visão de Implementação</li>
+<li>Visão de Dados</li>
+<li>Tamanho e Performance</li>
+<li>Qualidade</li>
+</ol>
+<hr />
+<h1 id="1-introducao">1. Introdução<a class="headerlink" href="#1-introducao" title="Permanent link">&para;</a></h1>
+<h2 id="11-proposito">1.1 Propósito<a class="headerlink" href="#11-proposito" title="Permanent link">&para;</a></h2>
+<p>Este Documento de Arquitetura de Software (DAS) fornece uma visão técnica abrangente e estruturada para a plataforma de suporte ao aprendizado de desenvolvimento seguro e auditoria de Inteligência Artificial (IA) no contexto do Trabalho de Conclusão de Curso (TCC) em Engenharia de Software da Faculdade de Ciências e Tecnologias em Engenharia (FCTE/UnB). Ele serve como especificação de referência para os desenvolvedores e professores avaliadores, detalhando as decisões de design, padrões arquiteturais e a rastreabilidade direta dos requisitos funcionais (RFs) e não funcionais (RNFs) levantados no TCC 1.</p>
+<h2 id="12-escopo">1.2 Escopo<a class="headerlink" href="#12-escopo" title="Permanent link">&para;</a></h2>
+<p>O escopo arquitetural deste documento cobre o ecossistema unificado da aplicação, construído sobre a tecnologia <strong>Next.js (React.js)</strong> no frontend e no backend (Backend-for-Frontend - BFF), conectando-se à nuvem do <strong>Prisma ORM (MySQL)</strong> para a persistência e segurança dos dados. O software implementará uma abordagem orientada a <em>microlearning</em> e trilhas adaptativas de aprendizado. Ele não visa atuar na fase de implementação de código industrial via análise estática ou dinâmica automatizada em servidores de produção, mas foca na fundamentação e fonte de apoio de estudantes de engenharia de software para que possam conhecer e iniciar um estudo em desenvolvimento de software seguro antes do ingresso na indústria de tecnologia.</p>
+<h2 id="13-definicoes-acronimos-e-abreviacoes">1.3 Definições, Acrônimos e Abreviações<a class="headerlink" href="#13-definicoes-acronimos-e-abreviacoes" title="Permanent link">&para;</a></h2>
+<p>A tabela abaixo consolida os principais conceitos, termos técnicos e acrônimos utilizados no decorrer deste artefato arquitetural:</p>
+<table>
+<thead>
+<tr>
+<th>Acrônimo / Termo</th>
+<th>Definição Técnica</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Next.js</strong></td>
+<td><em>Framework</em> React voltado para produção que possibilita renderização híbrida no servidor (SSR) e geração estática estendida, unificando rotas e controle sob Server Actions.</td>
+</tr>
+<tr>
+<td><strong>BFF (Backend-for-Frontend)</strong></td>
+<td>Padrão de arquitetura onde uma camada de servidor é dedicada de forma exclusiva para servir e intermediar as necessidades de dados e rotas específicas da interface do cliente.</td>
+</tr>
+<tr>
+<td><strong>Prisma ORM &amp; MySQL</strong></td>
+<td>Prisma é um Object-Relational Mapper (ORM) de código aberto para Node.js e TypeScript que simplifica a modelagem e o acesso a bancos de dados. MySQL é um sistema gerenciador de banco de dados relacional (SGBD) confiável e amplamente utilizado na indústria, operando em conformidade com as propriedades ACID para garantir transações seguras e consistentes.</td>
+</tr>
+<tr>
+<td><strong>Microlearning</strong></td>
+<td>Abordagem instrucional que fragmenta conteúdos extensos em pílulas de conhecimento, acompanhadas de exercícios imediatos de fixação rápida para aumentar a retenção cognitiva.</td>
+</tr>
+<tr>
+<td><strong>JWT (JSON Web Token)</strong></td>
+<td>Token criptográfico estruturado em JSON usado para transmitir dados de sessão de forma segura e <em>stateless</em> entre o cliente e o servidor de BFF.</td>
+</tr>
+<tr>
+<td><strong>SoC (Separation of Concerns)</strong></td>
+<td>Princípio de design de software focado em separar o código do programa em seções independentes, de modo que cada parte resolva uma única responsabilidade.</td>
+</tr>
+<tr>
+<td><strong>SAD / DAS</strong></td>
+<td>Software Architecture Document (SAD) ou Documento de Arquitetura de Software (DAS) - o artefato formal de representação e desenho técnico do sistema.</td>
+</tr>
+<tr>
+<td><strong>Folder-by-Feature</strong></td>
+<td>Método de organização de diretórios onde os arquivos são agrupados por domínio de negócio/funcionalidade, e não pelo tipo de arquivo técnico.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="14-referencias">1.4 Referências<a class="headerlink" href="#14-referencias" title="Permanent link">&para;</a></h2>
+<p>As decisões e modelagens apresentadas neste artefato arquitetural estão cientificamente fundamentadas nas seguintes obras e documentos de engenharia:</p>
+<ul>
+<li><u>Kruchtem, Philippe (1995).</u> Architectural Blueprints — The "4+1" View Model of Software Architecture. IEEE Software, v. 12, n. 6, p. 42-50. Disponível em: <a href="https://www.researchgate.net/publication/280113621_Architectural_Blueprints_---_The_41_View_Model_of_Software_Architecture">researchgate.net</a>.</li>
+<li><em>Dowd, M.; McDonald, J.; Schuh, J. (2006).</em> The Art of Software Security Assessment: Identifying and Preventing Software Vulnerabilities. Addison-Wesley Professional.</li>
+<li><em>Sommerville, Ian (2019).</em> Engenharia de Software. 10ª Edição. Pearson Education.</li>
+<li><em>Leffingwell, D.; Widrig, D. (2003).</em> Managing Software Requirements: A Use Case Approach. 2ª Edição. Addison-Wesley Professional.</li>
+</ul>
+<h2 id="15-visao-geral">1.5 Visão Geral<a class="headerlink" href="#15-visao-geral" title="Permanent link">&para;</a></h2>
+<p>Este documento está organizado seguindo a estrutura padrão RUP (<em>Rational Unified Process</em>) para DAS. A seção 2 introduz a representação arquitetural global (BFF de n-camadas). A seção 3 mapeia os objetivos e restrições técnicas amparados pelos requisitos não funcionais. A seção 4 apresenta a visão lógica baseada na decomposição de módulos (<em>features</em>) e na hierarquia física de pastas do Next.js. A seção 5 ilustra o fluxo dinâmico dos processos chaves. A seção 6 mapeia a implantação física (CEDIS e Prisma ORM), seguido pela visão de implementação na seção 7, representação de dados na seção 8, e considerações sobre tamanho, desempenho e qualidade nas seções 9 e 10.</p>
+<hr />
+<h1 id="2-representacao-arquitetural">2. Representação Arquitetural<a class="headerlink" href="#2-representacao-arquitetural" title="Permanent link">&para;</a></h1>
+<p>Para assegurar um desenho de software robusto, flexível e academicamente defensável, adota-se o <strong>Modelo de Visões 4+1 de Kruchten (1995)</strong>. Este modelo decompõe a arquitetura do software sob as óticas de casos de uso (o coração que unifica o design), lógica (decomposição estrutural), processos (dinâmica e sincronização), física/implantação (hardware e infraestrutura) e implementação (organização física do código fonte). Apesar do modelo cobrir a ótica de casos de uso, este projeto não adota tal visão.</p>
+<p>O estilo arquitetural escolhido baseia-se em uma <strong>Arquitetura Cliente-Servidor de N-Camadas</strong> com o uso integrado do padrão <strong>Backend-for-Frontend (BFF)</strong> embutido e centralizado sob o <strong>Next.js App Router</strong>. O lado cliente, operando em browsers de desktop ou smartphones, renderiza páginas responsivas por meio de componentes React reativos. O BFF intermediará de forma exclusiva todas as requisições de backend via Server Actions e API Routes, aplicando middlewares para a criptografia e proteção de rotas antes de bater nas tabelas e views estruturadas no banco relacional MySQL por meio do Prisma ORM.</p>
+<hr />
+<h1 id="3-objetivos-e-restricoes-arquiteturais">3. Objetivos e Restrições Arquiteturais<a class="headerlink" href="#3-objetivos-e-restricoes-arquiteturais" title="Permanent link">&para;</a></h1>
+<p>A arquitetura deste software é restrita e moldada diretamente para atender aos cinco Requisitos Não Funcionais (RNFs) elicitados no TCC 1, as quais atuam como as metas de qualidade do sistema de <em>microlearning</em>:</p>
+<ul>
+<li><strong>Segurança (RNF01) como Meta de Confidencialidade:</strong> A arquitetura blinda o sistema contra acessos indevidos. Todas as rotas administrativas são interceptadas no nível de rede do Next.js via <em>Middleware</em>, validando assinaturas criptográficas de tokens JWT. A segurança de isolamento de registros é garantida de forma lógica na camada de aplicação através das camadas de <em>Services</em> e <em>Repositories</em> do Prisma ORM, onde todas as consultas e escritas de dados filtram rigorosamente pelo identificador do usuário autenticado (userId) extraído da sessão segura, prevenindo vazamentos de progresso ou acesso a conteúdos de terceiros.</li>
+<li><strong>Usabilidade e Responsividade Multiplataforma (RNF02):</strong> Para solucionar a dualidade observada no questionário aplicado no TCC1 (demanda por mobilidade no microlearning vs. necessidade de IDE para exercícios práticos complexos), o frontend foi projetado como uma aplicação <em>Web</em> responsiva integrada. Utiliza-se React.js e Tailwind CSS para fornecer uma transição de interface fluida e adaptável a telas de smartphones, tablets e desktops.</li>
+<li><strong>Desempenho e Tempo de Resposta (RNF03):</strong> Para manter o engajamento e a fluidez instrucional, o sistema possui o limite estrito de processar o feedback das avaliações de código e quizzes com tempo de resposta máximo de até 3 segundos. Isso é assegurado usando Server Actions assíncronas no Next.js e conexões estruturadas em pool otimizadas com o banco MySQL via Prisma ORM.</li>
+<li><strong>Suportabilidade e Modularidade (RNF04):</strong> A arquitetura de software é projetada de forma extensível por meio do agrupamento por domínios. Isso possibilita que novas trilhas técnicas ou recursos lúdicos (features adicionais) sejam acoplados sem impacto ou refatoração do código existente.</li>
+<li><strong>Implementação e Inicialização (RNF05):</strong> O ecossistema em nuvem é configurado para inicializar automaticamente a única conta administrativa preexistente e criar o catálogo técnico básico de trilhas a partir de rotas protegidas durante o bootstrap e inicialização da base de dados do MySQL via Prisma ORM.</li>
+</ul>
+<hr />
+<h1 id="4-visao-logica">4. Visão Lógica<a class="headerlink" href="#4-visao-logica" title="Permanent link">&para;</a></h1>
+<p>Para concretizar o requisito não funcional de modularidade e suportabilidade (RNF04), a decomposição lógica do sistema abandona o padrão técnico monolítico e adota a arquitetura <strong>Folder-by-Feature (Pasta por Funcionalidade)</strong>. Os diretórios da aplicação Next.js estruturam-se sob módulos de domínio de negócio autossuficientes, contendo seus próprios componentes, <em>types</em> e chamadas de API, facilitando a coesão interna e reduzindo o acoplamento global.</p>
+<h2 id="41-organizacao-das-rotas">4.1 Organização das Rotas<a class="headerlink" href="#41-organizacao-das-rotas" title="Permanent link">&para;</a></h2>
+<p>A estrutura de rotas da aplicação segue o padrão de <em>Route Groups</em> do Next.js App Router, agrupando as páginas pelo critério de proteção de acesso.</p>
+<p>Rotas públicas, acessíveis sem autenticação, são isoladas no grupo <code>(public)</code> e compreendem as páginas de login e cadastro da plataforma.</p>
+<p>Rotas protegidas, que exigem sessão JWT válida, são isoladas no grupo <code>(protected)</code> e compreendem todas as funcionalidades do estudante e do administrador.</p>
+<p>Essa separação permite que o middleware de validação de token seja aplicado de forma centralizada sobre o grupo protegido, sem impactar as rotas de acesso público.</p>
+<pre><code>src/app/
+├── (public)/
+│   └── auth/
+│       ├── login/
+│       └── register/
+└── (protected)/
+    ├── trails/
+    ├── trails/[id]/
+    ├── practice/
+    ├── progress/
+    ├── revision/
+    └── admin/
+</code></pre>
+<h2 id="42-organizacao-das-features">4.2 Organização das Features<a class="headerlink" href="#42-organizacao-das-features" title="Permanent link">&para;</a></h2>
+<p>A camada modular da aplicação adota o padrão Folder-by-Feature, no qual cada domínio de negócio é encapsulado em um módulo auto suficiente dentro de <em>src/features/</em>. Cada feature contém internamente uma divisão rígida em camadas, garantindo a Separação de Responsabilidades (SoC) e o isolamento lógico entre apresentação, controle, domínio e infraestrutura. O padrão interno de cada feature segue a seguinte estrutura:</p>
+<pre><code>features/[nome-da-feature]/
+├── components/    → Apresentação (UI React)
+├── hooks/         → Controle de Estados (client-side)
+├── services/      → Domínio e Regras de Negócio (server-side)
+├── types/         → DTOs e Schemas de Validação (Zod)
+├── repositories/  → Infraestrutura de Dados (Prisma ORM)
+└── actions.ts     → BFF Controller (Next.js Server Actions)
+</code></pre>
+<p>A árvore completa de features e a materialização física desse padrão em arquivos reais estão detalhadas na Seção 7.</p>
+<h2 id="43-representacao-visual-diagrama-de-pacotes">4.3 Representação Visual (Diagrama de Pacotes)<a class="headerlink" href="#43-representacao-visual-diagrama-de-pacotes" title="Permanent link">&para;</a></h2>
+<p>Esta subseção apresenta o Diagrama de Pacotes UML do sistema, consolidando visualmente a decomposição arquitetural descrita nas subseções anteriores. O diagrama ilustra o encapsulamento e o isolamento lógico das features, as dependências internas entre as camadas de cada módulo e as dependências externas controladas com os pacotes compartilhados de infraestrutura (Core/Infra) e de interface (Components/UI).</p>
+<blockquote>
+<p>Nota: O pacote <em>schemas/types</em> é importado pelos pacotes <em>server actions</em>, <em>services</em> e <em>repositories</em>.</p>
+</blockquote>
+<p><strong>Diagrama de Pacotes</strong></p>
+<p><img alt="Diagrama de Pacotes" src="../images/image2.png" /></p>
+<p><em>Fonte: Autores</em></p>
+<hr />
+<h1 id="5-visao-de-processo">5. Visão de Processo<a class="headerlink" href="#5-visao-de-processo" title="Permanent link">&para;</a></h1>
+<p>A visão de processos demonstra a dinâmica de execução do sistema em tempo de execução. O sistema possui dois fluxos críticos documentados: o fluxo de autenticação e autorização, que materializa o requisito de segurança (RNF01), e o fluxo de validação assíncrona de exercícios práticos, regido pelo limite estrito de desempenho de 3 segundos (RNF03).</p>
+<h2 id="51-fluxo-de-submissao-e-correcao-de-exercicios-practice-labs">5.1 Fluxo de Submissão e Correção de Exercícios (practice-labs)<a class="headerlink" href="#51-fluxo-de-submissao-e-correcao-de-exercicios-practice-labs" title="Permanent link">&para;</a></h2>
+<p>O fluxo crítico de validação assíncrona de exercícios práticos, regido pelo limite estrito de desempenho de 3 segundos (RNF03), ocorre por meio da seguinte sequência de processos integrados:</p>
+<ul>
+<li><strong>Gatilho do Usuário (Processo 1):</strong> O estudante acessa o laboratório prático (practice-labs), preenche um código sanitizado ou revisa um código de IA vulnerável e clica em 'Enviar Resposta'.</li>
+<li><strong>Requisição Segura (Processo 2):</strong> O cliente React envia os dados de forma assíncrona por meio de um método HTTP POST ou de uma Server Action criptografada para o servidor BFF do Next.js.</li>
+<li><strong>Filtro de Segurança (Processo 3):</strong> O middleware do Next.js intercepta a chamada, valida a sessão stateless do token JWT e verifica se o usuário possui permissão legal (perfil ativo) para submeter aquele teste.</li>
+<li><strong>Validação Lógica no BFF (Processo 4):</strong> O servidor BFF do Next.js executa o script de correção segura para avaliar as respostas do quiz ou checar o código de defesa submetido.</li>
+<li><strong>Persistência de Progresso (Processo 5):</strong> Caso a resposta esteja correta, o Next.js atualiza o histórico de progresso do estudante, na trilha do exercício, no banco relacional MySQL via Prisma ORM.</li>
+<li><strong>Feedback em Tempo Real (Processo 6):</strong> O BFF Next.js retorna o feedback formatado em JSON para o cliente React, que renderiza visualmente a animação de aprovação em menos de 3 segundos, mantendo a responsividade do layout.</li>
+</ul>
+<h3 id="511-representacao-dinamica-diagrama-de-sequencia">5.1.1 Representação Dinâmica (Diagrama de Sequência)<a class="headerlink" href="#511-representacao-dinamica-diagrama-de-sequencia" title="Permanent link">&para;</a></h3>
+<p>O Diagrama de Sequência (UML) abaixo descreve o comportamento dinâmico e o fluxo temporal de mensagens em tempo de execução para a submissão e correção de códigos vulneráveis ou revisões de IA no laboratório prático (practice-labs), regido pelo limite estrito de desempenho de até 3 segundos (RNF03). O diagrama detalha as chamadas síncronas e assíncronas nas camadas lógicas de software:</p>
+<ul>
+<li><strong>Estudante (Ator):</strong> Efetua a submissão do código reescrito para a defesa da falha.</li>
+<li><strong>React UI View (Apresentação):</strong> Dispara a Server Action criptografada de backend.</li>
+<li><strong>Next.js BFF Actions (BFF/Controle):</strong> Intercepta a chamada no Middleware, valida o token JWT e invoca o respectivo serviço de domínio.</li>
+<li><strong>PracticeLab Service (Domínio):</strong> Executa a lógica de negócio para conferir o gabarito ou auditar falhas.</li>
+<li><strong>Practice Repository (Infraestrutura):</strong> Chama os comandos do Prisma Client para salvar e confirmar o progresso.</li>
+<li><strong>MySQL DB Server (Dados):</strong> Registra a transação e confirma a alteração de progresso no ledger.</li>
+</ul>
+<p><strong>Diagrama de Sequência - Submissão de Exercício</strong></p>
+<p><img alt="Diagrama de Sequência - Submissão de Exercício" src="../images/image5.png" /></p>
+<p><em>Fonte: Autores</em></p>
+<h2 id="52-consumo-de-trilha-e-desbloqueio">5.2 Consumo de Trilha e Desbloqueio<a class="headerlink" href="#52-consumo-de-trilha-e-desbloqueio" title="Permanent link">&para;</a></h2>
+<p>Este processo ocorre sempre que o estudante consome uma pílula teórica ou finaliza a última etapa prática de uma trilha. A arquitetura delega a responsabilidade de auditar o avanço do aluno ao módulo student-ledger, que se comunica com o revision-center apenas quando o critério de 100% de conclusão é atingido.</p>
+<ul>
+<li><strong>Estudante (Ator):</strong> Marca uma leitura como concluída ou avança da última questão.</li>
+<li><strong>React UI View:</strong> Envia o evento de progresso para o servidor.</li>
+<li><strong>StudentLedger Service (Domínio):</strong> Registra a etapa concluída e verifica se todas as dependências da Trilha foram finalizadas.</li>
+<li><strong>Revision Service (Domínio):</strong> Invocado condicionalmente caso a trilha esteja 100% concluída, para liberar o Guia de Revisão atrelado.</li>
+</ul>
+<p><strong>Diagrama de Sequência - Consumo de Trilha e Desbloqueio</strong></p>
+<p><img alt="Diagrama de Sequência - Consumo de Trilha e Desbloqueio" src="../images/image7.png" /></p>
+<p><em>Fonte: Autores</em></p>
+<h2 id="53-fluxo-de-autenticacao-e-autorizacao">5.3 Fluxo de Autenticação e Autorização<a class="headerlink" href="#53-fluxo-de-autenticacao-e-autorizacao" title="Permanent link">&para;</a></h2>
+<p>O diagrama de sequência abaixo descreve o comportamento dinâmico do sistema para os dois processos centrais de segurança exigidos pelo <strong>RNF01</strong>: a autenticação do usuário no momento do login e a autorização contínua de acesso às rotas protegidas via validação de token JWT.</p>
+<p><strong>Processo 1 — Autenticação (Login):</strong></p>
+<ul>
+<li><strong>Estudante (Ator):</strong> Preenche email e senha e submete o formulário de login.</li>
+<li><strong>React UI View (Apresentação):</strong> Dispara a Server Action de login com os dados do formulário.</li>
+<li><strong>Server Action — actions.ts (BFF/Controle):</strong> Valida o input via LoginSchema (Zod). Em caso de dados inválidos, retorna erro de validação imediatamente.</li>
+<li><strong>Auth Service (Domínio):</strong> Recebe as credenciais validadas, aciona o repositório para localizar o usuário e compara a senha submetida com o hash armazenado via bcrypt.</li>
+<li><strong>Auth Repository (Infraestrutura):</strong> Executa a consulta ao banco MySQL via Prisma Client. Retorna o registro do usuário ou nulo caso não exista.</li>
+<li><strong>MySQL DB Server (Dados):</strong> Processa a consulta e retorna o registro correspondente ao email informado.</li>
+<li><strong>Security/JWT (Core/Infra):</strong> Em caso de credenciais válidas, assina um token JWT contendo o identificador e o perfil do usuário.</li>
+<li><strong>Server Action — actions.ts (BFF/Controle):</strong> Persiste o token em um cookie httpOnly e redireciona o cliente para a rota <code>/trails</code>.</li>
+</ul>
+<p><strong>Diagrama de Sequência - Processo de Autenticação/Login</strong></p>
+<p><img alt="Diagrama de Sequência - Processo de Autenticação/Login" src="../images/image9.png" /></p>
+<p><em>Fonte: Autores</em></p>
+<p><strong>Processo 2 — Autorização (Acesso a Rotas Protegidas):</strong></p>
+<ul>
+<li><strong>Estudante (Ator):</strong> Navega para qualquer rota do grupo <code>(protected)</code>.</li>
+<li><strong>Middleware Next.js (BFF/Controle):</strong> Intercepta a requisição antes da renderização da página, extrai o token JWT do cookie e aciona a verificação criptográfica.</li>
+<li><strong>Security/JWT (Core/Infra):</strong> Verifica a assinatura e a validade temporal do token. Retorna o payload decodificado ou lança erro em caso de token inválido ou expirado.</li>
+<li><strong>Middleware Next.js (BFF/Controle):</strong> Em caso de token válido, permite o acesso e a renderização da rota solicitada. Em caso de falha, redireciona o usuário para <code>/auth/login</code>.</li>
+</ul>
+<p><strong>Diagrama de Sequência - Processo de Autorização/Acesso</strong></p>
+<p><img alt="Diagrama de Sequência - Processo de Autorização/Acesso" src="../images/image3.png" /></p>
+<p><em>Fonte: Autores</em></p>
+<hr />
+<h1 id="6-visao-de-implantacao-deploy">6. Visão de Implantação (Deploy)<a class="headerlink" href="#6-visao-de-implantacao-deploy" title="Permanent link">&para;</a></h1>
+<p>A topologia de implantação física do sistema de microlearning adota uma infraestrutura centralizada e conteinerizada, hospedada em um servidor dedicado mantido pelo laboratório <strong>CEDIS</strong> da Universidade de Brasília (UnB). Esta abordagem garante controle total sobre o ambiente de execução, otimização de recursos e latência de rede quase nula entre os serviços internos:</p>
+<ul>
+<li><strong>Hospedagem Frontend/Backend (BFF):</strong> A aplicação modular Next.js é implantada no servidor do CEDIS utilizando a tecnologia Docker para o isolamento do ambiente de execução. O contêiner Node.js atua de forma contínua como o Backend-for-Frontend (BFF) da plataforma, processando dinamicamente as respostas SSR (Server-Side Rendering) e centralizando a execução das Server Actions, garantindo a entrega ágil e responsiva das interfaces aos dispositivos dos estudantes.</li>
+<li><strong>Base de Dados Relacional e Segurança:</strong> A persistência estruturada reside em um banco de dados relacional MySQL, instanciado como um contêiner independente e conectado ao BFF por meio de uma rede virtual interna do Docker (Docker Network). A comunicação entre a aplicação Next.js e o banco de dados ocorre de forma direta e protegida via protocolo TCP (porta interna 3306) utilizando o Prisma ORM. Essa topologia elimina a latência de rede externa característica de integrações em nuvem, sendo fundamental para o estrito cumprimento do tempo de resposta máximo de 3 segundos nas correções e submissões.</li>
+</ul>
+<p><strong>Diagrama de Implantação</strong></p>
+<p><img alt="Diagrama de Implantação" src="../images/image4.png" /></p>
+<p><em>Fonte: Autores</em></p>
+<hr />
+<h1 id="7-visao-de-implementacao">7. Visão de Implementação<a class="headerlink" href="#7-visao-de-implementacao" title="Permanent link">&para;</a></h1>
+<p>A organização física e as responsabilidades de desenvolvimento dentro de cada pasta de Feature seguem uma divisão interna rigorosa em seis camadas de software (Separation of Concerns). Isso previne que a lógica de banco de dados se misture com componentes visuais da UI:</p>
+<ul>
+<li><strong>1. Camada de Apresentação (Interface React.js):</strong> Composta por arquivos de componentes visuais (.tsx). Cuidam estritamente da renderização da interface e layout responsivo. Não possuem lógica de negócios, chamadas diretas a banco de dados ou consultas cruas de dados. Toda a estilização é injetada de forma declarativa via Tailwind CSS.</li>
+<li><strong>2. Camada de Controle e Estados (Custom Hooks / Context API):</strong> Contida em hooks customizados (ex: <code>useTrails.ts</code> ou <code>usePractice.ts</code>). Gerenciam os estados locais e globais reativos e encapsulam a chamada a funções assíncronas do servidor.</li>
+<li><strong>Camada de Domínio e Regras de Negócio (services/):</strong> Contém a lógica de negócio da feature rodando exclusivamente no lado do servidor. É aqui que valida-se regras, orquestra-se chamadas ao repositório e aplica-se a sanitização de dados antes da persistência.</li>
+<li><strong>Especificação de Dados (types/):</strong> Contém os DTOs (Data Transfer Objects) e Schemas de validação Zod que definem o contrato de dados compartilhado entre as camadas da feature. Garante consistência de tipos de ponta a ponta, do input do cliente até a persistência no banco.</li>
+<li><strong>Camada de BFF e Controle (actions.ts):</strong> Ponto de entrada server-side da feature. Valida o input via LoginSchema (Zod), aplica a verificação de autenticação e delega a execução para os respectivos serviços (<em>services</em>) de domínio.</li>
+<li><strong>Camada de Infraestrutura e Dados (Repositories / Prisma Clients):</strong> Camada isolada de persistência. Contém os arquivos responsáveis por mapear queries, filtros e conexões com as tabelas relacionais do MySQL usando os métodos do <em>Prisma Client</em>, aplicando o padrão de Repositório para blindar o restante do software de persistência.</li>
+</ul>
+<p>Para materializar as camadas a nível de código, abaixo especifica-se a árvore física de diretórios que materializa essa visão do software em produção:</p>
+<p><img alt="Árvore de diretórios em produção" src="../images/image8.png" /></p>
+<p><em>Fonte: Autores</em></p>
+<p>Dessa forma, a <strong>camada modular</strong> pode ser trabalhada com a divisão seguindo a seguinte árvore física de diretório, como exemplo da de autenticação:</p>
+<pre><code>features/auth/
+├── components/        # APRESENTAÇÃO (UI React)
+│   ├── sign-in.tsx
+│   ├── sign-up.tsx
+│   └── index.ts
+├── hooks/             # CONTROLE DE ESTADOS (Client-Side)
+│   ├── use-auth.ts    # Hook que gerencia o estado local reativo de login
+│   └── index.ts
+├── services/          # DOMÍNIO / REGRAS DE NEGÓCIO (Server-Side)
+│   ├── auth.ts        # Lógica de negócio (validações, bcrypt, tokens)
+│   └── index.ts
+├── types/             # ESPECIFICAÇÃO DE DADOS E SCHEMAS
+│   ├── auth.types.ts  # DTOs (Data Transfer Objects) e Schemas do Zod
+│   └── index.ts
+├── repositories/      # INFRAESTRUTURA DE DADOS (Prisma ORM &amp; MySQL)
+│   ├── auth.repository.tsx  # Consultas e escritas diretas via Prisma Client
+│   └── index.ts
+├── actions.ts         # BFF CONTROLLER (Next.js Server Actions)
+└── index.ts           # Ponto de exportação pública da Feature
+</code></pre>
+<hr />
+<h1 id="8-visao-de-dados">8. Visão de Dados<a class="headerlink" href="#8-visao-de-dados" title="Permanent link">&para;</a></h1>
+<p>O modelo lógico de dados relacional (MySQL) é projetado para garantir a integridade referencial das trilhas de aprendizado de desenvolvimento seguro e as regras de desbloqueio de conteúdo. A estrutura de tabelas e relacionamentos contempla as seguintes entidades e tabelas associativas:</p>
+<ul>
+<li><strong>Tabela User (Contas dos Usuários):</strong> Persiste o identificador único por email (PK), username, hash seguro de senha (password) e o papel do usuário no sistema (<em>role</em>, como <em>student</em> ou <em>admin</em>).</li>
+<li><strong>Tabela Track (Catálogo de Trilhas):</strong> Armazena o identificador da trilha (id PK), o tema principal abordado (theme) e a ordem de progressão (sequence).</li>
+<li><strong>Tabela Lesson (Pílulas de Conhecimento):</strong> Registra as lições teóricas associadas a uma trilha, contendo o identificador (id PK), título (title), conteúdo instrucional (text) e a chave estrangeira referenciando a trilha de origem (fk_Track_id).</li>
+<li><strong>Tabela Exercise (Questões Práticas de Lab):</strong> Registra as atividades e desafios práticos, persistindo o identificador (id PK), tipo de exercício (type), enunciado/código (command), a resposta/gabarito esperado (response) e a chave estrangeira vinculada à trilha (fk_Track_id).</li>
+<li><strong>Tabela ReviewContent (Guias de Revisão):</strong> Armazena o material complementar e cheatsheets desbloqueáveis, contendo id (PK), título (title), corpo do texto (text) e a chave estrangeira associada à respectiva trilha finalizada (fk_Track_id).</li>
+<li><strong>Tabela Takes (Progresso e Estado da Trilha):</strong> Tabela associativa que vincula User e Track com chave primária composta (fk_User_email, fk_Track_id). Registra o estado atual do estudante na trilha (status), data de conclusão (completed_at) e a liberação de acesso ao guia de revisão (unlocked_revision).</li>
+<li><strong>Tabela Answers (Desempenho em Exercícios):</strong> Tabela associativa que vincula User e Exercise com chave primária composta (fk_Exercise_id, fk_User_email). Utiliza contadores acumuladores para registrar se o exercício foi concluído (is_completed), total de tentativas (attempts_count), quantidade de acertos (correct_count), erros (incorrect_count) e a data da última submissão (last_answered_at).</li>
+</ul>
+<p>A seguir, encontram-se o Diagrama Entidade-Relacionamento (DER) e o Diagrama Lógico de Dados (DLD) correspondentes, estruturados conforme o mapeamento acima.</p>
+<p><strong>Diagrama Entidade-Relacionamento</strong></p>
+<p><img alt="Diagrama Entidade-Relacionamento" src="../images/image1.png" /></p>
+<p><em>Fonte: Autores</em></p>
+<p><strong>Diagrama Lógico de Dados</strong></p>
+<p><img alt="Diagrama Lógico de Dados" src="../images/image6.png" /></p>
+<p><em>Fonte: Autores</em></p>
+<hr />
+<h1 id="9-tamanho-e-performance">9. Tamanho e Performance<a class="headerlink" href="#9-tamanho-e-performance" title="Permanent link">&para;</a></h1>
+<p>Para assegurar o estrito cumprimento de <em>feedback</em> prático sob 3 segundos (RNF03), a arquitetura Next.js incorpora estratégias robustas de performance e dimensionamento de carga:</p>
+<ul>
+<li><strong>Server-Side Rendering (SSR) Dinâmico e Stateless:</strong> Prioriza-se a renderização no servidor (SSR) para a entrega dinâmica e em tempo real das pílulas teóricas, laboratórios práticos e painéis de progresso. De modo a mitigar o overhead de banco de dados e garantir escalabilidade linear horizontal (scaling out), o servidor BFF no Next.js é implementado de forma totalmente stateless, transferindo o estado de sessão para tokens JWT criptografados mantidos pelo cliente. Além disso, as consultas pesadas de dados ao banco relacional MySQL via Prisma ORM são encapsuladas por pools de conexões eficientes e chamadas assíncronas assentes, mantendo a latência geral de renderização bem abaixo do limite de 3 segundos exigido pelo RNF03.</li>
+<li><strong>Code Splitting e Lazy Loading Automáticos:</strong> Next.js decompõe o bundle Javascript em pedaços pequenos. O navegador do estudante carrega apenas os scripts necessários para a feature visualizada (ex: practice-labs), impedindo o desperdício de dados móveis no celular (RNF02).</li>
+</ul>
+<hr />
+<h1 id="10-qualidade">10. Qualidade<a class="headerlink" href="#10-qualidade" title="Permanent link">&para;</a></h1>
+<p>A arquitetura de software unificada e de feature isolada (folder-by-feature) maximiza os índices de qualidade do projeto sob três perspectivas principais de suporte de engenharia:</p>
+<ul>
+<li><strong>Manutenibilidade e Testabilidade (RNF04):</strong> Como cada módulo isola suas regras de domínio e chamadas de BFF, testes unitários e de integração podem ser desenvolvidos de forma isolada e localizados dentro da própria pasta da feature (ex: <code>/features/practice-labs/__tests__</code>).</li>
+<li><strong>Segurança e Auditoria do Código (RNF01):</strong> Ao longo do pipeline CI/CD no GitHub, devem ser executadas rotinas de análise estática de segurança (SAST) para auditar vulnerabilidades conhecidas no código, garantindo que a própria plataforma de suporte ao desenvolvimento seguro seja à prova de falhas graves.</li>
+<li><strong>Independência de Camadas:</strong> A separação estrita de camadas na feature isola falhas. Caso ocorra um erro de renderização gráfica ou CSS no painel responsivo, a camada controladora ou a consistência transacional do progresso no banco relacional MySQL via Prisma ORM continuará blindada e intacta.</li>
+</ul>
+
+
+
+
+
+
+
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Última atualização">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="26 de setembro de 2026 18:17:43 UTC">26 de setembro de 2026</span>
+  </span>
+
+    
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "search.suggest"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

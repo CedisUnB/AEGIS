@@ -1,0 +1,1372 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentação de arquitetura, processo e diretrizes de desenvolvimento seguro do TCC">
+      
+      
+      
+      
+        <link rel="prev" href="../../../architecture/software-architecture-document/">
+      
+      
+        <link rel="next" href="../sprint_2/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Sprint 1 - SecurityApp — Processo e Segurança</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#relatorio-da-sprint-1" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href="../../.." title="SecurityApp — Processo e Segurança" class="md-header__button md-logo" aria-label="SecurityApp — Processo e Segurança" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            SecurityApp — Processo e Segurança
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Sprint 1
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/<seu-usuario-ou-org>/<seu-repo>" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Abas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Início
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../architecture/software-architecture-document/" class="md-tabs__link">
+          
+  
+  
+  Arquitetura
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+  Processo
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../security/guidelines/" class="md-tabs__link">
+          
+  
+  
+  Segurança
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="SecurityApp — Processo e Segurança" class="md-nav__button md-logo" aria-label="SecurityApp — Processo e Segurança" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    SecurityApp — Processo e Segurança
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/<seu-usuario-ou-org>/<seu-repo>" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitetura
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Arquitetura
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../architecture/software-architecture-document/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DAS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Processo
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Processo
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sprints
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sprints
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sprint 1
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sprint 1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#informacoes-gerais" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Informações Gerais
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-planejamento-da-sprint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Planejamento da Sprint
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Planejamento da Sprint">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#historias-de-usuario-planejadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Histórias de Usuário Planejadas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#justificativa-da-escolha-do-escopo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Justificativa da Escolha do Escopo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-sprint-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Sprint Review
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Sprint Review">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#historias-de-usuario-validadas-entregues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Histórias de Usuário Validadas (Entregues)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#feedbacks-dos-stakeholders-orientador" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Feedbacks dos Stakeholders / Orientador
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-sprint-retrospective" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Sprint Retrospective
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Sprint Retrospective">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#o-que-funcionou-bem-continue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ✅ O que funcionou bem (Continue)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#o-que-impediu-o-progresso-stop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🛑 O que impediu o progresso (Stop)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#acoes-de-melhoria-para-a-proxima-sprint-act" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🚀 Ações de Melhoria para a Próxima Sprint (Act)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sprint_2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sprint 2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../template_de_sprint/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Template
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../strategies/estrategia_testes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estratégia de Testes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../strategies/estrategia_acompanhamento_projeto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plano de Métricas do Projeto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../requirements/docs_requisitos_v2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documento de Requisitos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Segurança
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Segurança
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../security/guidelines/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Diretrizes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../security/checklist-backend/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Checklist Backend
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../security/checklist-frontend/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Checklist Frontend
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../security/checklist-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Checklist API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../security/checklist-ai-usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Checklist Uso de IA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../security/references/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Referências
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="relatorio-da-sprint-1">Relatório da Sprint 1<a class="headerlink" href="#relatorio-da-sprint-1" title="Permanent link">&para;</a></h1>
+<h2 id="informacoes-gerais">Informações Gerais<a class="headerlink" href="#informacoes-gerais" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Sprint</th>
+<th style="text-align: center;">Período</th>
+<th style="text-align: center;">Data Reunião de Planejamento</th>
+<th style="text-align: center;">Data Reunião de Review</th>
+<th style="text-align: left;">Participantes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>1</strong></td>
+<td style="text-align: center;">07/09/26 - 20/09/26</td>
+<td style="text-align: center;">08/09/26</td>
+<td style="text-align: center;">21/09/26</td>
+<td style="text-align: left;">Pedro Henrique da Silva Melo e João Pedro Rodrigues Morbeck</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="1-planejamento-da-sprint">1. Planejamento da Sprint<a class="headerlink" href="#1-planejamento-da-sprint" title="Permanent link">&para;</a></h2>
+<div class="admonition abstract">
+<p class="admonition-title">Objetivo da Sprint</p>
+<p><strong>O que pretendemos entregar de valor prático nesta iteração para o software?</strong><br>
+Desenvolver as fundações de autenticação, gestão de contas e o motor de navegação e mapa interativo das trilhas (US01, US02, US03, US04, US05, US06 e US07).</p>
+</div>
+<h3 id="historias-de-usuario-planejadas">Histórias de Usuário Planejadas<a class="headerlink" href="#historias-de-usuario-planejadas" title="Permanent link">&para;</a></h3>
+<p><em><a href="https://github.com/CedisUnB/SecurityAPP/projects">Link para o Quadro do Projeto (GitHub Projects)</a></em></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">ID</th>
+<th style="text-align: left;">História de Usuário (US)</th>
+<th style="text-align: left;">Critérios de Aceitação / Como Demonstrar</th>
+<th style="text-align: center;">Status Final</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>US01</strong></td>
+<td style="text-align: left;">Como visitante, quero me cadastrar na plataforma de estudos para que eu possa criar uma conta de usuário e acessar os conteúdos.</td>
+<td style="text-align: left;">O formulário deve exigir username, email e senha. A senha deve possuir no mínimo 8 caracteres e no máximo 20, contendo ao menos uma letra maiuscula, uma letra minuscula, um número e um caracter especial. O email deve ser único, caso já esteja cadastrado, a aplicação deve retornar uma mensagem indicando que o email já foi cadastrado. A senha deve ser criptografada antes de ser armazenada no banco de dados. Após um cadastro com sucesso, a aplicação deve autenticar o usuário e direcionar para a página principal.</td>
+<td style="text-align: center;">✅ Entregue</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>US02</strong></td>
+<td style="text-align: left;">Como estudante, eu quero visualizar as informações do meu próprio perfil, para que eu possa conferir meus dados cadastrais.</td>
+<td style="text-align: left;">Deve exibir nome de usuário na barra de navegação. A tela deve exibir os dados do estudante: nome de usuário, e-mail, data de cadastro. Informações sensíveis (como senha ou tokens de autenticação) não devem ser exibidas nem expostas no payload da resposta da API. Apenas o usuário autenticado pode acessar a rota de perfil; requisições não autenticadas devem retornar código 401 Unauthorized.</td>
+<td style="text-align: center;">✅ Entregue</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>US03</strong></td>
+<td style="text-align: left;">Como estudante, eu quero editar as informações do meu perfil, para que eu possa manter meus dados atualizados.</td>
+<td style="text-align: left;">O usuário deve poder alterar nome, email e senha. A alteração de e-mail ou senha deve exigir reautenticação (invalidar o token e realizar o login novamente). Ao salvar as alterações com sucesso, o sistema deve exibir uma mensagem toast/notificação: "Perfil atualizado com sucesso" e refletir os novos dados imediatamente na interface. Caso a conexão falhe ou os dados sejam inválidos, o sistema deve manter os dados anteriores e exibir o erro correspondente sem limpar os campos preenchidos.</td>
+<td style="text-align: center;">✅ Entregue</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>US04</strong></td>
+<td style="text-align: left;">Como estudante, eu quero deletar a minha conta da plataforma, para que eu possa gerenciar a privacidade dos meus dados.</td>
+<td style="text-align: left;">O botão de exclusão deve acionar um modal de confirmação com aviso explícito de ação irreversível. Para confirmar a exclusão, o sistema deve exigir a digitação da senha atual do usuário. Após a confirmação, a sessão do usuário deve ser encerrada imediatamente, redirecionando-o para a página pública inicial com a mensagem: "Sua conta foi excluída com sucesso". Os dados pessoais devem passar por exclusão lógica (soft delete) com anonimização conforme as diretrizes da LGPD, revogando imediatamente todos os tokens de acesso ativos.</td>
+<td style="text-align: center;">✅ Entregue</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>US05</strong></td>
+<td style="text-align: left;">Como administrador, eu quero visualizar as informações da minha conta, para que eu possa conferir os dados do meu perfil administrativo.</td>
+<td style="text-align: left;">A tela deve exibir nome, e-mail cadastrado, nível de acesso/permissão administrativa (role) e último acesso registrado. O acesso a esta rota deve ser restrito exclusivamente a usuários com a role ADMIN; tentativas de acesso por estudantes comuns devem retornar 403 Forbidden.</td>
+<td style="text-align: center;">✅ Entregue</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>US06</strong></td>
+<td style="text-align: left;">Como estudante, eu quero acessar o catálogo de trilhas com visualização em cards, para que eu possa comparar os temas disponíveis e selecionar a trilha adequada aos meus objetivos de estudo.</td>
+<td style="text-align: left;">Cada trilha cadastrada deve ser exibida em um card contendo: título, descrição sumária e total de etapas/módulos. Caso não tenha trilhas cadastradas, a interface deve renderizar uma mensagem informativa de estado vazio (empty state), indicando que nenhuma trilha está disponível no momento. Ao clicar em um dos cards, a aplicação deve redirecionar a rota para a visualização do mapa daquela respectiva trilha.</td>
+<td style="text-align: center;">⏳ Pendente</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>US07</strong></td>
+<td style="text-align: left;">Como estudante, eu quero visualizar o fluxo da trilha estruturado em nós interativos (mapa) e carregar a tela de conteúdo ao acionar um nó selecionado, para que eu possa percorrer visualmente a sequência de tópicos e acessar o material didático de cada etapa.</td>
+<td style="text-align: left;">Todas as etapas/módulos devem ser dispostos visualmente como nós interativos interligados que representam o encadeamento do conteúdo. Ao clicar em um dos nós, a aplicação deve carregar na tela a visualização correspondente ao conteúdo/exercício daquela etapa. Ao retornar da visualização do nó, o sistema deve restaurar a visualização do mapa da trilha mantendo o foco/centralização no nó previamente selecionado.</td>
+<td style="text-align: center;">⏳ Pendente</td>
+</tr>
+</tbody>
+</table>
+<h3 id="justificativa-da-escolha-do-escopo">Justificativa da Escolha do Escopo<a class="headerlink" href="#justificativa-da-escolha-do-escopo" title="Permanent link">&para;</a></h3>
+<p>As histórias desta sprint foram selecionadas por se tratarem do fluxo de login e identificação inicial do usuário, que funciona como base de sessão necessária para que o restante das funcionalidades lógicas de trilhas e persistência de progresso consiga operar de forma segura no BFF Next.js, além de iniciar o desenvolvimento da parte mais fundamental da aplicação, esta sendo a navegação das trilhas de conhecimento.</p>
+<hr />
+<h2 id="2-sprint-review">2. Sprint Review<a class="headerlink" href="#2-sprint-review" title="Permanent link">&para;</a></h2>
+<h3 id="historias-de-usuario-validadas-entregues">Histórias de Usuário Validadas (Entregues)<a class="headerlink" href="#historias-de-usuario-validadas-entregues" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>US01</strong> – Como visitante, quero me cadastrar na plataforma de estudos para que eu possa criar uma conta de usuário e acessar os conteúdos.</li>
+<li><strong>US02</strong> – Como estudante, eu quero visualizar as informações do meu próprio perfil, para que eu possa conferir meus dados cadastrais.</li>
+<li><strong>US03</strong> – Como estudante, eu quero editar as informações do meu perfil, para que eu possa manter meus dados atualizados.</li>
+<li><strong>US04</strong> – Como estudante, eu quero deletar a minha conta da plataforma, para que eu possa gerenciar a privacidade dos meus dados.</li>
+<li><strong>US05</strong> – Como administrador, eu quero visualizar as informações da minha conta, para que eu possa conferir os dados do meu perfil administrativo.</li>
+</ul>
+<p><strong>Total de Pontos Entregues (Velocidade Real):</strong> De 7 histórias planejadas, 5 foram concluídas e entregues.</p>
+<h3 id="feedbacks-dos-stakeholders-orientador">Feedbacks dos Stakeholders / Orientador<a class="headerlink" href="#feedbacks-dos-stakeholders-orientador" title="Permanent link">&para;</a></h3>
+<p>O professor orientador sugeriu focar em como apresentar as trilhas, utilizando-se de apenas 1 trilha com conteúdo pronto como base para demonstrar como elas devem ser apresentadas e estruturadas para o usuário. </p>
+<p>Além disso, ficou sugerido de criar e definir essa estrutura de como apresentar as trilhas e realizar validações com os clientes do produto, e de que o painel de gestão do conteúdo precisa de atenção pensando no aspecto de como cadastrar os conteúdos, de fato, no produto.</p>
+<hr />
+<h2 id="3-sprint-retrospective">3. Sprint Retrospective<a class="headerlink" href="#3-sprint-retrospective" title="Permanent link">&para;</a></h2>
+<p><strong>Avaliação do processo de trabalho da dupla:</strong></p>
+<h3 id="o-que-funcionou-bem-continue">✅ O que funcionou bem (Continue)<a class="headerlink" href="#o-que-funcionou-bem-continue" title="Permanent link">&para;</a></h3>
+<ul>
+<li>O planejamento da sprint;</li>
+<li>A divisão de tarefas;</li>
+<li>Programação em pares;</li>
+<li>Comunicação;</li>
+<li>Descrição do kanban.</li>
+</ul>
+<h3 id="o-que-impediu-o-progresso-stop">🛑 O que impediu o progresso (Stop)<a class="headerlink" href="#o-que-impediu-o-progresso-stop" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Trabalhar nas trilhas e no app ficou pesado;</li>
+<li>Conciliação das atividades do projeto com questões pessoais e da faculdade;</li>
+<li>Falta de uma prototipação (pelo menos de baixa).</li>
+</ul>
+<h3 id="acoes-de-melhoria-para-a-proxima-sprint-act">🚀 Ações de Melhoria para a Próxima Sprint (Act)<a class="headerlink" href="#acoes-de-melhoria-para-a-proxima-sprint-act" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Estabelecer um processo de prototipação para as histórias e tarefas;</li>
+<li>Focar em trabalhar no app e sua estrutura enquanto refina-se apenas uma das trilhas para apresentação;</li>
+<li>Ajustar o Docker para instalar novas dependências ao inicializar o container;</li>
+<li>Ajustar o formulário de cadastro para informar as condições sobre a senha ao mesmo tempo que o usuário digita e adicionar um segundo campo para confirmar a senha.</li>
+</ul>
+<p><br></p>
+<p><em>Fonte: Autores (2026)</em></p>
+
+
+
+
+
+
+
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Última atualização">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="26 de setembro de 2026 00:37:45 UTC">26 de setembro de 2026</span>
+  </span>
+
+    
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "search.suggest"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

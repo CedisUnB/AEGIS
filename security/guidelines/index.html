@@ -1,0 +1,1632 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentação de arquitetura, processo e diretrizes de desenvolvimento seguro do TCC">
+      
+      
+      
+      
+        <link rel="prev" href="../../requirements/docs_requisitos_v2/">
+      
+      
+        <link rel="next" href="../checklist-backend/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Diretrizes - SecurityApp — Processo e Segurança</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#diretrizes-de-desenvolvimento-de-software-seguro" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href="../.." title="SecurityApp — Processo e Segurança" class="md-header__button md-logo" aria-label="SecurityApp — Processo e Segurança" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            SecurityApp — Processo e Segurança
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Diretrizes
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/<seu-usuario-ou-org>/<seu-repo>" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Abas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Início
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../architecture/software-architecture-document/" class="md-tabs__link">
+          
+  
+  
+  Arquitetura
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../process/sprints/sprint_1/" class="md-tabs__link">
+          
+  
+  
+  Processo
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+  Segurança
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="SecurityApp — Processo e Segurança" class="md-nav__button md-logo" aria-label="SecurityApp — Processo e Segurança" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    SecurityApp — Processo e Segurança
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/<seu-usuario-ou-org>/<seu-repo>" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitetura
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Arquitetura
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/software-architecture-document/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DAS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Processo
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Processo
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sprints
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sprints
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../process/sprints/sprint_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sprint 1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../process/sprints/sprint_2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sprint 2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../process/sprints/template_de_sprint/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Template
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../process/strategies/estrategia_testes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estratégia de Testes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../process/strategies/estrategia_acompanhamento_projeto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plano de Métricas do Projeto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../requirements/docs_requisitos_v2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documento de Requisitos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Segurança
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Segurança
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Diretrizes
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Diretrizes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-introducao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Introdução
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-planejamento-e-requisitos-de-seguranca" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Planejamento e Requisitos de Segurança
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Planejamento e Requisitos de Segurança">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-principio-do-esforco-proporcional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Príncipio do Esforço Proporcional
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-definicao-de-requisitos-de-seguranca" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Definição de Requisitos de Segurança
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-alocacao-de-esforco-para-seguranca" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Alocação de Esforço para Segurança
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-desenvolvimento-e-codificacao-segura" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Desenvolvimento e Codificação Segura
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Desenvolvimento e Codificação Segura">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-praticas-de-codificacao-segura-owasp-top-10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Práticas de Codificação Segura (OWASP Top 10)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-analise-estatica-de-seguranca-de-aplicacao-static-application-security-testing-sast" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Análise Estática de Segurança de Aplicação (Static Application Security Testing - SAST)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-analise-de-composicao-de-software-software-composition-analysis-sca" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Análise de Composição de Software ( Software Composition Analysis - SCA)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-qualidade-e-revisao-de-codigo-code-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Qualidade e Revisão de Código (Code Review)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-verificacao-e-testes-de-seguranca" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Verificação e Testes de Segurança
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Verificação e Testes de Segurança">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-testes-de-seguranca-no-plano-de-testes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Testes de Segurança no Plano de Testes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-analise-dinamica-de-seguranca-de-aplicacao-dynamic-application-security-testing-dast" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Análise Dinâmica de Segurança de Aplicação (Dynamic Application Security Testing - DAST)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-testes-manuais-de-seguranca" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Testes Manuais de Segurança
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-gestao-de-vulnerabilidades-e-incidentes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Gestão de Vulnerabilidades e Incidentes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Gestão de Vulnerabilidades e Incidentes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-ciclo-de-vida-da-vulnerabilidade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Ciclo de Vida da Vulnerabilidade
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5.1 Ciclo de Vida da Vulnerabilidade">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fluxo-de-tratativa-de-vulnerabilidades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fluxo de Tratativa de Vulnerabilidades
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-registro-e-rastreabilidade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Registro e Rastreabilidade
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-definicao-de-pronto-definition-of-done-dod-para-seguranca" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Definição de Pronto (Definition of Done - DoD) para Segurança
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Definição de Pronto (Definition of Done - DoD) para Segurança">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-dod-de-planejamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A - DoD de Planejamento:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-dod-de-desenvolvimento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B - DoD de Desenvolvimento:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-dod-de-verificacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C - DoD de Verificação:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-referencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Referências
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Referências">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#historico-de-versao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Histórico de Versão
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../checklist-backend/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Checklist Backend
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../checklist-frontend/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Checklist Frontend
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../checklist-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Checklist API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../checklist-ai-usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Checklist Uso de IA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../references/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Referências
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="diretrizes-de-desenvolvimento-de-software-seguro">Diretrizes de Desenvolvimento de Software Seguro<a class="headerlink" href="#diretrizes-de-desenvolvimento-de-software-seguro" title="Permanent link">&para;</a></h1>
+<h2 id="1-introducao">1. Introdução<a class="headerlink" href="#1-introducao" title="Permanent link">&para;</a></h2>
+<p>Estas diretrizes estabelecem o <em>framework</em> de referência para a integração de práticas de segurança em todo o ciclo de vida de desenvolvimento de software (SDLC). O objetivo é evoluir de um SDLC tradicional para um <strong>Secure Software Development Life Cycle (S-SDLC)</strong>, fundamentado nos princípios de <em>Security by Design</em> e <em>Shift-Left</em>, que preconiza a antecipação das atividades de segurança.</p>
+<p>As práticas aqui definidas são um componente intrínseco da qualidade do software. Elas devem ser adotadas pela equipe para garantir que, no contexto de agilidade do nosso desenvolvimento, a segurança não seja uma reflexão tardia, mas uma fundação sólida.</p>
+<p>Portanto, o alinhamento descrito nos tópicos a seguir apresenta um conjunto de atividades essenciais. Contudo, essas atividades não representam um rol taxativo, podendo suas aplicações serem remodeladas ou substituídas por ações que melhor se enquadrem no contexto do projeto. Já que, este documento é um guia vivo, e suas práticas podem ser adaptadas para melhor se adequarem ao contexto tecnológico e aos desafios específicos encontrados, desde que os princípios fundamentais de segurança não sejam comprometidos.</p>
+<h2 id="2-planejamento-e-requisitos-de-seguranca">2. Planejamento e Requisitos de Segurança<a class="headerlink" href="#2-planejamento-e-requisitos-de-seguranca" title="Permanent link">&para;</a></h2>
+<p>Mesmo em um processo ágil, a segurança deve ser considerada desde a concepção para evitar retrabalho e reduzir riscos.</p>
+<h3 id="21-principio-do-esforco-proporcional">2.1 Príncipio do Esforço Proporcional<a class="headerlink" href="#21-principio-do-esforco-proporcional" title="Permanent link">&para;</a></h3>
+<p>Reconhecemos que, em um ambiente de desenvolvimento ágil com uma equipe menor, é inviável aplicar todas as práticas de segurança de forma exaustiva. </p>
+<p>Portanto, adotamos <strong>o Princípio do Esforço Proporcional</strong>: </p>
+<ul>
+<li>o nível de profundidade das atividades de segurança deve ser proporcional ao risco percebido e à criticidade da funcionalidade que está sendo desenvolvida. A equipe deve, a cada ciclo, priorizar as ações de segurança que ofereçam o maior retorno de mitigação de risco com o esforço disponível.</li>
+</ul>
+<h3 id="22-definicao-de-requisitos-de-seguranca">2.2 Definição de Requisitos de Segurança<a class="headerlink" href="#22-definicao-de-requisitos-de-seguranca" title="Permanent link">&para;</a></h3>
+<p>Nosso ponto de partida para a segurança no planejamento será a definição de Requisitos de Segurança claros e objetivos. Eles representam as regras e restrições de segurança que o software deve cumprir.</p>
+<p>Para isso, os requisitos devem ser baseados em:</p>
+<ol>
+<li>
+<p><strong>Padrões de Mercado</strong>: Derivados de fontes como o OWASP Top 10, focando em prevenir as vulnerabilidades mais comuns;</p>
+<ul>
+<li><strong>Exemplo Prático</strong>: Se o OWASP aponta "Injeção" como um risco, um requisito derivado seria: "Toda entrada de usuário que interage com o banco de dados deve ser tratada usando consultas parametrizadas para prevenir SQL Injection."</li>
+</ul>
+</li>
+<li>
+<p><strong>Regras de Negócio</strong>: Requisitos de segurança que emergem da própria lógica da aplicação.</p>
+<ul>
+<li><strong>Exemplo Prático</strong>: Para uma funcionalidade de edição de perfil, um requisito seria: "Um usuário autenticado só pode visualizar e editar os dados do seu próprio perfil, não podendo acessar o perfil de outros usuários através da manipulação de IDs na URL."</li>
+</ul>
+</li>
+<li>
+<p><strong>Conformidade</strong>: Requisitos derivados de regulamentações aplicáveis.</p>
+<ul>
+<li><strong>Exemplo Prático</strong>: Com base na LGPD, um requisito seria: "O usuário deve ter a opção de solicitar a exclusão de todos os seus dados pessoais, e o sistema deve garantir a remoção completa ou a anonimização desses dados."</li>
+</ul>
+</li>
+<li>
+<p><strong>Tríade CIA</strong>: Os requisitos devem, fundamentalmente, buscar garantir os três pilares da segurança da informação:</p>
+<ul>
+<li><strong>Confidencialidade</strong>: Garantir que a informação seja acessível apenas por pessoas autorizadas.</li>
+<li><strong>Integridade</strong>: Proteger a exatidão e a completude da informação.</li>
+<li><strong>Disponibilidade</strong>: Assegurar que os usuários autorizados tenham acesso à informação sempre que necessário.</li>
+</ul>
+</li>
+</ol>
+<p>Além disso, todos os requisitos de segurança devem ser documentados de forma simples e direta (ex: como critério de aceite nas histórias de usuário) para que possam ser facilmente consultados durante o desenvolvimento e os testes.</p>
+<h3 id="23-alocacao-de-esforco-para-seguranca">2.3 Alocação de Esforço para Segurança<a class="headerlink" href="#23-alocacao-de-esforco-para-seguranca" title="Permanent link">&para;</a></h3>
+<p>As atividades de segurança devem ser planejadas como parte do trabalho regular, não como uma tarefa separada. Para isso, é ideal seguir o seguinte príncipio e atividades:</p>
+<ul>
+<li>
+<p><strong>Estimativa de Tempo</strong>: Ao estimar o esforço para uma nova funcionalidade, a equipe deve incluir o tempo necessário para as atividades de segurança associadas (pesquisa, implementação de defesas, testes). Recomenda-se uma alocação de <strong>10% a 15% do esforço total</strong> como ponto de partida para essa negociação.</p>
+<ul>
+<li><strong>Cenário Prático</strong>: Uma nova feature é estimada em 20 horas de desenvolvimento. Aplicando o princípio, a estimativa final é ajustada para 22 horas. Essas 2 horas adicionais não são um "buffer", mas um tempo alocado para atividades concretas.</li>
+</ul>
+</li>
+<li>
+<p><strong>Atividades Cobertas</strong>: Este tempo deve ser usado para:</p>
+<ul>
+<li>Pesquisar a forma mais segura de implementar uma funcionalidade.</li>
+<li>Implementar defesas e contramedidas específicas (ex: validações extras, sanitização de entradas).</li>
+<li>Realizar um <em>code review</em> mais detalhado com foco explícito em segurança</li>
+<li>Configurar e executar ferramentas de análise (SAST, DAST) para a nova funcionalidade.</li>
+<li>Criar e executar testes específicos para os requisitos de segurança.</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-desenvolvimento-e-codificacao-segura">3. Desenvolvimento e Codificação Segura<a class="headerlink" href="#3-desenvolvimento-e-codificacao-segura" title="Permanent link">&para;</a></h2>
+<p>A responsabilidade primária pela segurança do código reside na pessoa que o escreve. Pois, produzir código funcional não é suficiente, ele deve ser intrinsecamente seguro. Para isso, é fundamental ter conhecimento e noção dos tópicos seguintes.</p>
+<h3 id="31-praticas-de-codificacao-segura-owasp-top-10">3.1 Práticas de Codificação Segura (OWASP Top 10)<a class="headerlink" href="#31-praticas-de-codificacao-segura-owasp-top-10" title="Permanent link">&para;</a></h3>
+<p>A equipe deve conhecer e ativamente evitar as vulnerabilidades mais comuns, utilizando o <strong><a href="https://top10.owasp.org/2025/">OWASP Top 10 (Web, API ou Mobile, conforme aplicável)</a></strong> como guia principal durante a codificação. Ou seja, isso significa, na prática:
+    - Validar, sanitizar e codificar todas as entradas de dados;
+    - Aplicar o princípio do menor privilégio em todos os acessos;
+    - Usar mecanismos de autenticação e gerenciamento de sessão robustos;
+    - Garantir que a configuração de segurança do servidor e do <em>framework</em> esteja fortalecida;</p>
+<h3 id="32-analise-estatica-de-seguranca-de-aplicacao-static-application-security-testing-sast">3.2 Análise Estática de Segurança de Aplicação (Static Application Security Testing - SAST)<a class="headerlink" href="#32-analise-estatica-de-seguranca-de-aplicacao-static-application-security-testing-sast" title="Permanent link">&para;</a></h3>
+<p>O código-fonte deve ser inspecionado por ferramentas SAST de forma contínua.</p>
+<ul>
+<li><strong>Processo</strong>: A análise deve ser uma ação rotineira. Idealmente, integrada ao ambiente de desenvolvimento (via plugins de IDE) para dar feedback instantâneo e, mandatoriamente, como uma etapa no pipeline de CI/CD antes do <em>merge</em> de código</li>
+<li><strong>Ferramentas</strong>: Priorizar ferramentas de fácil integração como <strong>SonarQube</strong> ou linters de segurança específicos da linguagem (ex: <strong>ESLint</strong> com plugins de segurança para Typescript)</li>
+<li><strong>Tratativa</strong>: Vulnerabilidades críticas ou altas apontadas devem ser tratadas com a mesma prioridade de um bug que quebra a funcionalidade principal. A regra é: <strong>"Não se faz merge de código com vulnerabilidades críticas."</strong></li>
+</ul>
+<h3 id="33-analise-de-composicao-de-software-software-composition-analysis-sca">3.3 Análise de Composição de Software ( Software Composition Analysis - SCA)<a class="headerlink" href="#33-analise-de-composicao-de-software-software-composition-analysis-sca" title="Permanent link">&para;</a></h3>
+<p>As dependências de terceiros são uma extensão do nosso código e, frequentemente, uma porta de entrada para ataques.</p>
+<ul>
+<li><strong>Processo</strong>: A verificação de dependências deve ser automatizada e executada a cada nova adição de biblioteca e, de forma programada, em todo o projeto (ex: semanalmente).</li>
+<li><strong>Ferramentas</strong>: Utilizar ferramentas como <strong>OWASP Dependency-Check</strong> ou funcionalidades nativas de gerenciadores de pacotes (ex: npm audit, pip-audit, pip check).</li>
+<li><strong>Tratativa</strong>: A política para dependências vulneráveis é:<ol>
+<li><strong>Atualizar</strong>: Sempre opte por atualizar para uma versão que corrija a falha.</li>
+<li><strong>Substituir</strong>: Se a atualização quebrar a aplicação, procure uma biblioteca alternativa ou realize um downgrade de versão para um que seja mais estável.</li>
+<li><strong>Mitigar e Documentar</strong>: Se não for possível atualizar ou substituir, o risco deve ser analisado, possíveis mitigações devem ser aplicadas e a decisão de manter a dependência vulnerável deve ser documentada formalmente, com uma justificativa clara.</li>
+</ol>
+</li>
+</ul>
+<h3 id="34-qualidade-e-revisao-de-codigo-code-review">3.4 Qualidade e Revisão de Código (Code Review)<a class="headerlink" href="#34-qualidade-e-revisao-de-codigo-code-review" title="Permanent link">&para;</a></h3>
+<p>Todo novo código deve passar por uma revisão cruzada pelo outro membro da equipe.</p>
+<ul>
+<li><strong>Foco</strong>: A revisão não deve se limitar à lógica e estilo, mas deve incluir um <em>checklist</em> de segurança, verificando se as práticas de codificação segura foram aplicadas e se os requisitos de segurança foram atendidos. Por exemplo, o revisor deve se perguntar:<ul>
+<li>Este código atende aos requisitos de segurança definidos?</li>
+<li>Ele introduz alguma vulnerabilidade do OWASP Top 10?</li>
+<li>As entradas de dados estão sendo tratadas corretamente?</li>
+<li>A lógica de controle de acesso está correta e centralizada?</li>
+</ul>
+</li>
+<li><strong>Princípio</strong>: O código deve seguir os princípios de <em>Clean Code</em>. Um código limpo, legível e bem estruturado é mais fácil de auditar e manter, o que naturalmente reduz a probabilidade de erros de segurança</li>
+</ul>
+<p>Como guia, aqui estão registrados quais checklists devem ser utilizados como parte desta diretriz:</p>
+<ul>
+<li><a href="../checklist-frontend/">Checklist Frontend</a></li>
+<li><a href="../checklist-backend/">Checklist Backend</a></li>
+<li><a href="../checklist-api/">Checklist API</a></li>
+<li><a href="../checklist-ai-usage/">Checklist uso de Inteligência Artiticial</a></li>
+</ul>
+<h2 id="4-verificacao-e-testes-de-seguranca">4. Verificação e Testes de Segurança<a class="headerlink" href="#4-verificacao-e-testes-de-seguranca" title="Permanent link">&para;</a></h2>
+<p>Para verificar que há segurança no desenvolvimento, é necessário desenvolver testes que devem validar que a aplicação não apenas funciona como esperado, mas também que se defende como esperado.</p>
+<h3 id="41-testes-de-seguranca-no-plano-de-testes">4.1 Testes de Segurança no Plano de Testes<a class="headerlink" href="#41-testes-de-seguranca-no-plano-de-testes" title="Permanent link">&para;</a></h3>
+<p>Durante a fase de testes, devem ser criados e executados casos de teste que validem os requisitos de segurança e explorem vulnerabilidades comuns (baseadas no <strong>OWASP Top 10</strong>). Isso inclui testes de validação de entrada, quebra de controle de acesso, etc.</p>
+<ul>
+<li>
+<p><strong>Metodologia</strong>: Para cada requisito de segurança, deve haver ao menos um caso de teste positivo (verifica se a defesa funciona) e um negativo (verifica o que acontece ao tentar burlar a defesa).</p>
+</li>
+<li>
+<p><strong>Exemplo Prático</strong>: </p>
+<ul>
+<li><strong>Requisito</strong>: "O campo de busca deve prevenir XSS."</li>
+<li><strong>Teste Positivo</strong>: Inserir um termo de busca normal (ex: "produto A") e verificar se o resultado é o esperado.</li>
+<li><strong>Teste Negativo</strong>: Inserir uma string maliciosa (ex: <script>alert('XSS')</script>) e verificar se o script <strong>não</strong> é executado e se a entrada é tratada de forma segura (ex: exibida como texto simples ou bloqueada).</li>
+</ul>
+</li>
+<li>
+<p><strong>Outros Exemplos</strong>: Testes de validação de entrada (SQL Injection, XSS), quebra de controle de acesso, etc.</p>
+</li>
+</ul>
+<h3 id="42-analise-dinamica-de-seguranca-de-aplicacao-dynamic-application-security-testing-dast">4.2 Análise Dinâmica de Segurança de Aplicação (Dynamic Application Security Testing - DAST)<a class="headerlink" href="#42-analise-dinamica-de-seguranca-de-aplicacao-dynamic-application-security-testing-dast" title="Permanent link">&para;</a></h3>
+<p>A aplicação em execução deve ser testada com ferramentas DAST para encontrar vulnerabilidades em tempo de execução.</p>
+<ul>
+<li><strong>Processo</strong>: A análise DAST deve ser executada periodicamente ao final de cada Sprint contra um ambiente de homologação que seja uma réplica fiel do ambiente de produção.</li>
+<li><strong>Ferramentas</strong>: Recomenda-se o uso de ferramentas como <strong>OWASP ZAP (Zed Attack Proxy)</strong>, que possui modos de scan automatizados que podem ser facilmente integrados em scripts de teste.</li>
+</ul>
+<h3 id="43-testes-manuais-de-seguranca">4.3 Testes Manuais de Segurança<a class="headerlink" href="#43-testes-manuais-de-seguranca" title="Permanent link">&para;</a></h3>
+<p>Em vez de um <strong>teste de penetração</strong> formal, a equipe deve alocar tempo para realizar testes manuais de segurança focados. Isso envolve usar a aplicação de maneiras inesperadas, tentando manipular entradas e fluxos para identificar falhas de lógica de segurança que ferramentas automatizadas podem não encontrar, como as técnicas abaixo:</p>
+<ul>
+<li><strong>Técnicas</strong>:<ul>
+<li>Manipular parâmetros em URLs para tentar acessar dados não autorizados.</li>
+<li>Alterar valores em cookies ou no <strong>Local Storage</strong> para testar a lógica de sessão.</li>
+<li>Interromper e modificar requisições (usando um proxy como o do OWASP ZAP) para testar a validação do lado do servidor.</li>
+<li>Tentar explorar a lógica de negócio de formas não previstas (ex: aplicar um cupom de desconto múltiplas vezes).</li>
+</ul>
+</li>
+</ul>
+<h2 id="5-gestao-de-vulnerabilidades-e-incidentes">5. Gestão de Vulnerabilidades e Incidentes<a class="headerlink" href="#5-gestao-de-vulnerabilidades-e-incidentes" title="Permanent link">&para;</a></h2>
+<p>A descoberta de uma vulnerabilidade inicia um processo formal de tratamento.</p>
+<h3 id="51-ciclo-de-vida-da-vulnerabilidade">5.1 Ciclo de Vida da Vulnerabilidade<a class="headerlink" href="#51-ciclo-de-vida-da-vulnerabilidade" title="Permanent link">&para;</a></h3>
+<p>Toda vulnerabilidade identificada deve seguir o fluxo abaixo:</p>
+<h4 id="fluxo-de-tratativa-de-vulnerabilidades">Fluxo de Tratativa de Vulnerabilidades<a class="headerlink" href="#fluxo-de-tratativa-de-vulnerabilidades" title="Permanent link">&para;</a></h4>
+<ol>
+<li>
+<p><strong>Descoberta</strong>: A vulnerabilidade é identificada (via SAST, DAST, Teste de Penetração, Code Review, etc.)</p>
+</li>
+<li>
+<p><strong>Registro</strong>: É registrada como um "Bug" ou "Vulnerability" no <em>Github Projects</em>, com a tag security. O registro deve conter:</p>
+<ul>
+<li>Descrição clara da vulnerabilidade.</li>
+<li>Passos para reproduzi-la.</li>
+<li>Evidências (screenshots, logs, snippets de código).</li>
+<li>Onde foi encontrada (ex: "SAST na classe X", "Teste manual na tela Y").</li>
+</ul>
+</li>
+<li>
+<p><strong>Triagem e Priorização</strong>: A vulnerabilidade é analisada para confirmar sua validade e seu risco é calculado usando o <strong>CVSS (Common Vulnerability Scoring System)</strong>. Com base na pontuação, uma prioridade de correção é definida (ex: Crítica, Alta, Média, Baixa).</p>
+</li>
+<li>
+<p><strong>Correção</strong>: O bug é atribuído e uma correção é desenvolvida.</p>
+</li>
+<li>
+<p><strong>Verificação</strong>: O membro da equipe que não implementou a correção atua como verificador, tentando reproduzir a vulnerabilidade original para garantir que a correção foi eficaz e não introduziu novos problemas.</p>
+</li>
+<li>
+<p><strong>Fechamento</strong>: Após a verificação bem-sucedida, o registro da vulnerabilidade é formalmente fechado.</p>
+</li>
+</ol>
+<h3 id="52-registro-e-rastreabilidade">5.2 Registro e Rastreabilidade<a class="headerlink" href="#52-registro-e-rastreabilidade" title="Permanent link">&para;</a></h3>
+<p>Todo o trabalho relacionado à identificação e correção de vulnerabilidades deve ser devidamente registrado na <a href="">planilha de métricas do projeto</a>. O objetivo é permitir a análise de tendências, medir a eficácia das práticas de segurança e identificar onde o processo de desenvolvimento precisa de mais atenção.</p>
+<h2 id="6-definicao-de-pronto-definition-of-done-dod-para-seguranca">6. Definição de Pronto (Definition of Done - DoD) para Segurança<a class="headerlink" href="#6-definicao-de-pronto-definition-of-done-dod-para-seguranca" title="Permanent link">&para;</a></h2>
+<p>Para que uma <em>feature</em> ou história seja considerada "pronta", os seguintes critérios de segurança devem ser atendidos:</p>
+<h4 id="a-dod-de-planejamento">A - DoD de Planejamento:<a class="headerlink" href="#a-dod-de-planejamento" title="Permanent link">&para;</a></h4>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Os Requisitos de Segurança para a funcionalidade foram definidos e revisados pela equipe.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> O esforço para as atividades de segurança foi considerado na estimativa.</li>
+</ul>
+<h4 id="b-dod-de-desenvolvimento">B - DoD de Desenvolvimento:<a class="headerlink" href="#b-dod-de-desenvolvimento" title="Permanent link">&para;</a></h4>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> O código foi escrito prevenindo as vulnerabilidades aplicáveis do OWASP Top 10.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Uma análise SAST foi executada no novo código, e todas as vulnerabilidades críticas/altas foram corrigidas.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> As dependências foram verificadas (SCA) e não há vulnerabilidades críticas conhecidas sem um plano de mitigação documentado.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> O código passou pelo checklist de medidas de segurança correspondente.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> O código passou pela revisão cruzada, e o <em>feedback</em> de segurança foi incorporado.</li>
+</ul>
+<h4 id="c-dod-de-verificacao">C - DoD de Verificação:<a class="headerlink" href="#c-dod-de-verificacao" title="Permanent link">&para;</a></h4>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Os casos de teste que validam os requisitos de segurança foram executados e aprovados.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> (Quando aplicável) Uma análise DAST foi executada no ambiente de testes após a implementação da funcionalidade, e os resultados foram analisados.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Testes manuais exploratórios foram conduzidos nos novos fluxos da aplicação.</li>
+</ul>
+<h2 id="7-referencias">7. Referências<a class="headerlink" href="#7-referencias" title="Permanent link">&para;</a></h2>
+<p>Este documento foi construído com base em padrões de mercado, frameworks e boas práticas da indústria de segurança de software.</p>
+<p>Para uma lista detalhada de todas as fontes consultadas, incluindo livros, artigos e normas que fundamentam estas diretrizes, consulte nosso documento de referências.</p>
+<p><a href="../references/"><strong>Acessar a Lista Completa de Referências</strong></a></p>
+<h3 id="historico-de-versao">Histórico de Versão<a class="headerlink" href="#historico-de-versao" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Data</th>
+<th>Versão</th>
+<th>Descrição</th>
+<th>Autor</th>
+<th>Revisor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>26/09/26</td>
+<td>1.0</td>
+<td>Definição das Diretrizes de Desenvolvimento de Software Seguro</td>
+<td><a href="https://github.com/phmelosilva">Pedro Henrique</a></td>
+<td><a href="https://github.com/uMorbeck">João Pedro Morbeck</a></td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Última atualização">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="26 de setembro de 2026 18:12:59 UTC">26 de setembro de 2026</span>
+  </span>
+
+    
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "search.suggest"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

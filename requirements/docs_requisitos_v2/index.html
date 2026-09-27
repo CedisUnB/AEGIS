@@ -1,0 +1,1442 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentação de arquitetura, processo e diretrizes de desenvolvimento seguro do TCC">
+      
+      
+      
+      
+        <link rel="prev" href="../../process/strategies/estrategia_acompanhamento_projeto/">
+      
+      
+        <link rel="next" href="../../security/guidelines/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Documento de Requisitos - SecurityApp — Processo e Segurança</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#requisitos-nao-funcionais-rnf" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href="../.." title="SecurityApp — Processo e Segurança" class="md-header__button md-logo" aria-label="SecurityApp — Processo e Segurança" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            SecurityApp — Processo e Segurança
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Documento de Requisitos
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/<seu-usuario-ou-org>/<seu-repo>" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Abas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Início
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../architecture/software-architecture-document/" class="md-tabs__link">
+          
+  
+  
+  Arquitetura
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../process/sprints/sprint_1/" class="md-tabs__link">
+          
+  
+  
+  Processo
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../security/guidelines/" class="md-tabs__link">
+          
+  
+  
+  Segurança
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="SecurityApp — Processo e Segurança" class="md-nav__button md-logo" aria-label="SecurityApp — Processo e Segurança" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    SecurityApp — Processo e Segurança
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/<seu-usuario-ou-org>/<seu-repo>" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitetura
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Arquitetura
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/software-architecture-document/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DAS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Processo
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Processo
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sprints
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sprints
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../process/sprints/sprint_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sprint 1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../process/sprints/sprint_2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sprint 2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../process/sprints/template_de_sprint/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Template
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../process/strategies/estrategia_testes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estratégia de Testes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../process/strategies/estrategia_acompanhamento_projeto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plano de Métricas do Projeto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documento de Requisitos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Segurança
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Segurança
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security/guidelines/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Diretrizes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security/checklist-backend/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Checklist Backend
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security/checklist-frontend/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Checklist Frontend
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security/checklist-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Checklist API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security/checklist-ai-usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Checklist Uso de IA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security/references/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Referências
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="requisitos-nao-funcionais-rnf">Requisitos Não Funcionais (RNF)<a class="headerlink" href="#requisitos-nao-funcionais-rnf" title="Permanent link">&para;</a></h1>
+<p>Os Requisitos Não Funcionais especificam características e restrições de qualidade, desempenho, segurança e usabilidade do sistema como um todo. A seguir está listado os requisitos não funcionais elicitados pela tabela 1.</p>
+<p><strong>Tabela 1 – Requisitos Não Funcionais</strong></p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Categoria</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RNF01</td>
+<td>Segurança</td>
+<td>O sistema deve ser seguro, protegendo os dados dos usuários contra vulnerabilidades web e garantir controle de acesso restrito (impedindo que usuários acessem rotas do administrador).</td>
+</tr>
+<tr>
+<td>RNF02</td>
+<td>Usabilidade</td>
+<td>A interface da aplicação (feita em React) deve ser responsiva, adaptando-se perfeitamente a diferentes tamanhos de tela (desktop, tablets e smartphones).</td>
+</tr>
+<tr>
+<td>RNF03</td>
+<td>Desempenho</td>
+<td>O sistema deve processar o <em>feedback</em> das avaliações de código e quizzes com tempo de resposta de até 3 segundos.</td>
+</tr>
+<tr>
+<td>RNF04</td>
+<td>Suportabilidade</td>
+<td>A arquitetura do sistema deve ser projetada de forma modular e extensível, permitindo a implementação futura de novas features (funcionalidades) com o mínimo de impacto e refatoração no código existente.</td>
+</tr>
+<tr>
+<td>RNF05</td>
+<td>Implementação</td>
+<td>O ambiente de implantação/banco de dados deve ser configurado para que a única conta de administrador seja criada automaticamente durante a inicialização do sistema, tornando-a previamente disponível para uso.</td>
+</tr>
+</tbody>
+</table>
+<p><em>Fonte: Elaborada pelos autores.</em></p>
+<hr />
+<h1 id="requisitos-funcionais">Requisitos Funcionais<a class="headerlink" href="#requisitos-funcionais" title="Permanent link">&para;</a></h1>
+<p>Os Requisitos Funcionais especificam o que é esperado de funcionalidades e características que definem o sistema de software. Foi estabelecido 6 features distintas para a tabela 2 os requisitos funcionais estão especificados no formato de histórias de usuário.</p>
+<ul>
+<li>Feature 1: Autenticação e Gestão de Contas</li>
+<li>Feature 2: Motor de Navegação de Trilhas - Mapa de exibição Trilhas</li>
+<li>Feature 3: Painel de Progresso do Estudante</li>
+<li>Feature 4: Laboratório de Prática e Avaliação de Código - Exercícios</li>
+<li>Feature 5: Central de Consulta Rápida - Guias de Revisão</li>
+<li>Feature 6: Painel de Gestão e Métricas do Administrador - Registro dos Conteúdos</li>
+</ul>
+<p><strong>Tabela 2 – Requisitos Funcionais</strong></p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>ID</th>
+<th>Como um (a)... (Ator)</th>
+<th>Eu quero... (Ação)</th>
+<th>Para que... (Valor/Justificativa)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>US01</td>
+<td>Visitante</td>
+<td>Me cadastrar na plataforma de estudos</td>
+<td>Eu possa criar uma conta de usuário e acessar os conteúdos</td>
+</tr>
+<tr>
+<td>1</td>
+<td>US02</td>
+<td>Estudante</td>
+<td>Visualizar as informações do meu próprio perfil</td>
+<td>Eu possa conferir meus dados cadastrais</td>
+</tr>
+<tr>
+<td>1</td>
+<td>US03</td>
+<td>Estudante</td>
+<td>Editar as informações do meu perfil</td>
+<td>Eu possa manter meus dados atualizados</td>
+</tr>
+<tr>
+<td>1</td>
+<td>US04</td>
+<td>Estudante</td>
+<td>Deletar a minha conta da plataforma</td>
+<td>Eu possa gerenciar a privacidade dos meus dados.</td>
+</tr>
+<tr>
+<td>1</td>
+<td>US05</td>
+<td>Administrador</td>
+<td>Visualizar as informações da minha conta</td>
+<td>Eu possa conferir os dados do meu perfil administrativo.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>US06</td>
+<td>Estudante</td>
+<td>Acessar o catálogo de trilhas com visualização em cards</td>
+<td>Eu possa comparar os temas disponíveis e selecionar a trilha adequada aos meus objetivos de estudo.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>US07</td>
+<td>Estudante</td>
+<td>Visualizar o fluxo da trilha estruturado em nós interativos (mapa) e carregar a tela de conteúdo ao acionar um nó selecionado</td>
+<td>Eu possa percorrer visualmente a sequência de tópicos e acessar o material didático de cada etapa.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>US08</td>
+<td>Estudante</td>
+<td>Visualizar meu percentual de progresso específico em uma trilha</td>
+<td>Eu saiba o quanto falta para concluir o tema atual.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>US09</td>
+<td>Estudante</td>
+<td>Visualizar meu progresso geral consolidado</td>
+<td>Eu consiga acompanhar meu desempenho total na plataforma</td>
+</tr>
+<tr>
+<td>4</td>
+<td>US10</td>
+<td>Estudante</td>
+<td>Submeter respostas para exercícios práticos e receber validação</td>
+<td>Eu possa testar o conhecimento adquirido na prática.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>US11</td>
+<td>Estudante</td>
+<td>Acessar guias de revisão estruturados com base no tema</td>
+<td>Eu possa relembrar conceitos técnicos de forma rápida.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>US12</td>
+<td>Administrador</td>
+<td>Criar novas trilhas de conhecimento e guias de revisão</td>
+<td>Eu possa disponibilizar novos conteúdos para os estudantes.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>US13</td>
+<td>Administrador</td>
+<td>Visualizar as trilhas e guias já cadastrados</td>
+<td>Eu possa auditar e acompanhar o catálogo da plataforma.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>US14</td>
+<td>Administrador</td>
+<td>Editar o conteúdo e a estrutura das trilhas e guias</td>
+<td>Eu possa manter os materiais de apoio atualizados.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>US15</td>
+<td>Administrador</td>
+<td>Excluir trilhas de conhecimento e guias de revisão</td>
+<td>Eu possa remover conteúdos obsoletos ou incorretos</td>
+</tr>
+<tr>
+<td>6</td>
+<td>US16</td>
+<td>Administrador</td>
+<td>Acessar um painel métrico (dashboard) com dados de uso</td>
+<td>Eu possa remover conteúdos obsoletos ou incorretos</td>
+</tr>
+</tbody>
+</table>
+<p><em>Fonte: Elaborada pelos autores.</em></p>
+<hr />
+<h1 id="definicao-de-mvps-prioridade-moscow">Definição de MVPs – Prioridade MoSCoW<a class="headerlink" href="#definicao-de-mvps-prioridade-moscow" title="Permanent link">&para;</a></h1>
+<h2 id="1-criterios-de-priorizacao">1. Critérios de Priorização<a class="headerlink" href="#1-criterios-de-priorizacao" title="Permanent link">&para;</a></h2>
+<p>Para definir a priorização de quais Features e Histórias devem ser desenvolvidas primeiro, é utilizada a regra MoSCoW a partir de uma pontuação composta por três critérios: Valor de Negócio, Viabilidade e Facilidade de Implementação. Os três critérios são definidos na mesma direção — quanto maior a pontuação em cada eixo, maior a prioridade da Feature — de modo que a soma resulte em um valor consistente.</p>
+<h3 id="11-valor-de-negocio">1.1 Valor de Negócio<a class="headerlink" href="#11-valor-de-negocio" title="Permanent link">&para;</a></h3>
+<p>Definido numa escala de 1 a 5, resultante da soma de três critérios de pontuação binária:</p>
+<table>
+<thead>
+<tr>
+<th>Pergunta</th>
+<th>Pontos</th>
+<th>O que avaliar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>É necessário?</td>
+<td>2 pts</td>
+<td>A funcionalidade é indispensável para que o produto cumpra seu propósito central — sem ela, o MVP não funciona ou perde sentido.</td>
+</tr>
+<tr>
+<td>É urgente?</td>
+<td>2 pts</td>
+<td>Sua ausência bloqueia ou atrasa a validação de outras funcionalidades, ou atende a uma demanda crítica identificada na pesquisa com usuários (TCC1).</td>
+</tr>
+<tr>
+<td>É desejável?</td>
+<td>1 pt</td>
+<td>Melhora a experiência ou complementa o produto, mas sua ausência não compromete o funcionamento do MVP.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="12-viabilidade">1.2 Viabilidade<a class="headerlink" href="#12-viabilidade" title="Permanent link">&para;</a></h3>
+<p>Definida numa escala de 1 a 5, indicando o quanto a funcionalidade tem espaço para ser implementada sem preparação adicional de ambiente ou infraestrutura. Quanto maior a pontuação, mais viável é a funcionalidade no momento atual do projeto:</p>
+<table>
+<thead>
+<tr>
+<th>Pontuação</th>
+<th>Significado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Inviável no momento — depende de recursos/infraestrutura que ainda não existem.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Baixa viabilidade — exige preparação extensa (nova infraestrutura, pesquisa, integração externa).</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Viabilidade moderada — exige alguma preparação, mas com caminho claro.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Alta viabilidade — poucos ajustes de ambiente necessários.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Totalmente viável — pode ser implementada imediatamente, sem preparação adicional.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="13-facilidade-de-implementacao">1.3 Facilidade de Implementação<a class="headerlink" href="#13-facilidade-de-implementacao" title="Permanent link">&para;</a></h3>
+<p>Definida numa escala de 1 a 5, indicando o quão simples é desenvolver a funcionalidade. Este critério substitui o eixo originalmente nomeado "Complexidade", mantendo a mesma escala, porém invertendo o sentido da pontuação para alinhá-la à mesma direção dos demais critérios:</p>
+<table>
+<thead>
+<tr>
+<th>Pontuação</th>
+<th>Significado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Muito complexa — exige pesquisa técnica extensa ou integração com sistemas ainda não validados.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Complexa — exige esforço significativo de design técnico.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Complexidade moderada — esforço médio, com pontos de incerteza técnica.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Simples — implementação direta, poucos riscos técnicos.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Muito simples — praticamente direta, sem riscos técnicos relevantes.</td>
+</tr>
+</tbody>
+</table>
+<p><em>Nota metodológica: o eixo originalmente nomeado "Complexidade" pontuava o quão difícil era implementar a funcionalidade, o que invertia o sentido da soma — uma Feature mais complexa recebia nota mais alta, elevando indevidamente sua pontuação MoSCoW final. O eixo foi redefinido como Facilidade de Implementação, preservando a mesma escala de 1 a 5, porém alinhada na mesma direção de Valor de Negócio e Viabilidade, de modo que a soma dos três critérios reflita corretamente a prioridade da Feature.</em></p>
+<h2 id="2-tabela-de-priorizacao-moscow-atualizada">2. Tabela de Priorização MoSCoW (Atualizada)<a class="headerlink" href="#2-tabela-de-priorizacao-moscow-atualizada" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Valor de Negócio</th>
+<th>Viabilidade</th>
+<th>Facilidade de Implementação</th>
+<th>Pontuação</th>
+<th>MoSCoW</th>
+<th>MVP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F01</td>
+<td>5</td>
+<td>5</td>
+<td>3</td>
+<td>13</td>
+<td>Deve Ter</td>
+<td>MVP1</td>
+</tr>
+<tr>
+<td>F02</td>
+<td>5</td>
+<td>4</td>
+<td>2</td>
+<td>11</td>
+<td>Deveria Ter</td>
+<td>MVP1</td>
+</tr>
+<tr>
+<td>F03</td>
+<td>3</td>
+<td>3</td>
+<td>4</td>
+<td>10</td>
+<td>Deveria Ter</td>
+<td>MVP2</td>
+</tr>
+<tr>
+<td>F04</td>
+<td>5</td>
+<td>4</td>
+<td>1</td>
+<td>10</td>
+<td>Deveria Ter</td>
+<td>MVP1</td>
+</tr>
+<tr>
+<td>F05</td>
+<td>3</td>
+<td>4</td>
+<td>4</td>
+<td>11</td>
+<td>Deveria Ter</td>
+<td>MVP1</td>
+</tr>
+<tr>
+<td>F06</td>
+<td>3</td>
+<td>2</td>
+<td>3</td>
+<td>8</td>
+<td>Pode Ter</td>
+<td>MVP2</td>
+</tr>
+</tbody>
+</table>
+<p><em>Faixas de pontuação: 0–4 Não Ter · 5–8 Pode Ter · 9–12 Deveria Ter · 13–15 Deve Ter.</em></p>
+<center>
+
+Fonte: Elaborada pelos autores.
+
+</center>
+
+<h2 id="3-justificativa-da-composicao-do-mvp1">3. Justificativa da Composição do MVP1<a class="headerlink" href="#3-justificativa-da-composicao-do-mvp1" title="Permanent link">&para;</a></h2>
+<p>Embora F02 e F04 tenham migrado de "Deve Ter" para "Deveria Ter" após a correção da direção de pontuação do eixo de Facilidade de Implementação, ambas permanecem no MVP1 por dependência funcional direta: sem o Motor de Navegação de Trilhas (F02), o Estudante não consegue consumir nenhum conteúdo cadastrado, tornando o cadastro (F01) inútil isoladamente; sem o Laboratório de Prática (F04), o MVP se reduz a conteúdo passivo, sem a validação prática que constitui o diferencial da plataforma. A pontuação MoSCoW é um insumo de priorização, não uma regra mecânica de corte — a composição final do MVP1 combina a pontuação obtida com a análise de dependência funcional entre as Histórias de Usuário.</p>
+<h3 id="historico-de-versao">Histórico de Versão<a class="headerlink" href="#historico-de-versao" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Data</th>
+<th>Versão</th>
+<th>Descrição</th>
+<th>Autor</th>
+<th>Revisor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>27/09/26</td>
+<td>1.0</td>
+<td>Inclusão do documento no git pages</td>
+<td><a href="https://github.com/phmelosilva">Pedro Henrique</a></td>
+<td><a href="https://github.com/uMorbeck">João Pedro Morbeck</a></td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Última atualização">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="27 de setembro de 2026 19:46:23 UTC">27 de setembro de 2026</span>
+  </span>
+
+    
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "search.suggest"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

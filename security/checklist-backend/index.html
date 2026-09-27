@@ -1,0 +1,1408 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentação de arquitetura, processo e diretrizes de desenvolvimento seguro do TCC">
+      
+      
+      
+      
+        <link rel="prev" href="../guidelines/">
+      
+      
+        <link rel="next" href="../checklist-frontend/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Checklist Backend - SecurityApp — Processo e Segurança</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#checklist-de-seguranca-para-backend" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href="../.." title="SecurityApp — Processo e Segurança" class="md-header__button md-logo" aria-label="SecurityApp — Processo e Segurança" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            SecurityApp — Processo e Segurança
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Checklist Backend
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/<seu-usuario-ou-org>/<seu-repo>" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Abas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Início
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../architecture/software-architecture-document/" class="md-tabs__link">
+          
+  
+  
+  Arquitetura
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../process/sprints/sprint_1/" class="md-tabs__link">
+          
+  
+  
+  Processo
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../guidelines/" class="md-tabs__link">
+          
+  
+  
+  Segurança
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="SecurityApp — Processo e Segurança" class="md-nav__button md-logo" aria-label="SecurityApp — Processo e Segurança" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    SecurityApp — Processo e Segurança
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/<seu-usuario-ou-org>/<seu-repo>" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitetura
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Arquitetura
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/software-architecture-document/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DAS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Processo
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Processo
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sprints
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sprints
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../process/sprints/sprint_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sprint 1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../process/sprints/sprint_2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sprint 2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../process/sprints/template_de_sprint/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Template
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../process/strategies/estrategia_testes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estratégia de Testes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../process/strategies/estrategia_acompanhamento_projeto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plano de Métricas do Projeto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../requirements/docs_requisitos_v2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documento de Requisitos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Segurança
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Segurança
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guidelines/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Diretrizes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Checklist Backend
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Checklist Backend
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introducao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introdução
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-checagem-essencial-quick-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Checagem Essencial (Quick-Check)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Checagem Essencial (Quick-Check)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-validacao-de-entradas-no-servidor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Validação de Entradas no Servidor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-autenticacao-e-autorizacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Autenticação e Autorização
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-prevencao-contra-injecao-de-codigo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Prevenção Contra Injeção de Código
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-criptografia-de-dados-sensiveis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Criptografia de Dados Sensíveis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15-gerenciamento-de-sessao-seguro" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.5 Gerenciamento de Sessão Seguro
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-configuracoes-de-servidor-cabecalhos-e-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Configurações de Servidor, Cabeçalhos e APIs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Configurações de Servidor, Cabeçalhos e APIs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-configuracao-de-cabecalhos-http-de-seguranca" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Configuração de Cabeçalhos HTTP de Segurança
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-configuracao-segura-de-cookies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Configuração Segura de Cookies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-prevencao-de-cross-site-request-forgery-csrf-na-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Prevenção de Cross-Site Request Forgery (CSRF) na API
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-processos-e-boas-praticas-de-implementacao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Processos e Boas Práticas de Implementação
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Processos e Boas Práticas de Implementação">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-gerenciamento-de-dependencias-sca" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Gerenciamento de Dependências (SCA)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-logging-e-monitoramento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Logging e Monitoramento
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-aderencia-aos-requisitos-de-seguranca-do-projeto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Aderência aos Requisitos de Segurança do Projeto
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-outras-boas-praticas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Outras Boas Práticas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#historico-de-versao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Histórico de Versão
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../checklist-frontend/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Checklist Frontend
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../checklist-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Checklist API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../checklist-ai-usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Checklist Uso de IA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../references/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Referências
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="checklist-de-seguranca-para-backend">Checklist de Segurança para Backend<a class="headerlink" href="#checklist-de-seguranca-para-backend" title="Permanent link">&para;</a></h1>
+<h2 id="introducao">Introdução<a class="headerlink" href="#introducao" title="Permanent link">&para;</a></h2>
+<p>Este checklist detalha as medidas de segurança essenciais para o desenvolvimento, teste e publicação da camada de backend do nosso projeto. Ele serve como um guia prático para garantir que a lógica de negócio, o acesso a dados e as APIs sejam robustos e resilientes contra ameaças comuns.</p>
+<p>Cada item deve ser considerado uma parte integral do processo de desenvolvimento. Itens que não se aplicam a uma funcionalidade específica podem ser marcados como <strong>N/A (Não se Aplica)</strong>, com a devida justificativa documentada.</p>
+<hr />
+<h2 id="1-checagem-essencial-quick-check">1. Checagem Essencial (Quick-Check)<a class="headerlink" href="#1-checagem-essencial-quick-check" title="Permanent link">&para;</a></h2>
+<p>Esta seção cobre os pilares da segurança de backend e deve ser revisada a cada nova funcionalidade ou alteração significativa.</p>
+<h3 id="11-validacao-de-entradas-no-servidor">1.1 Validação de Entradas no Servidor<a class="headerlink" href="#11-validacao-de-entradas-no-servidor" title="Permanent link">&para;</a></h3>
+<p><em>O backend é a última e mais importante linha de defesa. Nenhuma entrada do cliente (frontend, mobile, etc.) pode ser considerada confiável.</em></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Validação Rigorosa:</strong> Todos os dados recebidos em endpoints (corpo da requisição, parâmetros de URL, cabeçalhos) são validados quanto ao tipo, formato, tamanho e intervalo de valores antes de serem processados pela lógica de negócio.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Rejeição de Dados Inválidos:</strong> A aplicação rejeita requisições com dados inválidos, retornando um código de erro HTTP apropriado (ex: <code>400 Bad Request</code>) com uma mensagem clara, sem expor detalhes internos da falha de validação.</li>
+</ul>
+<h3 id="12-autenticacao-e-autorizacao">1.2 Autenticação e Autorização<a class="headerlink" href="#12-autenticacao-e-autorizacao" title="Permanent link">&para;</a></h3>
+<p>Garantir que apenas os usuários certos possam realizar as ações certas.</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Autenticação Forte:</strong> Mecanismos de autenticação robustos e padronizados, como <strong>JWT</strong> ou <strong>OAuth 2.0</strong>, são utilizados para verificar a identidade do usuário.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Autorização em Todos os Endpoints:</strong> Cada endpoint que realiza uma ação verifica não apenas se o usuário está autenticado, mas também se ele tem as permissões necessárias para realizar aquela ação específica (ex: verificar se o usuário é "Admin" ou se é o "dono" do recurso que tenta modificar).</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Proteção Contra Força Bruta:</strong> O endpoint de login possui mecanismos para mitigar ataques de força bruta, como l<strong>imitação de tentativas</strong> (rate limiting) e, se possível, bloqueio temporário de conta após múltiplas falhas.</li>
+</ul>
+<h3 id="13-prevencao-contra-injecao-de-codigo">1.3 Prevenção Contra Injeção de Código<a class="headerlink" href="#13-prevencao-contra-injecao-de-codigo" title="Permanent link">&para;</a></h3>
+<p><em>A causa raiz de muitas das vulnerabilidades mais devastadoras.</em></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>SQL Injection:</strong> Todas as interações com o banco de dados são feitas exclusivamente através de um <strong>ORM (Object-Relational Mapper)</strong> ou, em casos de SQL bruto, com o uso mandatório de c<strong>onsultas parametrizadas (Prepared Statements)</strong>. Nenhuma string de SQL é construída por concatenação de entradas do usuário.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>OS Command Injection:</strong> A aplicação evita executar comandos no sistema operacional. Se for absolutamente necessário, a entrada do usuário nunca é usada diretamente para construir o comando.</li>
+</ul>
+<h3 id="14-criptografia-de-dados-sensiveis">1.4 Criptografia de Dados Sensíveis<a class="headerlink" href="#14-criptografia-de-dados-sensiveis" title="Permanent link">&para;</a></h3>
+<p><em>Proteger informações em repouso (no banco de dados) e em trânsito.</em></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Criptografia de Senhas (Hashing):</strong> Senhas de usuários <strong>NUNCA</strong> são armazenadas em texto plano. Elas são processadas com um algoritmo de hashing forte, lento e com "salt", como <strong>Argon2</strong> ou <strong>bcrypt</strong>.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Criptografia de Outros Dados Sensíveis:</strong> Se a aplicação armazena outros dados sensíveis (ex: tokens de API de terceiros), eles também devem ser criptografados no banco de dados.</li>
+</ul>
+<h3 id="15-gerenciamento-de-sessao-seguro">1.5 Gerenciamento de Sessão Seguro<a class="headerlink" href="#15-gerenciamento-de-sessao-seguro" title="Permanent link">&para;</a></h3>
+<p><em>Proteger a identidade do usuário após o login.</em></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Invalidação de Sessão:</strong> A aplicação fornece um mecanismo de logout que invalida o token JWT no lado do servidor (ex: usando uma blocklist).</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Tempo Limite de Sessão:</strong> Os tokens JWT possuem um tempo de expiração razoável (ex: 15 minutos para tokens de acesso, 7 dias para refresh tokens) para limitar a janela de oportunidade de um token roubado.</li>
+</ul>
+<h2 id="2-configuracoes-de-servidor-cabecalhos-e-apis">2. Configurações de Servidor, Cabeçalhos e APIs<a class="headerlink" href="#2-configuracoes-de-servidor-cabecalhos-e-apis" title="Permanent link">&para;</a></h2>
+<p>A forma como nosso servidor se apresenta e se comunica com o mundo é uma superfície de ataque crítica.</p>
+<h3 id="21-configuracao-de-cabecalhos-http-de-seguranca">2.1 Configuração de Cabeçalhos HTTP de Segurança<a class="headerlink" href="#21-configuracao-de-cabecalhos-http-de-seguranca" title="Permanent link">&para;</a></h3>
+<p>Instruir o navegador do cliente a se comportar de maneira mais segura.</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Content-Security-Policy (CSP):</strong> O backend envia um cabeçalho CSP para restringir de onde os recursos (scripts, estilos, fontes) podem ser carregados, mitigando ataques de XSS.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>HTTP Strict-Transport-Security (HSTS):</strong> O cabeçalho HSTS é enviado para forçar o navegador a se comunicar apenas via HTTPS, prevenindo ataques de downgrade.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>X-Frame-Options / frame-ancestors:</strong> O backend envia cabeçalhos para prevenir que a aplicação seja carregada dentro de um <code>&lt;iframe&gt;</code> em sites maliciosos, mitigando ataques de <em>Clickjacking</em>.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>X-Content-Type-Options:</strong> O cabeçalho é configurado como <code>nosniff</code> para prevenir que o navegador tente adivinhar o tipo de um recurso.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Ocultação de Informações:</strong> O servidor está configurado para não enviar cabeçalhos que revelem sua versão e tecnologia (ex: <code>X-Powered-By</code>, <code>Server</code>).</li>
+</ul>
+<h3 id="22-configuracao-segura-de-cookies">2.2 Configuração Segura de Cookies<a class="headerlink" href="#22-configuracao-segura-de-cookies" title="Permanent link">&para;</a></h3>
+<p><em>Se cookies são usados para gerenciar sessão, eles devem ser "blindados".</em></p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Atributo <code>HttpOnly</code>:</strong> O cookie de sessão é definido com <code>HttpOnly</code> para que não possa ser acessado por scripts JavaScript no navegador, protegendo contra roubo via XSS.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Atributo <code>Secure</code>:</strong> O cookie é definido com <code>Secure</code> para garantir que ele só seja enviado em requisições HTTPS.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Atributo <code>SameSite</code>:</strong> O cookie é configurado como <code>Lax</code> ou <code>Strict</code> para mitigar ataques de Cross-Site Request Forgery (CSRF).</li>
+</ul>
+<h3 id="23-prevencao-de-cross-site-request-forgery-csrf-na-api">2.3 Prevenção de Cross-Site Request Forgery (CSRF) na API<a class="headerlink" href="#23-prevencao-de-cross-site-request-forgery-csrf-na-api" title="Permanent link">&para;</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Técnica de Duplo Submit Cookie ou Token Sincronizador:</strong> O backend implementa e valida um mecanismo anti-CSRF para todas as requisições que modificam estado (<code>POST</code>, <code>PUT</code>, <code>DELETE</code>), garantindo que a requisição se origina de uma sessão de usuário legítima.</li>
+</ul>
+<h2 id="3-processos-e-boas-praticas-de-implementacao">3. Processos e Boas Práticas de Implementação<a class="headerlink" href="#3-processos-e-boas-praticas-de-implementacao" title="Permanent link">&para;</a></h2>
+<p>A segurança é um hábito, não um ato.</p>
+<h3 id="31-gerenciamento-de-dependencias-sca">3.1 Gerenciamento de Dependências (SCA)<a class="headerlink" href="#31-gerenciamento-de-dependencias-sca" title="Permanent link">&para;</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Verificação Contínua:</strong> Uma ferramenta de Análise de Composição de Software (SCA) (ex: <strong>OWASP Dependency-Check</strong>, npm audit) está integrada ao nosso pipeline ou é executada regularmente.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Política de Correção:</strong> Vulnerabilidades críticas ou altas em dependências são tratadas como bugs de alta prioridade e devem ser corrigidas ou mitigadas antes de um deploy.</li>
+</ul>
+<h3 id="32-logging-e-monitoramento">3.2 Logging e Monitoramento<a class="headerlink" href="#32-logging-e-monitoramento" title="Permanent link">&para;</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Logs de Auditoria:</strong> A aplicação gera logs para eventos de segurança relevantes (ex: tentativas de login falhas, sucesso no login, alteração de senha, acesso a recursos críticos).</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Não Registrar Dados Sensíveis:</strong> O sistema de log está configurado para <strong>NUNCA</strong> registrar informações sensíveis em texto plano (senhas, tokens, chaves de API, dados de cartão de crédito).</li>
+</ul>
+<h3 id="33-aderencia-aos-requisitos-de-seguranca-do-projeto">3.3 Aderência aos Requisitos de Segurança do Projeto<a class="headerlink" href="#33-aderencia-aos-requisitos-de-seguranca-do-projeto" title="Permanent link">&para;</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Conexão com o Planejamento:</strong> O backend da funcionalidade foi revisado em relação aos Requisitos de Segurança definidos na Seção 2 das <a href="../guidelines/">Diretrizes</a>, garantindo que as defesas necessárias foram implementadas.</li>
+</ul>
+<h3 id="34-outras-boas-praticas">3.4 Outras Boas Práticas<a class="headerlink" href="#34-outras-boas-praticas" title="Permanent link">&para;</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Não Usar Modo de Depuração:</strong> O modo de depuração do framework (<code>DEBUG=True</code>) está <strong>desabilitado</strong> no ambiente de produção para evitar o vazamento de informações de configuração sensíveis.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Limitar Uploads de Arquivos:</strong> Se a aplicação permite o upload de arquivos, há uma validação estrita do tipo de arquivo (MIME type), tamanho e um processo para escanear os arquivos em busca de malware.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <strong>Usar UUIDs:</strong> Para IDs de recursos expostos em APIs, preferimos usar UUIDs em vez de IDs numéricos sequenciais para prevenir ataques de enumeração (ex: <code>/api/users/1</code>, <code>/api/users/2</code>...).</li>
+</ul>
+<p><em>Fonte e Adaptação: Este checklist foi adaptado para o contexto do projeto a partir da obra derivada do "The ultimate security checklist for developers" de Julien Enselme, licenciado sob Creative Commons Attribution-ShareAlike.</em></p>
+<h3 id="historico-de-versao">Histórico de Versão<a class="headerlink" href="#historico-de-versao" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Data</th>
+<th>Versão</th>
+<th>Descrição</th>
+<th>Autor</th>
+<th>Revisor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>26/09/26</td>
+<td>1.0</td>
+<td>Criação do Checklist de Medidas de Segurança - Backend</td>
+<td><a href="https://github.com/phmelosilva">Pedro Henrique</a></td>
+<td><a href="https://github.com/uMorbeck">João Pedro Morbeck</a></td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Última atualização">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="26 de setembro de 2026 18:13:52 UTC">26 de setembro de 2026</span>
+  </span>
+
+    
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "toc.integrate", "search.suggest"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
