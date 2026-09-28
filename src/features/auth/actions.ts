@@ -9,13 +9,13 @@ import { getAuthErrorState } from "./errors";
 import { verifyToken } from "@/core/security";
 import { authRepository } from "./repositories/auth.repository";
 
-const TOKEN_AGE = 60 * 60 * 2; // 2 hours, same time of the signToken
+const TOKEN_AGE = 60 * 60 * 2; // 2 hours
 
 export type SignUpField = keyof SignUpInput;
 export type SignInField = keyof SignInInput;
 
 type ActionResponse<TData, TFields extends string = string> = 
-  | { success: true; data: TData; requiresReauth: boolean }
+  | { success: true; data: TData; requiresReauth: boolean; statusCode: number }
   | { success: false; error: string; fieldErrors?: Partial<Record<TFields, string>>; statusCode: number };
 
 export interface SignUpState {
@@ -185,7 +185,8 @@ export async function getProfileUserAction(): Promise<ActionResponse<UserProfile
     return {
       success: true,
       data: profile,
-      requiresReauth: false
+      requiresReauth: false,
+      statusCode: 200
     }
   } catch(err) {
     return {
@@ -251,6 +252,7 @@ export async function updateProfileUserAction(input: UpdateProfileInput): Promis
         success: true,
         data: updatedProfile,
         requiresReauth: true,
+        statusCode: 200
       };
     } else if (usernameChanged) {
       (await cookies()).delete("username");
@@ -267,6 +269,7 @@ export async function updateProfileUserAction(input: UpdateProfileInput): Promis
       success: true,
       data: updatedProfile,
       requiresReauth: false,
+      statusCode: 200
     };
   } catch (err) {
     return {
@@ -313,6 +316,7 @@ export async function deleteAccountAction(
       success: true,
       data: null,
       requiresReauth: true,
+      statusCode: 200
     };
   } catch (err) {
     if (err instanceof InvalidCredentialsError) {
@@ -353,7 +357,8 @@ export async function getAdminProfileAction(): Promise<ActionResponse<UserProfil
     return {
       success: true,
       data: profile,
-      requiresReauth: false
+      requiresReauth: false,
+      statusCode: 200
     };
   } catch (err) {
     if (err instanceof ForbiddenError) {
