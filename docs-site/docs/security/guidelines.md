@@ -2,7 +2,7 @@
 
 ## 1. Introdução
 
-Estas diretrizes estabelecem o *framework* de referência para a integração de práticas de segurança em todo o ciclo de vida de desenvolvimento de software (SDLC). O objetivo é evoluir de um SDLC tradicional para um **Secure Software Development Life Cycle (S-SDLC)**, fundamentado nos princípios de *Security by Design* e *Shift-Left*, que preconiza a antecipação das atividades de segurança.
+Estas diretrizes estabelecem o _framework_ de referência para a integração de práticas de segurança em todo o ciclo de vida de desenvolvimento de software (SDLC). O objetivo é evoluir de um SDLC tradicional para um **Secure Software Development Life Cycle (S-SDLC)**, fundamentado nos princípios de _Security by Design_ e _Shift-Left_, que preconiza a antecipação das atividades de segurança.
 
 As práticas aqui definidas são um componente intrínseco da qualidade do software. Elas devem ser adotadas pela equipe para garantir que, no contexto de agilidade do nosso desenvolvimento, a segurança não seja uma reflexão tardia, mas uma fundação sólida.
 
@@ -14,9 +14,9 @@ Mesmo em um processo ágil, a segurança deve ser considerada desde a concepçã
 
 ### 2.1 Príncipio do Esforço Proporcional
 
-Reconhecemos que, em um ambiente de desenvolvimento ágil com uma equipe menor, é inviável aplicar todas as práticas de segurança de forma exaustiva. 
+Reconhecemos que, em um ambiente de desenvolvimento ágil com uma equipe menor, é inviável aplicar todas as práticas de segurança de forma exaustiva.
 
-Portanto, adotamos **o Princípio do Esforço Proporcional**: 
+Portanto, adotamos **o Princípio do Esforço Proporcional**:
 
 - o nível de profundidade das atividades de segurança deve ser proporcional ao risco percebido e à criticidade da funcionalidade que está sendo desenvolvida. A equipe deve, a cada ciclo, priorizar as ações de segurança que ofereçam o maior retorno de mitigação de risco com o esforço disponível.
 
@@ -52,25 +52,28 @@ As atividades de segurança devem ser planejadas como parte do trabalho regular,
 - **Atividades Cobertas**: Este tempo deve ser usado para:
     - Pesquisar a forma mais segura de implementar uma funcionalidade.
     - Implementar defesas e contramedidas específicas (ex: validações extras, sanitização de entradas).
-    - Realizar um *code review* mais detalhado com foco explícito em segurança
+    - Realizar um _code review_ mais detalhado com foco explícito em segurança
     - Configurar e executar ferramentas de análise (SAST, DAST) para a nova funcionalidade.
     - Criar e executar testes específicos para os requisitos de segurança.
 
 ## 3. Desenvolvimento e Codificação Segura
+
 A responsabilidade primária pela segurança do código reside na pessoa que o escreve. Pois, produzir código funcional não é suficiente, ele deve ser intrinsecamente seguro. Para isso, é fundamental ter conhecimento e noção dos tópicos seguintes.
 
 ### 3.1 Práticas de Codificação Segura (OWASP Top 10)
-A equipe deve conhecer e ativamente evitar as vulnerabilidades mais comuns, utilizando o **[OWASP Top 10 (Web, API ou Mobile, conforme aplicável)](https://top10.owasp.org/2025/)** como guia principal durante a codificação. Ou seja, isso significa, na prática:
-    - Validar, sanitizar e codificar todas as entradas de dados;
-    - Aplicar o princípio do menor privilégio em todos os acessos;
-    - Usar mecanismos de autenticação e gerenciamento de sessão robustos;
-    - Garantir que a configuração de segurança do servidor e do *framework* esteja fortalecida;
+
+A equipe deve conhecer e ativamente evitar as vulnerabilidades mais comuns, utilizando o **[OWASP Top 10 (Web, API ou Mobile, conforme aplicável)](https://top10.owasp.org/2025/)** como guia principal durante a codificação. Ou seja, isso significa, na prática: 
+    
+  - Validar, sanitizar e codificar todas as entradas de dados; 
+  - Aplicar o princípio do menor privilégio em todos os acessos; 
+  - Usar mecanismos de autenticação e gerenciamento de sessão robustos; 
+  - Garantir que a configuração de segurança do servidor e do _framework_ esteja fortalecida;
 
 ### 3.2 Análise Estática de Segurança de Aplicação (Static Application Security Testing - SAST)
 
 O código-fonte deve ser inspecionado por ferramentas SAST de forma contínua.
 
-- **Processo**: A análise deve ser uma ação rotineira. Idealmente, integrada ao ambiente de desenvolvimento (via plugins de IDE) para dar feedback instantâneo e, mandatoriamente, como uma etapa no pipeline de CI/CD antes do *merge* de código
+- **Processo**: A análise deve ser uma ação rotineira. Idealmente, integrada ao ambiente de desenvolvimento (via plugins de IDE) para dar feedback instantâneo e, mandatoriamente, como uma etapa no pipeline de CI/CD antes do _merge_ de código
 - **Ferramentas**: Priorizar ferramentas de fácil integração como **SonarQube** ou linters de segurança específicos da linguagem (ex: **ESLint** com plugins de segurança para Typescript)
 - **Tratativa**: Vulnerabilidades críticas ou altas apontadas devem ser tratadas com a mesma prioridade de um bug que quebra a funcionalidade principal. A regra é: **"Não se faz merge de código com vulnerabilidades críticas."**
 
@@ -81,20 +84,20 @@ As dependências de terceiros são uma extensão do nosso código e, frequenteme
 - **Processo**: A verificação de dependências deve ser automatizada e executada a cada nova adição de biblioteca e, de forma programada, em todo o projeto (ex: semanalmente).
 - **Ferramentas**: Utilizar ferramentas como **OWASP Dependency-Check** ou funcionalidades nativas de gerenciadores de pacotes (ex: npm audit, pip-audit, pip check).
 - **Tratativa**: A política para dependências vulneráveis é:
-    1. **Atualizar**: Sempre opte por atualizar para uma versão que corrija a falha.
-    2. **Substituir**: Se a atualização quebrar a aplicação, procure uma biblioteca alternativa ou realize um downgrade de versão para um que seja mais estável.
-    3. **Mitigar e Documentar**: Se não for possível atualizar ou substituir, o risco deve ser analisado, possíveis mitigações devem ser aplicadas e a decisão de manter a dependência vulnerável deve ser documentada formalmente, com uma justificativa clara.
+  1. **Atualizar**: Sempre opte por atualizar para uma versão que corrija a falha.
+  2. **Substituir**: Se a atualização quebrar a aplicação, procure uma biblioteca alternativa ou realize um downgrade de versão para um que seja mais estável.
+  3. **Mitigar e Documentar**: Se não for possível atualizar ou substituir, o risco deve ser analisado, possíveis mitigações devem ser aplicadas e a decisão de manter a dependência vulnerável deve ser documentada formalmente, com uma justificativa clara.
 
 ### 3.4 Qualidade e Revisão de Código (Code Review)
 
 Todo novo código deve passar por uma revisão cruzada pelo outro membro da equipe.
 
-- **Foco**: A revisão não deve se limitar à lógica e estilo, mas deve incluir um *checklist* de segurança, verificando se as práticas de codificação segura foram aplicadas e se os requisitos de segurança foram atendidos. Por exemplo, o revisor deve se perguntar:
+- **Foco**: A revisão não deve se limitar à lógica e estilo, mas deve incluir um _checklist_ de segurança, verificando se as práticas de codificação segura foram aplicadas e se os requisitos de segurança foram atendidos. Por exemplo, o revisor deve se perguntar:
     - Este código atende aos requisitos de segurança definidos?
     - Ele introduz alguma vulnerabilidade do OWASP Top 10?
     - As entradas de dados estão sendo tratadas corretamente?
     - A lógica de controle de acesso está correta e centralizada?
-- **Princípio**: O código deve seguir os princípios de *Clean Code*. Um código limpo, legível e bem estruturado é mais fácil de auditar e manter, o que naturalmente reduz a probabilidade de erros de segurança
+- **Princípio**: O código deve seguir os princípios de _Clean Code_. Um código limpo, legível e bem estruturado é mais fácil de auditar e manter, o que naturalmente reduz a probabilidade de erros de segurança
 
 Como guia, aqui estão registrados quais checklists devem ser utilizados como parte desta diretriz:
 
@@ -113,10 +116,10 @@ Durante a fase de testes, devem ser criados e executados casos de teste que vali
 
 - **Metodologia**: Para cada requisito de segurança, deve haver ao menos um caso de teste positivo (verifica se a defesa funciona) e um negativo (verifica o que acontece ao tentar burlar a defesa).
 
-- **Exemplo Prático**: 
+- **Exemplo Prático**:
     - **Requisito**: "O campo de busca deve prevenir XSS."
     - **Teste Positivo**: Inserir um termo de busca normal (ex: "produto A") e verificar se o resultado é o esperado.
-    - **Teste Negativo**: Inserir uma string maliciosa (ex: <script>alert('XSS')</script>) e verificar se o script **não** é executado e se a entrada é tratada de forma segura (ex: exibida como texto simples ou bloqueada).
+    - **Teste Negativo**: Inserir uma string maliciosa (ex: `<script>alert('XSS')</script>`) e verificar se o script **não** é executado e se a entrada é tratada de forma segura (ex: exibida como texto simples ou bloqueada).
 
 - **Outros Exemplos**: Testes de validação de entrada (SQL Injection, XSS), quebra de controle de acesso, etc.
 
@@ -149,7 +152,7 @@ Toda vulnerabilidade identificada deve seguir o fluxo abaixo:
 
 1. **Descoberta**: A vulnerabilidade é identificada (via SAST, DAST, Teste de Penetração, Code Review, etc.)
 
-2. **Registro**: É registrada como um "Bug" ou "Vulnerability" no *Github Projects*, com a tag security. O registro deve conter:
+2. **Registro**: É registrada como um "Bug" ou "Vulnerability" no _Github Projects_, com a tag security. O registro deve conter:
     - Descrição clara da vulnerabilidade.
     - Passos para reproduzi-la.
     - Evidências (screenshots, logs, snippets de código).
@@ -169,20 +172,23 @@ Todo o trabalho relacionado à identificação e correção de vulnerabilidades 
 
 ## 6. Definição de Pronto (Definition of Done - DoD) para Segurança
 
-Para que uma *feature* ou história seja considerada "pronta", os seguintes critérios de segurança devem ser atendidos:
+Para que uma _feature_ ou história seja considerada "pronta", os seguintes critérios de segurança devem ser atendidos:
 
 #### A - DoD de Planejamento:
+
 - [ ] Os Requisitos de Segurança para a funcionalidade foram definidos e revisados pela equipe.
 - [ ] O esforço para as atividades de segurança foi considerado na estimativa.
 
 #### B - DoD de Desenvolvimento:
+
 - [ ] O código foi escrito prevenindo as vulnerabilidades aplicáveis do OWASP Top 10.
 - [ ] Uma análise SAST foi executada no novo código, e todas as vulnerabilidades críticas/altas foram corrigidas.
 - [ ] As dependências foram verificadas (SCA) e não há vulnerabilidades críticas conhecidas sem um plano de mitigação documentado.
 - [ ] O código passou pelo checklist de medidas de segurança correspondente.
-- [ ] O código passou pela revisão cruzada, e o *feedback* de segurança foi incorporado.
+- [ ] O código passou pela revisão cruzada, e o _feedback_ de segurança foi incorporado.
 
 #### C - DoD de Verificação:
+
 - [ ] Os casos de teste que validam os requisitos de segurança foram executados e aprovados.
 - [ ] (Quando aplicável) Uma análise DAST foi executada no ambiente de testes após a implementação da funcionalidade, e os resultados foram analisados.
 - [ ] Testes manuais exploratórios foram conduzidos nos novos fluxos da aplicação.
@@ -196,6 +202,7 @@ Para uma lista detalhada de todas as fontes consultadas, incluindo livros, artig
 [**Acessar a Lista Completa de Referências**](./references.md)
 
 ### Histórico de Versão
-Data     | Versão | Descrição | Autor | Revisor
--------- | ------ | --------- | ----- | ---------
-26/09/26 | 1.0 | Definição das Diretrizes de Desenvolvimento de Software Seguro | [Pedro Henrique](https://github.com/phmelosilva) | [João Pedro Morbeck](https://github.com/uMorbeck) 
+
+| Data     | Versão | Descrição                                                      | Autor                                            | Revisor                                           |
+| -------- | ------ | -------------------------------------------------------------- | ------------------------------------------------ | ------------------------------------------------- |
+| 26/09/26 | 1.0    | Definição das Diretrizes de Desenvolvimento de Software Seguro | [Pedro Henrique](https://github.com/phmelosilva) | [João Pedro Morbeck](https://github.com/uMorbeck) |
