@@ -8,25 +8,24 @@
 
 ### 1. Objetivo da Sprint
 
-*O que pretendemos entregar de valor prático nesta iteração para o software?*
-
-- **Objetivo:** Sendo a sprint que mais agrega valor ao cliente, o objetivo envolve desenvolver o motor de navegação e mapa interativo das trilhas (Feature 2), os laboratórios de prática, avaliação e apresentação de conteúdo (Feature 4).
-- Durante o planejamento e refinamento das histórias das Features 2 e 4, chegou-se a conclusão que a Feature 5 não agrega tanto valor quanto ao que foi atribuido anteriormente, assim foi feito uma atualização no MoSCoW e incluído uma funcionalidade de revisão ao permitir que o usuário acesse os conteúdos que já foram concluídos.
+!!! abstract "Objetivo da Sprint"
+    **O que pretendemos entregar de valor prático nesta iteração para o software?**<br>
+    Sendo a sprint que mais agrega valor ao cliente, o objetivo envolve desenvolver o motor de navegação e mapa interativo das trilhas (Feature 2), os laboratórios de prática, avaliação e apresentação de conteúdo (Feature 4).<br>Durante o planejamento e refinamento das histórias das Features 2 e 4, chegou-se a conclusão que a Feature 5 não agrega tanto valor quanto ao que foi atribuido anteriormente, assim foi feito uma atualização no MoSCoW e incluído uma funcionalidade de revisão ao permitir que o usuário acesse os conteúdos que já foram concluídos.
 
 ### Histórias de Usuário Planejadas
 
-- **Link para o Quadro do Projeto:** [GitHub Projects](https://github.com/users/uMorbeck/projects/3/views/1)
+- **Link para o Quadro do Projeto:** [GitHub Projects](https://github.com/CedisUnB/SecurityAPP/projects)
 
-| ID | História de Usuário (US) | Critérios de Aceitação / Como Demonstrar | Status Final |
-|---|---|---|---|
-| **US06** | Como um Estudante, eu quero acessar o catálogo de trilhas com visualização em cards, para que eu possa comparar os temas disponíveis e selecionar a trilha adequada aos meus objetivos de estudo. | | [Entregue / Cancelado / Pendente] |
-| **US07** | Como um Estudante, eu quero visualizar o fluxo da trilha estruturado em nós interativos (mapa), para que eu possa percorrer visualmente a sequência de tópicos e acessar o material didático de cada etapa. | | [Entregue / Cancelado / Pendente] |
-| **US08** | Como um Estudante, eu quero visualizar os nós que já concluí e estão disponíveis para revisão, para que eu possa acompanhar o meu progresso e acessar o material para revisar o que já aprendi. | | [Entregue / Cancelado / Pendente] |
-| **US09** | Como um Estudante, eu quero visualizar ao final da trilha um nó de teste final, para que eu possa entender o meu objetivo final na trilha e possa ter o meu conhecimento testado para concluir a trilha. | | [Entregue / Cancelado / Pendente] |
-| **US12** | Como um Estudante, eu quero acessar o conteúdo teórico do nó de leitura, para que eu possa aprender o conteúdo antes de iniciar os exercícios. | | [Entregue / Cancelado / Pendente] |
-| **US13** | Como um Estudante, eu quero acessar o conteúdo prático do nó de exercício, para que eu possa praticar o que aprendi do assunto e reforçar o meu conhecimento. | | [Entregue / Cancelado / Pendente] |
-| **US14** | Como um Estudante, eu quero acessar o teste final da trilha, para que eu possa testar o meu conhecimento e concluir a trilha. | | [Entregue / Cancelado / Pendente] |
-| **US15** | Como um Estudante, eu quero submeter respostas para exercícios práticos e receber validação, para que eu possa testar o conhecimento adquirido na prática. | | [Entregue / Cancelado / Pendente] |
+| Feature | ID | História de Usuário (US) | Critérios de Aceitação / Como Demonstrar | Status Final |
+|---|---|---|---|---|
+| 2 - Motor de Navegação de Trilhas | **US06** | Como um Estudante, eu quero acessar o catálogo de trilhas com visualização em cards, para que eu possa comparar os temas disponíveis e selecionar a trilha adequada aos meus objetivos de estudo. | | [Entregue / Cancelado / Pendente] |
+| 2 - Motor de Navegação de Trilhas | **US07** | Como um Estudante, eu quero visualizar o fluxo da trilha estruturado em nós interativos (mapa), para que eu possa percorrer visualmente a sequência de tópicos e acessar o material didático de cada etapa. | | [Entregue / Cancelado / Pendente] |
+| 2 - Motor de Navegação de Trilhas | **US08** | Como um Estudante, eu quero visualizar os nós que já concluí e estão disponíveis para revisão, para que eu possa acompanhar o meu progresso e acessar o material para revisar o que já aprendi. | | [Entregue / Cancelado / Pendente] |
+| 2 - Motor de Navegação de Trilhas | **US09** | Como um Estudante, eu quero visualizar um nó com teste final na conclusão da trilha, para que assim eu possa avaliar meus conhecimentos e objetivos atingidos para finalizar a trilha. | | [Entregue / Cancelado / Pendente] |
+| 3 - Apresentação e Prática de Conteúdos | **US12** | Como um Estudante, eu quero acessar o conteúdo teórico do nó de leitura, para que eu possa aprender o conteúdo antes de iniciar os exercícios. | | [Entregue / Cancelado / Pendente] |
+| 3 - Apresentação e Prática de Conteúdos | **US13** | Como um Estudante, eu quero acessar o conteúdo prático do nó de exercício, para que eu possa praticar o que aprendi do assunto e reforçar o meu conhecimento. | | [Entregue / Cancelado / Pendente] |
+| 3 - Apresentação e Prática de Conteúdos | **US14** | Como um Estudante, eu quero acessar o teste final da trilha, para que eu possa testar o meu conhecimento e concluir a trilha. | | [Entregue / Cancelado / Pendente] |
+| 3 - Apresentação e Prática de Conteúdos | **US15** | Como um Estudante, eu quero submeter respostas para exercícios práticos e receber validação, para que eu possa testar o conhecimento adquirido na prática. | | [Entregue / Cancelado / Pendente] |
 
 
 ### Justificativa da Escolha do Escopo
