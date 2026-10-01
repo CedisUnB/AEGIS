@@ -14,8 +14,6 @@ Os Requisitos Não Funcionais especificam características e restrições de qua
 
 *Fonte: Elaborada pelos autores.*
 
----
-
 ## Requisitos Funcionais
 
 Os Requisitos Funcionais especificam o que é esperado de funcionalidades e características que definem o sistema de software. Foi estabelecido 6 features distintas para a tabela 2 os requisitos funcionais estão especificados no formato de histórias de usuário.
@@ -23,7 +21,7 @@ Os Requisitos Funcionais especificam o que é esperado de funcionalidades e cara
 - Feature 1: Autenticação e Gestão de Contas
 - Feature 2: Motor de Navegação de Trilhas - Mapa de exibição Trilhas
 - Feature 3: Painel de Progresso do Estudante
-- Feature 4: Laboratório de Prática, Avaliação e Apresentação de conteúdo - Exercícios
+- Feature 4: Laboratório de Prática, Avaliação e Apresentação de Conteúdo - Exercícios e Conteúdos
 - Feature 5: Central de Consulta Rápida - Guias de Revisão
 - Feature 6: Painel de Gestão e Métricas do Administrador - Registro dos Conteúdos
 
@@ -47,15 +45,14 @@ Os Requisitos Funcionais especificam o que é esperado de funcionalidades e cara
 | 4 | US14 | Estudante | Acessar o teste final da trilha | Eu possa testar o meu conhecimento e concluir a trilha. |
 | 4 | US15 | Estudante | Submeter respostas para exercícios práticos e receber validação | Eu possa testar o conhecimento adquirido na prática. |
 | 5 | US16 | Estudante | Acessar guias de revisão estruturados com base no tema | Eu possa relembrar conceitos técnicos de forma rápida. |
-| 6 | US17 | Administrador | Criar novas trilhas de conhecimento e guias de revisão | Eu possa disponibilizar novos conteúdos para os estudantes. |
-| 6 | US18 | Administrador | Visualizar as trilhas e guias já cadastrados | Eu possa auditar e acompanhar o catálogo da plataforma. |
-| 6 | US19 | Administrador | Editar o conteúdo e a estrutura das trilhas e guias | Eu possa manter os materiais de apoio atualizados. |
-| 6 | US20 | Administrador | Excluir trilhas de conhecimento e guias de revisão | Eu possa remover conteúdos obsoletos ou incorretos |
+| 6 | US17 | Administrador | Criar novas trilhas de conhecimento | Eu possa disponibilizar novos conteúdos para os estudantes. |
+| 6 | US18 | Administrador | Visualizar as trilhas já cadastradas | Eu possa auditar e acompanhar o catálogo da plataforma. |
+| 6 | US19 | Administrador | Editar o conteúdo e a estrutura das trilhas | Eu possa manter os materiais de apoio atualizados. |
+| 6 | US20 | Administrador | Excluir trilhas de conhecimento | Eu possa remover conteúdos obsoletos ou incorretos |
 | 6 | US21 | Administrador | Acessar um painel métrico (dashboard) com dados de uso | Eu possa remover conteúdos obsoletos ou incorretos |
 
 *Fonte: Elaborada pelos autores.*
 
----
 ## Regras de negócio
 
 As regras de negócio são caracteristicas que descrevem um aspecto do negócio ou produto, definindo ou restringindo o seu comportamento ao interagir com o usuário ou o ambiente em que está exposto.
@@ -64,8 +61,6 @@ As regras de negócio são caracteristicas que descrevem um aspecto do negócio 
 - RN02 - Sistema de Conclusão de nó: O sistema deve definir a conclusão de um nó apenas caso, tenha a confirmação da leitura completa acionando o botão "Concluir" nos nós de leitura, ou a resolução correta de 60% dos exercícios em um nó de exercício.
 - RN03 - Consumo Integral de Conteúdo: O sistema deve exigir e monitorar que o estudante consuma integralmente todo o conteúdo do nó antes de poder avançar para o próximo nó.
 - RN04 - Sistema de conclusão de trilha: O sistema irá considerar a trilha concluída apenas caso o usuário conclua o nó de teste final com uma taxa de acerto de 80% das questões do teste.
-
----
 
 ## Definição de MVPs – Prioridade MoSCoW
 
@@ -114,11 +109,11 @@ Definida numa escala de 1 a 5, indicando o quão simples é desenvolver a funcio
 | Feature | Valor de Negócio | Viabilidade | Facilidade de Implementação | Pontuação | MoSCoW | MVP |
 |---|---|---|---|---|---|---|
 | F01 | 5 | 5 | 3 | 13 | Deve Ter | MVP1 |
-| F02 | 5 | 4 | 2 | 11 | Deveria Ter | MVP1 |
+| F02 | 5 | 4 | 4 | 13 | Deve Ter | MVP1 |
 | F03 | 3 | 3 | 4 | 10 | Deveria Ter | MVP2 |
-| F04 | 5 | 4 | 1 | 10 | Deveria Ter | MVP1 |
-| F05 | 3 | 4 | 4 | 11 | Deveria Ter | MVP1 |
-| F06 | 3 | 2 | 3 | 8 | Pode Ter | MVP2 |
+| F04 | 5 | 5 | 3 | 13 | Deve Ter | MVP1 |
+| F05 | 1 | 2 | 4 | 7 | Pode Ter | MVP3 |
+| F06 | 3 | 3 | 3 | 9 | Deveria Ter | MVP2 |
 
 *Faixas de pontuação: 0–4 Não Ter · 5–8 Pode Ter · 9–12 Deveria Ter · 13–15 Deve Ter.*
 
@@ -128,12 +123,16 @@ Fonte: Elaborada pelos autores.
 
 </center>
 
-### 3. Justificativa da Composição do MVP1
+#### Justificativa de Atualização do MoSCoW e Escopo do MVP1
+Durante a fase de detalhamento e refinamento das histórias de usuário, a equipe reavaliou o peso e a real necessidade de entrega de certas funcionalidades para o lançamento inicial, resultando nos seguintes ajustes estratégicos na matriz MoSCoW:
 
-Embora F02 e F04 tenham migrado de "Deve Ter" para "Deveria Ter" após a correção da direção de pontuação do eixo de Facilidade de Implementação, ambas permanecem no MVP1 por dependência funcional direta: sem o Motor de Navegação de Trilhas (F02), o Estudante não consegue consumir nenhum conteúdo cadastrado, tornando o cadastro (F01) inútil isoladamente; sem o Laboratório de Prática (F04), o MVP se reduz a conteúdo passivo, sem a validação prática que constitui o diferencial da plataforma. A pontuação MoSCoW é um insumo de priorização, não uma regra mecânica de corte — a composição final do MVP1 combina a pontuação obtida com a análise de dependência funcional entre as Histórias de Usuário.
+- **Despriorização da Feature 5 (Central de Consulta Rápida - Guias de Revisão)**: A equipe definiu que os conteúdos disponibilizados na plataforma terão um formato mais introdutório e direto. Por não apresentarem uma densidade ou profundidade técnica que exija guias de revisão complexos e estruturados neste primeiro momento, a funcionalidade deixou de agregar o valor inicialmente previsto. Seu Valor de Negócio foi reduzido, sendo reclassificada como "Pode Ter" e realocada para o MVP3.
+
+- **Elevação de Prioridade das Features 2 (Motor de Navegação) e 4 (Laboratório de Prática)**: Com a decisão de adiar a Feature 5, a equipe pôde focar no destrinchamento das Features 2 e 4 em histórias mais granulares, claras e executáveis. Por representarem o núcleo de valor da aplicação, permitindo que o estudante efetivamente navegue pelo mapa e consuma o ciclo de teoria e prática. As pontuações referentes à viabilidade e facilidade de implementação dessas funcionalidades foram ajustadas positivamente. Isso consolidou ambas como requisitos críticos e prioritários ("Deve Ter") para o sucesso do MVP1.
 
 ### Histórico de Versão
 Data     | Versão | Descrição | Autor | Revisor
 -------- | ------ | --------- | ----- | ---------
 27/09/26 | 1.0 | Inclusão do documento no git pages | [Pedro Henrique](https://github.com/phmelosilva) | [João Pedro Morbeck](https://github.com/uMorbeck) 
 29/09/26 | 1.1 | Alteração no nome da feature 4, adição das regras de negócio e mudanças nos requisitos funcionais das features 2 e 4 | [João Pedro Morbeck](https://github.com/uMorbeck) |  [Pedro Henrique](https://github.com/phmelosilva)
+01/10/26 | 1.2 | Despriorização da Feature 5 (Guias de Revisão), alteração do MoSCoW e ajustes nas Histórias de Usuário | [Pedro Henrique](https://github.com/phmelosilva) | [João Pedro Morbeck](https://github.com/uMorbeck)
