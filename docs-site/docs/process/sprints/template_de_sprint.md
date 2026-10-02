@@ -17,10 +17,10 @@
 
 [*Link para o Quadro do Projeto (GitHub Projects)*](https://github.com/inserir-link)
 
-| ID | História de Usuário (US) | Critérios de Aceitação / Como Demonstrar | Status Final | 
-| --- | --- | --- | --- | 
-| **US01** | Como visitante, quero me cadastrar na plataforma... | 1. Validação de formato de e-mail.<br>2. Criptografia da senha no MySQL via Prisma.<br>3. Redirecionamento para a tela `/learn`. | [Entregue / Cancelado / Pendente] | 
-| **US02** | Como usuário autenticado, quero consultar meu perfil... | 1. Exibir nickname na barra de navegação.<br>2. Permitir edição de nickname e imagem de perfil. | [Entregue / Cancelado / Pendente] | 
+| Feature | ID | História de Usuário (US) | Critérios de Aceitação / Como Demonstrar | Status Final | 
+|---| --- | --- | --- | --- | 
+| Feature 1 | **US01** | Como visitante, quero me cadastrar na plataforma... | 1. Validação de formato de e-mail.<br>2. Criptografia da senha no MySQL via Prisma.<br>3. Redirecionamento para a tela `/learn`. | [Entregue / Cancelado / Pendente] | 
+| Feature 2 | **US02** | Como usuário autenticado, quero consultar meu perfil... | 1. Exibir nickname na barra de navegação.<br>2. Permitir edição de nickname e imagem de perfil. | [Entregue / Cancelado / Pendente] | 
 
 ### Justificativa da Escolha do Escopo
 
