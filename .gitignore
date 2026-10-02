@@ -45,3 +45,9 @@ next-env.d.ts
 /generated/prisma
 /generated
 .github/skills
+
+# python virtual environment
+/.venv-docs
+
+#mkdocs
+/docs-site/site
