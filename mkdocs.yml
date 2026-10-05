@@ -19,8 +19,8 @@ plugins:
       locale: pt-BR
 
 markdown_extensions:
-  - admonition          # permite blocos de destaque (nota, aviso, dica)
-  - pymdownx.tasklist:  # permite checkboxes de verdade nos checklists
+  - admonition # permite blocos de destaque (nota, aviso, dica)
+  - pymdownx.tasklist: # permite checkboxes de verdade nos checklists
       custom_checkbox: true
   - toc:
       permalink: true
@@ -44,3 +44,4 @@ nav:
       - Checklist API: security/checklist-api.md
       - Checklist Uso de IA: security/checklist-ai-usage.md
       - Referências: security/references.md
+      - Avaliação da Feature 1: security/auditoria-seguranca-feature1.md # Realocar em outro tópico

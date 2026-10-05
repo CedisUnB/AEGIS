@@ -102,9 +102,15 @@ Usando o Princípio do Esforço Proporcional (`guidelines.md`, 2.1):
 
 ### Correções recomendadas
 
-- **Alto retorno e esforço baixo:** configurar cabeçalhos HTTP em `next.config.ts`; evitar devolver mensagens internas dos erros ao cliente; executar e documentar `npm audit`; adicionar indicador visual de força de senha.
-- **Esforço moderado:** implementar rate limiting no login e criar página/link de Política de Privacidade.
-- **Sessões:** a task “Implementar tokens access + refresh” trata a redução da janela de exposição do access token e a revogação do refresh token/sessão no logout. Isso ainda não está implementado. Um access token já emitido poderá continuar válido até expirar, salvo se também houver verificação de revogação.
+- **Alto retorno e esforço baixo:** 
+    - Configurar cabeçalhos HTTP em `next.config.ts`
+    - Evitar devolver mensagens internas dos erros ao cliente;
+    - Executar e documentar `npm audit`;
+    - Adicionar indicador visual de força de senha.
+- **Esforço moderado:** 
+    - Implementar rate limiting no login;
+    - Criar página/link de Política de Privacidade;
+    - Completar a task “Implementar tokens access + refresh” em que trata a redução da janela de exposição do access token e a revogação do refresh token/sessão no logout. Um access token já emitido poderá continuar válido até expirar, salvo se também houver verificação de revogação.
 
 ### Riscos aceitos
 
