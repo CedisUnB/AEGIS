@@ -2,7 +2,7 @@
 
 | Sprint | Período | Data Reunião de Planejamento | Data Reunião de Review | Participantes |
 |---|---|---|---|---|
-| 1 | 22/09/26 - 06/10/26 | 22/09/26 | dd/mm/yy | Pedro Henrique da Silva Melo e João Pedro Rodrigues Morbeck |
+| 1 | 22/09/26 - 06/10/26 | 22/09/26 | 06/10/26 | Pedro Henrique da Silva Melo e João Pedro Rodrigues Morbeck |
 
 ## Planejamento da Sprint
 
@@ -22,10 +22,10 @@
 | 2 - Motor de Navegação de Trilhas | **US07** | Como um Estudante, eu quero visualizar o fluxo da trilha estruturado em nós interativos (mapa), para que eu possa percorrer visualmente a sequência de tópicos e acessar o material didático de cada etapa. | 1. As etapas de uma trilha devem ser exibidas como nós interativos conectados visualmente, dispostos em um caminho sequencial lógico.<br>2. A estrutura de navegação deve obrigatoriamente intercalar os conteúdos: um nó teórico ligado a um nó de exercícios práticos, repetindo até o nó de teste final.<br>3. O nó correspondente à etapa mais avançada já alcançada pelo estudante deve ser visualmente destacado no mapa.<br>4. Ao clicar em um nó, a aplicação deve carregar a tela de conteúdo correspondente.<br>5. Ao retornar, o sistema deve restaurar a visualização do mapa com foco no nó previamente selecionado. | [Entregue / Cancelado / Pendente] |
 | 2 - Motor de Navegação de Trilhas | **US08** | Como um Estudante, eu quero visualizar os nós que já concluí e estão disponíveis para revisão, para que eu possa acompanhar o meu progresso e acessar o material para revisar o que já aprendi. | 1. Nós já concluídos pelo estudante devem ser visualmente diferenciados dos nós ainda não concluídos no mapa da trilha.<br>2. Ao clicar em um nó já concluído, o sistema deve permitir reabrir o mesmo conteúdo que foi apresentado no 1° acesso do nó.<br>3. O progresso geral da trilha (percentual ou contagem de nós concluídos) deve ficar visível para o estudante durante a navegação pelo mapa. | [Entregue / Cancelado / Pendente] |
 | 2 - Motor de Navegação de Trilhas | **US09** | Como um Estudante, eu quero visualizar um nó com teste final na conclusão da trilha, para que assim eu possa avaliar meus conhecimentos e objetivos atingidos para finalizar a trilha. | 1. Ao concluir todos os nós de conteúdo (leitura/exercício) de uma trilha, um nó de teste final deve se tornar disponível no mapa.<br>2. O nó de teste final deve ser visualmente distinto dos demais (ex: ícone ou cor específica), indicando se tratar da etapa avaliativa conclusiva.<br>3. Ao concluir o teste final com sucesso, a trilha deve ser marcada como concluída, refletindo esse status no catálogo (US06) e no mapa. | [Entregue / Cancelado / Pendente] |
-| 3 - Apresentação e Prática de Conteúdos | **US12** | Como um Estudante, eu quero acessar o conteúdo teórico do nó de leitura, para que eu possa aprender o conteúdo antes de iniciar os exercícios. | 1. O conteúdo teórico não deve ser exibido como um texto corrido extenso, mas sim distribuído em uma estrutura navegável e interativa (balão navegável com botões "Voltar" e "Próximo").<br>2. Ao alcançar o final do fluxo de leitura, o sistema deve exibir uma área dedicada às referências bibliográficas e leituras complementares daquele assunto.<br>3. O estudante deve poder marcar o nó como concluído após visualizá-lo.<br>4. Deve haver uma ação clara para avançar ao próximo nó (exercício) após a leitura. | [Entregue / Cancelado / Pendente] |
-| 3 - Apresentação e Prática de Conteúdos | **US13** | Como um Estudante, eu quero acessar o conteúdo prático do nó de exercício, para que eu possa praticar o que aprendi do assunto e reforçar o meu conhecimento. | 1. Ao acessar um nó de exercício, o sistema deve exibir os enunciados das questões práticas vinculadas àquele nó.<br>2. O estudante deve poder interagir com os campos de resposta conforme o tipo de exercício.<br>3. O sistema deve indicar visualmente quais exercícios já foram respondidos anteriormente, mesmo antes da submissão final. | [Entregue / Cancelado / Pendente] |
-| 3 - Apresentação e Prática de Conteúdos | **US14** | Como um Estudante, eu quero acessar o teste final da trilha, para que eu possa testar o meu conhecimento e concluir a trilha. | 1. O nó de teste final deve exibir todas as questões avaliativas da trilha em uma única sessão de teste.<br>2. O sistema deve impedir a submissão do teste caso alguma questão obrigatória não tenha sido respondida.<br>3. Ao concluir o teste, o estudante deve visualizar um resumo do resultado (pontuação, acertos e erros). | [Entregue / Cancelado / Pendente] |
-| 3 - Apresentação e Prática de Conteúdos | **US15** | Como um Estudante, eu quero submeter respostas para exercícios práticos e receber validação, para que eu possa testar o conhecimento adquirido na prática. | 1. Ao submeter uma resposta de exercício, o sistema deve validar e indicar imediatamente se está correta ou incorreta.<br>2. Caso a resposta esteja incorreta, o sistema deve oferecer a opção de tentar novamente ou visualizar feedback sobre o erro.<br>3. Respostas corretas devem ser persistidas associadas ao estudante e ao nó, para exibição em modo de revisão (US08). | [Entregue / Cancelado / Pendente] |
+| 4 - Apresentação e Prática de Conteúdos | **US12** | Como um Estudante, eu quero acessar o conteúdo teórico do nó de leitura, para que eu possa aprender o conteúdo antes de iniciar os exercícios. | 1. O conteúdo teórico não deve ser exibido como um texto corrido extenso, mas sim distribuído em uma estrutura navegável e interativa (balão navegável com botões "Voltar" e "Próximo").<br>2. Ao alcançar o final do fluxo de leitura, o sistema deve exibir uma área dedicada às referências bibliográficas e leituras complementares daquele assunto.<br>3. O estudante deve poder marcar o nó como concluído após visualizá-lo.<br>4. Deve haver uma ação clara para avançar ao próximo nó (exercício) após a leitura. | [Entregue / Cancelado / Pendente] |
+| 4 - Apresentação e Prática de Conteúdos | **US13** | Como um Estudante, eu quero acessar o conteúdo prático do nó de exercício, para que eu possa praticar o que aprendi do assunto e reforçar o meu conhecimento. | 1. Ao acessar um nó de exercício, o sistema deve exibir os enunciados das questões práticas vinculadas àquele nó.<br>2. O estudante deve poder interagir com os campos de resposta conforme o tipo de exercício.<br>3. O sistema deve indicar visualmente quais exercícios já foram respondidos anteriormente, mesmo antes da submissão final. | [Entregue / Cancelado / Pendente] |
+| 4 - Apresentação e Prática de Conteúdos | **US14** | Como um Estudante, eu quero acessar o teste final da trilha, para que eu possa testar o meu conhecimento e concluir a trilha. | 1. O nó de teste final deve exibir todas as questões avaliativas da trilha em uma única sessão de teste.<br>2. O sistema deve impedir a submissão do teste caso alguma questão obrigatória não tenha sido respondida.<br>3. Ao concluir o teste, o estudante deve visualizar um resumo do resultado (pontuação, acertos e erros). | [Entregue / Cancelado / Pendente] |
+| 4 - Apresentação e Prática de Conteúdos | **US15** | Como um Estudante, eu quero submeter respostas para exercícios práticos e receber validação, para que eu possa testar o conhecimento adquirido na prática. | 1. Ao submeter uma resposta de exercício, o sistema deve validar e indicar imediatamente se está correta ou incorreta.<br>2. Caso a resposta esteja incorreta, o sistema deve oferecer a opção de tentar novamente ou visualizar feedback sobre o erro.<br>3. Respostas corretas devem ser persistidas associadas ao estudante e ao nó, para exibição em modo de revisão (US08). | [Entregue / Cancelado / Pendente] |
 
 ### Justificativa da Escolha do Escopo
 
@@ -33,7 +33,19 @@ O motor de navegação das trilhas e o laboratório de exercícios são as prior
 
 ### Prototipação
 
-INSERIR AQUI
+Essa sprint foi utilizada para fazer a prototipação das telas correspondetes às features 2 e 4.
+
+![Protótipo da tela Home](../../images/prototipo_tela-home.jpg)
+<center>Fonte: Autores (2026)</center>
+
+![Protótipo da tela da trilha](../../images/prototipo_tela-trilha.jpg)
+<center>Fonte: Autores (2026)</center>
+
+![Protótipo da tela de conteúdo de leitura](../../images/prototipo_tela-leitura.jpg)
+<center>Fonte: Autores (2026)</center>
+
+![Protótipo da tela de conteúdo de exercício](../../images/prototipo_tela-exercicio.jpg)
+<center>Fonte: Autores (2026)</center>
 
 ### Feedbacks dos Stakeholders / Clientes / Orientador
 
@@ -59,15 +71,25 @@ A partir dessas validações, os seguintes pontos foram definidos em conjunto co
 
 ### Histórias de Usuário Validadas (Entregues)
 
-- 
+Nenhuma história planejada foi entregue, o foco da sprint se deu pelo planejamento e validação com o cliente sobre as features 2 e 4, reavaliação do MoSCoW e MVPs, além de desenvolver as diretrizes de segurança e ser efetuada a validação de segurança da entrega da sprint 1, com isso foram definidas múltiplas atividades técnicas e refinado os requisitos funcionais correspondentes às features em questão.
 
 ## 3. Sprint Retrospective
 
 *Avaliação do processo de trabalho da dupla:*
 
-- **O que funcionou bem (Continue):**
-- **O que impediu o progresso (Stop):**
-- **Ações de Melhoria para a Próxima Sprint (Act):**
+### ✅ O que funcionou bem (Continue)
+- Mapear as questões de segurança sobre o projeto, identificando fragilidades no processo e buscando garantir a segurança do software
+- Identificação das lacunas nos requisitos e planejamento das features 2 e 4
+- Feedback do cliente auxiliou a tirar dúvidas do que foi proposto para a aplicação
+- Nova formatação dos cards das histórias
+
+### 🛑 O que impediu o progresso (Stop)
+- Os requisitos demandaram muito tempo para serem refinados, avaliados e aprovados, consequentemente a execução atrasou
+- Pensar na segurança tardiamente, apesar de ser importante, essa é uma atividade que demanda muito esforço e a execução desta atividade não funcionou
+
+### 🚀 Ações de Melhoria para a Próxima Sprint (Act)
+- Paralelizar melhor a execução das atividades, reduzindo a dependencia dos dois membros da equipe para realização das atividades
+- Focar na execução adequada das atividades da sprint, evitando deixar o trabalho acumular de uma semana para outra da sprint
 
 ---
 
