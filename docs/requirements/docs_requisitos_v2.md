@@ -39,7 +39,7 @@ Os Requisitos Funcionais especificam o que é esperado de funcionalidades e cara
 | 2 | US08 | Estudante | Visualizar os nós que já concluí e estão disponíveis para revisão | Eu possa acompanhar o meu progresso e acessar o material para revisar o que já aprendi. |
 | 2 | US09 | Estudante | Visualizar ao final da trilha um nó de teste final | Eu possa entender o meu objetivo final na trilha e possa ter o meu conhecimento testado para concluir a trilha. |
 | 3 | US10 | Estudante | Visualizar meu percentual de progresso específico em uma trilha | Eu saiba o quanto falta para concluir o tema atual. |
-| 3 | US11 | Estudante | Visualizar meu progresso geral consolidado | Eu consiga acompanhar meu desempenho total na plataforma |
+| 3 | US11 | Estudante | Visualizar meu progresso geral consolidado | Eu consiga acompanhar meu desempenho total na plataforma. |
 | 4 | US12 | Estudante | Acessar o conteúdo teórico do nó de leitura | Eu possa aprender o conteúdo antes de iniciar os exercícios. |
 | 4 | US13 | Estudante | Acessar o conteúdo prático do nó de exercício | Eu possa praticar o que aprendi do assunto e reforçar o meu conhecimento. |
 | 4 | US14 | Estudante | Acessar o teste final da trilha | Eu possa testar o meu conhecimento e concluir a trilha. |

@@ -33,6 +33,7 @@ nav:
       - Sprints:
           - Sprint 1: process/sprints/sprint_1.md
           - Sprint 2: process/sprints/sprint_2.md
+          - Sprint 3: process/sprints/sprint_3.md
           - Template: process/sprints/template_de_sprint.md
       - Estratégia de Testes: process/strategies/estrategia_testes.md
       - Plano de Métricas do Projeto: process/strategies/estrategia_acompanhamento_projeto.md
