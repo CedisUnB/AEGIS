@@ -13,6 +13,22 @@ enum Role {
   admin
 }
 
+enum NodeType {
+  lesson
+  exercise
+}
+
+enum Status {
+  not_started
+  in_progress
+  completed
+}
+
+enum ExerciseType {
+  revision
+  test
+}
+
 model User {
   id        String    @id @default(uuid())
   email     String    @unique @db.VarChar(255)
@@ -23,6 +39,7 @@ model User {
   updatedAt DateTime  @updatedAt @map("updated_at")
   answers   Answers[]
   takes     Takes[]
+  progress  Progress[]
 
   @@map("users")
 }
@@ -30,58 +47,56 @@ model User {
 model Track {
   id             Int             @id @default(autoincrement())
   theme          String          @db.VarChar(150)
-  sequence       String          @db.VarChar(50)
   createdAt      DateTime        @default(now()) @map("created_at")
   updatedAt      DateTime        @updatedAt @map("updated_at")
-  exercises      Exercise[]
-  lessons        Lesson[]
-  reviewContents ReviewContent[]
   takes          Takes[]
+  trackNode      TrackNode[]
 
   @@map("tracks")
 }
 
 model Lesson {
-  id      Int    @id @default(autoincrement())
-  title   String @db.VarChar(200)
-  text    String @db.Text
-  trackId Int    @map("fk_track_id")
-  track   Track  @relation(fields: [trackId], references: [id], onDelete: Cascade)
+  id          Int         @id @default(autoincrement())
+  title       String      @db.VarChar(200)
+  json        Json        @db.Json
+  trackNodeId Int         @unique @map("fk_track_node_id")
+  trackNode   TrackNode   @relation(fields: [trackNodeId], references: [id], onDelete: Cascade)
 
-  @@index([trackId], map: "lessons_fk_track_id_fkey")
+  @@index([trackNodeId], map: "lessons_fk_track_node_id_fkey")
   @@map("lessons")
 }
 
 model Exercise {
-  id       Int       @id @default(autoincrement())
-  type     String    @db.VarChar(50)
-  command  String    @db.Text
-  response String    @db.VarChar(255)
-  trackId  Int       @map("fk_track_id")
-  answers  Answers[]
-  track    Track     @relation(fields: [trackId], references: [id], onDelete: Cascade)
+  id           Int            @id @default(autoincrement())
+  type         ExerciseType   @default(revision)
+  json         Json           @db.Json
+  trackNodeId  Int            @map("fk_track_node_id")
+  trackNode    TrackNode      @relation(fields: [trackNodeId], references: [id], onDelete: Cascade)
+  answers      Answers[]
 
-  @@index([trackId], map: "exercises_fk_track_id_fkey")
+  @@index([trackNodeId], map: "exercises_fk_track_node_id_fkey")
   @@map("exercises")
 }
 
-model ReviewContent {
-  id      Int    @id @default(autoincrement())
-  title   String @db.VarChar(200)
-  text    String @db.Text
-  trackId Int    @map("fk_track_id")
-  track   Track  @relation(fields: [trackId], references: [id], onDelete: Cascade)
+model TrackNode {
+  id           Int        @id @default(autoincrement())
+  trackId      Int        @map("fk_track_id")
+  nodeType     NodeType   @map("node_type")
+  orderIndex   Int        @map("order_index")
+  track        Track      @relation(fields: [trackId], references: [id], onDelete: Cascade)
+  lesson       Lesson?
+  exercises    Exercise[]
+  progress     Progress[]
 
-  @@index([trackId], map: "review_contents_fk_track_id_fkey")
-  @@map("review_contents")
+  @@index([trackId], map: "tracknode_fk_track_id_fkey")
+  @@map("track_nodes")
 }
 
 model Takes {
   userId           String    @map("fk_user_id") 
   trackId          Int       @map("fk_track_id")
-  status           String    @default("NOT_STARTED") @db.VarChar(50)
+  status           Status    @default(not_started)
   completedAt      DateTime? @map("completed_at")
-  unlockedRevision Boolean   @default(false) @map("unlocked_revision")
   track            Track     @relation(fields: [trackId], references: [id], onDelete: Cascade)
   user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -104,4 +119,21 @@ model Answers {
   @@id([exerciseId, userId])
   @@index([userId], map: "answers_fk_user_id_fkey")
   @@map("answers")
+}
+
+model Progress {
+  userId         String    @map("fk_user_id")
+  trackNodeId    Int       @map("fk_track_node_id")
+  isCompleted    Boolean   @default(false) @map("is_completed")
+  score          Int       @default(0)
+  attemptsCount  Int       @default(0) @map("attempts_count")
+  completedAt    DateTime? @map("completed_at")
+  unlockedAt     DateTime? @map("unlocked_at")
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  trackNode      TrackNode @relation(fields: [trackNodeId], references: [id], onDelete: Cascade)
+
+  @@id([userId, trackNodeId])
+  @@index([userId], map: "progress_fk_user_id_fkey")
+  @@index([trackNodeId], map: "progress_fk_track_node_id_fkey")
+  @@map("progress")
 }
