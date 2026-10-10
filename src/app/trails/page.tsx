@@ -1,8 +1,16 @@
+import { redirect } from "next/navigation";
+import { getSession } from "@/core/security";
 import { TrailsMap } from "@/features/trails-engine/components";
-import { listTrails } from "@/features/trails-engine/services";
+import { getCatalogAction } from "@/features/trails-engine/actions";
 
 export default async function TrailsPage() {
-  const trails = await listTrails();
+  const session = await getSession();
+
+  if (!session?.sub) {
+    redirect("/auth/login");
+  }
+
+  const trails = await getCatalogAction();
 
   return (
     <main className="px-4 py-8 bg-surface min-h-screen">

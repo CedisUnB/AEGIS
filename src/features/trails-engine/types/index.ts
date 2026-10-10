@@ -1,0 +1,1 @@
+export type { TrailCardDTO, TrailCatalogEntry } from "./trails.types";
