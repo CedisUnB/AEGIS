@@ -27,10 +27,16 @@ describe("TrailsMap", () => {
     );
   });
 
-  it("renders selectable trail nodes and progress only for started trails", () => {
+  it("renders selectable trail cards and progress only for started trails", () => {
     const markup = renderToStaticMarkup(
       <TrailsMap trails={trailCatalogFixture} />,
     );
+    const mobileCardsMarkup = markup.match(
+      /<ul aria-label="Trilhas disponíveis"[^>]*>([\s\S]*?)<\/ul>/,
+    )?.[1];
+    const orbitCardsMarkup = markup.match(
+      /<ul aria-label="Trilhas ao redor da bússola"[^>]*>([\s\S]*?)<\/ul>/,
+    )?.[1];
 
     expect(markup).toContain("Segurança Web");
     expect(markup).toContain("8 etapas");
@@ -40,8 +46,15 @@ describe("TrailsMap", () => {
     expect(markup).toContain("5 etapas");
     expect(markup).not.toContain("0/5 concluídos");
     expect(markup).toContain("🧭");
+    expect(markup).toContain("bg-surface-alt");
+    expect(markup).toContain("text-foreground");
+    expect(markup).toContain("border-border");
+    expect(markup).toContain("text-accent");
     expect(markup).toContain('class="md:hidden"');
     expect(markup).toContain('class="hidden md:block"');
+    expect(mobileCardsMarkup).toContain("min-h-28");
+    expect(mobileCardsMarkup).toContain("flex-row");
+    expect(orbitCardsMarkup).toContain("aspect-square");
   });
 
   it("keeps trails beyond the compass ring available in a separate grid", () => {
