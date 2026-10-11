@@ -19,6 +19,30 @@ describe("describeTheme", () => {
       "Conheça as vulnerabilidades mais críticas de aplicações web e como preveni-las na prática.",
     ],
     ["SQL Injection", "Como lidar com injeções de código."],
+    [
+      "Proteção de Dados",
+      "Conheça princípios de privacidade, tratamento responsável de dados e medidas para protegê-los.",
+    ],
+    [
+      "Autenticação e Identidade",
+      "Explore autenticação, autorização, gestão de sessões e proteção de credenciais.",
+    ],
+    [
+      "Segurança de APIs",
+      "Pratique a proteção de APIs, validação de entradas e controle de acesso a recursos.",
+    ],
+    [
+      "Criptografia Aplicada",
+      "Entenda como usar mecanismos criptográficos para proteger informações e comunicações.",
+    ],
+    [
+      "Desenvolvimento Seguro",
+      "Aplique práticas de segurança ao longo do ciclo de desenvolvimento de software.",
+    ],
+    [
+      "Segurança em Nuvem",
+      "Explore controles e boas práticas para proteger aplicações e dados em ambientes de nuvem.",
+    ],
   ])("returns the mapped description for the seed theme %s", (theme, expected) => {
     expect(describeTheme(theme)).toBe(expected);
   });

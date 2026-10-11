@@ -5,16 +5,51 @@ import bcrypt from "bcryptjs";
 const DEV_USER_EMAIL = "estudante.dev@safe.local";
 const DEV_USER_PASSWORD = "DevSenha123!";
 
-async function resetData() {
-  // Ordem importa por causa das FKs (mesmo com onDelete: Cascade,
-  // ser explícito deixa claro o que o seed está limpando).
-  await prisma.answers.deleteMany();
-  await prisma.progress.deleteMany();
-  await prisma.takes.deleteMany();
-  await prisma.lesson.deleteMany();
-  await prisma.exercise.deleteMany();
-  await prisma.trackNode.deleteMany();
-  await prisma.track.deleteMany();
+const DEMO_TRACK_THEMES = [
+  "Shift-Left Security",
+  "OWASP Top 10",
+  "SQL Injection",
+  "Security By Design",
+  "Security Design",
+  "Proteção de Dados",
+  "Autenticação e Identidade",
+  "Segurança de APIs",
+  "Criptografia Aplicada",
+  "Desenvolvimento Seguro",
+  "Segurança em Nuvem",
+];
+
+const ADDITIONAL_DEMO_TRAILS = [
+  {
+    theme: "Proteção de Dados",
+    lessonTitle: "Princípios de proteção de dados",
+  },
+  {
+    theme: "Autenticação e Identidade",
+    lessonTitle: "Fundamentos de autenticação e identidade",
+  },
+  {
+    theme: "Segurança de APIs",
+    lessonTitle: "Protegendo APIs e seus recursos",
+  },
+  {
+    theme: "Criptografia Aplicada",
+    lessonTitle: "Conceitos de criptografia aplicada",
+  },
+  {
+    theme: "Desenvolvimento Seguro",
+    lessonTitle: "Práticas de desenvolvimento seguro",
+  },
+  {
+    theme: "Segurança em Nuvem",
+    lessonTitle: "Controles de segurança em nuvem",
+  },
+];
+
+async function resetDemoTracks() {
+  await prisma.track.deleteMany({
+    where: { theme: { in: DEMO_TRACK_THEMES } },
+  });
 }
 
 async function seedDevUser() {
@@ -36,6 +71,12 @@ async function seedTrack(theme: string) {
   return prisma.track.create({
     data: { theme },
   });
+}
+
+async function seedBasicTrail(theme: string, lessonTitle: string) {
+  const track = await seedTrack(theme);
+  await seedLessonNode(track.id, 1, lessonTitle);
+  await seedExerciseNode(track.id, 2, ExerciseType.revision);
 }
 
 async function seedLessonNode(trackId: number, orderIndex: number, title: string) {
@@ -90,8 +131,8 @@ async function seedExerciseNode(
 }
 
 async function main() {
-  console.log("Resetando dados de trilhas/nós/progresso...");
-  await resetData();
+  console.log("Removendo apenas as trilhas de demonstração...");
+  await resetDemoTracks();
 
   const devUser = await seedDevUser();
   console.log(`Usuário de dev: ${devUser.email} / senha: ${DEV_USER_PASSWORD}`);
@@ -113,17 +154,23 @@ async function main() {
     data: { userId: devUser.id, trackId: track1.id, status: "in_progress" },
   });
 
-  // Trilha 2 — sem nenhum progresso, pra testar o card "não iniciada"
-  const track2 = await seedTrack("OWASP Top 10");
-  await seedLessonNode(track2.id, 1, "Introdução às vulnerabilidades mais críticas");
-  await seedExerciseNode(track2.id, 2, ExerciseType.revision);
+  // Trilhas 2 a 4 — mantêm cenários simples e temas cobertos no catálogo.
+  await seedBasicTrail(
+    "OWASP Top 10",
+    "Introdução às vulnerabilidades mais críticas",
+  );
+  await seedBasicTrail("SQL Injection", "Como lidar com injeções de código");
+  await seedBasicTrail(
+    "Security By Design",
+    "Princípios de segurança desde a concepção",
+  );
 
-  // Trilha 3 — outra sem progresso, pra ver o grid com mais de um card "zerado"
-  const track3 = await seedTrack("SQL Injection");
-  await seedLessonNode(track3.id, 1, "Como lidar com injeções de código");
-  await seedExerciseNode(track3.id, 2, ExerciseType.revision);
+  // Trilhas 5 a 10 — permitem visualizar o anel completo e a grade excedente.
+  for (const trail of ADDITIONAL_DEMO_TRAILS) {
+    await seedBasicTrail(trail.theme, trail.lessonTitle);
+  }
 
-  console.log("Seed concluído.");
+  console.log("Seed concluído: 10 trilhas de demonstração.");
 }
 
 main()
