@@ -131,11 +131,11 @@ async function seedExerciseNode(
 }
 
 async function main() {
-  console.log("Removendo apenas as trilhas de demonstração...");
+  console.info("Removendo apenas as trilhas de demonstração...");
   await resetDemoTracks();
 
   const devUser = await seedDevUser();
-  console.log(`Usuário de dev: ${devUser.email} / senha: ${DEV_USER_PASSWORD}`);
+  console.info(`Usuário de dev: ${devUser.email} / senha: ${DEV_USER_PASSWORD}`);
 
   // Trilha 1 — com progresso parcial, pra testar o card "já iniciada" (US06)
   const track1 = await seedTrack("Shift-Left Security");
@@ -170,7 +170,7 @@ async function main() {
     await seedBasicTrail(trail.theme, trail.lessonTitle);
   }
 
-  console.log("Seed concluído: 10 trilhas de demonstração.");
+  console.info("Seed concluído: 10 trilhas de demonstração.");
 }
 
 main()
