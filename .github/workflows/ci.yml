@@ -12,7 +12,7 @@ jobs:
   # ==========================================
   code-quality:
     name: Lint & Type Check
-    runs-on: ubuntu-latest
+    runs-on: self-hosted 
     steps:
       - name: Checkout do Código
         uses: actions/checkout@v4
@@ -37,7 +37,7 @@ jobs:
   # ==========================================
   unit-tests:
     name: Testes Unitários
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Checkout do Código
         uses: actions/checkout@v4
@@ -59,7 +59,7 @@ jobs:
   # ==========================================
   integration-tests:
     name: Testes de Integração
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: [code-quality, unit-tests]
     services:
       mysql:
@@ -104,7 +104,7 @@ jobs:
   # ==========================================
   e2e-tests:
     name: Testes E2E (Playwright)
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: [integration-tests]
     services:
       mysql:
