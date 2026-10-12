@@ -19,7 +19,7 @@ export function TrailCard({ trail, onSelect, variant }: TrailCardProps) {
       type="button"
       onClick={() => onSelect(trail)}
       aria-label={`Ver detalhes da trilha ${trail.theme}`}
-      className={`group flex h-full w-full min-w-0 flex-col items-center justify-center gap-2 rounded-2xl border-2 border-border bg-surface-alt p-3 text-center text-foreground shadow-md shadow-foreground/10 transition hover:-translate-y-1 hover:border-accent hover:bg-surface-hover hover:shadow-lg hover:shadow-foreground/15 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-secondary sm:rounded-3xl sm:p-4 ${layoutClasses}`}
+      className={`cursor-pointer group flex h-full w-full min-w-0 flex-col items-center justify-center gap-2 rounded-2xl border-2 border-border bg-surface-alt p-3 text-center text-foreground shadow-md shadow-foreground/10 transition hover:-translate-y-1 hover:border-accent hover:bg-surface-hover hover:shadow-lg hover:shadow-foreground/15 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-secondary sm:rounded-3xl sm:p-4 ${layoutClasses}`}
     >
       <span className="line-clamp-3 text-xs font-bold leading-tight text-foreground sm:text-sm">
         {trail.theme}

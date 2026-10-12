@@ -52,6 +52,8 @@ describe("TrailsMap", () => {
     expect(markup).toContain("text-accent");
     expect(markup).toContain('class="md:hidden"');
     expect(markup).toContain('class="hidden md:block"');
+    expect(markup).toContain("Escolha uma trilha para explorar");
+    expect(markup).toContain("w-full max-w-5xl");
     expect(mobileCardsMarkup).toContain("min-h-28");
     expect(mobileCardsMarkup).toContain("flex-row");
     expect(orbitCardsMarkup).toContain("aspect-square");

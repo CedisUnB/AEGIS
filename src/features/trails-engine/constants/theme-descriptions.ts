@@ -6,7 +6,7 @@ import "server-only";
  * trilha nova cadastrada no seed/bootstrap — atualizar aqui junto.
  */
 export const THEME_DESCRIPTIONS: Record<string, string> = {
-  "security by design": "Aprenda a mover as verificações de segurança para o início do desenvolvimento, antes de chegarem à produção.",
+  "security by design": "Aprenda sobre Design Seguro, que aplica práticas de segurança em todo o ciclo de desenvolvimento de software desde a etapa inicial de requisitos e design.",
   "shift-left security": "Aprenda a mover as verificações de segurança para o início do desenvolvimento, antes de chegarem à produção.",
   "owasp top 10": "Conheça as vulnerabilidades mais críticas de aplicações web e como preveni-las na prática.",
   "sql injection": "Como lidar com injeções de código.",

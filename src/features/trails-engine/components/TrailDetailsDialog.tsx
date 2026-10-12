@@ -32,6 +32,11 @@ export function TrailDetailsDialog({
       aria-labelledby="trail-dialog-title"
       onCancel={onClose}
       onClose={onClose}
+      onClick={(event) => {
+        if (event.target === event.currentTarget) {
+          onClose();
+        }
+      }}
       className="m-auto w-[calc(100%-2rem)] max-w-lg rounded-2xl border border-border bg-surface p-0 text-foreground shadow-2xl shadow-foreground/20 backdrop:bg-overlay"
     >
       {trail && (
@@ -49,7 +54,7 @@ export function TrailDetailsDialog({
               type="button"
               onClick={onClose}
               aria-label="Fechar detalhes da trilha"
-              className="rounded-full px-3 py-1 text-2xl leading-none text-foreground-muted hover:bg-surface-hover hover:text-foreground focus-visible:outline-2 focus-visible:outline-brand-secondary"
+              className="cursor-pointer rounded-full px-3 py-1 text-2xl leading-none text-foreground-muted hover:bg-surface-hover hover:text-foreground focus-visible:outline-2 focus-visible:outline-brand-secondary"
             >
               ×
             </button>
@@ -68,13 +73,13 @@ export function TrailDetailsDialog({
             <button
               type="button"
               onClick={onClose}
-              className="rounded-lg px-4 py-3 text-sm font-semibold text-foreground-muted hover:bg-surface-hover hover:text-foreground focus-visible:outline-2 focus-visible:outline-brand-secondary"
+              className="cursor-pointer rounded-lg px-4 py-3 text-sm font-semibold text-foreground-muted hover:bg-surface-hover hover:text-foreground focus-visible:outline-2 focus-visible:outline-brand-secondary"
             >
               Voltar ao mapa
             </button>
             <Link
               href={`/trails/${trail.id}`}
-              className="rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-accent-foreground transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-secondary"
+              className="rounded-lg bg-accent flex items-center px-6 py-3 text-sm font-semibold text-accent-foreground transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-secondary"
             >
               {trail.isStarted ? "Continuar trilha" : "Começar"}
               <span aria-hidden="true" className="ml-3">

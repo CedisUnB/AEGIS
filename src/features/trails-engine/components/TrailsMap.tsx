@@ -31,7 +31,7 @@ export function TrailsMap({ trails }: TrailsMapProps) {
     <>
       <section
         aria-label="Mapa de trilhas"
-        className="mx-auto max-w-5xl rounded-3xl border border-border bg-surface p-4 text-foreground shadow-sm shadow-foreground/10 sm:p-8 lg:p-10"
+        className="mx-auto w-full max-w-5xl rounded-3xl border border-border bg-surface p-4 text-foreground shadow-sm shadow-foreground/10 sm:p-8 lg:p-10"
       >
         <div className="md:hidden">
           <div
@@ -77,13 +77,16 @@ export function TrailsMap({ trails }: TrailsMapProps) {
                 <li
                   key="map-center"
                   aria-label="Você está aqui no mapa de trilhas"
-                  className="flex aspect-square items-center justify-center"
+                  className="flex aspect-square flex-col items-center justify-center gap-2 rounded-2xl bg-surface-alt px-2 text-center text-foreground"
                 >
                   <span
                     aria-hidden="true"
-                    className="select-none text-6xl drop-shadow-sm lg:text-7xl"
+                    className="select-none text-5xl drop-shadow-sm lg:text-6xl"
                   >
                     🧭
+                  </span>
+                  <span className="text-[0.625rem] font-semibold leading-tight text-foreground-muted sm:text-xs">
+                    Escolha uma trilha para explorar
                   </span>
                 </li>
               ) : (
