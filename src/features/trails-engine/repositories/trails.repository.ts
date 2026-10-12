@@ -11,6 +11,7 @@ export async function listTrailCatalogData(
       select: {
         id: true,
         theme: true,
+        description: true,
         _count: { select: { trackNode: true } },
       },
     });
@@ -18,6 +19,7 @@ export async function listTrailCatalogData(
     return tracks.map((track) => ({
       id: track.id,
       theme: track.theme,
+      description: track.description,
       totalNodes: track._count.trackNode,
       completedNodes: 0,
       isStarted: false,
@@ -29,6 +31,7 @@ export async function listTrailCatalogData(
     select: {
       id: true,
       theme: true,
+      description: true,
       _count: { select: { trackNode: true } },
       takes: {
         where: { userId },
@@ -48,6 +51,7 @@ export async function listTrailCatalogData(
   return tracks.map((track) => ({
     id: track.id,
     theme: track.theme,
+    description: track.description,
     totalNodes: track._count.trackNode,
     completedNodes: track.trackNode.filter(
       (node) => node.progress.length > 0,

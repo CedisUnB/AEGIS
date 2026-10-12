@@ -2,9 +2,9 @@
 
 import { getSession } from "@/core/security";
 import { listTrails } from "./services";
-import type { TrailCardDTO } from "./types";
+import type { TrailCatalogEntry } from "./types";
 
-export async function getCatalogAction(): Promise<TrailCardDTO[]> {
+export async function getCatalogAction(): Promise<TrailCatalogEntry[]> {
   const session = await getSession();
 
   if (!session?.sub) {

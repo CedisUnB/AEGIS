@@ -1,6 +1,6 @@
-import type { TrailCardDTO } from "../types";
+import type { TrailCatalogEntry } from "../types";
 
-export const trailCatalogFixture: TrailCardDTO[] = [
+export const trailCatalogFixture: TrailCatalogEntry[] = [
   {
     id: 11,
     theme: "Segurança Web",

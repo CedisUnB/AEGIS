@@ -3,14 +3,16 @@
 import { useState } from "react";
 import { TrailDetailsDialog } from "./TrailDetailsDialog";
 import { TrailCard } from "./TrailCard";
-import type { TrailCardDTO } from "../types";
+import type { TrailCatalogEntry } from "../types";
 
 interface TrailsMapProps {
-  trails: TrailCardDTO[];
+  trails: TrailCatalogEntry[];
 }
 
 export function TrailsMap({ trails }: TrailsMapProps) {
-  const [selectedTrail, setSelectedTrail] = useState<TrailCardDTO | null>(null);
+  const [selectedTrail, setSelectedTrail] = useState<TrailCatalogEntry | null>(
+    null,
+  );
 
   if (trails.length === 0) {
     return (
@@ -21,7 +23,7 @@ export function TrailsMap({ trails }: TrailsMapProps) {
   }
 
   const orbitPositions = [0, 2, 3, 5, 6, 8, 1, 7];
-  const orbitSlots: (TrailCardDTO | null)[] = Array(9).fill(null);
+  const orbitSlots: (TrailCatalogEntry | null)[] = Array(9).fill(null);
   trails.slice(0, orbitPositions.length).forEach((trail, index) => {
     orbitSlots[orbitPositions[index]] = trail;
   });

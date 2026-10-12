@@ -1,10 +1,10 @@
 "use client";
 
-import type { TrailCardDTO } from "../types";
+import type { TrailCatalogEntry } from "../types";
 
 export interface TrailCardProps {
-  trail: TrailCardDTO;
-  onSelect: (trail: TrailCardDTO) => void;
+  trail: TrailCatalogEntry;
+  onSelect: (trail: TrailCatalogEntry) => void;
   variant: "orbit" | "list";
 }
 

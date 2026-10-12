@@ -23,6 +23,7 @@ describe("listTrailCatalogData", () => {
       {
         id: 11,
         theme: "Segurança Web",
+        description: "Descrição de Segurança Web.",
         _count: { trackNode: 3 },
         takes: [{ status: "in_progress" }],
         trackNode: [
@@ -37,6 +38,7 @@ describe("listTrailCatalogData", () => {
       {
         id: 11,
         theme: "Segurança Web",
+        description: "Descrição de Segurança Web.",
         totalNodes: 3,
         completedNodes: 2,
         isStarted: true,
@@ -47,6 +49,7 @@ describe("listTrailCatalogData", () => {
       select: {
         id: true,
         theme: true,
+        description: true,
         _count: { select: { trackNode: true } },
         takes: {
           where: { userId: "user-123" },
@@ -69,6 +72,7 @@ describe("listTrailCatalogData", () => {
       {
         id: 12,
         theme: "Proteção de Dados",
+        description: "Descrição de Proteção de Dados.",
         _count: { trackNode: 5 },
       },
     ] as never);
@@ -77,6 +81,7 @@ describe("listTrailCatalogData", () => {
       {
         id: 12,
         theme: "Proteção de Dados",
+        description: "Descrição de Proteção de Dados.",
         totalNodes: 5,
         completedNodes: 0,
         isStarted: false,
@@ -87,6 +92,7 @@ describe("listTrailCatalogData", () => {
       select: {
         id: true,
         theme: true,
+        description: true,
         _count: { select: { trackNode: true } },
       },
     });

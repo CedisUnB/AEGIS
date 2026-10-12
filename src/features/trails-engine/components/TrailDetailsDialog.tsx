@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import { useEffect, useRef } from "react";
-import type { TrailCardDTO } from "../types";
+import type { TrailCatalogEntry } from "../types";
 
 interface TrailDetailsDialogProps {
-  trail: TrailCardDTO | null;
+  trail: TrailCatalogEntry | null;
   onClose: () => void;
 }
 
