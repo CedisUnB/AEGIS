@@ -1,6 +1,6 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { trailCatalogFixture } from "../__fixtures__/trail-catalog";
-import { TrailsMap } from "./TrailsMap";
+import { TrailsCatalog } from "./TrailsCatalog";
 
 jest.mock("next/link", () => {
   const React = jest.requireActual<typeof import("react")>("react");
@@ -18,9 +18,9 @@ jest.mock("next/link", () => {
   };
 });
 
-describe("TrailsMap", () => {
+describe("TrailsCatalog", () => {
   it("renders an empty state when there are no trails", () => {
-    const markup = renderToStaticMarkup(<TrailsMap trails={[]} />);
+    const markup = renderToStaticMarkup(<TrailsCatalog trails={[]} />);
 
     expect(markup).toContain(
       "Nenhuma trilha está disponível no momento.",
@@ -29,7 +29,7 @@ describe("TrailsMap", () => {
 
   it("renders selectable trail cards and progress only for started trails", () => {
     const markup = renderToStaticMarkup(
-      <TrailsMap trails={trailCatalogFixture} />,
+      <TrailsCatalog trails={trailCatalogFixture} />,
     );
     const mobileCardsMarkup = markup.match(
       /<ul aria-label="Trilhas disponíveis"[^>]*>([\s\S]*?)<\/ul>/,
@@ -61,7 +61,7 @@ describe("TrailsMap", () => {
 
   it("keeps trails beyond the compass ring available in a separate grid", () => {
     const markup = renderToStaticMarkup(
-      <TrailsMap trails={trailCatalogFixture} />,
+      <TrailsCatalog trails={trailCatalogFixture} />,
     );
 
     expect(trailCatalogFixture).toHaveLength(11);

@@ -5,11 +5,11 @@ import { TrailDetailsDialog } from "./TrailDetailsDialog";
 import { TrailCard } from "./TrailCard";
 import type { TrailCatalogEntry } from "../types";
 
-interface TrailsMapProps {
+interface TrailsCatalogProps {
   trails: TrailCatalogEntry[];
 }
 
-export function TrailsMap({ trails }: TrailsMapProps) {
+export function TrailsCatalog({ trails }: TrailsCatalogProps) {
   const [selectedTrail, setSelectedTrail] = useState<TrailCatalogEntry | null>(
     null,
   );
