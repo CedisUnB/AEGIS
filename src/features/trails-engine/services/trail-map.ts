@@ -1,0 +1,96 @@
+import {
+  findTrailMapData,
+  findTrailNodeData,
+} from "../repositories";
+import type {
+  TrailMapDTO,
+  TrailNodeContentDTO,
+} from "../types";
+
+function resolveNodeMeta(node: {
+  lesson: { title: string } | null;
+  exercises: { type: string }[];
+}) {
+  const isFinalTest = node.exercises.some(({ type }) => type === "test");
+  const title = node.lesson?.title ?? (isFinalTest ? "Teste final" : "Exercícios práticos");
+
+  return { title, isFinalTest };
+}
+
+export async function getTrailMap(
+  trackId: number,
+  focusNodeId: number | undefined,
+  userId: string,
+): Promise<TrailMapDTO | null> {
+  try {
+    const track = await findTrailMapData(trackId, userId);
+
+    if (!track) {
+      return null;
+    }
+
+    if (
+      focusNodeId !== undefined &&
+      !track.trackNode.some(({ id }) => id === focusNodeId)
+    ) {
+      return null;
+    }
+
+    const mostAdvancedNode = track.trackNode
+      .filter(({ progress }) => progress.length > 0)
+      .at(-1);
+    const currentNodeId =
+      focusNodeId ?? mostAdvancedNode?.id ?? track.trackNode[0]?.id ?? null;
+
+    return {
+      id: track.id,
+      theme: track.theme,
+      focusNodeId: currentNodeId,
+      nodes: track.trackNode.map((node) => {
+        const { title, isFinalTest } = resolveNodeMeta(node);
+        const isCompleted = node.progress.length > 0;
+        const isMostAdvanced =
+          mostAdvancedNode !== undefined && node.id === mostAdvancedNode.id;
+
+        return {
+          id: node.id,
+          orderIndex: node.orderIndex,
+          nodeType: node.nodeType,
+          title,
+          isCompleted,
+          isCurrent: node.id === currentNodeId,
+          isMostAdvanced,
+          isFinalTest,
+        };
+      }),
+    };
+  } catch (error) {
+    console.error("Falha ao carregar o mapa da trilha.", error);
+    throw new Error("Não foi possível carregar o mapa da trilha.");
+  }
+}
+
+export async function getTrailNode(
+  trackId: number,
+  nodeId: number,
+): Promise<TrailNodeContentDTO | null> {
+  try {
+    const node = await findTrailNodeData(trackId, nodeId);
+
+    if (!node) {
+      return null;
+    }
+
+    const { title, isFinalTest } = resolveNodeMeta(node);
+    return {
+      id: node.id,
+      trackId: node.trackId,
+      nodeType: node.nodeType,
+      title,
+      isFinalTest,
+    };
+  } catch (error) {
+    console.error("Falha ao carregar o nó da trilha.", error);
+    throw new Error("Não foi possível carregar o conteúdo da etapa.");
+  }
+}
