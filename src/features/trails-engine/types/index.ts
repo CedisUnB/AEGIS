@@ -1,0 +1,1 @@
+export type { TrailCatalogEntry } from "./trails.types";
