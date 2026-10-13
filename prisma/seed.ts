@@ -96,8 +96,59 @@ async function seedBasicTrail(
   lessonTitle: string,
 ) {
   const track = await seedTrack(theme, description);
-  await seedLessonNode(track.id, 1, lessonTitle);
-  await seedExerciseNode(track.id, 2, ExerciseType.revision);
+  const lessonNode = await seedLessonNode(track.id, 1, lessonTitle);
+  const exerciseNode = await seedExerciseNode(
+    track.id,
+    2,
+    ExerciseType.revision,
+  );
+
+  return { track, nodes: [lessonNode, exerciseNode] };
+}
+
+async function seedCompletedBasicTrail(
+  theme: string,
+  description: string,
+  lessonTitle: string,
+  userId: string,
+) {
+  const { track, nodes } = await seedBasicTrail(theme, description, lessonTitle);
+  const completedAt = new Date();
+
+  await prisma.progress.createMany({
+    data: nodes.map((node) => ({
+      userId,
+      trackNodeId: node.id,
+      isCompleted: true,
+      completedAt,
+    })),
+  });
+  await prisma.takes.create({
+    data: {
+      userId,
+      trackId: track.id,
+      status: "completed",
+      completedAt,
+    },
+  });
+}
+
+async function seedSecureDevelopmentTrail(
+  description: string,
+  lessonTitles: string[],
+) {
+  const track = await seedTrack("Desenvolvimento Seguro", description);
+
+  for (const [index, title] of lessonTitles.entries()) {
+    const lessonOrder = index * 2 + 1;
+    await seedLessonNode(track.id, lessonOrder, title);
+
+    if (index < lessonTitles.length - 1) {
+      await seedExerciseNode(track.id, lessonOrder + 1, ExerciseType.revision);
+    } else {
+      await seedExerciseNode(track.id, lessonOrder + 1, ExerciseType.test);
+    }
+  }
 }
 
 async function seedLessonNode(trackId: number, orderIndex: number, title: string) {
@@ -197,7 +248,23 @@ async function main() {
 
   // Trilhas 5 a 10 — permitem visualizar o anel completo e a grade excedente.
   for (const trail of ADDITIONAL_DEMO_TRAILS) {
-    await seedBasicTrail(trail.theme, trail.description, trail.lessonTitle);
+    if (trail.theme === "Criptografia Aplicada") {
+      await seedCompletedBasicTrail(
+        trail.theme,
+        trail.description,
+        trail.lessonTitle,
+        devUser.id,
+      );
+    } else if (trail.theme === "Desenvolvimento Seguro") {
+      await seedSecureDevelopmentTrail(trail.description, [
+        "Fundamentos do desenvolvimento seguro",
+        "Modelagem de ameaças e análise de riscos",
+        "Validação de entradas e prevenção de injeções",
+        "Revisão de código e segurança no ciclo de desenvolvimento",
+      ]);
+    } else {
+      await seedBasicTrail(trail.theme, trail.description, trail.lessonTitle);
+    }
   }
 
   console.info("Seed concluído: 10 trilhas de demonstração.");
