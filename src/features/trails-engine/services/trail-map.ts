@@ -57,6 +57,11 @@ export async function getTrailMap(
           orderIndex: node.orderIndex,
           nodeType: node.nodeType,
           title,
+          kindLabel: isFinalTest
+            ? "Teste final"
+            : node.nodeType === "lesson"
+              ? "Teoria"
+              : "Exercícios práticos",
           isCompleted,
           isCurrent: node.id === currentNodeId,
           isMostAdvanced,

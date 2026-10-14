@@ -24,6 +24,7 @@ export interface TrailMapNodeDTO {
   orderIndex: number;
   nodeType: NodeType;
   title: string;
+  kindLabel: string;
   isCompleted: boolean;
   isCurrent: boolean;
   isMostAdvanced: boolean;

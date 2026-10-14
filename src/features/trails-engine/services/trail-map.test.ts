@@ -61,6 +61,7 @@ describe("getTrailMap", () => {
           orderIndex: 0,
           nodeType: "lesson",
           title: "Introdução",
+          kindLabel: "Teoria",
           isCompleted: true,
           isCurrent: false,
           isMostAdvanced: false,
@@ -71,6 +72,7 @@ describe("getTrailMap", () => {
           orderIndex: 1,
           nodeType: "exercise",
           title: "Exercícios práticos",
+          kindLabel: "Exercícios práticos",
           isCompleted: false,
           isCurrent: false,
           isMostAdvanced: false,
@@ -81,6 +83,7 @@ describe("getTrailMap", () => {
           orderIndex: 2,
           nodeType: "exercise",
           title: "Teste final",
+          kindLabel: "Teste final",
           isCompleted: true,
           isCurrent: true,
           isMostAdvanced: true,
@@ -114,6 +117,7 @@ describe("getTrailMap", () => {
       isCurrent: true,
       isMostAdvanced: false,
       isCompleted: false,
+      kindLabel: "Teoria",
     });
   });
 
