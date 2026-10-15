@@ -1,6 +1,6 @@
 "use client";
 
-import type { TrailCatalogEntry } from "../types";
+import type { TrailCatalogEntry } from "../../types";
 
 export interface TrailCardProps {
   trail: TrailCatalogEntry;

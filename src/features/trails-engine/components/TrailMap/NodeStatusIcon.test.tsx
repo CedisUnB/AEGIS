@@ -1,5 +1,5 @@
 import { renderToStaticMarkup } from "react-dom/server";
-import type { TrailMapDTO } from "../types";
+import type { TrailMapDTO } from "../../types";
 import { NodeStatusIcon } from "./NodeStatusIcon";
 
 const baseNode: TrailMapDTO["nodes"][number] = {

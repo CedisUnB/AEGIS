@@ -1,5 +1,5 @@
 import { renderToStaticMarkup } from "react-dom/server";
-import { trailCatalogFixture } from "../__fixtures__/trail-catalog";
+import { trailCatalogFixture } from "../../__fixtures__/trail-catalog";
 import { TrailDetailsDialog } from "./TrailDetailsDialog";
 
 jest.mock("next/link", () => {

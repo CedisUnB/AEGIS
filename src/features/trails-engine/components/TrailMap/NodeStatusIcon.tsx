@@ -4,7 +4,7 @@ import {
   LessonIcon,
   TrophyIcon,
 } from "@/components/icons";
-import type { TrailMapDTO } from "../types";
+import type { TrailMapDTO } from "../../types";
 
 interface NodeStatusIconProps {
   node: TrailMapDTO["nodes"][number];

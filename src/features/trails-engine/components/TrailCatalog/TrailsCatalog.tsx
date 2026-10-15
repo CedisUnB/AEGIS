@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { TrailDetailsDialog } from "./TrailDetailsDialog";
 import { TrailCard } from "./TrailCard";
-import type { TrailCatalogEntry } from "../types";
+import type { TrailCatalogEntry } from "../../types";
 
 interface TrailsCatalogProps {
   trails: TrailCatalogEntry[];
