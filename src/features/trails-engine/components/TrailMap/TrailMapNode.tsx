@@ -1,4 +1,3 @@
-// components/TrailMapNode.tsx
 import type { TrailMapDTO } from "@/features/trails-engine/types";
 import { TrailMapNodeBubble } from "./TrailMapNodeBubble";
 import { TrailMapNodeModal } from "./TrailMapNodeModal";
@@ -13,6 +12,16 @@ interface TrailMapNodeProps {
 export function TrailMapNode({ node, trailId, index, isLeft }: TrailMapNodeProps) {
   const highlight = node.isMostAdvanced || node.isCurrent;
 
+  const statusLabelClassName = [
+    "mt-2 block text-center text-xs font-semibold",
+    node.isCompleted ? "text-confirm" : "text-foreground-muted",
+  ].join(" ");
+
+  const wrapperClassName = [
+    "flex w-24 flex-col items-center",
+    node.isFinalTest ? "" : isLeft ? "ml-[18%]" : "mr-[18%]",
+  ].join(" ");
+
   return (
     <li
       id={`node-${node.id}`}
@@ -20,12 +29,13 @@ export function TrailMapNode({ node, trailId, index, isLeft }: TrailMapNodeProps
         node.isFinalTest ? "justify-center" : isLeft ? "justify-start" : "justify-end"
       }`}
     >
-      <div className={node.isFinalTest ? "" : isLeft ? "ml-[18%]" : "mr-[18%]"}>
+      <div className={wrapperClassName}>
         <TrailMapNodeModal trailId={trailId} node={node}>
           <TrailMapNodeBubble node={node} highlight={highlight} />
         </TrailMapNodeModal>
-        <span className="mt-2 block text-center text-xs font-semibold text-foreground-muted">
+        <span className={statusLabelClassName}>
           Etapa {index + 1}
+          {node.isCompleted && " · Concluída"}
         </span>
       </div>
     </li>
