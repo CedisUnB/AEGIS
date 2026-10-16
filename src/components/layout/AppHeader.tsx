@@ -11,7 +11,7 @@ export function AppHeader({ user, role }: AppHeaderProps) {
   const profileRoute = role === "admin" ? "/admin/profile" : "/profile";
 
   return (
-    <header className="flex items-center justify-between bg-brand-primary px-4 py-3">
+    <header className="sticky top-0 z-50 flex items-center justify-between bg-brand-primary px-4 py-3">
       <Link href="/trails" className="text-xl font-bold tracking-tight text-white">
         SAFE
       </Link>

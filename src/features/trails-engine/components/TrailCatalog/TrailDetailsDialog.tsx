@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef } from "react";
-import type { TrailCatalogEntry } from "../types";
+import type { TrailCatalogEntry } from "../../types";
 
 interface TrailDetailsDialogProps {
   trail: TrailCatalogEntry | null;
