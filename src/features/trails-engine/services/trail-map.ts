@@ -1,6 +1,8 @@
 import {
   findTrailMapData,
   findTrailNodeData,
+  upsertNodeProgress,
+  updateTakesStatus,
 } from "../repositories";
 import type {
   TrailMapDTO,
@@ -36,9 +38,17 @@ export async function getTrailMap(
       return null;
     }
 
+    const isContentNode = (node: typeof track.trackNode[number]) =>
+      !resolveNodeMeta(node).isFinalTest;
+
+    const allContentCompleted = track.trackNode
+      .filter(isContentNode)
+      .every(({ progress }) => progress.length > 0);
+
     const mostAdvancedNode = track.trackNode
       .filter(({ progress }) => progress.length > 0)
       .at(-1);
+
     const currentNodeId =
       focusNodeId ?? mostAdvancedNode?.id ?? track.trackNode[0]?.id ?? null;
 
@@ -66,6 +76,7 @@ export async function getTrailMap(
           isCurrent: node.id === currentNodeId,
           isMostAdvanced,
           isFinalTest,
+          isUnlocked: isFinalTest ? allContentCompleted : true,
         };
       }),
     };
@@ -97,5 +108,32 @@ export async function getTrailNode(
   } catch (error) {
     console.error("Falha ao carregar o nó da trilha.", error);
     throw new Error("Não foi possível carregar o conteúdo da etapa.");
+  }
+}
+
+const PASSING_SCORE = 70; // TODO: confirmar se é fixo ou configurável por trilha
+
+export async function completeTrailIfPassed(
+  userId: string,
+  trackId: number,
+  trackNodeId: number,
+  score: number,
+): Promise<{ passed: boolean }> {
+  try {
+    await upsertNodeProgress(userId, trackNodeId, {
+      isCompleted: true,
+      score,
+    });
+
+    const passed = score >= PASSING_SCORE;
+
+    if (passed) {
+      await updateTakesStatus(userId, trackId);
+    }
+
+    return { passed };
+  } catch (error) {
+    console.error("Falha ao registrar a conclusão do teste final.", error);
+    throw new Error("Não foi possível registrar o resultado do teste final.");
   }
 }

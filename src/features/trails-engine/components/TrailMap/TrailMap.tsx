@@ -1,4 +1,3 @@
-// components/TrailMap.tsx
 import type { TrailMapDTO } from "../../types";
 import { TrailMapFocus } from "./TrailMapFocus";
 import { TrailMapNode } from "./TrailMapNode";

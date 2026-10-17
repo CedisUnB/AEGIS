@@ -1,4 +1,3 @@
-// components/TrailMapConnectors.tsx
 import type { TrailMapDTO } from "../../types";
 
 interface TrailMapConnectorsProps {

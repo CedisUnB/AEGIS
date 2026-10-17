@@ -209,22 +209,28 @@ async function main() {
   const devUser = await seedDevUser();
   console.info(`Usuário de dev: ${devUser.email} / senha: ${DEV_USER_PASSWORD}`);
 
-  // Trilha 1 — com progresso parcial, pra testar o card "já iniciada" (US06)
+   // Trilha 1 — com progresso parcial, pra testar o card "já iniciada" (US06)
   const track1 = await seedTrack(
     "Shift-Left Security",
     "Aprenda a mover as verificações de segurança para o início do desenvolvimento, antes de chegarem à produção.",
   );
   const t1n1 = await seedLessonNode(track1.id, 1, "Por que Shift-Left importa");
   const t1n2 = await seedExerciseNode(track1.id, 2, ExerciseType.revision);
-  await seedLessonNode(track1.id, 3, "Secure by Design, Default e Deployment");
-  await seedExerciseNode(track1.id, 4, ExerciseType.revision);
+  const t1n3 = await seedLessonNode(track1.id, 3, "Secure by Design, Default e Deployment");
+  const t1n4 = await seedExerciseNode(track1.id, 4, ExerciseType.revision);
 
-  await prisma.progress.create({
-    data: { userId: devUser.id, trackNodeId: t1n1.id, isCompleted: true, completedAt: new Date() },
+  await seedExerciseNode(track1.id, 5, ExerciseType.test);
+
+  await prisma.progress.createMany({
+    data: [t1n1, t1n2, t1n3, t1n4].map((node) => ({
+      userId: devUser.id,
+      trackNodeId: node.id,
+      isCompleted: true,
+      completedAt: new Date(),
+    })),
   });
-  await prisma.progress.create({
-    data: { userId: devUser.id, trackNodeId: t1n2.id, isCompleted: true, completedAt: new Date() },
-  });
+  // FIM DO TRECHO TEMPORÁRIO
+
   await prisma.takes.create({
     data: { userId: devUser.id, trackId: track1.id, status: "in_progress" },
   });
