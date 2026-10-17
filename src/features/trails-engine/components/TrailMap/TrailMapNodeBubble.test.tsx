@@ -12,6 +12,7 @@ const baseNode: TrailMapDTO["nodes"][number] = {
   isCurrent: false,
   isMostAdvanced: false,
   isFinalTest: false,
+  isUnlocked: true,
 };
 
 describe("TrailMapNodeBubble", () => {
@@ -34,7 +35,7 @@ describe("TrailMapNodeBubble", () => {
     );
   });
 
-  it("uses the progress highlight for the current or most advanced node", () => {
+  it("uses the progress highlight when the node is highlighted", () => {
     const markup = renderToStaticMarkup(
       <TrailMapNodeBubble node={baseNode} highlight />,
     );
@@ -43,7 +44,7 @@ describe("TrailMapNodeBubble", () => {
     expect(markup).toContain("text-accent-foreground");
   });
 
-  it("renders a wider labeled bubble for the final test", () => {
+  it("renders a locked final test with muted styling and a locked label", () => {
     const markup = renderToStaticMarkup(
       <TrailMapNodeBubble
         node={{
@@ -51,6 +52,28 @@ describe("TrailMapNodeBubble", () => {
           nodeType: "exercise",
           kindLabel: "Teste final",
           isFinalTest: true,
+          isUnlocked: false,
+        }}
+        highlight={false}
+      />,
+    );
+
+    expect(markup).toContain("h-16 w-28");
+    expect(markup).toContain(
+      "cursor-not-allowed opacity-50 border-border bg-surface-alt text-foreground-muted",
+    );
+    expect(markup).toContain("Teste Final Bloqueado");
+  });
+
+  it("renders an unlocked final test with its alert styling and label", () => {
+    const markup = renderToStaticMarkup(
+      <TrailMapNodeBubble
+        node={{
+          ...baseNode,
+          nodeType: "exercise",
+          kindLabel: "Teste final",
+          isFinalTest: true,
+          isUnlocked: true,
         }}
         highlight={false}
       />,

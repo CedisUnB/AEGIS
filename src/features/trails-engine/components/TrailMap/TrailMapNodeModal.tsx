@@ -1,4 +1,3 @@
-// components/TrailMapNodeModal.tsx
 "use client";
 
 import { useRef } from "react";
@@ -13,17 +12,30 @@ interface TrailMapNodeModalProps {
 
 export function TrailMapNodeModal({ trailId, node, children }: TrailMapNodeModalProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const isLocked = node.isFinalTest && !node.isUnlocked;
+
+  function handleOpen() {
+    if (isLocked) {
+      return;
+    }
+    dialogRef.current?.showModal();
+  }
 
   return (
     <>
       <button
         type="button"
+        disabled={isLocked}
         aria-current={node.isCurrent ? "step" : undefined}
         aria-label={`${node.kindLabel}: ${node.title}${
-          node.isCompleted ? ", concluído" : ""
-        }${node.isMostAdvanced ? ", etapa mais avançada alcançada" : ""}`}
-        onClick={() => dialogRef.current?.showModal()}
-        className="cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-secondary"
+          isLocked ? ", bloqueado até concluir as etapas anteriores" : ""
+        }${node.isCompleted ? ", concluído" : ""}${
+          node.isMostAdvanced ? ", etapa mais avançada alcançada" : ""
+        }`}
+        onClick={handleOpen}
+        className={`focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-secondary ${
+          isLocked ? "cursor-not-allowed" : "cursor-pointer"
+        }`}
       >
         {children}
       </button>
