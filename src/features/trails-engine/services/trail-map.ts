@@ -42,10 +42,19 @@ export async function getTrailMap(
     const currentNodeId =
       focusNodeId ?? mostAdvancedNode?.id ?? track.trackNode[0]?.id ?? null;
 
-    return {
+    const totalNodes = track.trackNode.length;
+    const completedNodes = track.trackNode.filter(
+      ({ progress }) => progress.length > 0,
+    ).length;
+
+    const nextUpNode = track.trackNode.find(({ progress }) => progress.length === 0);
+
+      return {
       id: track.id,
       theme: track.theme,
       focusNodeId: currentNodeId,
+      totalNodes: totalNodes,
+      completedNodes: completedNodes,
       nodes: track.trackNode.map((node) => {
         const { title, isFinalTest } = resolveNodeMeta(node);
         const isCompleted = node.progress.length > 0;
@@ -66,6 +75,7 @@ export async function getTrailMap(
           isCurrent: node.id === currentNodeId,
           isMostAdvanced,
           isFinalTest,
+          isNextUp: nextUpNode !== undefined && node.id === nextUpNode.id,
         };
       }),
     };

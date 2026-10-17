@@ -10,8 +10,6 @@ interface TrailMapNodeProps {
 }
 
 export function TrailMapNode({ node, trailId, index, isLeft }: TrailMapNodeProps) {
-  const highlight = node.isMostAdvanced || node.isCurrent;
-
   const statusLabelClassName = [
     "mt-2 block text-center text-xs font-semibold",
     node.isCompleted ? "text-confirm" : "text-foreground-muted",
@@ -31,7 +29,7 @@ export function TrailMapNode({ node, trailId, index, isLeft }: TrailMapNodeProps
     >
       <div className={wrapperClassName}>
         <TrailMapNodeModal trailId={trailId} node={node}>
-          <TrailMapNodeBubble node={node} highlight={highlight} />
+          <TrailMapNodeBubble node={node} />
         </TrailMapNodeModal>
         <span className={statusLabelClassName}>
           Etapa {index + 1}
