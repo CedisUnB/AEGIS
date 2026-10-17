@@ -56,6 +56,7 @@ export class ContentDeliveryService {
       id: node.id,
       orderIndex: node.orderIndex,
       nodeType: node.nodeType,
+      trackId: node.trackId,
       title: lesson.title,
       json: lesson.json,
     });

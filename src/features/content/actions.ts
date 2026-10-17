@@ -9,20 +9,21 @@ import {
   ExercisesContent,
   Result,
 } from "./types/content.types";
+import { getSession } from "@/core/security";
+import { redirect } from "next/navigation";
 
 const contentDeliveryService = new ContentDeliveryService();
 const progressTrackingService = new ProgressTrackingService();
 
-// Helper de Autenticação da sessão
 async function getAuthenticatedUserId(): Promise<string> {
-  // Substituir pela extração real de sessão (ex: getServerSession / cookies / JWT)
-  const mockUserId = "user-uuid-placeholder";
-  return mockUserId;
+  const session = await getSession();
+  if (!session?.sub) redirect("auth/login");
+  return session.sub;  
 }
 
 type ActionResponse<T> =
-  | { success: true; data: T }
-  | { success: false; error: string };
+  | { success: true; statusCode: number; data: T }
+  | { success: false; statusCode: number; error: string };
 
 export async function getLessonContentAction(
   trackNodeId: number
@@ -30,36 +31,32 @@ export async function getLessonContentAction(
   try {
     const userId = await getAuthenticatedUserId();
     const data = await contentDeliveryService.getLessonContent(userId, trackNodeId);
-    return { success: true, data };
+    return { success: true, statusCode: 200, data };
   } catch (err) {
     return {
       success: false,
+      statusCode: 500,
       error: (err as Error).message || "Erro ao carregar o conteúdo da lição.",
     };
   }
 }
 
-/**
- * Action: US13 e US14 - Carrega os Exercícios de Revisão ou Teste Final
- */
 export async function getExercisesContentAction(
   trackNodeId: number
 ): Promise<ActionResponse<ExercisesContent>> {
   try {
     const userId = await getAuthenticatedUserId();
     const data = await contentDeliveryService.getExercisesContent(userId, trackNodeId);
-    return { success: true, data };
+    return { success: true, statusCode: 200, data };
   } catch (err) {
     return {
       success: false,
+      statusCode: 500,
       error: (err as Error).message || "Erro ao carregar os exercícios.",
     };
   }
 }
 
-/**
- * Action: US12 - Conclui a leitura da Lição e desbloqueia o próximo nó
- */
 export async function completeLessonAction(
   trackNodeId: number,
   trackId: number
@@ -73,19 +70,18 @@ export async function completeLessonAction(
 
     return {
       success: true,
+      statusCode: 200,
       data: { message: "Leitura concluída com sucesso." },
     };
   } catch (err) {
     return {
       success: false,
+      statusCode: 500,
       error: (err as Error).message || "Erro ao concluir a leitura da lição.",
     };
   }
 }
 
-/**
- * Action: US15 - Submete respostas de exercícios (Revisão ou Teste Final)
- */
 export async function submitExercisesAction(
   trackId: number,
   rawPayload: unknown
@@ -107,10 +103,11 @@ export async function submitExercisesAction(
       revalidatePath(`/tracks/${trackId}`);
     }
 
-    return { success: true, data: result };
+    return { success: true, statusCode: 200, data: result };
   } catch (err) {
     return {
       success: false,
+      statusCode: 500,
       error: (err as Error).message || "Erro ao processar as respostas dos exercícios.",
     };
   }

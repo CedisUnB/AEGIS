@@ -15,6 +15,7 @@ export const lessonSchema = z.object({
     id: z.number().int(),
     orderIndex: z.number().int(),
     nodeType: NodeTypeSchema,
+    trackId: z.number().int(),
     title: z.string(),
     json: z.object({
         slides: z.array(
@@ -22,7 +23,7 @@ export const lessonSchema = z.object({
                 tag: z.string(),
                 body: z.string(),
                 title: z.string(),
-                source: z.string(),
+                source: z.string().nullable(),
             })
         ),
     }),
