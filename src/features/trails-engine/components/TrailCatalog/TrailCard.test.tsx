@@ -43,4 +43,26 @@ describe("TrailCard", () => {
     expect(markup).toContain(`${notStartedTrail.totalNodes} etapas`);
     expect(markup).not.toContain("concluídos");
   });
+
+  it("marks a completed trail with its status, confirmation styling, and accessible label", () => {
+    const completedTrail = trailCatalogFixture[5];
+    const markup = renderToStaticMarkup(
+      <TrailCard
+        trail={completedTrail}
+        onSelect={() => undefined}
+        variant="orbit"
+      />,
+    );
+
+    expect(markup).toContain(
+      `aria-label="Ver detalhes da trilha ${completedTrail.theme}, concluída"`,
+    );
+    expect(markup).toContain("border-confirm bg-surface-alt");
+    expect(markup).toContain("text-confirm");
+    expect(markup).toContain("Concluída");
+    expect(markup).toContain('aria-hidden="true"');
+    expect(markup).not.toContain(
+      `${completedTrail.completedNodes}/${completedTrail.totalNodes} concluídos`,
+    );
+  });
 });
