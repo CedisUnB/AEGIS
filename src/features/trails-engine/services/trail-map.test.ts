@@ -55,6 +55,8 @@ describe("getTrailMap", () => {
       id: 12,
       theme: "Segurança Web",
       focusNodeId: 43,
+      totalNodes: 3,
+      completedNodes: 2,
       nodes: [
         {
           id: 41,
@@ -66,6 +68,7 @@ describe("getTrailMap", () => {
           isCurrent: false,
           isMostAdvanced: false,
           isFinalTest: false,
+          isNextUp: false,
         },
         {
           id: 42,
@@ -77,6 +80,7 @@ describe("getTrailMap", () => {
           isCurrent: false,
           isMostAdvanced: false,
           isFinalTest: false,
+          isNextUp: true,
         },
         {
           id: 43,
@@ -88,6 +92,7 @@ describe("getTrailMap", () => {
           isCurrent: true,
           isMostAdvanced: true,
           isFinalTest: true,
+          isNextUp: false,
         },
       ],
     });
@@ -113,11 +118,16 @@ describe("getTrailMap", () => {
     const trail = await getTrailMap(12, undefined, "user-123");
 
     expect(trail?.focusNodeId).toBe(41);
+    expect(trail).toMatchObject({
+      totalNodes: 1,
+      completedNodes: 0,
+    });
     expect(trail?.nodes[0]).toMatchObject({
       isCurrent: true,
       isMostAdvanced: false,
       isCompleted: false,
       kindLabel: "Teoria",
+      isNextUp: true,
     });
   });
 

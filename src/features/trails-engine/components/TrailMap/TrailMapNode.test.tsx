@@ -28,6 +28,7 @@ const baseNode: TrailMapDTO["nodes"][number] = {
   isCurrent: false,
   isMostAdvanced: false,
   isFinalTest: false,
+  isNextUp: false,
 };
 
 describe("TrailMapNode", () => {
@@ -52,7 +53,7 @@ describe("TrailMapNode", () => {
     expect(markup).toContain("mr-[18%]");
   });
 
-  it("passes highlighted state to the bubble and displays progress in its modal", () => {
+  it("renders a completed node with its progress label and review action", () => {
     const markup = renderToStaticMarkup(
       <TrailMapNode
         node={{
@@ -67,11 +68,31 @@ describe("TrailMapNode", () => {
       />,
     );
 
-    expect(markup).toContain("border-accent-dark bg-accent");
+    expect(markup).toContain("border-accent-border bg-accent text-accent-foreground");
+    expect(markup).toContain("Etapa 3 · Concluída");
     expect(markup).toContain("Etapa mais avançada alcançada");
     expect(markup).toContain("Revisar");
     expect(markup).toContain('aria-current="step"');
     expect(markup).toContain("ml-[18%]");
+  });
+
+  it("renders the next incomplete node with the current-step accent", () => {
+    const markup = renderToStaticMarkup(
+      <TrailMapNode
+        node={{
+          ...baseNode,
+          isCurrent: true,
+          isNextUp: true,
+        }}
+        trailId={12}
+        index={1}
+        isLeft={false}
+      />,
+    );
+
+    expect(markup).toContain("border-current-border bg-current-surface text-current-foreground");
+    expect(markup).toContain("Etapa selecionada");
+    expect(markup).toContain("Começar");
   });
 
   it("centers the final test bubble and labels it separately from its step number", () => {

@@ -29,12 +29,15 @@ export interface TrailMapNodeDTO {
   isCurrent: boolean;
   isMostAdvanced: boolean;
   isFinalTest: boolean;
+  isNextUp: boolean;
 }
 
 export interface TrailMapDTO {
   id: number;
   theme: string;
   focusNodeId: number | null;
+  totalNodes: number;
+  completedNodes: number;
   nodes: TrailMapNodeDTO[];
 }
 
