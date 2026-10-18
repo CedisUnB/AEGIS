@@ -28,6 +28,11 @@ export function TrailMap({ trail }: TrailMapProps) {
     >
       <h1 className="mb-8 text-center text-2xl font-bold">{trail.theme}</h1>
 
+      <p className="mb-6 text-center text-sm font-semibold text-foreground-muted">
+        {trail.completedNodes} de {trail.totalNodes} etapas concluídas
+        {trail.totalNodes > 0 && ` · ${Math.round((trail.completedNodes / trail.totalNodes) * 100)}%`}
+      </p>
+
       <div className="relative mx-auto max-w-lg">
         <TrailMapConnectors nodes={trail.nodes} />
 

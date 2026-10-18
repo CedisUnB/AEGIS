@@ -26,6 +26,12 @@
   --color-exercise-surface: var(--exercise-surface);
   --color-exercise-foreground: var(--exercise-foreground);
 
+  --color-accent-border: var(--accent-border);
+
+  --color-current-border: var(--current-border);
+  --color-current-surface: var(--current-surface);
+  --color-current-foreground: var(--current-foreground);
+
   --font-default: "Montserrat", Arial, sans-serif;
 }
 
@@ -47,6 +53,12 @@
   --exercise-border: #6ee7b7;
   --exercise-surface: #ecfdf5;
   --exercise-foreground: #064e3b;
+
+  --accent-border: #1e293b;
+
+  --current-border: #a855f7;
+  --current-surface: #f5f3ff;
+  --current-foreground: #581c87;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -68,6 +80,12 @@
     --exercise-border: #047857;
     --exercise-surface: #022c22;
     --exercise-foreground: #a7f3d0;
+
+    --accent-border: #0ea5e9;
+
+    --current-border: #a855f7;
+    --current-surface: #2e1065;
+    --current-foreground: #e9d5ff;
   }
 }
 
