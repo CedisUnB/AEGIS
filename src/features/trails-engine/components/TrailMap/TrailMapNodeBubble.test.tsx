@@ -45,7 +45,6 @@ describe("TrailMapNodeBubble", () => {
   });
 
   it("uses the completion accent for a completed node", () => {
-  it("uses the progress highlight when the node is highlighted", () => {
     const markup = renderToStaticMarkup(
       <TrailMapNodeBubble node={{ ...baseNode, isCompleted: true }} />,
     );
@@ -54,7 +53,19 @@ describe("TrailMapNodeBubble", () => {
     expect(markup).toContain("text-accent-foreground");
   });
 
-  it("renders a wider labeled bubble for the final test", () => {
+  it("prioritizes completion styling over the next-step accent", () => {
+    const markup = renderToStaticMarkup(
+      <TrailMapNodeBubble
+        node={{ ...baseNode, isCompleted: true, isNextUp: true }}
+      />,
+    );
+
+    expect(markup).toContain("border-accent-border bg-accent");
+    expect(markup).toContain("text-accent-foreground");
+    expect(markup).not.toContain("border-current-border");
+  });
+
+  it("renders a locked final test with muted styling and a locked label", () => {
     const markup = renderToStaticMarkup(
       <TrailMapNodeBubble
         node={{
@@ -62,6 +73,7 @@ describe("TrailMapNodeBubble", () => {
           nodeType: "exercise",
           kindLabel: "Teste final",
           isFinalTest: true,
+          isUnlocked: false,
         }}
       />,
     );

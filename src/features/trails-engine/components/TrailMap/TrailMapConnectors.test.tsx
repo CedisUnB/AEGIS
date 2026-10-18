@@ -13,6 +13,8 @@ const nodes: TrailMapDTO["nodes"] = [
     isCurrent: false,
     isMostAdvanced: false,
     isFinalTest: false,
+    isNextUp: false,
+    isUnlocked: true,
   },
   {
     id: 2,
@@ -24,6 +26,8 @@ const nodes: TrailMapDTO["nodes"] = [
     isCurrent: false,
     isMostAdvanced: false,
     isFinalTest: false,
+    isNextUp: false,
+    isUnlocked: true,
   },
   {
     id: 3,
@@ -35,6 +39,8 @@ const nodes: TrailMapDTO["nodes"] = [
     isCurrent: false,
     isMostAdvanced: false,
     isFinalTest: true,
+    isNextUp: false,
+    isUnlocked: false,
   },
 ];
 

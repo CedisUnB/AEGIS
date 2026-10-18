@@ -29,6 +29,7 @@ const node: TrailMapDTO["nodes"][number] = {
   isCurrent: true,
   isMostAdvanced: true,
   isFinalTest: false,
+  isNextUp: false,
   isUnlocked: true,
 };
 

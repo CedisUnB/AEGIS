@@ -29,6 +29,7 @@ const baseNode: TrailMapDTO["nodes"][number] = {
   isMostAdvanced: false,
   isFinalTest: false,
   isNextUp: false,
+  isUnlocked: true,
 };
 
 describe("TrailMapNode", () => {
@@ -103,6 +104,7 @@ describe("TrailMapNode", () => {
           kindLabel: "Teste final",
           isFinalTest: true,
           isMostAdvanced: true,
+          isUnlocked: true,
         }}
         trailId={12}
         index={7}

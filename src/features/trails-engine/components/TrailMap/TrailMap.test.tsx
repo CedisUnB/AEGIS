@@ -36,6 +36,7 @@ const trail: TrailMapDTO = {
       isMostAdvanced: false,
       isFinalTest: false,
       isNextUp: false,
+      isUnlocked: true,
     },
     {
       id: 42,
@@ -48,6 +49,7 @@ const trail: TrailMapDTO = {
       isMostAdvanced: true,
       isFinalTest: true,
       isNextUp: true,
+      isUnlocked: false,
     },
     {
       id: 43,
@@ -60,6 +62,7 @@ const trail: TrailMapDTO = {
       isMostAdvanced: false,
       isFinalTest: false,
       isNextUp: false,
+      isUnlocked: true,
     },
     {
       id: 44,
@@ -72,6 +75,7 @@ const trail: TrailMapDTO = {
       isMostAdvanced: false,
       isFinalTest: false,
       isNextUp: false,
+      isUnlocked: true,
     },
   ],
 };
