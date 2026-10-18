@@ -1,0 +1,158 @@
+/**
+ * @jest-environment node
+ */
+import { randomUUID } from "node:crypto";
+import { prisma } from "@/core/database/prisma";
+import {
+  cleanup,
+  completeNodes,
+  createStudent,
+  createTrail,
+} from "../../helpers/trail-fixtures";
+import {
+  getTrailMap,
+  getTrailNode,
+} from "@/features/trails-engine/services/trail-map";
+
+const PREFIX = `__test_${randomUUID().slice(0, 8)}__`;
+
+jest.setTimeout(30000);
+
+describe("Mapa e progresso da trilha (US07/US08)", () => {
+  afterAll(async () => {
+    try {
+      await cleanup(PREFIX);
+    } finally {
+      await prisma.$disconnect();
+    }
+  }, 30000);
+
+  it("ordena os nós e apresenta o rótulo correspondente a cada tipo", async () => {
+    const student = await createStudent(PREFIX);
+    const trail = await createTrail(PREFIX, {
+      lessons: 2,
+      withFinalTest: true,
+    });
+
+    const map = await getTrailMap(trail.id, undefined, student.id);
+
+    expect(map?.nodes.map(({ orderIndex, kindLabel }) => [orderIndex, kindLabel])).toEqual([
+      [1, "Teoria"],
+      [2, "Exercícios práticos"],
+      [3, "Teoria"],
+      [4, "Teste final"],
+    ]);
+  });
+
+  it("marca o progresso por nó e destaca somente o último nó concluído", async () => {
+    const student = await createStudent(PREFIX);
+    const trail = await createTrail(PREFIX, {
+      lessons: 2,
+      withFinalTest: false,
+    });
+    await completeNodes(student.id, [trail.contentNodeIds[0], trail.contentNodeIds[2]]);
+
+    const map = await getTrailMap(trail.id, undefined, student.id);
+
+    expect(map?.nodes.map(({ isCompleted }) => isCompleted)).toEqual([
+      true,
+      false,
+      true,
+      false,
+    ]);
+    expect(map?.nodes.map(({ isMostAdvanced }) => isMostAdvanced)).toEqual([
+      false,
+      false,
+      true,
+      false,
+    ]);
+  });
+
+  it("não destaca um nó mais avançado quando não há progresso", async () => {
+    const student = await createStudent(PREFIX);
+    const trail = await createTrail(PREFIX, {
+      lessons: 1,
+      withFinalTest: false,
+    });
+
+    const map = await getTrailMap(trail.id, undefined, student.id);
+
+    expect(map?.nodes.every(({ isMostAdvanced }) => !isMostAdvanced)).toBe(true);
+  });
+
+  it("respeita o foco em um nó pertencente à mesma trilha", async () => {
+    const student = await createStudent(PREFIX);
+    const trail = await createTrail(PREFIX, {
+      lessons: 2,
+      withFinalTest: false,
+    });
+    const focusNodeId = trail.contentNodeIds[2];
+
+    const map = await getTrailMap(trail.id, focusNodeId, student.id);
+
+    expect(map?.focusNodeId).toBe(focusNodeId);
+    expect(map?.nodes.find(({ id }) => id === focusNodeId)?.isCurrent).toBe(true);
+  });
+
+  it("rejeita foco em nó de outra trilha ou em nó inexistente", async () => {
+    const student = await createStudent(PREFIX);
+    const trail = await createTrail(PREFIX, {
+      lessons: 1,
+      withFinalTest: false,
+    });
+    const otherTrail = await createTrail(PREFIX, {
+      lessons: 1,
+      withFinalTest: false,
+    });
+    const otherTrailNodeId = otherTrail.contentNodeIds[0];
+
+    await expect(
+      getTrailMap(trail.id, otherTrailNodeId, student.id),
+    ).resolves.toBeNull();
+    await expect(
+      getTrailMap(trail.id, Number.MAX_SAFE_INTEGER, student.id),
+    ).resolves.toBeNull();
+  });
+
+  it("contabiliza o teste final no total e no progresso da trilha", async () => {
+    const student = await createStudent(PREFIX);
+    const trail = await createTrail(PREFIX, {
+      lessons: 2,
+      withFinalTest: true,
+    });
+    await completeNodes(student.id, trail.contentNodeIds);
+
+    const contentCompleteMap = await getTrailMap(trail.id, undefined, student.id);
+
+    expect(contentCompleteMap).toMatchObject({
+      totalNodes: 4,
+      completedNodes: 3,
+    });
+
+    if (trail.finalTestNodeId === null) {
+      throw new Error("A trilha deveria conter o teste final.");
+    }
+    await completeNodes(student.id, [trail.finalTestNodeId]);
+    const allCompleteMap = await getTrailMap(trail.id, undefined, student.id);
+
+    expect(allCompleteMap).toMatchObject({
+      totalNodes: 4,
+      completedNodes: 4,
+    });
+  });
+
+  it("não retorna um nó pertencente a outra trilha", async () => {
+    const trail = await createTrail(PREFIX, {
+      lessons: 1,
+      withFinalTest: false,
+    });
+    const otherTrail = await createTrail(PREFIX, {
+      lessons: 1,
+      withFinalTest: false,
+    });
+
+    await expect(
+      getTrailNode(trail.id, otherTrail.contentNodeIds[0]),
+    ).resolves.toBeNull();
+  });
+});
