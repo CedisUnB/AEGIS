@@ -1,4 +1,3 @@
-// components/TrailMapNodeBubble.tsx
 import type { TrailMapDTO } from "../../types";
 import { NodeStatusIcon } from "./NodeStatusIcon";
 
@@ -8,17 +7,20 @@ interface TrailMapNodeBubbleProps {
 
 export function TrailMapNodeBubble({ node }: TrailMapNodeBubbleProps) {
   if (node.isFinalTest) {
+    const isLocked = !node.isUnlocked;
+
     const finalTestClassName = [
       "flex h-16 w-28 items-center justify-center gap-2 rounded-xl border-b-4 px-3 shadow-md transition",
-      "hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 active:border-b-2",
-      "border-alert bg-alert text-alert-foreground",
+      isLocked
+        ? "cursor-not-allowed opacity-50 border-border bg-surface-alt text-foreground-muted"
+        : "hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 active:border-b-2 border-alert bg-alert text-alert-foreground",
     ].join(" ");
 
     return (
       <span className={finalTestClassName}>
         <NodeStatusIcon node={node} />
         <span className="text-xs font-bold uppercase tracking-wide">
-          Teste final
+          {isLocked ? "Teste Final Bloqueado" : "Teste final"}
         </span>
       </span>
     );

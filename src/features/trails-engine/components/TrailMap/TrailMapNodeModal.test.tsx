@@ -29,6 +29,7 @@ const node: TrailMapDTO["nodes"][number] = {
   isCurrent: true,
   isMostAdvanced: true,
   isFinalTest: false,
+  isUnlocked: true,
 };
 
 let root: Root | undefined;
@@ -152,5 +153,71 @@ describe("TrailMapNodeModal", () => {
 
     expect(closeDialog).toHaveBeenCalledTimes(1);
     expect(dialog?.open).toBe(false);
+  });
+
+  it("keeps the final test disabled until all content steps are completed", () => {
+    act(() => {
+      root?.render(
+        <TrailMapNodeModal
+          trailId={12}
+          node={{
+            ...node,
+            title: "Teste final",
+            kindLabel: "Teste final",
+            isCompleted: false,
+            isCurrent: false,
+            isMostAdvanced: false,
+            isFinalTest: true,
+            isUnlocked: false,
+          }}
+        >
+          <span>Final test bubble</span>
+        </TrailMapNodeModal>,
+      );
+    });
+
+    const trigger = container.querySelector("button");
+    expect(trigger?.disabled).toBe(true);
+    expect(trigger?.getAttribute("aria-label")).toContain(
+      "bloqueado até concluir as etapas anteriores",
+    );
+
+    act(() => {
+      trigger?.click();
+    });
+
+    expect(showModal).not.toHaveBeenCalled();
+    expect(container.querySelector("dialog")?.open).toBe(false);
+  });
+
+  it("allows opening an unlocked final test", () => {
+    act(() => {
+      root?.render(
+        <TrailMapNodeModal
+          trailId={12}
+          node={{
+            ...node,
+            title: "Teste final",
+            kindLabel: "Teste final",
+            isCompleted: false,
+            isCurrent: false,
+            isMostAdvanced: false,
+            isFinalTest: true,
+            isUnlocked: true,
+          }}
+        >
+          <span>Final test bubble</span>
+        </TrailMapNodeModal>,
+      );
+    });
+
+    const trigger = container.querySelector("button");
+    act(() => {
+      trigger?.click();
+    });
+
+    expect(trigger?.disabled).toBe(false);
+    expect(showModal).toHaveBeenCalledTimes(1);
+    expect(container.querySelector("dialog")?.open).toBe(true);
   });
 });

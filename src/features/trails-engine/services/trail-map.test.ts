@@ -1,18 +1,30 @@
 import {
   findTrailMapData,
   findTrailNodeData,
+  upsertNodeProgress,
+  updateTakesStatus,
 } from "../repositories";
-import { getTrailMap, getTrailNode } from "./trail-map";
+import {
+  completeTrailIfPassed,
+  getTrailMap,
+  getTrailNode,
+} from "./trail-map";
 
 jest.mock("../repositories", () => ({
   findTrailMapData: jest.fn(),
   findTrailNodeData: jest.fn(),
+  upsertNodeProgress: jest.fn(),
+  updateTakesStatus: jest.fn(),
 }));
 
 const mockedFindTrailMapData =
   findTrailMapData as jest.MockedFunction<typeof findTrailMapData>;
 const mockedFindTrailNodeData =
   findTrailNodeData as jest.MockedFunction<typeof findTrailNodeData>;
+const mockedUpsertNodeProgress =
+  upsertNodeProgress as jest.MockedFunction<typeof upsertNodeProgress>;
+const mockedUpdateTakesStatus =
+  updateTakesStatus as jest.MockedFunction<typeof updateTakesStatus>;
 
 describe("getTrailMap", () => {
   beforeEach(() => {
@@ -69,6 +81,7 @@ describe("getTrailMap", () => {
           isMostAdvanced: false,
           isFinalTest: false,
           isNextUp: false,
+          isUnlocked: true,
         },
         {
           id: 42,
@@ -81,6 +94,7 @@ describe("getTrailMap", () => {
           isMostAdvanced: false,
           isFinalTest: false,
           isNextUp: true,
+          isUnlocked: true,
         },
         {
           id: 43,
@@ -93,6 +107,7 @@ describe("getTrailMap", () => {
           isMostAdvanced: true,
           isFinalTest: true,
           isNextUp: false,
+          isUnlocked: false,
         },
       ],
     });
@@ -131,6 +146,47 @@ describe("getTrailMap", () => {
     });
   });
 
+  it("unlocks the final test after every content node is completed", async () => {
+    mockedFindTrailMapData.mockResolvedValueOnce({
+      id: 12,
+      theme: "Segurança Web",
+      trackNode: [
+        {
+          id: 41,
+          orderIndex: 0,
+          nodeType: "lesson",
+          lesson: { title: "Introdução" },
+          exercises: [],
+          progress: [{ isCompleted: true }],
+        },
+        {
+          id: 42,
+          orderIndex: 1,
+          nodeType: "exercise",
+          lesson: null,
+          exercises: [{ type: "revision" }],
+          progress: [{ isCompleted: true }],
+        },
+        {
+          id: 43,
+          orderIndex: 2,
+          nodeType: "exercise",
+          lesson: null,
+          exercises: [{ type: "test" }],
+          progress: [],
+        },
+      ],
+    } as never);
+
+    const trail = await getTrailMap(12, undefined, "user-123");
+
+    expect(trail?.nodes[2]).toMatchObject({
+      isFinalTest: true,
+      isCompleted: false,
+      isUnlocked: true,
+    });
+  });
+
   it("rejects a focus node that is not in the requested track", async () => {
     mockedFindTrailMapData.mockResolvedValueOnce({
       id: 12,
@@ -158,5 +214,84 @@ describe("getTrailNode", () => {
 
     await expect(getTrailNode(12, 99)).resolves.toBeNull();
     expect(mockedFindTrailNodeData).toHaveBeenCalledWith(12, 99);
+  });
+});
+
+describe("completeTrailIfPassed", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it("records the score and completes the trail when the passing score is reached", async () => {
+    mockedUpsertNodeProgress.mockResolvedValueOnce({} as never);
+    mockedUpdateTakesStatus.mockResolvedValueOnce({} as never);
+
+    await expect(
+      completeTrailIfPassed("user-123", 12, 43, 70),
+    ).resolves.toEqual({ passed: true });
+
+    expect(mockedUpsertNodeProgress).toHaveBeenCalledWith(
+      "user-123",
+      43,
+      { isCompleted: true, score: 70 },
+    );
+    expect(mockedUpdateTakesStatus).toHaveBeenCalledWith("user-123", 12);
+  });
+
+  it("records a failing score without completing the trail", async () => {
+    mockedUpsertNodeProgress.mockResolvedValueOnce({} as never);
+
+    await expect(
+      completeTrailIfPassed("user-123", 12, 43, 69),
+    ).resolves.toEqual({ passed: false });
+
+    expect(mockedUpsertNodeProgress).toHaveBeenCalledWith(
+      "user-123",
+      43,
+      { isCompleted: true, score: 69 },
+    );
+    expect(mockedUpdateTakesStatus).not.toHaveBeenCalled();
+  });
+
+  it("logs progress persistence errors and throws a generic error", async () => {
+    const repositoryError = new Error("database connection details");
+    const consoleError = jest.spyOn(console, "error").mockImplementation();
+    mockedUpsertNodeProgress.mockRejectedValueOnce(repositoryError);
+
+    try {
+      await expect(
+        completeTrailIfPassed("user-123", 12, 43, 70),
+      ).rejects.toThrow(
+        "Não foi possível registrar o resultado do teste final.",
+      );
+      expect(consoleError).toHaveBeenCalledWith(
+        "Falha ao registrar a conclusão do teste final.",
+        repositoryError,
+      );
+      expect(mockedUpdateTakesStatus).not.toHaveBeenCalled();
+    } finally {
+      consoleError.mockRestore();
+    }
+  });
+
+  it("logs trail status errors and throws a generic error", async () => {
+    const repositoryError = new Error("database connection details");
+    const consoleError = jest.spyOn(console, "error").mockImplementation();
+    mockedUpsertNodeProgress.mockResolvedValueOnce({} as never);
+    mockedUpdateTakesStatus.mockRejectedValueOnce(repositoryError);
+
+    try {
+      await expect(
+        completeTrailIfPassed("user-123", 12, 43, 70),
+      ).rejects.toThrow(
+        "Não foi possível registrar o resultado do teste final.",
+      );
+      expect(consoleError).toHaveBeenCalledWith(
+        "Falha ao registrar a conclusão do teste final.",
+        repositoryError,
+      );
+    } finally {
+      consoleError.mockRestore();
+    }
   });
 });

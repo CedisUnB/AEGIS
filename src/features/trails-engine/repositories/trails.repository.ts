@@ -59,3 +59,22 @@ export async function listTrailCatalogData(
     isStarted: track.takes.some(({ status }) => status !== "not_started"),
   }));
 }
+
+export async function upsertNodeProgress(
+  userId: string,
+  trackNodeId: number,
+  data: { isCompleted: boolean; score: number },
+) {
+  return prisma.progress.upsert({
+    where: { userId_trackNodeId: { userId, trackNodeId } },
+    create: { userId, trackNodeId, ...data },
+    update: data,
+  });
+}
+
+export async function updateTakesStatus(userId: string, trackId: number) {
+  return prisma.takes.update({
+    where: { userId_trackId: { userId, trackId } },
+    data: { status: "completed", completedAt: new Date() },
+  });
+}

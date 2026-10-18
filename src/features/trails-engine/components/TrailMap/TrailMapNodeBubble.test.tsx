@@ -13,6 +13,7 @@ const baseNode: TrailMapDTO["nodes"][number] = {
   isMostAdvanced: false,
   isFinalTest: false,
   isNextUp: false,
+  isUnlocked: true,
 };
 
 describe("TrailMapNodeBubble", () => {
@@ -44,6 +45,7 @@ describe("TrailMapNodeBubble", () => {
   });
 
   it("uses the completion accent for a completed node", () => {
+  it("uses the progress highlight when the node is highlighted", () => {
     const markup = renderToStaticMarkup(
       <TrailMapNodeBubble node={{ ...baseNode, isCompleted: true }} />,
     );
@@ -60,6 +62,26 @@ describe("TrailMapNodeBubble", () => {
           nodeType: "exercise",
           kindLabel: "Teste final",
           isFinalTest: true,
+        }}
+      />,
+    );
+
+    expect(markup).toContain("h-16 w-28");
+    expect(markup).toContain(
+      "cursor-not-allowed opacity-50 border-border bg-surface-alt text-foreground-muted",
+    );
+    expect(markup).toContain("Teste Final Bloqueado");
+  });
+
+  it("renders an unlocked final test with its alert styling and label", () => {
+    const markup = renderToStaticMarkup(
+      <TrailMapNodeBubble
+        node={{
+          ...baseNode,
+          nodeType: "exercise",
+          kindLabel: "Teste final",
+          isFinalTest: true,
+          isUnlocked: true,
         }}
       />,
     );

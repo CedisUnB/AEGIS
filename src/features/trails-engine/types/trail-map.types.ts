@@ -30,6 +30,7 @@ export interface TrailMapNodeDTO {
   isMostAdvanced: boolean;
   isFinalTest: boolean;
   isNextUp: boolean;
+  isUnlocked: boolean;
 }
 
 export interface TrailMapDTO {
