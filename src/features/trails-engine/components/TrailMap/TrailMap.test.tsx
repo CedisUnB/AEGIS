@@ -22,6 +22,8 @@ const trail: TrailMapDTO = {
   id: 12,
   theme: "Segurança Web",
   focusNodeId: 42,
+  totalNodes: 4,
+  completedNodes: 1,
   nodes: [
     {
       id: 41,
@@ -33,6 +35,7 @@ const trail: TrailMapDTO = {
       isCurrent: false,
       isMostAdvanced: false,
       isFinalTest: false,
+      isNextUp: false,
     },
     {
       id: 42,
@@ -44,6 +47,7 @@ const trail: TrailMapDTO = {
       isCurrent: true,
       isMostAdvanced: true,
       isFinalTest: true,
+      isNextUp: true,
     },
     {
       id: 43,
@@ -55,6 +59,7 @@ const trail: TrailMapDTO = {
       isCurrent: false,
       isMostAdvanced: false,
       isFinalTest: false,
+      isNextUp: false,
     },
     {
       id: 44,
@@ -66,6 +71,7 @@ const trail: TrailMapDTO = {
       isCurrent: false,
       isMostAdvanced: false,
       isFinalTest: false,
+      isNextUp: false,
     },
   ],
 };
@@ -75,6 +81,7 @@ describe("TrailMap", () => {
     const markup = renderToStaticMarkup(<TrailMap trail={trail} />);
 
     expect(markup).toContain("Segurança Web");
+    expect(markup).toContain("1 de 4 etapas concluídas · 25%");
     expect(markup).toContain('aria-label="Etapas da trilha em sequência"');
     expect(markup).toContain('id="node-41"');
     expect(markup).toContain('id="node-42"');

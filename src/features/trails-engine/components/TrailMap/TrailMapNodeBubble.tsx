@@ -4,10 +4,9 @@ import { NodeStatusIcon } from "./NodeStatusIcon";
 
 interface TrailMapNodeBubbleProps {
   node: TrailMapDTO["nodes"][number];
-  highlight: boolean;
 }
 
-export function TrailMapNodeBubble({ node, highlight }: TrailMapNodeBubbleProps) {
+export function TrailMapNodeBubble({ node }: TrailMapNodeBubbleProps) {
   if (node.isFinalTest) {
     const finalTestClassName = [
       "flex h-16 w-28 items-center justify-center gap-2 rounded-xl border-b-4 px-3 shadow-md transition",
@@ -25,8 +24,10 @@ export function TrailMapNodeBubble({ node, highlight }: TrailMapNodeBubbleProps)
     );
   }
 
-  const toneClassName = highlight
-    ? "border-accent-dark bg-accent text-accent-foreground"
+  const toneClassName = node.isCompleted
+  ? "border-accent-border bg-accent text-accent-foreground"
+  : node.isNextUp
+    ? "border-current-border bg-current-surface text-current-foreground"
     : node.nodeType === "lesson"
       ? "border-lesson-border bg-lesson-surface text-lesson-foreground"
       : "border-exercise-border bg-exercise-surface text-exercise-foreground";
