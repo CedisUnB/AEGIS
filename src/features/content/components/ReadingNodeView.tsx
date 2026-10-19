@@ -14,14 +14,12 @@ interface ReadingNodeViewProps {
 
 export const ReadingNodeView: React.FC<ReadingNodeViewProps> = ({
   trackTitle,
-  categoryTag = "Por que isso importa",
   lesson,
   trackId,
 }) => {
   const router = useRouter();
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [isPending, startTransition] = useTransition();
-  const [isCompleted, setIsCompleted] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const slides = lesson.json.slides;
@@ -38,7 +36,6 @@ export const ReadingNodeView: React.FC<ReadingNodeViewProps> = ({
         try {
           const res = await completeLessonAction(lesson.id, trackId);
           if (res.success) {
-            setIsCompleted(true);
             router.push(`/tracks/${trackId}`);
           } else {
             setErrorMsg(res.error);
@@ -143,7 +140,7 @@ export const ReadingNodeView: React.FC<ReadingNodeViewProps> = ({
         )}
 
         {/* Referências e Fontes Complementares */}
-        {/* {currentSlide.source && ( */}
+        {currentSlide.source && (
           <div className="mt-8 border-t border-slate-800/60 pt-4">
             <details className="text-xs text-slate-400 group">
               <summary className="cursor-pointer font-medium hover:text-slate-300 select-none flex items-center justify-between">
@@ -155,7 +152,7 @@ export const ReadingNodeView: React.FC<ReadingNodeViewProps> = ({
               </p>
             </details>
           </div>
-        {/* )} */}
+        )}
       </div>
     </div>
   );

@@ -74,7 +74,7 @@ export class ContentDeliveryService {
       throw new Error("Nenhum exercício cadastrado para este nó.");
     }
 
-    const sanitizedExercises = exercises.map((exercise) => {
+    const sanitizedExercises = exercises.map((exercise: (typeof exercises)[number]) => {
       const internalJson = exerciseInternalJsonSchema.parse(exercise.json);
       const publicJson = exercisePublicJsonSchema.parse(internalJson);
 
