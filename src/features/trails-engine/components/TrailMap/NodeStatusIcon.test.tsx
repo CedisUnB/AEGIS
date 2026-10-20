@@ -12,6 +12,8 @@ const baseNode: TrailMapDTO["nodes"][number] = {
   isCurrent: false,
   isMostAdvanced: false,
   isFinalTest: false,
+  isNextUp: false,
+  isUnlocked: true,
 };
 
 const iconCases: Array<{
