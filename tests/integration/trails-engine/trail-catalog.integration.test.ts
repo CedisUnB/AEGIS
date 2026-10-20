@@ -1,18 +1,18 @@
 /**
  * @jest-environment node
  */
-import { randomUUID } from "node:crypto";
 import { prisma } from "@/core/database/prisma";
 import {
   cleanup,
   completeNodes,
   createStudent,
+  createTestPrefix,
   createTrail,
   startTrail,
 } from "../../helpers/trail-fixtures";
 import { listTrails } from "@/features/trails-engine/services/trails";
 
-const PREFIX = `__test_${randomUUID().slice(0, 8)}__`;
+const PREFIX = createTestPrefix();
 
 jest.setTimeout(30000);
 

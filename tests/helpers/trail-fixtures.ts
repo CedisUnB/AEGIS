@@ -5,6 +5,7 @@ import { prisma } from "@/core/database/prisma";
 
 export const TEST_PASSWORD = "SenhaTeste123!";
 
+const authorizedPrefixes = new Set<string>();
 const databaseHost = process.env.DATABASE_HOST ?? "127.0.0.1";
 const localDatabaseHosts = new Set(["127.0.0.1", "localhost", "db"]);
 
@@ -14,9 +15,25 @@ if (!localDatabaseHosts.has(databaseHost)) {
   );
 }
 
+export function createTestPrefix(): string {
+  const prefix = `__test_${randomUUID().slice(0, 8)}__`;
+  authorizedPrefixes.add(prefix);
+  return prefix;
+}
+
+function assertAuthorizedPrefix(prefix: string): void {
+  if (!authorizedPrefixes.has(prefix)) {
+    throw new Error(
+      "trail-fixtures: prefix was not created by createTestPrefix().",
+    );
+  }
+}
+
 export async function createStudent(
   prefix: string,
 ): Promise<{ id: string; email: string }> {
+  assertAuthorizedPrefix(prefix);
+
   const email = `${prefix}${randomUUID()}@example.test`;
   const password = await bcrypt.hash(TEST_PASSWORD, 4);
 
@@ -42,6 +59,8 @@ export async function createTrail(
   contentNodeIds: number[];
   finalTestNodeId: number | null;
 }> {
+  assertAuthorizedPrefix(prefix);
+
   if (!Number.isInteger(opts.lessons) || opts.lessons < 1) {
     throw new Error("createTrail requires at least one lesson.");
   }
@@ -161,6 +180,8 @@ export async function markTrailCompleted(
 }
 
 export async function cleanup(prefix: string): Promise<void> {
+  assertAuthorizedPrefix(prefix);
+
   await prisma.track.deleteMany({
     where: { theme: { startsWith: prefix } },
   });

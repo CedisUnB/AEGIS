@@ -1,9 +1,12 @@
-import { randomUUID } from "node:crypto";
 import { expect, test } from "@playwright/test";
 import { prisma } from "@/core/database/prisma";
-import { cleanup, createStudent } from "../helpers/trail-fixtures";
+import {
+  cleanup,
+  createStudent,
+  createTestPrefix,
+} from "../helpers/trail-fixtures";
 
-const PREFIX = `__test_${randomUUID().slice(0, 8)}__`;
+const PREFIX = createTestPrefix();
 
 test.describe("trail-fixtures smoke test", () => {
   test.afterAll(async () => {

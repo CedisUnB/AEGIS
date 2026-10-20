@@ -1,7 +1,6 @@
 /**
  * @jest-environment node
  */
-import { randomUUID } from "node:crypto";
 import { redirect } from "next/navigation";
 import { prisma } from "@/core/database/prisma";
 import { getSession } from "@/core/security";
@@ -15,8 +14,10 @@ import {
   cleanup,
   completeNodes,
   createStudent,
+  createTestPrefix,
   createTrail,
 } from "../../helpers/trail-fixtures";
+import { findTrailMapData, findTrailNodeData } from "@/features/trails-engine/repositories";
 
 jest.mock("next/navigation", () => ({
   redirect: jest.fn((path: string) => {
@@ -28,7 +29,16 @@ jest.mock("@/core/security", () => ({
   getSession: jest.fn(),
 }));
 
-const PREFIX = `__test_${randomUUID().slice(0, 8)}__`;
+jest.mock("@/features/trails-engine/repositories", () => {
+  const actual = jest.requireActual("@/features/trails-engine/repositories");
+  return {
+    ...actual,
+    findTrailMapData: jest.fn(actual.findTrailMapData),
+    findTrailNodeData: jest.fn(actual.findTrailNodeData),
+  };
+});
+
+const PREFIX = createTestPrefix();
 const mockedGetSession = jest.mocked(getSession);
 const mockedRedirect = jest.mocked(redirect);
 
@@ -98,11 +108,24 @@ describe("Isolamento e validação das actions de trilhas (A01)", () => {
         getTrailNodeAction({ trackId: "1", nodeId: invalidId }),
       ).resolves.toBeNull();
     }
+
+    expect(findTrailMapData).not.toHaveBeenCalled();
+    expect(findTrailNodeData).not.toHaveBeenCalled();
   });
 
-  it("não recebe o userId como argumento das actions", () => {
-    expect(getCatalogAction).toHaveLength(0);
-    expect(getTrailMapAction).toHaveLength(1);
-    expect(getTrailNodeAction).toHaveLength(1);
+  it("ignora um userId injetado no input e usa sempre o da sessão", async () => {
+    const owner = await createStudent(PREFIX);
+    const attacker = await createStudent(PREFIX);
+    const trail = await createTrail(PREFIX, { lessons: 2, withFinalTest: false });
+    await completeNodes(owner.id, trail.contentNodeIds);
+
+    mockedGetSession.mockResolvedValue({ sub: attacker.id, role: "student" });
+
+    const map = await getTrailMapAction({
+      trackId: String(trail.id),
+      userId: owner.id,
+    } as unknown as Parameters<typeof getTrailMapAction>[0]);
+
+    expect(map?.completedNodes).not.toBe(trail.contentNodeIds.length);
   });
 });

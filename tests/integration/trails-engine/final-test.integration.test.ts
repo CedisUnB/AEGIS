@@ -1,12 +1,12 @@
 /**
  * @jest-environment node
  */
-import { randomUUID } from "node:crypto";
 import { prisma } from "@/core/database/prisma";
 import {
   cleanup,
   completeNodes,
   createStudent,
+  createTestPrefix,
   createTrail,
   startTrail,
 } from "../../helpers/trail-fixtures";
@@ -15,7 +15,7 @@ import {
   getTrailMap,
 } from "@/features/trails-engine/services/trail-map";
 
-const PREFIX = `__test_${randomUUID().slice(0, 8)}__`;
+const PREFIX = createTestPrefix();
 
 function requireFinalTestNodeId(trail: {
   finalTestNodeId: number | null;
