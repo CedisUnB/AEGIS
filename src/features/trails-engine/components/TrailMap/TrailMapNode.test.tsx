@@ -33,10 +33,10 @@ const baseNode: TrailMapDTO["nodes"][number] = {
 };
 
 describe("TrailMapNode", () => {
-  it("renders an accessible button with bubble, step label, and modal action", () => {
+    it("renders an accessible button with bubble, step label, and modal action", () => {
     const markup = renderToStaticMarkup(
       <TrailMapNode
-        node={baseNode}
+        node={{ ...baseNode, isNextUp: true }}
         trailId={12}
         index={1}
         isLeft={false}
@@ -48,7 +48,9 @@ describe("TrailMapNode", () => {
       'aria-label="Exercícios práticos: Exercícios práticos"',
     );
     expect(markup).toContain("Etapa 2");
-    expect(markup).toContain("border-exercise-border bg-exercise-surface");
+    expect(markup).toContain(
+      "border-current-border bg-current-surface text-current-foreground",
+    );
     expect(markup).toContain('href="/trails/12/nodes/42"');
     expect(markup).toContain("Começar");
     expect(markup).toContain("mr-[18%]");
@@ -117,5 +119,23 @@ describe("TrailMapNode", () => {
     expect(markup).toContain("Etapa 8");
     expect(markup).toContain("justify-center");
     expect(markup).not.toContain("mr-[18%]");
+  });
+
+    it("renders a locked node as a disabled button with muted styling", () => {
+    const markup = renderToStaticMarkup(
+      <TrailMapNode
+        node={{ ...baseNode, isUnlocked: false }}
+        trailId={12}
+        index={3}
+        isLeft={false}
+      />,
+    );
+
+    expect(markup).toContain("disabled");
+    expect(markup).toContain("bloqueado até concluir as etapas anteriores");
+    expect(markup).toContain("border-border bg-surface-alt text-foreground-muted");
+    expect(markup).toContain("cursor-not-allowed");
+    expect(markup).not.toContain("border-current-border");
+    expect(markup).toContain("Etapa 4");
   });
 });

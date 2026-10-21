@@ -12,7 +12,7 @@ interface TrailMapNodeModalProps {
 
 export function TrailMapNodeModal({ trailId, node, children }: TrailMapNodeModalProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
-  const isLocked = node.isFinalTest && !node.isUnlocked;
+  const isLocked = !node.isUnlocked;
 
   function handleOpen() {
     if (isLocked) {

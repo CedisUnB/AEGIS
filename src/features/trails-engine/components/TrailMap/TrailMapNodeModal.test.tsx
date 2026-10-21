@@ -19,7 +19,9 @@ jest.mock("next/link", () => {
   };
 });
 
-const node: TrailMapDTO["nodes"][number] = {
+type TrailNode = TrailMapDTO["nodes"][number];
+
+const node: TrailNode = {
   id: 42,
   orderIndex: 1,
   nodeType: "exercise",
@@ -59,6 +61,16 @@ function restoreDialogMethod(
   } else {
     Reflect.deleteProperty(HTMLDialogElement.prototype, method);
   }
+}
+
+function renderNode(overrides: Partial<TrailNode> = {}) {
+  act(() => {
+    root?.render(
+      <TrailMapNodeModal trailId={12} node={{ ...node, ...overrides }}>
+        <span>Node bubble</span>
+      </TrailMapNodeModal>,
+    );
+  });
 }
 
 describe("TrailMapNodeModal", () => {
@@ -101,14 +113,8 @@ describe("TrailMapNodeModal", () => {
     globalWithActFlag.IS_REACT_ACT_ENVIRONMENT = originalActEnvironment;
   });
 
-  it("opens the node details dialog from its accessible trigger", () => {
-    act(() => {
-      root?.render(
-        <TrailMapNodeModal trailId={12} node={node}>
-          <span>Node bubble</span>
-        </TrailMapNodeModal>,
-      );
-    });
+  it("opens a completed node for review from its accessible trigger", () => {
+    renderNode();
 
     const trigger = container.querySelector("button");
     const dialog = container.querySelector("dialog");
@@ -132,13 +138,7 @@ describe("TrailMapNodeModal", () => {
   });
 
   it("closes the dialog when the close button is activated", () => {
-    act(() => {
-      root?.render(
-        <TrailMapNodeModal trailId={12} node={node}>
-          <span>Node bubble</span>
-        </TrailMapNodeModal>,
-      );
-    });
+    renderNode();
 
     const dialog = container.querySelector("dialog");
     act(() => dialog?.showModal());
@@ -156,60 +156,76 @@ describe("TrailMapNodeModal", () => {
     expect(dialog?.open).toBe(false);
   });
 
-  it("keeps the final test disabled until all content steps are completed", () => {
-    act(() => {
-      root?.render(
-        <TrailMapNodeModal
-          trailId={12}
-          node={{
-            ...node,
-            title: "Teste final",
-            kindLabel: "Teste final",
-            isCompleted: false,
-            isCurrent: false,
-            isMostAdvanced: false,
-            isFinalTest: true,
-            isUnlocked: false,
-          }}
-        >
-          <span>Final test bubble</span>
-        </TrailMapNodeModal>,
-      );
+  it("lets the next-up node be opened with the start action", () => {
+    renderNode({
+      isCompleted: false,
+      isCurrent: false,
+      isMostAdvanced: false,
+      isNextUp: true,
+      isUnlocked: true,
     });
 
     const trigger = container.querySelector("button");
-    expect(trigger?.disabled).toBe(true);
-    expect(trigger?.getAttribute("aria-label")).toContain(
-      "bloqueado até concluir as etapas anteriores",
-    );
+    const dialog = container.querySelector("dialog");
+
+    expect(trigger?.disabled).toBe(false);
+    expect(trigger?.getAttribute("aria-label")).not.toContain("bloqueado");
+    expect(dialog?.textContent).toContain("Começar");
+    expect(dialog?.textContent).not.toContain("Revisar");
 
     act(() => {
       trigger?.click();
     });
 
-    expect(showModal).not.toHaveBeenCalled();
-    expect(container.querySelector("dialog")?.open).toBe(false);
+    expect(showModal).toHaveBeenCalledTimes(1);
+    expect(dialog?.open).toBe(true);
   });
 
-  it("allows opening an unlocked final test", () => {
-    act(() => {
-      root?.render(
-        <TrailMapNodeModal
-          trailId={12}
-          node={{
-            ...node,
-            title: "Teste final",
-            kindLabel: "Teste final",
-            isCompleted: false,
-            isCurrent: false,
-            isMostAdvanced: false,
-            isFinalTest: true,
-            isUnlocked: true,
-          }}
-        >
-          <span>Final test bubble</span>
-        </TrailMapNodeModal>,
+  const lockedCases: [string, Partial<TrailNode>][] = [
+    ["a regular node", { isFinalTest: false }],
+    [
+      "the final test",
+      { title: "Teste final", kindLabel: "Teste final", isFinalTest: true },
+    ],
+  ];
+
+  it.each(lockedCases)(
+    "keeps %s disabled and closed while it is locked",
+    (_label, overrides) => {
+      renderNode({
+        ...overrides,
+        isCompleted: false,
+        isCurrent: false,
+        isMostAdvanced: false,
+        isNextUp: false,
+        isUnlocked: false,
+      });
+
+      const trigger = container.querySelector("button");
+      expect(trigger?.disabled).toBe(true);
+      expect(trigger?.getAttribute("aria-label")).toContain(
+        "bloqueado até concluir as etapas anteriores",
       );
+
+      act(() => {
+        trigger?.click();
+      });
+
+      expect(showModal).not.toHaveBeenCalled();
+      expect(container.querySelector("dialog")?.open).toBe(false);
+    },
+  );
+
+  it("allows opening the final test once it becomes the next step", () => {
+    renderNode({
+      title: "Teste final",
+      kindLabel: "Teste final",
+      isCompleted: false,
+      isCurrent: false,
+      isMostAdvanced: false,
+      isFinalTest: true,
+      isNextUp: true,
+      isUnlocked: true,
     });
 
     const trigger = container.querySelector("button");

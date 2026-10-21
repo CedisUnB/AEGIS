@@ -26,12 +26,45 @@ const mockedUpsertNodeProgress =
 const mockedUpdateTakesStatus =
   updateTakesStatus as jest.MockedFunction<typeof updateTakesStatus>;
 
+function trackNode(
+  id: number,
+  {
+    nodeType = "lesson",
+    completed = false,
+    finalTest = false,
+  }: {
+    nodeType?: "lesson" | "exercise";
+    completed?: boolean;
+    finalTest?: boolean;
+  } = {},
+) {
+  return {
+    id,
+    orderIndex: id,
+    nodeType,
+    lesson: nodeType === "lesson" ? { title: `Lição ${id}` } : null,
+    exercises:
+      nodeType === "exercise"
+        ? [{ type: finalTest ? "test" : "revision" }]
+        : [],
+    progress: completed ? [{ isCompleted: true }] : [],
+  };
+}
+
+function unlockStates(trail: Awaited<ReturnType<typeof getTrailMap>>) {
+  return trail?.nodes.map(({ id, isUnlocked, isNextUp }) => ({
+    id,
+    isUnlocked,
+    isNextUp,
+  }));
+}
+
 describe("getTrailMap", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it("creates ordered node DTOs and marks completion and the most advanced node", async () => {
+  it("creates ordered node DTOs with completed, next-up and locked states", async () => {
     mockedFindTrailMapData.mockResolvedValueOnce({
       id: 12,
       theme: "Segurança Web",
@@ -58,7 +91,7 @@ describe("getTrailMap", () => {
           nodeType: "exercise",
           lesson: null,
           exercises: [{ type: "test" }],
-          progress: [{ isCompleted: true }],
+          progress: [],
         },
       ],
     } as never);
@@ -66,9 +99,9 @@ describe("getTrailMap", () => {
     await expect(getTrailMap(12, undefined, "user-123")).resolves.toEqual({
       id: 12,
       theme: "Segurança Web",
-      focusNodeId: 43,
+      focusNodeId: 41,
       totalNodes: 3,
-      completedNodes: 2,
+      completedNodes: 1,
       nodes: [
         {
           id: 41,
@@ -77,8 +110,8 @@ describe("getTrailMap", () => {
           title: "Introdução",
           kindLabel: "Teoria",
           isCompleted: true,
-          isCurrent: false,
-          isMostAdvanced: false,
+          isCurrent: true,
+          isMostAdvanced: true,
           isFinalTest: false,
           isNextUp: false,
           isUnlocked: true,
@@ -102,9 +135,9 @@ describe("getTrailMap", () => {
           nodeType: "exercise",
           title: "Teste final",
           kindLabel: "Teste final",
-          isCompleted: true,
-          isCurrent: true,
-          isMostAdvanced: true,
+          isCompleted: false,
+          isCurrent: false,
+          isMostAdvanced: false,
           isFinalTest: true,
           isNextUp: false,
           isUnlocked: false,
@@ -143,38 +176,62 @@ describe("getTrailMap", () => {
       isCompleted: false,
       kindLabel: "Teoria",
       isNextUp: true,
+      isUnlocked: true,
     });
   });
 
-  it("unlocks the final test after every content node is completed", async () => {
+  it("keeps every node after the next-up one locked", async () => {
     mockedFindTrailMapData.mockResolvedValueOnce({
       id: 12,
       theme: "Segurança Web",
       trackNode: [
-        {
-          id: 41,
-          orderIndex: 0,
-          nodeType: "lesson",
-          lesson: { title: "Introdução" },
-          exercises: [],
-          progress: [{ isCompleted: true }],
-        },
-        {
-          id: 42,
-          orderIndex: 1,
-          nodeType: "exercise",
-          lesson: null,
-          exercises: [{ type: "revision" }],
-          progress: [{ isCompleted: true }],
-        },
-        {
-          id: 43,
-          orderIndex: 2,
-          nodeType: "exercise",
-          lesson: null,
-          exercises: [{ type: "test" }],
-          progress: [],
-        },
+        trackNode(41, { completed: true }),
+        trackNode(42, { nodeType: "exercise", completed: true }),
+        trackNode(43),
+        trackNode(44, { nodeType: "exercise" }),
+        trackNode(45, { nodeType: "exercise", finalTest: true }),
+      ],
+    } as never);
+
+    const trail = await getTrailMap(12, undefined, "user-123");
+
+    expect(unlockStates(trail)).toEqual([
+      { id: 41, isUnlocked: true, isNextUp: false },
+      { id: 42, isUnlocked: true, isNextUp: false },
+      { id: 43, isUnlocked: true, isNextUp: true },
+      { id: 44, isUnlocked: false, isNextUp: false },
+      { id: 45, isUnlocked: false, isNextUp: false },
+    ]);
+  });
+
+  it("unlocks only the first node when there is no progress", async () => {
+    mockedFindTrailMapData.mockResolvedValueOnce({
+      id: 12,
+      theme: "Segurança Web",
+      trackNode: [
+        trackNode(41),
+        trackNode(42, { nodeType: "exercise" }),
+        trackNode(43, { nodeType: "exercise", finalTest: true }),
+      ],
+    } as never);
+
+    const trail = await getTrailMap(12, undefined, "user-123");
+
+    expect(unlockStates(trail)).toEqual([
+      { id: 41, isUnlocked: true, isNextUp: true },
+      { id: 42, isUnlocked: false, isNextUp: false },
+      { id: 43, isUnlocked: false, isNextUp: false },
+    ]);
+  });
+
+  it("unlocks the final test only after every content node is completed", async () => {
+    mockedFindTrailMapData.mockResolvedValueOnce({
+      id: 12,
+      theme: "Segurança Web",
+      trackNode: [
+        trackNode(41, { completed: true }),
+        trackNode(42, { nodeType: "exercise", completed: true }),
+        trackNode(43, { nodeType: "exercise", finalTest: true }),
       ],
     } as never);
 
@@ -183,7 +240,50 @@ describe("getTrailMap", () => {
     expect(trail?.nodes[2]).toMatchObject({
       isFinalTest: true,
       isCompleted: false,
+      isNextUp: true,
       isUnlocked: true,
+    });
+  });
+
+  it("keeps every node unlocked for review when the whole trail is completed", async () => {
+    mockedFindTrailMapData.mockResolvedValueOnce({
+      id: 12,
+      theme: "Segurança Web",
+      trackNode: [
+        trackNode(41, { completed: true }),
+        trackNode(42, { nodeType: "exercise", completed: true }),
+        trackNode(43, { nodeType: "exercise", finalTest: true, completed: true }),
+      ],
+    } as never);
+
+    const trail = await getTrailMap(12, undefined, "user-123");
+
+    expect(unlockStates(trail)).toEqual([
+      { id: 41, isUnlocked: true, isNextUp: false },
+      { id: 42, isUnlocked: true, isNextUp: false },
+      { id: 43, isUnlocked: true, isNextUp: false },
+    ]);
+  });
+
+  it("does not move the next-up node when a focus node is requested", async () => {
+    mockedFindTrailMapData.mockResolvedValueOnce({
+      id: 12,
+      theme: "Segurança Web",
+      trackNode: [
+        trackNode(41, { completed: true }),
+        trackNode(42, { nodeType: "exercise", completed: true }),
+        trackNode(43),
+      ],
+    } as never);
+
+    const trail = await getTrailMap(12, 41, "user-123");
+
+    expect(trail?.focusNodeId).toBe(41);
+    expect(trail?.nodes.find(({ id }) => id === 41)?.isCurrent).toBe(true);
+    expect(trail?.nodes.find(({ id }) => id === 43)).toMatchObject({
+      isNextUp: true,
+      isUnlocked: true,
+      isCurrent: false,
     });
   });
 

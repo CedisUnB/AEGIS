@@ -38,13 +38,7 @@ export async function getTrailMap(
       return null;
     }
 
-    const isContentNode = (node: typeof track.trackNode[number]) =>
-      !resolveNodeMeta(node).isFinalTest;
-
-    const allContentCompleted = track.trackNode
-      .filter(isContentNode)
-      .every(({ progress }) => progress.length > 0);
-
+    // TO-DO: ALTERAR LÓGICA AQUI
     const mostAdvancedNode = track.trackNode
       .filter(({ progress }) => progress.length > 0)
       .at(-1);
@@ -68,6 +62,7 @@ export async function getTrailMap(
       nodes: track.trackNode.map((node) => {
         const { title, isFinalTest } = resolveNodeMeta(node);
         const isCompleted = node.progress.length > 0;
+        const isNextUp = node.id === nextUpNode?.id;
         const isMostAdvanced =
           mostAdvancedNode !== undefined && node.id === mostAdvancedNode.id;
 
@@ -85,8 +80,8 @@ export async function getTrailMap(
           isCurrent: node.id === currentNodeId,
           isMostAdvanced,
           isFinalTest,
-          isNextUp: nextUpNode !== undefined && node.id === nextUpNode.id,
-          isUnlocked: isFinalTest ? allContentCompleted : true,
+          isNextUp,
+          isUnlocked: isCompleted || isNextUp,
         };
       }),
     };
