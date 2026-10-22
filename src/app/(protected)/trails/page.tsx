@@ -1,8 +1,8 @@
 import { TrailsMap } from "@/features/trails-engine/components";
-import { listTrails } from "@/features/trails-engine/services";
+import { listTrails, Trail } from "@/features/trails-engine/services";
 
 export default async function TrailsPage() {
-  const trails = await listTrails();
+  const trails = [] as Trail[];
 
   return (
     <main className="px-4 py-8 bg-surface min-h-screen">

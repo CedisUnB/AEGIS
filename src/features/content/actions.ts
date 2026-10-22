@@ -112,3 +112,24 @@ export async function submitExercisesAction(
     };
   }
 }
+
+export async function getNodeTypeAction(
+  trackNodeId: number
+): Promise<ActionResponse<{ nodeType: "lesson" | "exercise" }>> {
+  try {
+    const userId = await getAuthenticatedUserId();
+    const node = await contentDeliveryService.validateNodeAccess(userId, trackNodeId);
+    
+    return { 
+      success: true,
+      statusCode: 200,
+      data: { nodeType: node.nodeType } 
+    };
+  } catch (err) {
+    return {
+      success: false,
+      statusCode: 500,
+      error: (err as Error).message || "Erro ao carregar as informações do nó.",
+    };
+  }
+}
