@@ -14,7 +14,7 @@
     "test:watch": "jest --watch",
     "test:unit": "jest --ci --selectProjects unit",
     "test:coverage": "jest --ci --coverage --selectProjects unit",
-    "test:integration": "jest --ci --selectProjects integration",
+    "test:integration": "jest --ci --selectProjects integration --runInBand",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui"
   },

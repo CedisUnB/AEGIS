@@ -38,7 +38,7 @@ describe("Desbloqueio do teste final e conclusão da trilha (US09)", () => {
     }
   }, 30000);
 
-  it("mantém o teste final bloqueado sem conteúdo concluído e deixa os nós comuns abertos", async () => {
+  it("desbloqueia apenas o primeiro nó e mantém o teste final bloqueado sem progresso", async () => {
     const student = await createStudent(PREFIX);
     const trail = await createTrail(PREFIX, {
       lessons: 2,
@@ -47,13 +47,16 @@ describe("Desbloqueio do teste final e conclusão da trilha (US09)", () => {
 
     const map = await getTrailMap(trail.id, undefined, student.id);
     const finalTest = map?.nodes.find(({ isFinalTest }) => isFinalTest);
-    const contentNodes = map?.nodes.filter(({ isFinalTest }) => !isFinalTest);
-
+    expect(map?.nodes.map(({ isUnlocked }) => isUnlocked)).toEqual([
+      true,
+      false,
+      false,
+      false,
+    ]);
     expect(finalTest?.isUnlocked).toBe(false);
-    expect(contentNodes?.every(({ isUnlocked }) => isUnlocked)).toBe(true);
   });
 
-  it("mantém o teste final bloqueado enquanto faltar conteúdo não concluído", async () => {
+  it("mantém desbloqueados os nós concluídos e o próximo nó, mas bloqueia o teste final", async () => {
     const student = await createStudent(PREFIX);
     const trail = await createTrail(PREFIX, {
       lessons: 2,
@@ -66,6 +69,12 @@ describe("Desbloqueio do teste final e conclusão da trilha (US09)", () => {
     expect(map?.nodes.find(({ isFinalTest }) => isFinalTest)?.isUnlocked).toBe(
       false,
     );
+    expect(map?.nodes.map(({ isUnlocked }) => isUnlocked)).toEqual([
+      true,
+      true,
+      true,
+      false,
+    ]);
   });
 
   it("desbloqueia o teste final quando todo o conteúdo está concluído", async () => {
@@ -83,7 +92,7 @@ describe("Desbloqueio do teste final e conclusão da trilha (US09)", () => {
     );
   });
 
-  it("não bloqueia nós em uma trilha sem teste final", async () => {
+  it("aplica o desbloqueio sequencial também a trilhas sem teste final", async () => {
     const student = await createStudent(PREFIX);
     const trail = await createTrail(PREFIX, {
       lessons: 2,
@@ -92,8 +101,13 @@ describe("Desbloqueio do teste final e conclusão da trilha (US09)", () => {
 
     const map = await getTrailMap(trail.id, undefined, student.id);
 
-    expect(map?.nodes.every(({ isFinalTest, isUnlocked }) => !isFinalTest && isUnlocked))
-      .toBe(true);
+    expect(map?.nodes.every(({ isFinalTest }) => !isFinalTest)).toBe(true);
+    expect(map?.nodes.map(({ isUnlocked }) => isUnlocked)).toEqual([
+      true,
+      false,
+      false,
+      false,
+    ]);
   });
 
   it("registra nota aprovada no progresso e conclui a trilha", async () => {

@@ -66,6 +66,39 @@ describe("Mapa e progresso da trilha (US07/US08)", () => {
       true,
       false,
     ]);
+    expect(map?.nodes.map(({ isUnlocked }) => isUnlocked)).toEqual([
+      true,
+      true,
+      true,
+      false,
+    ]);
+  });
+
+  it("desbloqueia somente o próximo nó incompleto e os nós já concluídos", async () => {
+    const student = await createStudent(PREFIX);
+    const trail = await createTrail(PREFIX, {
+      lessons: 2,
+      withFinalTest: false,
+    });
+
+    const initialMap = await getTrailMap(trail.id, undefined, student.id);
+
+    expect(initialMap?.nodes.map(({ isUnlocked }) => isUnlocked)).toEqual([
+      true,
+      false,
+      false,
+      false,
+    ]);
+
+    await completeNodes(student.id, [trail.contentNodeIds[0]]);
+    const afterFirstNodeMap = await getTrailMap(trail.id, undefined, student.id);
+
+    expect(afterFirstNodeMap?.nodes.map(({ isUnlocked }) => isUnlocked)).toEqual([
+      true,
+      true,
+      false,
+      false,
+    ]);
   });
 
   it("não destaca um nó mais avançado quando não há progresso", async () => {
@@ -154,5 +187,21 @@ describe("Mapa e progresso da trilha (US07/US08)", () => {
     await expect(
       getTrailNode(trail.id, otherTrail.contentNodeIds[0]),
     ).resolves.toBeNull();
+  });
+
+    it("libera o teste final somente quando todo o conteúdo anterior está concluído", async () => {
+    const student = await createStudent(PREFIX);
+    const trail = await createTrail(PREFIX, { lessons: 2, withFinalTest: true });
+
+    await completeNodes(student.id, trail.contentNodeIds.slice(0, -1));
+    const before = await getTrailMap(trail.id, undefined, student.id);
+    expect(before?.nodes.find(({ isFinalTest }) => isFinalTest)?.isUnlocked).toBe(false);
+
+    await completeNodes(student.id, trail.contentNodeIds.slice(-1));
+    const after = await getTrailMap(trail.id, undefined, student.id);
+    expect(after?.nodes.find(({ isFinalTest }) => isFinalTest)).toMatchObject({
+      isNextUp: true,
+      isUnlocked: true,
+    });
   });
 });
