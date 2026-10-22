@@ -1,14 +1,11 @@
-import { prisma } from "@/core/database/prisma";
+import { listTrailCatalogData } from "../repositories";
+import type { TrailCatalogEntry } from "../types";
 
-export interface Trail {
-  id: number;
-  theme: string;
-  sequence: string;
-}
-
-export async function listTrails(): Promise<Trail[]> {
-  return prisma.track.findMany({
-    orderBy: { sequence: "asc" },
-    select: { id: true, theme: true, sequence: true },
-  });
+export async function listTrails(userId?: string): Promise<TrailCatalogEntry[]> {
+  try {
+    return await listTrailCatalogData(userId);
+  } catch (error) {
+    console.error("Falha ao carregar o catálogo de trilhas.", error);
+    throw new Error("Não foi possível carregar o catálogo de trilhas.");
+  }
 }
