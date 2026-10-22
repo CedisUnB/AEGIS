@@ -70,24 +70,66 @@ export const ExerciseNodeView: React.FC<ExerciseNodeViewProps> = ({
     }
   };
 
-  // Renderiza a tela de resultado final
+  // Renderiza a tela de resultado final com o Feedback
   if (evaluationResult) {
     return (
-      <div className="min-h-screen bg-surface text-slate-100 flex flex-col items-center justify-center p-6">
-        <div className="bg-surface-alt p-8 rounded-2xl max-w-lg w-full text-center shadow-xl">
-          <h2 className="text-3xl font-bold mb-4">
-            {evaluationResult.isNodeCompleted ? "Parabéns! 🎉" : "Quase lá!"}
-          </h2>
-          <p className="text-lg text-foreground-muted mb-6">
-            Sua nota foi <strong className="text-white">{evaluationResult.score}%</strong>.
-            A nota de corte era {evaluationResult.passingScore}%.
-          </p>
-          <button
-            onClick={() => router.push(`/tracks/${trackId}`)}
-            className="px-6 py-3 bg-brand-primary hover:bg-brand-secondary text-foreground rounded-lg font-semibold transition-colors"
-          >
-            Voltar para a Trilha
-          </button>
+      <div className="min-h-screen bg-surface text-slate-100 flex flex-col items-center justify-center p-6 sm:p-10">
+        <div className="max-w-2xl w-full flex flex-col gap-6">
+          
+          {/* Cartão de Parabéns / Nota Geral */}
+          <div className="bg-surface-alt p-8 rounded-2xl text-center shadow-xl border border-slate-800">
+            <h2 className="text-3xl font-bold mb-4 text-foreground">
+              {evaluationResult.isNodeCompleted ? "Parabéns! 🎉" : "Quase lá!"}
+            </h2>
+            <p className="text-lg text-foreground-muted mb-6">
+              Sua nota foi <strong className="text-white">{evaluationResult.score}%</strong> a nota de corte era {evaluationResult.passingScore}%
+            </p>
+            <button
+              onClick={() => router.push(`/tracks/${trackId}`)}
+              className="px-6 py-3 bg-brand-primary hover:bg-brand-secondary text-foreground rounded-lg font-semibold transition-colors"
+            >
+              Voltar a Trilha
+            </button>
+          </div>
+
+          {/* Lista de Resultados e Feedbacks das Questões */}
+          <div className="space-y-4">
+            {exercises.map((exercise, idx) => {
+              // Encontra o resultado individual dessa questão retornado pela API
+              const evalItem = evaluationResult.exercises.find(e => e.id === exercise.id);
+              const isCorrect = evalItem?.isCorrect;
+              const feedback = evalItem?.feedback;
+
+              return (
+                <div key={exercise.id} className="bg-surface-alt border border-slate-700 rounded-lg overflow-hidden shadow-sm">
+                  {/* Cabeçalho da Questão */}
+                  <div className="flex justify-between items-center p-4 bg-surface">
+                    <span className="font-medium text-foreground">Questão {idx + 1}</span>
+                    <span className={`font-semibold ${isCorrect ? "text-green-500" : "text-rose-500"}`}>
+                      {isCorrect ? "Correto" : "Incorreto"}
+                    </span>
+                  </div>
+
+                  {/* Área de Feedback (exibida apenas se estiver incorreta e houver feedback) */}
+                  {!isCorrect && feedback && (
+                    <details className="group border-t border-slate-700 bg-surface-alt" open>
+                      <summary className="flex justify-between items-center p-4 cursor-pointer text-foreground-muted font-medium select-none hover:text-slate-300 transition-colors">
+                        <span>Feedback</span>
+                        <span className="transition-transform group-open:rotate-180">
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                          </svg>
+                        </span>
+                      </summary>
+                      <div className="px-4 pb-4 text-sm text-foreground-muted leading-relaxed">
+                        {feedback}
+                      </div>
+                    </details>
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     );
@@ -109,7 +151,6 @@ export const ExerciseNodeView: React.FC<ExerciseNodeViewProps> = ({
               <button
                 key={idx}
                 onClick={() => handleAnswerChange(idx)}
-                // Se a opção for clicada, fica verde, simulando o comportamento visual do wireframe
                 className={`py-3 px-4 rounded-lg font-medium transition-colors text-center ${
                   isSelected
                     ? "bg-confirm text-foreground shadow-md"
