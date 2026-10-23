@@ -36,6 +36,7 @@ export default async function jestConfig(): Promise<Config> {
         displayName: 'integration',
         testEnvironment: 'node',
         roots: ['<rootDir>/tests/integration'],
+        setupFiles: ['dotenv/config'],
         testPathIgnorePatterns: ['./tests/e2e'],
       },
     ],
