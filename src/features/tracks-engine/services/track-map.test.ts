@@ -312,7 +312,7 @@ describe("getTrackNode", () => {
   it("returns node metadata only when the node belongs to the requested track", async () => {
     mockedFindTrackNodeData.mockResolvedValueOnce(null);
 
-    await expect(getTrackNode(12, 99)).resolves.toBeNull();
+    await expect(getTrackNode(12, 99, "user-123")).resolves.toBeNull();
     expect(mockedFindTrackNodeData).toHaveBeenCalledWith(12, 99);
   });
 });
@@ -327,13 +327,13 @@ describe("completeTrackIfPassed", () => {
     mockedUpdateTakesStatus.mockResolvedValueOnce({} as never);
 
     await expect(
-      completeTrackIfPassed("user-123", 12, 43, 70),
+      completeTrackIfPassed("user-123", 12, 43, 80),
     ).resolves.toEqual({ passed: true });
 
     expect(mockedUpsertNodeProgress).toHaveBeenCalledWith(
       "user-123",
       43,
-      { isCompleted: true, score: 70 },
+      { isCompleted: true, score: 80 },
     );
     expect(mockedUpdateTakesStatus).toHaveBeenCalledWith("user-123", 12);
   });
@@ -342,13 +342,13 @@ describe("completeTrackIfPassed", () => {
     mockedUpsertNodeProgress.mockResolvedValueOnce({} as never);
 
     await expect(
-      completeTrackIfPassed("user-123", 12, 43, 69),
+      completeTrackIfPassed("user-123", 12, 43, 79),
     ).resolves.toEqual({ passed: false });
 
     expect(mockedUpsertNodeProgress).toHaveBeenCalledWith(
       "user-123",
       43,
-      { isCompleted: true, score: 69 },
+      { isCompleted: true, score: 79 },
     );
     expect(mockedUpdateTakesStatus).not.toHaveBeenCalled();
   });
@@ -360,7 +360,7 @@ describe("completeTrackIfPassed", () => {
 
     try {
       await expect(
-        completeTrackIfPassed("user-123", 12, 43, 70),
+        completeTrackIfPassed("user-123", 12, 43, 80),
       ).rejects.toThrow(
         "Não foi possível registrar o resultado do teste final.",
       );
@@ -382,7 +382,7 @@ describe("completeTrackIfPassed", () => {
 
     try {
       await expect(
-        completeTrackIfPassed("user-123", 12, 43, 70),
+        completeTrackIfPassed("user-123", 12, 43, 80),
       ).rejects.toThrow(
         "Não foi possível registrar o resultado do teste final.",
       );

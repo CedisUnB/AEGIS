@@ -1,3 +1,4 @@
+import { NodeType } from "@generated/prisma/enums";
 import {
   findTrackMapData,
   findTrackNodeData,
@@ -10,10 +11,15 @@ import type {
 } from "../types";
 
 function resolveNodeMeta(node: {
+  nodeType: NodeType;
+  id: number;
   lesson: { title: string } | null;
   exercises: { type: string }[];
-}) {
-  const isFinalTest = node.exercises.some(({ type }) => type === "test");
+}, lastNodeId: number | undefined) {
+  const isFinalTest =
+    node.id === lastNodeId &&
+    node.nodeType === "exercise" &&
+    node.exercises.some(({ type }) => type === "test");
   const title = node.lesson?.title ?? (isFinalTest ? "Teste final" : "Exercícios práticos");
 
   return { title, isFinalTest };
@@ -52,6 +58,8 @@ export async function getTrackMap(
 
     const nextUpNode = track.trackNode.find(({ progress }) => progress.length === 0);
 
+    const lastNodeId = track.trackNode.at(-1)?.id;
+
       return {
       id: track.id,
       theme: track.theme,
@@ -59,7 +67,7 @@ export async function getTrackMap(
       totalNodes: totalNodes,
       completedNodes: completedNodes,
       nodes: track.trackNode.map((node) => {
-        const { title, isFinalTest } = resolveNodeMeta(node);
+        const { title, isFinalTest } = resolveNodeMeta(node, lastNodeId);
         const isCompleted = node.progress.length > 0;
         const isNextUp = node.id === nextUpNode?.id;
         const isMostAdvanced =
@@ -93,15 +101,24 @@ export async function getTrackMap(
 export async function getTrackNode(
   trackId: number,
   nodeId: number,
+  userId: string,
 ): Promise<TrackNodeContentDTO | null> {
   try {
     const node = await findTrackNodeData(trackId, nodeId);
-
+    
     if (!node) {
       return null;
     }
 
-    const { title, isFinalTest } = resolveNodeMeta(node);
+    const track = await findTrackMapData(trackId, userId);
+    
+    if (!track) {
+      return null;
+    }
+    
+    const lastNodeId = track.trackNode.at(-1)?.id;
+
+    const { title, isFinalTest } = resolveNodeMeta(node, lastNodeId);
     return {
       id: node.id,
       trackId: node.trackId,
@@ -115,8 +132,6 @@ export async function getTrackNode(
   }
 }
 
-const PASSING_SCORE = 70; // TODO: confirmar se é fixo ou configurável por trilha
-
 export async function completeTrackIfPassed(
   userId: string,
   trackId: number,
@@ -129,7 +144,7 @@ export async function completeTrackIfPassed(
       score,
     });
 
-    const passed = score >= PASSING_SCORE;
+    const passed = score >= 80;
 
     if (passed) {
       await updateTakesStatus(userId, trackId);

@@ -37,12 +37,17 @@ test.describe('Catálogo de trilhas (US06/US09)', () => {
     const dialog = page.getByRole('dialog', { name: track.theme });
     await expect(dialog).toBeVisible();
     await expect(dialog.getByText(`Trilha de integração ${track.theme}`)).toBeVisible();
-    await dialog.getByRole('link', { name: 'Começar' }).click();
+    await dialog.getByRole('button', { name: 'Começar' }).click();
 
     await expect(page).toHaveURL(`/tracks/${track.id}`);
     await expect(
       page.getByRole('heading', { name: track.theme }),
     ).toBeVisible();
+    await expect(
+      prisma.takes.findUnique({
+        where: { userId_trackId: { userId: student.id, trackId: track.id } },
+      }),
+    ).resolves.toMatchObject({ status: 'in_progress', completedAt: null });
   });
 
   test('mostra o progresso da trilha iniciada e omite o indicador sem progresso', async ({

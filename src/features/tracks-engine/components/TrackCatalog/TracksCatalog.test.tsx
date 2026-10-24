@@ -18,6 +18,14 @@ jest.mock("next/link", () => {
   };
 });
 
+jest.mock("next/navigation", () => ({
+  useRouter: () => ({ push: jest.fn() }),
+}));
+
+jest.mock("../../actions", () => ({
+  startTrackAction: jest.fn(),
+}));
+
 describe("TracksCatalog", () => {
   it("renders an empty state when there are no tracks", () => {
     const markup = renderToStaticMarkup(<TracksCatalog tracks={[]} />);

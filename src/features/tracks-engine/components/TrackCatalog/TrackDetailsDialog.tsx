@@ -1,7 +1,8 @@
 "use client";
 
-import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState, useTransition } from "react";
+import { startTrackAction } from "../../actions";
 import type { TrackCatalogEntry } from "../../types";
 
 interface TrackDetailsDialogProps {
@@ -13,7 +14,10 @@ export function TrackDetailsDialog({
   track,
   onClose,
 }: TrackDetailsDialogProps) {
+  const router = useRouter();
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -25,6 +29,21 @@ export function TrackDetailsDialog({
       dialog.close();
     }
   }, [track]);
+
+  const handleStartTrack = () => {
+    if (!track) return;
+
+    const trackId = track.id;
+    setError(null);
+    startTransition(async () => {
+      try {
+        await startTrackAction(trackId);
+        router.push(`/tracks/${trackId}`);
+      } catch {
+        setError("Não foi possível iniciar a trilha. Tente novamente.");
+      }
+    });
+  };
 
   return (
     <dialog
@@ -77,16 +96,27 @@ export function TrackDetailsDialog({
             >
               Voltar ao mapa
             </button>
-            <Link
-              href={`/tracks/${track.id}`}
-              className="rounded-lg bg-accent flex items-center px-6 py-3 text-sm font-semibold text-accent-foreground transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-secondary"
+            <button
+              type="button"
+              onClick={handleStartTrack}
+              disabled={isPending}
+              className="cursor-pointer rounded-lg bg-accent flex items-center px-6 py-3 text-sm font-semibold text-accent-foreground transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-secondary disabled:cursor-wait disabled:opacity-60"
             >
-              {track.isStarted ? "Continuar trilha" : "Começar"}
+              {isPending
+                ? "Iniciando..."
+                : track.isStarted
+                  ? "Continuar trilha"
+                  : "Começar"}
               <span aria-hidden="true" className="ml-3">
                 →
               </span>
-            </Link>
+            </button>
           </div>
+          {error && (
+            <p role="alert" className="mt-3 text-right text-sm text-rose-500">
+              {error}
+            </p>
+          )}
         </div>
       )}
     </dialog>

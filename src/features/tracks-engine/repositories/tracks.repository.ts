@@ -72,9 +72,19 @@ export async function upsertNodeProgress(
   });
 }
 
+export async function startTrack(userId: string, trackId: number) {
+  return prisma.takes.upsert({
+    where: { userId_trackId: { userId, trackId } },
+    create: { userId, trackId, status: "in_progress" },
+    update: {},
+  });
+}
+
 export async function updateTakesStatus(userId: string, trackId: number) {
+  const completedAt = new Date();
+
   return prisma.takes.update({
     where: { userId_trackId: { userId, trackId } },
-    data: { status: "completed", completedAt: new Date() },
+    data: { status: "completed", completedAt },
   });
 }

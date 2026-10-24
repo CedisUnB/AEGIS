@@ -2,7 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { getSession } from "@/core/security";
-import { getTrackMap, getTrackNode, listTracks } from "./services";
+import { getTrackMap, getTrackNode, listTracks, startTrack } from "./services";
 import {
   trackMapRouteParamsSchema,
   trackNodeRouteParamsSchema,
@@ -30,6 +30,16 @@ export async function getCatalogAction(): Promise<TrackCatalogEntry[]> {
   return listTracks(userId);
 }
 
+export async function startTrackAction(trackId: number): Promise<void> {
+  const userId = await requireUserId();
+
+  if (!Number.isSafeInteger(trackId) || trackId <= 0) {
+    throw new Error("Trilha inválida.");
+  }
+
+  await startTrack(userId, trackId);
+}
+
 export async function getTrackMapAction(
   params: { trackId: string; focus?: string },
 ): Promise<TrackMapDTO | null> {
@@ -46,12 +56,12 @@ export async function getTrackMapAction(
 export async function getTrackNodeAction(
   params: { trackId: string; nodeId: string },
 ): Promise<TrackNodeContentDTO | null> {
-  await requireSession();
+  const userId = await requireUserId();
 
   const parsed = trackNodeRouteParamsSchema.safeParse(params);
   if (!parsed.success) {
     return null;
   }
 
-  return getTrackNode(parsed.data.trackId, parsed.data.nodeId);
+  return getTrackNode(parsed.data.trackId, parsed.data.nodeId, userId);
 }

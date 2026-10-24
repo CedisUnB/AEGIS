@@ -175,6 +175,7 @@ describe("Mapa e progresso da trilha (US07/US08)", () => {
   });
 
   it("não retorna um nó pertencente a outra trilha", async () => {
+    const student = await createStudent(PREFIX);
     const track = await createTrack(PREFIX, {
       lessons: 1,
       withFinalTest: false,
@@ -185,7 +186,7 @@ describe("Mapa e progresso da trilha (US07/US08)", () => {
     });
 
     await expect(
-      getTrackNode(track.id, otherTrack.contentNodeIds[0]),
+      getTrackNode(track.id, otherTrack.contentNodeIds[0], student.id),
     ).resolves.toBeNull();
   });
 

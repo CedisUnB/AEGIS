@@ -46,14 +46,14 @@ test.describe('Mapa da trilha e progresso (US07/US08)', () => {
       name: `Teoria: ${track.theme} lesson 2`,
     });
     const secondExercise = page.getByRole('button', {
-      name: `Exercícios práticos: Exercícios práticos`,
-      exact: true,
+      name: /^Exercícios práticos: Exercícios práticos, bloqueado até concluir as etapas anteriores$/,
     });
 
     await expect(firstLesson).toBeVisible();
     await expect(firstExercise).toBeVisible();
     await expect(secondLesson).toBeVisible();
     await expect(secondExercise).toBeVisible();
+    await expect(secondExercise).toBeDisabled();
     await expect(page.getByText('Etapa 1 · Concluída', { exact: true })).toBeVisible();
     await expect(page.getByText('Etapa 2 · Concluída', { exact: true })).toBeVisible();
     await expect(page.getByText('Etapa 3', { exact: true })).toBeVisible();
@@ -75,7 +75,7 @@ test.describe('Mapa da trilha e progresso (US07/US08)', () => {
       lessons: 2,
       withFinalTest: false,
     });
-    await completeNodes(student.id, [track.contentNodeIds[0]]);
+    await completeNodes(student.id, track.contentNodeIds.slice(0, 2));
 
     await loginAs(page, student);
     await page.goto(`/tracks/${track.id}`);
@@ -97,7 +97,7 @@ test.describe('Mapa da trilha e progresso (US07/US08)', () => {
     await page.goto(`/tracks/${track.id}`);
     await page
       .getByRole('button', {
-        name: `Teoria: ${track.theme} lesson 1, concluído, etapa mais avançada alcançada`,
+        name: `Teoria: ${track.theme} lesson 1, concluído`,
       })
       .click();
     const reviewDialog = page.getByRole('dialog', {
