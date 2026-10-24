@@ -5,7 +5,7 @@ import bcrypt from "bcryptjs";
 const DEV_USER_EMAIL = "estudante.dev@safe.local";
 const DEV_USER_PASSWORD = "DevSenha123!";
 
-type DemoTrail = {
+type DemoTrack = {
   theme: string;
   description: string;
   lessonTitle: string;
@@ -24,7 +24,7 @@ const DEMO_TRACK_THEMES = [
   "Segurança em Nuvem",
 ];
 
-const ADDITIONAL_DEMO_TRAILS: DemoTrail[] = [
+const ADDITIONAL_DEMO_TRACKS: DemoTrack[] = [
   {
     theme: "Proteção de Dados",
     description:
@@ -90,7 +90,7 @@ async function seedTrack(theme: string, description: string) {
   });
 }
 
-async function seedBasicTrail(
+async function seedBasicTrack(
   theme: string,
   description: string,
   lessonTitle: string,
@@ -106,13 +106,13 @@ async function seedBasicTrail(
   return { track, nodes: [lessonNode, exerciseNode] };
 }
 
-async function seedCompletedBasicTrail(
+async function seedCompletedBasicTrack(
   theme: string,
   description: string,
   lessonTitle: string,
   userId: string,
 ) {
-  const { track, nodes } = await seedBasicTrail(theme, description, lessonTitle);
+  const { track, nodes } = await seedBasicTrack(theme, description, lessonTitle);
   const completedAt = new Date();
 
   await prisma.progress.createMany({
@@ -133,7 +133,7 @@ async function seedCompletedBasicTrail(
   });
 }
 
-async function seedSecureDevelopmentTrail(
+async function seedSecureDevelopmentTrack(
   description: string,
   lessonTitles: string[],
 ) {
@@ -236,40 +236,40 @@ async function main() {
   });
 
   // Trilhas 2 a 4 — mantêm cenários simples e temas cobertos no catálogo.
-  await seedBasicTrail(
+  await seedBasicTrack(
     "OWASP Top 10",
     "Conheça as vulnerabilidades mais críticas de aplicações web e como preveni-las na prática.",
     "Introdução às vulnerabilidades mais críticas",
   );
-  await seedBasicTrail(
+  await seedBasicTrack(
     "SQL Injection",
     "Como lidar com injeções de código.",
     "Como lidar com injeções de código",
   );
-  await seedBasicTrail(
+  await seedBasicTrack(
     "Security By Design",
     "Aprenda sobre Design Seguro, que aplica práticas de segurança em todo o ciclo de desenvolvimento de software desde a etapa inicial de requisitos e design.",
     "Princípios de segurança desde a concepção",
   );
 
   // Trilhas 5 a 10 — permitem visualizar o anel completo e a grade excedente.
-  for (const trail of ADDITIONAL_DEMO_TRAILS) {
-    if (trail.theme === "Criptografia Aplicada") {
-      await seedCompletedBasicTrail(
-        trail.theme,
-        trail.description,
-        trail.lessonTitle,
+  for (const track of ADDITIONAL_DEMO_TRACKS) {
+    if (track.theme === "Criptografia Aplicada") {
+      await seedCompletedBasicTrack(
+        track.theme,
+        track.description,
+        track.lessonTitle,
         devUser.id,
       );
-    } else if (trail.theme === "Desenvolvimento Seguro") {
-      await seedSecureDevelopmentTrail(trail.description, [
+    } else if (track.theme === "Desenvolvimento Seguro") {
+      await seedSecureDevelopmentTrack(track.description, [
         "Fundamentos do desenvolvimento seguro",
         "Modelagem de ameaças e análise de riscos",
         "Validação de entradas e prevenção de injeções",
         "Revisão de código e segurança no ciclo de desenvolvimento",
       ]);
     } else {
-      await seedBasicTrail(trail.theme, trail.description, trail.lessonTitle);
+      await seedBasicTrack(track.theme, track.description, track.lessonTitle);
     }
   }
 

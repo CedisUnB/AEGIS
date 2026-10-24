@@ -17,9 +17,9 @@ import {
   completeNodes,
   createStudent,
   createTestPrefix,
-  createTrail,
-  startTrail,
-} from "../helpers/trail-fixtures";
+  createTrack,
+  startTrack,
+} from "../helpers/track-fixtures";
 
 jest.mock("next/cache", () => ({
   revalidatePath: jest.fn(),
@@ -108,12 +108,12 @@ describe("Integração da feature content", () => {
 
   it("entrega lições, protege exercícios ainda bloqueados e registra conclusão de leitura", async () => {
     const student = await createStudent(PREFIX);
-    const trail = await createTrail(PREFIX, {
+    const track = await createTrack(PREFIX, {
       lessons: 2,
       withFinalTest: true,
     });
-    const firstLessonNodeId = trail.contentNodeIds[0];
-    const regularExerciseNodeId = trail.contentNodeIds[1];
+    const firstLessonNodeId = track.contentNodeIds[0];
+    const regularExerciseNodeId = track.contentNodeIds[1];
     await setExerciseContent(regularExerciseNodeId, "revision", 2);
     mockedGetSession.mockResolvedValue({
       sub: student.id,
@@ -127,7 +127,7 @@ describe("Integração da feature content", () => {
       data: {
         id: firstLessonNodeId,
         nodeType: "lesson",
-        trackId: trail.id,
+        trackId: track.id,
       },
     });
 
@@ -138,13 +138,13 @@ describe("Integração da feature content", () => {
       error: expect.stringContaining("Acesso bloqueado"),
     });
 
-    const completion = await completeLessonAction(firstLessonNodeId, trail.id);
+    const completion = await completeLessonAction(firstLessonNodeId, track.id);
     expect(completion).toEqual({
       success: true,
       statusCode: 200,
       data: { message: "Leitura concluída com sucesso." },
     });
-    expect(revalidatePath).toHaveBeenCalledWith(`/tracks/${trail.id}`);
+    expect(revalidatePath).toHaveBeenCalledWith(`/tracks/${track.id}`);
     await expect(
       prisma.progress.findUnique({
         where: {
@@ -211,12 +211,12 @@ describe("Integração da feature content", () => {
 
   it("avalia exercícios de revisão com corte de 60% e mantém melhor nota e tentativas", async () => {
     const student = await createStudent(PREFIX);
-    const trail = await createTrail(PREFIX, {
+    const track = await createTrack(PREFIX, {
       lessons: 2,
       withFinalTest: true,
     });
-    const lessonNodeId = trail.contentNodeIds[0];
-    const regularExerciseNodeId = trail.contentNodeIds[1];
+    const lessonNodeId = track.contentNodeIds[0];
+    const regularExerciseNodeId = track.contentNodeIds[1];
     const exercises = await setExerciseContent(
       regularExerciseNodeId,
       "revision",
@@ -229,7 +229,7 @@ describe("Integração da feature content", () => {
     });
 
     const failedAttempt = await submitExercisesAction(
-      trail.id,
+      track.id,
       makeSubmission(regularExerciseNodeId, exercises, 1),
     );
     expect(failedAttempt).toMatchObject({
@@ -259,7 +259,7 @@ describe("Integração da feature content", () => {
     expect(revalidatePath).not.toHaveBeenCalled();
 
     const passedAttempt = await submitExercisesAction(
-      trail.id,
+      track.id,
       makeSubmission(regularExerciseNodeId, exercises, 2),
     );
     expect(passedAttempt).toMatchObject({
@@ -270,7 +270,7 @@ describe("Integração da feature content", () => {
         isNodeCompleted: true,
       },
     });
-    expect(revalidatePath).toHaveBeenCalledWith(`/tracks/${trail.id}`);
+    expect(revalidatePath).toHaveBeenCalledWith(`/tracks/${track.id}`);
 
     const progress = await prisma.progress.findUnique({
       where: {
@@ -314,28 +314,28 @@ describe("Integração da feature content", () => {
 
   it("exige 80% no teste final e só conclui a trilha quando a nota atinge o corte", async () => {
     const student = await createStudent(PREFIX);
-    const trail = await createTrail(PREFIX, {
+    const track = await createTrack(PREFIX, {
       lessons: 2,
       withFinalTest: true,
     });
-    if (trail.finalTestNodeId === null) {
+    if (track.finalTestNodeId === null) {
       throw new Error("A fixture deveria incluir um teste final.");
     }
     const finalTestExercises = await setExerciseContent(
-      trail.finalTestNodeId,
+      track.finalTestNodeId,
       "test",
       5,
     );
-    await completeNodes(student.id, trail.contentNodeIds);
-    await startTrail(student.id, trail.id);
+    await completeNodes(student.id, track.contentNodeIds);
+    await startTrack(student.id, track.id);
     mockedGetSession.mockResolvedValue({
       sub: student.id,
       role: "student",
     });
 
     const rejected = await submitExercisesAction(
-      trail.id,
-      makeSubmission(trail.finalTestNodeId, finalTestExercises, 3),
+      track.id,
+      makeSubmission(track.finalTestNodeId, finalTestExercises, 3),
     );
     expect(rejected).toMatchObject({
       success: true,
@@ -348,14 +348,14 @@ describe("Integração da feature content", () => {
     });
     await expect(
       prisma.takes.findUnique({
-        where: { userId_trackId: { userId: student.id, trackId: trail.id } },
+        where: { userId_trackId: { userId: student.id, trackId: track.id } },
       }),
     ).resolves.toMatchObject({ status: "in_progress", completedAt: null });
     expect(revalidatePath).not.toHaveBeenCalled();
 
     const passed = await submitExercisesAction(
-      trail.id,
-      makeSubmission(trail.finalTestNodeId, finalTestExercises, 4),
+      track.id,
+      makeSubmission(track.finalTestNodeId, finalTestExercises, 4),
     );
     expect(passed).toMatchObject({
       success: true,
@@ -368,18 +368,18 @@ describe("Integração da feature content", () => {
     });
     await expect(
       prisma.takes.findUnique({
-        where: { userId_trackId: { userId: student.id, trackId: trail.id } },
+        where: { userId_trackId: { userId: student.id, trackId: track.id } },
       }),
     ).resolves.toMatchObject({
       status: "completed",
       completedAt: expect.any(Date),
     });
-    expect(revalidatePath).toHaveBeenCalledWith(`/tracks/${trail.id}`);
+    expect(revalidatePath).toHaveBeenCalledWith(`/tracks/${track.id}`);
   });
 
   it("rejeita payload inválido sem gravar progresso ou respostas", async () => {
     const student = await createStudent(PREFIX);
-    const trail = await createTrail(PREFIX, {
+    const track = await createTrack(PREFIX, {
       lessons: 1,
       withFinalTest: false,
     });
@@ -388,8 +388,8 @@ describe("Integração da feature content", () => {
       role: "student",
     });
 
-    const response = await submitExercisesAction(trail.id, {
-      trackNodeId: trail.contentNodeIds[1],
+    const response = await submitExercisesAction(track.id, {
+      trackNodeId: track.contentNodeIds[1],
       exercises: [],
     });
 

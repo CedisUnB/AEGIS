@@ -1,5 +1,5 @@
 import { expect, type Page } from '@playwright/test';
-import { TEST_PASSWORD } from './trail-fixtures';
+import { TEST_PASSWORD } from './track-fixtures';
 
 export async function loginAs(
   page: Page,
@@ -10,7 +10,7 @@ export async function loginAs(
   await page.getByLabel('Senha', { exact: true }).fill(TEST_PASSWORD);
   await page.getByRole('button', { name: 'Entrar' }).click();
 
-  await expect(page).toHaveURL(/\/trails$/, { timeout: 20000 });
+  await expect(page).toHaveURL(/\/tracks$/, { timeout: 20000 });
   await expect(
     page.getByRole('heading', { name: 'Trilhas disponíveis' }),
   ).toBeVisible();

@@ -218,7 +218,7 @@ describe("signInAction", () => {
       path: "/",
       maxAge: 7200,
     });
-    expect(mockedRedirect).toHaveBeenCalledWith("/trails");
+    expect(mockedRedirect).toHaveBeenCalledWith("/tracks");
   });
 });
 
@@ -319,7 +319,7 @@ describe("signUpAction", () => {
       path: "/",
       maxAge: 7200,
     });
-    expect(mockedRedirect).toHaveBeenCalledWith("/trails");
+    expect(mockedRedirect).toHaveBeenCalledWith("/tracks");
   });
 });
 

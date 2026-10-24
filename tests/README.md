@@ -64,7 +64,7 @@ npm run test:watch
 
 Certifique-se de que o container do banco (`tcc_mysql`) está no ar antes de rodar os testes de integração, já que eles dependem de uma conexão real com o banco de dados.
 
-Os testes que usam `tests/helpers/trail-fixtures.ts` devem obter o prefixo por `createTestPrefix()`. O helper só permite criar e remover dados associados a prefixos emitidos no próprio processo; prefixos vazios, inventados ou de outro escopo são rejeitados antes de qualquer escrita ou exclusão.
+Os testes que usam `tests/helpers/track-fixtures.ts` devem obter o prefixo por `createTestPrefix()`. O helper só permite criar e remover dados associados a prefixos emitidos no próprio processo; prefixos vazios, inventados ou de outro escopo são rejeitados antes de qualquer escrita ou exclusão.
 
 ## Testes E2E (Playwright)
 

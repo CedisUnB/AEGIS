@@ -95,7 +95,7 @@ export async function signInAction(
     return { ...result, fieldValues, resetKey };
   }
 
-  redirect("/trails");
+  redirect("/tracks");
 }
 
 export async function signUpAction(
@@ -164,7 +164,7 @@ export async function signUpAction(
     return { ...result, fieldValues, resetKey };
   }
 
-  redirect("/trails");
+  redirect("/tracks");
 }
 
 export async function getProfileUserAction(): Promise<ActionResponse<UserProfile>> {

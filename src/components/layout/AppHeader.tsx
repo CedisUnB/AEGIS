@@ -12,7 +12,7 @@ export function AppHeader({ user, role }: AppHeaderProps) {
 
   return (
     <header className="sticky top-0 z-50 flex items-center justify-between bg-brand-primary px-4 py-3">
-      <Link href="/trails" className="text-xl font-bold tracking-tight text-white">
+      <Link href="/tracks" className="text-xl font-bold tracking-tight text-white">
         SAFE
       </Link>
 
