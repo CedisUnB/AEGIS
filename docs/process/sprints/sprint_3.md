@@ -2,7 +2,7 @@
 
 | Sprint | Período | Data Reunião de Planejamento | Data Reunião de Review | Participantes |
 |---|---|---|---|---|
-| 1 | 06/10/26 - 19/10/26 | 06/10/26 | dd/mm/yy | Pedro Henrique da Silva Melo e João Pedro Rodrigues Morbeck |
+| 3 | 06/10/26 - 19/10/26 | 06/10/26 | dd/mm/yy | Pedro Henrique da Silva Melo e João Pedro Rodrigues Morbeck |
 
 ## Planejamento da Sprint
 
