@@ -15,12 +15,12 @@ export async function proxy(request: NextRequest) {
   //   request.nextUrl.pathname.startsWith("/admin") &&
   //   session.role !== "admin"
   // ) {
-  //   return NextResponse.redirect(new URL("/trails", request.url));
+  //   return NextResponse.redirect(new URL("/tracks", request.url));
   // }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/trails/:path*", "/practice/:path*", "/progress/:path*", "/revision/:path*", "/admin/:path*"],
+  matcher: ["/tracks/:path*", "/practice/:path*", "/progress/:path*", "/revision/:path*", "/admin/:path*"],
 };

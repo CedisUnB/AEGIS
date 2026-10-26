@@ -18,7 +18,7 @@ async function registerUser(page: Page, user: { username: string; email: string 
   await page.getByLabel('Senha', { exact: true }).fill(PASSWORD);
   await page.getByLabel('Confirmar Senha').fill(PASSWORD);
   await page.getByRole('button', { name: 'Criar conta' }).click();
-  await expect(page).toHaveURL(/\/trails$/);
+  await expect(page).toHaveURL(/\/tracks$/);
 }
 
 async function loginUser(page: Page, email: string, password: string) {
@@ -70,7 +70,7 @@ test.describe('Perfil de usuário', () => {
     await expect(page).toHaveURL(/\/auth\/login\?reauth=1$/);
 
     await loginUser(page, newEmail, PASSWORD);
-    await expect(page).toHaveURL(/\/trails$/);
+    await expect(page).toHaveURL(/\/tracks$/);
   });
 
   test('deve rejeitar atualização para um e-mail já utilizado por outro usuário', async ({ page }) => {

@@ -12,7 +12,7 @@ jobs:
   # ==========================================
   code-quality:
     name: Lint & Type Check
-    runs-on: self-hosted 
+    runs-on: self-hosted
     steps:
       - name: Checkout do Código
         uses: actions/checkout@v4
@@ -61,6 +61,14 @@ jobs:
     name: Testes de Integração
     runs-on: self-hosted
     needs: [code-quality, unit-tests]
+    env:
+      DATABASE_URL: mysql://tcc_user:tcc_password@127.0.0.1:3306/tcc_db_test?connect_timeout=30&pool_timeout=30
+      DATABASE_HOST: 127.0.0.1
+      DATABASE_PORT: "3306"
+      DATABASE_USER: tcc_user
+      DATABASE_PASSWORD: tcc_password
+      DATABASE_NAME: tcc_db_test
+      JWT_SECRET: chave-aleatoria-com-pelo-menos-32-caracteres
     services:
       mysql:
         image: mysql:8.0
@@ -90,13 +98,12 @@ jobs:
         run: npx prisma generate
 
       - name: Executar Migrações no Banco de Teste
-        env:
-          DATABASE_URL: mysql://tcc_user:tcc_password@127.0.0.1:3306/tcc_db_test
         run: npx prisma migrate deploy
 
+      - name: Verificar conexão do Prisma Client
+        run: npx tsx scripts/check-db-connection.ts
+
       - name: Executar Testes de Integração
-        env:
-          DATABASE_URL: mysql://tcc_user:tcc_password@127.0.0.1:3306/tcc_db_test
         run: npm run test:integration
 
   # ==========================================
@@ -106,6 +113,14 @@ jobs:
     name: Testes E2E (Playwright)
     runs-on: self-hosted
     needs: [integration-tests]
+    env:
+      DATABASE_URL: mysql://tcc_user:tcc_password@127.0.0.1:3306/tcc_db_e2e?connect_timeout=30&pool_timeout=30
+      DATABASE_HOST: 127.0.0.1
+      DATABASE_PORT: "3306"
+      DATABASE_USER: tcc_user
+      DATABASE_PASSWORD: tcc_password
+      DATABASE_NAME: tcc_db_e2e
+      JWT_SECRET: chave-aleatoria-com-pelo-menos-32-caracteres
     services:
       mysql:
         image: mysql:8.0
@@ -135,22 +150,13 @@ jobs:
         run: npx prisma generate
 
       - name: Executar Migrações para E2E
-        env:
-          DATABASE_URL: mysql://tcc_user:tcc_password@127.0.0.1:3306/tcc_db_e2e
         run: npx prisma migrate deploy
 
+      - name: Verificar conexão do Prisma Client
+        run: npx tsx scripts/check-db-connection.ts
+
       - name: Instalar Navegadores do Playwright
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install chromium
 
       - name: Executar Testes E2E
-        env:
-          DATABASE_URL: mysql://tcc_user:tcc_password@127.0.0.1:3306/tcc_db_e2e
         run: npm run test:e2e
-
-      - name: Salvar Relatório do Playwright (em caso de falha)
-        uses: actions/upload-artifact@v4
-        if: ${{ !cancelled() }}
-        with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 7
