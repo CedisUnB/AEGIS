@@ -62,12 +62,13 @@ jobs:
     runs-on: self-hosted
     needs: [code-quality, unit-tests]
     env:
-      DATABASE_URL: mysql://root:root_password@127.0.0.1:3306/tcc_db_test?connect_timeout=30&pool_timeout=30
+      DATABASE_URL: mysql://tcc_user:tcc_password@127.0.0.1:3306/tcc_db_test?connect_timeout=30&pool_timeout=30
       DATABASE_HOST: 127.0.0.1
       DATABASE_PORT: "3306"
-      DATABASE_USER: root
-      DATABASE_PASSWORD: root_password
+      DATABASE_USER: tcc_user
+      DATABASE_PASSWORD: tcc_password
       DATABASE_NAME: tcc_db_test
+      JWT_SECRET: chave-aleatoria-com-pelo-menos-32-caracteres
     services:
       mysql:
         image: mysql:8.0
@@ -99,6 +100,9 @@ jobs:
       - name: Executar Migrações no Banco de Teste
         run: npx prisma migrate deploy
 
+      - name: Verificar conexão do Prisma Client
+        run: npx tsx scripts/check-db-connection.ts
+
       - name: Executar Testes de Integração
         run: npm run test:integration
 
@@ -110,12 +114,13 @@ jobs:
     runs-on: self-hosted
     needs: [integration-tests]
     env:
-      DATABASE_URL: mysql://root:root_password@127.0.0.1:3306/tcc_db_e2e?connect_timeout=30&pool_timeout=30
+      DATABASE_URL: mysql://tcc_user:tcc_password@127.0.0.1:3306/tcc_db_e2e?connect_timeout=30&pool_timeout=30
       DATABASE_HOST: 127.0.0.1
       DATABASE_PORT: "3306"
-      DATABASE_USER: root
-      DATABASE_PASSWORD: root_password
+      DATABASE_USER: tcc_user
+      DATABASE_PASSWORD: tcc_password
       DATABASE_NAME: tcc_db_e2e
+      JWT_SECRET: chave-aleatoria-com-pelo-menos-32-caracteres
     services:
       mysql:
         image: mysql:8.0
@@ -146,6 +151,9 @@ jobs:
 
       - name: Executar Migrações para E2E
         run: npx prisma migrate deploy
+
+      - name: Verificar conexão do Prisma Client
+        run: npx tsx scripts/check-db-connection.ts
 
       - name: Instalar Navegadores do Playwright
         run: npx playwright install --with-deps chromium
