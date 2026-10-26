@@ -16,10 +16,7 @@ function resolveNodeMeta(node: {
   lesson: { title: string } | null;
   exercises: { type: string }[];
 }, lastNodeId: number | undefined) {
-  const isFinalTest =
-    node.id === lastNodeId &&
-    node.nodeType === "exercise" &&
-    node.exercises.some(({ type }) => type === "test");
+  const isFinalTest = node.id === lastNodeId && node.nodeType === "exercise";
   const title = node.lesson?.title ?? (isFinalTest ? "Teste final" : "Exercícios práticos");
 
   return { title, isFinalTest };
@@ -139,12 +136,12 @@ export async function completeTrackIfPassed(
   score: number,
 ): Promise<{ passed: boolean }> {
   try {
+    const passed = score >= 80;
+
     await upsertNodeProgress(userId, trackNodeId, {
-      isCompleted: true,
+      isCompleted: passed,
       score,
     });
-
-    const passed = score >= 80;
 
     if (passed) {
       await updateTakesStatus(userId, trackId);

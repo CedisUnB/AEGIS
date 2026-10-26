@@ -150,7 +150,7 @@ describe("TrackDetailsDialog", () => {
         ?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
     });
 
-    expect(mockedStartTrackAction).toHaveBeenCalledWith(track.id);
+    expect(mockedStartTrackAction).toHaveBeenCalledWith({trackId: track.id.toString()});
     expect(mockRouterPush).toHaveBeenCalledWith(`/tracks/${track.id}`);
     expect(container.querySelector('[role="alert"]')).toBeNull();
   });

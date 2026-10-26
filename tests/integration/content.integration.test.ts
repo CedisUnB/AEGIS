@@ -114,7 +114,11 @@ describe("Integração da feature content", () => {
     });
     const firstLessonNodeId = track.contentNodeIds[0];
     const regularExerciseNodeId = track.contentNodeIds[1];
-    await setExerciseContent(regularExerciseNodeId, "revision", 2);
+    const exerciseRecords = await setExerciseContent(
+      regularExerciseNodeId,
+      "revision",
+      2,
+    );
     mockedGetSession.mockResolvedValue({
       sub: student.id,
       role: "student",
@@ -137,6 +141,34 @@ describe("Integração da feature content", () => {
       statusCode: 500,
       error: expect.stringContaining("Acesso bloqueado"),
     });
+
+    const blockedLessonCompletion = await completeLessonAction(
+      track.contentNodeIds[2],
+      track.id,
+    );
+    expect(blockedLessonCompletion).toMatchObject({
+      success: false,
+      error: expect.stringContaining("Acesso bloqueado"),
+    });
+
+    const blockedExerciseSubmission = await submitExercisesAction(track.id, {
+      trackNodeId: regularExerciseNodeId,
+      exercises: exerciseRecords.map(({ id }) => ({ id, value: 0 })),
+    });
+    expect(blockedExerciseSubmission).toMatchObject({
+      success: false,
+      error: expect.stringContaining("Acesso bloqueado"),
+    });
+    await expect(
+      prisma.progress.count({
+        where: {
+          userId: student.id,
+          trackNodeId: {
+            in: [track.contentNodeIds[2], regularExerciseNodeId],
+          },
+        },
+      }),
+    ).resolves.toBe(0);
 
     const completion = await completeLessonAction(firstLessonNodeId, track.id);
     expect(completion).toEqual({
@@ -227,6 +259,28 @@ describe("Integração da feature content", () => {
       sub: student.id,
       role: "student",
     });
+
+    const repeatedQuestion = await submitExercisesAction(track.id, {
+      trackNodeId: regularExerciseNodeId,
+      exercises: [
+        { id: exercises[0].id, value: 0 },
+        { id: exercises[0].id, value: 0 },
+      ],
+    });
+    expect(repeatedQuestion).toMatchObject({
+      success: false,
+      error: expect.stringContaining("Cada questão deve ser respondida apenas uma vez."),
+    });
+    await expect(
+      prisma.progress.findUnique({
+        where: {
+          userId_trackNodeId: {
+            userId: student.id,
+            trackNodeId: regularExerciseNodeId,
+          },
+        },
+      }),
+    ).resolves.toBeNull();
 
     const failedAttempt = await submitExercisesAction(
       track.id,

@@ -37,7 +37,7 @@ export function TrackDetailsDialog({
     setError(null);
     startTransition(async () => {
       try {
-        await startTrackAction(trackId);
+        await startTrackAction({trackId: trackId.toString()});
         router.push(`/tracks/${trackId}`);
       } catch {
         setError("Não foi possível iniciar a trilha. Tente novamente.");

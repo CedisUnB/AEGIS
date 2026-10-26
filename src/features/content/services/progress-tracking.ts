@@ -1,18 +1,20 @@
 import { TrackNodeRepository } from "../repositories/track-node.repository";
 import { ProgressRepository } from "../repositories/progress.repository";
 import { ExerciseEvaluationService } from "./exercise-evaluation";
+import { ContentDeliveryService } from "./content-delivery";
 import { Submission, Result } from "../types/content.types";
 
 export class ProgressTrackingService {
   constructor(
     private readonly trackNodeRepo: TrackNodeRepository = new TrackNodeRepository(),
     private readonly progressRepo: ProgressRepository = new ProgressRepository(),
-    private readonly evaluationService: ExerciseEvaluationService = new ExerciseEvaluationService()
+    private readonly evaluationService: ExerciseEvaluationService = new ExerciseEvaluationService(),
+    private readonly contentDeliveryService: ContentDeliveryService = new ContentDeliveryService()
   ) {}
 
   async completeLesson(userId: string, trackNodeId: number) {
-    const node = await this.trackNodeRepo.findById(trackNodeId);
-    if (!node || node.nodeType !== "lesson") {
+    const node = await this.contentDeliveryService.validateNodeAccess(userId, trackNodeId);
+    if (node.nodeType !== "lesson") {
       throw new Error("Nó inválido ou não corresponde a uma lição.");
     }
     const isLastNode = await this.trackNodeRepo.isLastNodeOfTrack(node.trackId, node.orderIndex);
@@ -21,8 +23,11 @@ export class ProgressTrackingService {
   }
 
   async submitExercises(userId: string, submission: Submission): Promise<Result> {
-    const node = await this.trackNodeRepo.findById(submission.trackNodeId);
-    if (!node || node.nodeType !== "exercise") {
+    const node = await this.contentDeliveryService.validateNodeAccess(
+      userId,
+      submission.trackNodeId
+    );
+    if (node.nodeType !== "exercise") {
         throw new Error("Nó inválido ou não corresponde a uma bateria de exercícios.");
     }
 

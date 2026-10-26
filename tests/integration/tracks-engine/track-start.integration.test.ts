@@ -52,7 +52,9 @@ describe("Action de início de trilha", () => {
       role: "student",
     });
 
-    await expect(startTrackAction(track.id)).resolves.toBeUndefined();
+    await expect(
+      startTrackAction({ trackId: String(track.id) }),
+    ).resolves.toBeUndefined();
 
     await expect(
       prisma.takes.findUnique({
@@ -86,7 +88,7 @@ describe("Action de início de trilha", () => {
       role: "student",
     });
 
-    await startTrackAction(track.id);
+    await startTrackAction({ trackId: String(track.id) });
 
     await expect(
       prisma.takes.findUnique({
@@ -101,14 +103,14 @@ describe("Action de início de trilha", () => {
   it("redireciona para login quando não há sessão", async () => {
     mockedGetSession.mockResolvedValue(null);
 
-    await expect(startTrackAction(1)).rejects.toThrow(
+    await expect(startTrackAction({ trackId: "1" })).rejects.toThrow(
       "Redirected to /auth/login",
     );
 
     expect(mockedRedirect).toHaveBeenCalledWith("/auth/login");
   });
 
-  it.each([0, -1, 1.5, Number.MAX_SAFE_INTEGER + 1])(
+  it.each(["0", "-1", "1.5", "2147483648", "not-a-number", ""])(
     "rejeita o id inválido %s",
     async (trackId) => {
       mockedGetSession.mockResolvedValue({
@@ -116,7 +118,7 @@ describe("Action de início de trilha", () => {
         role: "student",
       });
 
-      await expect(startTrackAction(trackId)).rejects.toThrow("Trilha inválida.");
+      await expect(startTrackAction({ trackId })).rejects.toThrow();
     },
   );
 });

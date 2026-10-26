@@ -14,6 +14,7 @@ import {
   completeTrackIfPassed,
   getTrackMap,
 } from "@/features/tracks-engine/services/track-map";
+import { listTracks } from "@/features/tracks-engine/services/tracks";
 
 const PREFIX = createTestPrefix();
 
@@ -92,7 +93,7 @@ describe("Desbloqueio do teste final e conclusão da trilha (US09)", () => {
     );
   });
 
-  it("aplica o desbloqueio sequencial também a trilhas sem teste final", async () => {
+  it("aplica o desbloqueio sequencial a trilhas sem teste final", async () => {
     const student = await createStudent(PREFIX);
     const track = await createTrack(PREFIX, {
       lessons: 2,
@@ -101,7 +102,11 @@ describe("Desbloqueio do teste final e conclusão da trilha (US09)", () => {
 
     const map = await getTrackMap(track.id, undefined, student.id);
 
-    expect(map?.nodes.every(({ isFinalTest }) => !isFinalTest)).toBe(true);
+    expect(map?.nodes.filter(({ isFinalTest }) => isFinalTest)).toHaveLength(1);
+    expect(map?.nodes.at(-1)).toMatchObject({
+      isFinalTest: true,
+      isUnlocked: false,
+    });
     expect(map?.nodes.map(({ isUnlocked }) => isUnlocked)).toEqual([
       true,
       false,
@@ -168,9 +173,67 @@ describe("Desbloqueio do teste final e conclusão da trilha (US09)", () => {
     const take = await prisma.takes.findUnique({
       where: { userId_trackId: { userId: student.id, trackId: track.id } },
     });
+    const progress = await prisma.progress.findUnique({
+      where: {
+        userId_trackNodeId: {
+          userId: student.id,
+          trackNodeId: finalTestNodeId,
+        },
+      },
+    });
+    const map = await getTrackMap(track.id, undefined, student.id);
+    const catalog = await listTracks(student.id);
 
     expect(result.passed).toBe(false);
     expect(take).toMatchObject({ status: "in_progress", completedAt: null });
+    expect(progress).toMatchObject({ isCompleted: false, score: 0 });
+    expect(map?.nodes.find(({ id }) => id === finalTestNodeId)?.isCompleted).toBe(
+      false,
+    );
+    expect(catalog.find(({ id }) => id === track.id)?.completedNodes).toBe(0);
+  });
+
+  it("preserves a previous passing completion after a failing retake", async () => {
+    const student = await createStudent(PREFIX);
+    const track = await createTrack(PREFIX, {
+      lessons: 1,
+      withFinalTest: true,
+    });
+    const finalTestNodeId = requireFinalTestNodeId(track);
+    await startTrack(student.id, track.id);
+
+    await completeTrackIfPassed(
+      student.id,
+      track.id,
+      finalTestNodeId,
+      100,
+    );
+    await completeTrackIfPassed(
+      student.id,
+      track.id,
+      finalTestNodeId,
+      0,
+    );
+
+    await expect(
+      prisma.progress.findUnique({
+        where: {
+          userId_trackNodeId: {
+            userId: student.id,
+            trackNodeId: finalTestNodeId,
+          },
+        },
+      }),
+    ).resolves.toMatchObject({ isCompleted: true, score: 0 });
+    const map = await getTrackMap(track.id, undefined, student.id);
+    expect(map?.nodes.find(({ id }) => id === finalTestNodeId)?.isCompleted).toBe(
+      true,
+    );
+    await expect(
+      prisma.takes.findUnique({
+        where: { userId_trackId: { userId: student.id, trackId: track.id } },
+      }),
+    ).resolves.toMatchObject({ status: "completed" });
   });
 
   it("atualiza o mesmo progresso ao registrar novamente o resultado do teste final", async () => {

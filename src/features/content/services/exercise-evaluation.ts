@@ -33,7 +33,11 @@ export class ExerciseEvaluationService {
     exercisesFromDb: Exercise[],
     isFinalTest: boolean
   ): EvaluationOutcome {
-    if (submission.exercises.length !== exercisesFromDb.length) {
+    const submittedExerciseIds = submission.exercises.map(({ id }) => id);
+    if (
+      submission.exercises.length !== exercisesFromDb.length ||
+      new Set(submittedExerciseIds).size !== submittedExerciseIds.length
+    ) {
       throw new Error("Todas as questões do nó devem ser respondidas.");
     }
 

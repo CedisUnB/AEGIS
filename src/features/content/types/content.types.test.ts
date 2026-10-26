@@ -86,6 +86,10 @@ describe("content schemas", () => {
       exercises: [{ id: 10, value: ["a", 1] }],
     });
     expect(() => submissionSchema.parse({ trackNodeId: 2, exercises: [] })).toThrow();
+    expect(() => submissionSchema.parse({
+      trackNodeId: 2,
+      exercises: [{ id: 10, value: 1 }, { id: 10, value: 1 }],
+    })).toThrow("Cada questão deve ser respondida apenas uma vez.");
   });
 
   it("validates exercise results and score bounds", () => {

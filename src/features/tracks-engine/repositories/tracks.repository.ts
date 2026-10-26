@@ -68,7 +68,10 @@ export async function upsertNodeProgress(
   return prisma.progress.upsert({
     where: { userId_trackNodeId: { userId, trackNodeId } },
     create: { userId, trackNodeId, ...data },
-    update: data,
+    update: {
+      ...data,
+      isCompleted: data.isCompleted ? true : undefined,
+    },
   });
 }
 

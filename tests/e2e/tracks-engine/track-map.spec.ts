@@ -46,7 +46,7 @@ test.describe('Mapa da trilha e progresso (US07/US08)', () => {
       name: `Teoria: ${track.theme} lesson 2`,
     });
     const secondExercise = page.getByRole('button', {
-      name: /^Exercícios práticos: Exercícios práticos, bloqueado até concluir as etapas anteriores$/,
+      name: /^Teste final: Teste final, bloqueado até concluir as etapas anteriores$/,
     });
 
     await expect(firstLesson).toBeVisible();

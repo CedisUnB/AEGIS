@@ -30,14 +30,15 @@ export async function getCatalogAction(): Promise<TrackCatalogEntry[]> {
   return listTracks(userId);
 }
 
-export async function startTrackAction(trackId: number): Promise<void> {
+export async function startTrackAction(params: {trackId: string}): Promise<void> {
   const userId = await requireUserId();
 
-  if (!Number.isSafeInteger(trackId) || trackId <= 0) {
-    throw new Error("Trilha inválida.");
+  const parsed = trackMapRouteParamsSchema.safeParse(params);
+  if (!parsed.success) {
+    throw new Error(parsed.error.message);
   }
 
-  await startTrack(userId, trackId);
+  await startTrack(userId, parsed.data.trackId);
 }
 
 export async function getTrackMapAction(

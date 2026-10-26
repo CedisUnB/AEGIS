@@ -69,7 +69,16 @@ export const submissionSchema = z.object({
             value: answerValueSchema,
         })
     ).min(1),
-})
+}).superRefine((submission, context) => {
+  const exerciseIds = submission.exercises.map(({ id }) => id);
+  if (new Set(exerciseIds).size !== exerciseIds.length) {
+    context.addIssue({
+      code: "custom",
+      path: ["exercises"],
+      message: "Cada questão deve ser respondida apenas uma vez.",
+    });
+  }
+});
 
 export const resultSchema = z.object({
     trackNodeId: z.number().int(),

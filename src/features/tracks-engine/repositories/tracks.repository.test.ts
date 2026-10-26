@@ -2,6 +2,7 @@ import { prisma } from "@/core/database/prisma";
 import {
   listTrackCatalogData,
   startTrack,
+  upsertNodeProgress,
   updateTakesStatus,
 } from "./tracks.repository";
 
@@ -10,6 +11,9 @@ jest.mock("@/core/database/prisma", () => ({
   prisma: {
     track: {
       findMany: jest.fn(),
+    },
+    progress: {
+      upsert: jest.fn(),
     },
     takes: {
       upsert: jest.fn(),
@@ -24,6 +28,35 @@ const mockedTakesUpsert = prisma.takes
   .upsert as jest.MockedFunction<typeof prisma.takes.upsert>;
 const mockedTakesUpdate = prisma.takes
   .update as jest.MockedFunction<typeof prisma.takes.update>;
+const mockedProgressUpsert = prisma.progress
+  .upsert as jest.MockedFunction<typeof prisma.progress.upsert>;
+
+describe("upsertNodeProgress", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it("creates failed progress as incomplete and preserves completion on updates", async () => {
+    await upsertNodeProgress("user-123", 43, {
+      isCompleted: false,
+      score: 79,
+    });
+
+    expect(mockedProgressUpsert).toHaveBeenCalledWith({
+      where: { userId_trackNodeId: { userId: "user-123", trackNodeId: 43 } },
+      create: {
+        userId: "user-123",
+        trackNodeId: 43,
+        isCompleted: false,
+        score: 79,
+      },
+      update: {
+        isCompleted: undefined,
+        score: 79,
+      },
+    });
+  });
+});
 
 describe("updateTakesStatus", () => {
   beforeEach(() => {

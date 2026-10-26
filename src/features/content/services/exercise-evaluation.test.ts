@@ -61,6 +61,11 @@ describe("ExerciseEvaluationService", () => {
   it("rejects missing answers, IDs from other nodes, and malformed stored answers", () => {
     expect(() => service.evaluateSubmission({ trackNodeId: 4, exercises: [] }, [exercise(1, 1)] as never, false))
       .toThrow("Todas as questões do nó devem ser respondidas.");
+    expect(() => service.evaluateSubmission({
+      trackNodeId: 4,
+      exercises: [{ id: 1, value: 1 }, { id: 1, value: 1 }],
+    }, [exercise(1, 1), exercise(2, 2)] as never, false))
+      .toThrow("Todas as questões do nó devem ser respondidas.");
     expect(() => service.evaluateSubmission({ trackNodeId: 4, exercises: [{ id: 9, value: 1 }] }, [exercise(1, 1)] as never, false))
       .toThrow("Exercício ID 9 não pertence a este nó.");
     expect(() => service.evaluateSubmission({ trackNodeId: 4, exercises: [{ id: 1, value: 1 }] }, [exercise(1, {})] as never, false))

@@ -348,7 +348,7 @@ describe("completeTrackIfPassed", () => {
     expect(mockedUpsertNodeProgress).toHaveBeenCalledWith(
       "user-123",
       43,
-      { isCompleted: true, score: 79 },
+      { isCompleted: false, score: 79 },
     );
     expect(mockedUpdateTakesStatus).not.toHaveBeenCalled();
   });
