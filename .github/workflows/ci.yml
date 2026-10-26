@@ -156,7 +156,7 @@ jobs:
         run: npx tsx scripts/check-db-connection.ts
 
       - name: Instalar Navegadores do Playwright
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install chromium
 
       - name: Executar Testes E2E
         run: npm run test:e2e
