@@ -2,6 +2,7 @@ import type { TrackMapDTO } from "../../types";
 import { TrackMapFocus } from "./TrackMapFocus";
 import { TrackMapNode } from "./TrackMapNode";
 import { TrackMapConnectors } from "./TrackMapConnectors";
+import { calculateProgress } from "../../utils/progress";
 
 interface TrackMapProps {
   track: TrackMapDTO;
@@ -30,7 +31,7 @@ export function TrackMap({ track }: TrackMapProps) {
 
       <p className="mb-6 text-center text-sm font-semibold text-foreground-muted">
         {track.completedNodes} de {track.totalNodes} etapas concluídas
-        {track.totalNodes > 0 && ` · ${Math.round((track.completedNodes / track.totalNodes) * 100)}%`}
+        {track.totalNodes > 0 && ` · ${calculateProgress(track.completedNodes, track.totalNodes)}%`}
       </p>
 
       <div className="relative mx-auto max-w-lg">
