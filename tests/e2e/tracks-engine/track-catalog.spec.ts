@@ -13,7 +13,7 @@ import {
 
 const PREFIX = createTestPrefix();
 
-test.describe('Catálogo de trilhas (US06/US09)', () => {
+test.describe('Catálogo de trilhas (US06/US09/US10)', () => {
   test.afterAll(async () => {
     try {
       await cleanup(PREFIX);
@@ -50,7 +50,7 @@ test.describe('Catálogo de trilhas (US06/US09)', () => {
     ).resolves.toMatchObject({ status: 'in_progress', completedAt: null });
   });
 
-  test('mostra o progresso da trilha iniciada e omite o indicador sem progresso', async ({
+    test('mostra o progresso e o percentual da trilha iniciada e omite o indicador sem progresso', async ({
     page,
   }) => {
     const student = await createStudent(PREFIX);
@@ -70,13 +70,30 @@ test.describe('Catálogo de trilhas (US06/US09)', () => {
     const startedCard = page.getByRole('button', {
       name: `Ver detalhes da trilha ${startedTrack.theme}`,
     });
-    await expect(startedCard).toContainText('2/4 concluídos');
+    await expect(startedCard).toContainText('2/4 concluídos · 50%');
 
     const untouchedCard = page.getByRole('button', {
       name: `Ver detalhes da trilha ${untouchedTrack.theme}`,
     });
     await expect(untouchedCard).toBeVisible();
-    await expect(untouchedCard).not.toContainText(/concluídos|Concluída/);
+    await expect(untouchedCard).not.toContainText(/concluídos|Concluída|%/);
+  });
+
+  test('mostra 0% na trilha iniciada que ainda não tem nenhum nó concluído', async ({
+    page,
+  }) => {
+    const student = await createStudent(PREFIX);
+    const track = await createTrack(PREFIX, {
+      lessons: 2,
+      withFinalTest: false,
+    });
+    await startTrack(student.id, track.id);
+
+    await loginAs(page, student);
+
+    await expect(
+      page.getByRole('button', { name: `Ver detalhes da trilha ${track.theme}` }),
+    ).toContainText('0/4 concluídos · 0%');
   });
 
   test('marca como concluída a trilha com todos os nós concluídos', async ({
@@ -102,6 +119,6 @@ test.describe('Catálogo de trilhas (US06/US09)', () => {
       name: `Ver detalhes da trilha ${track.theme}, concluída`,
     });
     await expect(completedCard).toBeVisible();
-    await expect(completedCard).toContainText('Concluída');
+    await expect(completedCard).toContainText('Concluída · 100%');
   });
 });
