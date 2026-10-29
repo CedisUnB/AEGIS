@@ -1,6 +1,7 @@
 "use client";
 
 import type { TrackCatalogEntry } from "../../types";
+import { calculateProgress } from "../../utils/progress";
 
 export interface TrackCardProps {
   track: TrackCatalogEntry;
@@ -20,6 +21,9 @@ export function TrackCard({ track, onSelect, variant }: TrackCardProps) {
     ? "border-confirm bg-surface-alt hover:border-confirm hover:bg-surface-hover"
     : "border-border bg-surface-alt hover:border-accent hover:bg-surface-hover";
 
+
+  const percent = calculateProgress(track.completedNodes, track.totalNodes);
+  
   return (
     <button
       type="button"
@@ -57,8 +61,8 @@ export function TrackCard({ track, onSelect, variant }: TrackCardProps) {
           }`}
         >
           {isCompleted
-            ? "Concluída"
-            : `${track.completedNodes}/${track.totalNodes} concluídos`}
+            ? `Concluída · ${percent}%`
+            : `${track.completedNodes}/${track.totalNodes} concluídos · ${percent}%`}
         </span>
       )}
 

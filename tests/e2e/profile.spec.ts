@@ -1,4 +1,13 @@
 import { test, expect, type Page } from '@playwright/test';
+import { prisma } from '@/core/database/prisma';
+import { loginAs } from '../helpers/auth';
+import {
+  cleanup,
+  completeNodes,
+  createStudent,
+  createTestPrefix,
+  createTrack,
+} from '../helpers/track-fixtures';
 
 const PASSWORD = 'Senha@123';
 
@@ -124,5 +133,74 @@ test.describe('Perfil de usuário', () => {
     await page.goto('/admin/profile');
 
     await expect(page.getByText('Acesso Proibido')).toBeVisible();
+  });
+});
+
+const PREFIX = createTestPrefix();
+const SUMMARY_TITLE = 'Progresso Geral - Trilhas de Aprendizado';
+
+test.describe('Perfil: progresso geral consolidado (US11)', () => {
+  test.afterAll(async () => {
+    try {
+      await cleanup(PREFIX);
+    } finally {
+      await prisma.$disconnect();
+    }
+  });
+
+  test('mostra o consolidado com os nós concluídos do estudante', async ({ page }) => {
+    const student = await createStudent(PREFIX);
+    const track = await createTrack(PREFIX, { lessons: 2, withFinalTest: false });
+    await completeNodes(student.id, track.contentNodeIds.slice(0, 2));
+
+    await loginAs(page, student);
+    await page.goto('/profile');
+
+    const progressbar = page.getByRole('progressbar', { name: SUMMARY_TITLE });
+    await expect(progressbar).toBeVisible();
+    await expect(progressbar).toHaveAttribute('aria-valuenow', /^\d+$/);
+    await expect(page.getByText(/^2 de \d+ etapas concluídas$/)).toBeVisible();
+    await expect(page.getByText(/^0 de \d+ trilhas concluídas$/)).toBeVisible();
+  });
+
+  test('conta a trilha como concluída quando todos os nós foram concluídos', async ({
+    page,
+  }) => {
+    const student = await createStudent(PREFIX);
+    const track = await createTrack(PREFIX, { lessons: 2, withFinalTest: false });
+    await completeNodes(student.id, track.contentNodeIds);
+
+    await loginAs(page, student);
+    await page.goto('/profile');
+
+    await expect(page.getByText(/^4 de \d+ etapas concluídas$/)).toBeVisible();
+    await expect(page.getByText(/^1 de \d+ trilhas concluídas$/)).toBeVisible();
+  });
+
+  test('mostra o consolidado zerado para um estudante sem progresso', async ({ page }) => {
+    const student = await createStudent(PREFIX);
+    await createTrack(PREFIX, { lessons: 1, withFinalTest: false });
+
+    await loginAs(page, student);
+    await page.goto('/profile');
+
+    const progressbar = page.getByRole('progressbar', { name: SUMMARY_TITLE });
+    await expect(progressbar).toBeVisible();
+    await expect(progressbar).toHaveAttribute('aria-valuenow', '0');
+    await expect(page.getByText(/^0 de \d+ etapas concluídas$/)).toBeVisible();
+    await expect(page.getByText(/^0 de \d+ trilhas concluídas$/)).toBeVisible();
+  });
+
+  test('não mostra no consolidado o progresso de outro estudante', async ({ page }) => {
+    const owner = await createStudent(PREFIX);
+    const other = await createStudent(PREFIX);
+    const track = await createTrack(PREFIX, { lessons: 2, withFinalTest: false });
+    await completeNodes(owner.id, track.contentNodeIds);
+
+    await loginAs(page, other);
+    await page.goto('/profile');
+
+    await expect(page.getByText(/^0 de \d+ etapas concluídas$/)).toBeVisible();
+    await expect(page.getByText(/^0 de \d+ trilhas concluídas$/)).toBeVisible();
   });
 });
