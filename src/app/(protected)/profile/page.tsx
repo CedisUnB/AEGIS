@@ -17,10 +17,10 @@ export default async function ProfilePage() {
   return (
     <main className="flex flex-col items-center justify-center px-4 py-10 bg-surface min-h-screen">
       <div className="mb-6 w-full max-w-lg">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+        <h1 className="text-2xl font-bold text-foreground">
           Meu Perfil
         </h1>
-        <p className="text-sm text-gray-500 dark:text-gray-400">
+        <p className="text-sm text-foreground-muted">
           Visualize ou atualize os seus dados cadastrais.
         </p>
       </div>

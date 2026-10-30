@@ -20,14 +20,14 @@ export default async function AdminProfilePage() {
     <div className="flex flex-col items-center justify-center px-4 py-10 bg-surface min-h-screen">
       <div className="mb-6 w-full max-w-lg">
         <div className="flex items-center gap-2">
-          <span className="rounded bg-purple-100 px-2 py-0.5 text-xs font-bold text-purple-700 dark:bg-purple-950 dark:text-purple-300 uppercase">
+          <span className="rounded bg-current-surface px-2 py-0.5 text-xs font-bold text-current-foreground uppercase">
             Painel Administrativo
           </span>
         </div>
-        <h1 className="mt-2 text-2xl font-bold text-gray-900 dark:text-white">
+        <h1 className="mt-2 text-2xl font-bold text-foreground">
           Conta de Administrador
         </h1>
-        <p className="text-sm text-gray-500 dark:text-gray-400">
+        <p className="text-sm text-foreground-muted">
           Visualização dos dados cadastrais e permissões de acesso da conta.
         </p>
       </div>

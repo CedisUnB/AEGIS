@@ -34,7 +34,7 @@ export function AppHeader({ user, role }: AppHeaderProps) {
         <form action={logoutAction}>
           <button
             type="submit"
-            className="min-h-11 rounded-lg bg-white px-4 text-sm font-medium text-brand-primary transition hover:opacity-90 sm:text-base"
+            className="cursor-pointer min-h-11 rounded-lg bg-white px-4 text-sm font-medium text-brand-primary transition hover:opacity-90 sm:text-base"
           >
             Sair
           </button>
