@@ -38,7 +38,7 @@ export default async function Home({ searchParams }: HomePageProps) {
           </Link>
           <Link
             href="/auth/register"
-            className="w-full max-w-sm rounded-md border border-brand-primary px-6 py-3 font-medium text-brand-primary transition hover:bg-accent"
+            className="w-full max-w-sm rounded-md border border-brand-primary px-6 py-3 font-medium text-brand-primary transition hover:bg-accent hover:text-accent-foreground"
           >
             Criar conta
           </Link>
