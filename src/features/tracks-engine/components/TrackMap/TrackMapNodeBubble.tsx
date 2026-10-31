@@ -5,13 +5,13 @@ interface TrackMapNodeBubbleProps {
   node: TrackMapDTO["nodes"][number];
 }
 
-const LOCKED_TONE = "border-border bg-surface-alt text-foreground-muted";
+const LOCKED_TONE = "border-border bg-surface-hover text-foreground-muted";
 
 export function TrackMapNodeBubble({ node }: TrackMapNodeBubbleProps) {
   const isLocked = !node.isUnlocked;
 
   const interactionClassName = isLocked
-    ? "cursor-not-allowed opacity-50"
+    ? "cursor-not-allowed"
     : "hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 active:border-b-2";
 
   if (node.isFinalTest) {

@@ -62,7 +62,7 @@ export function TrackMapNodeModal({ trackId, node, children }: TrackMapNodeModal
           <button
             type="button"
             onClick={() => dialogRef.current?.close()}
-            className="rounded-lg px-4 py-2 text-sm font-semibold text-foreground-muted hover:text-foreground"
+            className="cursor-pointer rounded-lg px-4 py-2 text-sm font-semibold text-foreground-muted hover:text-foreground"
           >
             Fechar
           </button>

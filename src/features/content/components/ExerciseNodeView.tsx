@@ -73,20 +73,20 @@ export const ExerciseNodeView: React.FC<ExerciseNodeViewProps> = ({
   // Renderiza a tela de resultado final com o Feedback
   if (evaluationResult) {
     return (
-      <div className="min-h-screen bg-surface text-slate-100 flex flex-col items-center justify-center p-6 sm:p-10">
+      <div className="min-h-screen bg-surface text-foreground flex flex-col items-center justify-center p-6 sm:p-10">
         <div className="max-w-2xl w-full flex flex-col gap-6">
           
           {/* Cartão de Parabéns / Nota Geral */}
-          <div className="bg-surface-alt p-8 rounded-2xl text-center shadow-xl border border-slate-800">
+          <div className="bg-surface-alt p-8 rounded-2xl text-center shadow-xl border border-border">
             <h2 className="text-3xl font-bold mb-4 text-foreground">
               {evaluationResult.isNodeCompleted ? "Parabéns! 🎉" : "Quase lá!"}
             </h2>
             <p className="text-lg text-foreground-muted mb-6">
-              Sua nota foi <strong className="text-white">{evaluationResult.score}%</strong> a nota de corte era {evaluationResult.passingScore}%
+              Sua nota foi <strong className="text-foreground">{evaluationResult.score}%</strong> a nota de corte era {evaluationResult.passingScore}%
             </p>
             <button
               onClick={() => router.push(`/tracks/${trackId}`)}
-              className="px-6 py-3 bg-brand-primary hover:bg-brand-secondary text-foreground rounded-lg font-semibold transition-colors"
+              className="cursor-pointer px-6 py-3 bg-brand-primary hover:opacity-90 text-white rounded-lg font-semibold transition-colors"
             >
               Voltar a Trilha
             </button>
@@ -101,19 +101,19 @@ export const ExerciseNodeView: React.FC<ExerciseNodeViewProps> = ({
               const feedback = evalItem?.feedback;
 
               return (
-                <div key={exercise.id} className="bg-surface-alt border border-slate-700 rounded-lg overflow-hidden shadow-sm">
+                <div key={exercise.id} className="bg-surface-alt border border-border rounded-lg overflow-hidden shadow-sm">
                   {/* Cabeçalho da Questão */}
                   <div className="flex justify-between items-center p-4 bg-surface">
                     <span className="font-medium text-foreground">Questão {idx + 1}</span>
-                    <span className={`font-semibold ${isCorrect ? "text-green-500" : "text-rose-500"}`}>
+                    <span className={`font-semibold ${isCorrect ? "text-confirm" : "text-cancel"}`}>
                       {isCorrect ? "Correto" : "Incorreto"}
                     </span>
                   </div>
 
                   {/* Área de Feedback (exibida apenas se estiver incorreta e houver feedback) */}
                   {!isCorrect && feedback && (
-                    <details className="group border-t border-slate-700 bg-surface-alt" open>
-                      <summary className="flex justify-between items-center p-4 cursor-pointer text-foreground-muted font-medium select-none hover:text-slate-300 transition-colors">
+                    <details className="group border-t border-border bg-surface-alt" open>
+                      <summary className="flex justify-between items-center p-4 cursor-pointer text-foreground-muted font-medium select-none hover:text-foreground transition-colors">
                         <span>Feedback</span>
                         <span className="transition-transform group-open:rotate-180">
                           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -151,10 +151,10 @@ export const ExerciseNodeView: React.FC<ExerciseNodeViewProps> = ({
               <button
                 key={idx}
                 onClick={() => handleAnswerChange(idx)}
-                className={`py-3 px-4 rounded-lg font-medium transition-colors text-center ${
+                className={`py-3 px-4 rounded-lg font-medium transition-colors text-center cursor-pointer ${
                   isSelected
-                    ? "bg-confirm text-foreground shadow-md"
-                    : "bg-surface text-foreground-muted hover:bg-slate-800"
+                    ? "bg-confirm text-white shadow-md"
+                    : "bg-surface border border-border text-foreground hover:bg-surface-hover"
                 }`}
               >
                 {option}
@@ -174,7 +174,7 @@ export const ExerciseNodeView: React.FC<ExerciseNodeViewProps> = ({
             value={(currentAnswer as string) || ""}
             onChange={(e) => handleAnswerChange(e.target.value)}
             placeholder="Digite sua resposta aqui..."
-            className="w-full bg-surface border border-slate-700 rounded-lg px-4 py-3 text-foreground focus:outline-none focus:border-brand-secondary"
+            className="w-full bg-surface border border-border rounded-lg px-4 py-3 text-foreground focus:outline-none focus:border-brand-primary"
           />
         </div>
       );
@@ -191,20 +191,20 @@ export const ExerciseNodeView: React.FC<ExerciseNodeViewProps> = ({
             <p className="text-xs text-foreground-muted uppercase tracking-wider mb-2">
               Sua Resposta (Clique para remover):
             </p>
-            <div className="min-h-[60px] p-4 bg-surface border border-dashed border-slate-700 rounded-lg flex flex-wrap gap-2">
+            <div className="min-h-[60px] p-4 bg-surface border border-dashed border-border rounded-lg flex flex-wrap gap-2">
               {selectedBlocks.map((block, idx) => (
                 <button
                   key={`sel-${idx}`}
                   onClick={() =>
                     handleAnswerChange(selectedBlocks.filter((b) => b !== block))
                   }
-                  className="px-3 py-1.5 bg-confirm text-foreground text-sm rounded-md shadow-sm"
+                  className="px-3 py-1.5 bg-confirm text-white text-sm rounded-md shadow-sm cursor-pointer"
                 >
                   {block}
                 </button>
               ))}
               {selectedBlocks.length === 0 && (
-                <span className="text-slate-500 text-sm my-auto">
+                <span className="text-foreground-muted text-sm my-auto">
                   Selecione os blocos abaixo na ordem correta...
                 </span>
               )}
@@ -220,7 +220,7 @@ export const ExerciseNodeView: React.FC<ExerciseNodeViewProps> = ({
                 <button
                   key={`avail-${idx}`}
                   onClick={() => handleAnswerChange([...selectedBlocks, block])}
-                  className="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-sm rounded-md transition-colors"
+                  className="px-3 py-1.5 bg-surface border border-border hover:bg-surface-hover text-foreground text-sm rounded-md transition-colors cursor-pointer"
                 >
                   {block}
                 </button>
@@ -262,7 +262,7 @@ export const ExerciseNodeView: React.FC<ExerciseNodeViewProps> = ({
         </div>
 
         {/* Cartão da Questão */}
-        <div className="bg-surface-alt rounded-2xl p-6 sm:p-8 shadow-xl flex flex-col justify-between">
+        <div className="bg-surface-alt rounded-2xl p-6 sm:p-8 shadow-xl flex flex-col justify-between border border-border">
           <div>
             <h2 className="text-base text-foreground-muted mb-4">
               Questão {currentIndex + 1}:
@@ -284,8 +284,8 @@ export const ExerciseNodeView: React.FC<ExerciseNodeViewProps> = ({
             disabled={currentIndex === 0 || isPending}
             className={`px-6 py-2.5 rounded-lg text-sm font-medium transition-colors ${
               currentIndex === 0
-                ? "bg-slate-800/50 text-slate-500 cursor-not-allowed border border-slate-800"
-                : "bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700"
+                ? "bg-surface-alt text-foreground-muted cursor-not-allowed border border-border opacity-50"
+                : "bg-surface border border-border hover:bg-surface-hover text-foreground cursor-pointer"
             }`}
           >
             Voltar
@@ -298,18 +298,18 @@ export const ExerciseNodeView: React.FC<ExerciseNodeViewProps> = ({
           <button
             onClick={handleNext}
             disabled={isPending}
-            className={`px-6 py-2.5 bg-brand-primary hover:bg-brand-secondary text-foreground rounded-lg text-sm font-semibold transition-colors shadow-md disabled:opacity-50 ${
+            className={`px-6 py-2.5 cursor-pointer rounded-lg text-sm font-semibold transition-colors shadow-md disabled:opacity-50 ${
               isLastExercise
-                ? "bg-green-500 hover:bg-green-400 text-white" 
-                : "" 
-            } disabled:opacity-50`}
+                ? "bg-confirm hover:opacity-90 text-white" 
+                : "bg-brand-primary hover:opacity-90 text-white"
+            }`}
           >
             {isPending ? "Avaliando..." : isLastExercise ? "Finalizar" : "Próximo"}
           </button>
         </div>
         
         {errorMsg && (
-          <p className="text-xs text-rose-400 text-center mt-4">{errorMsg}</p>
+          <p className="text-xs text-cancel text-center mt-4">{errorMsg}</p>
         )}
       </div>
     </div>

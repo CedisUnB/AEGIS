@@ -23,7 +23,7 @@ const finalTestNode: TrackMapDTO["nodes"][number] = {
   isFinalTest: true,
 };
 
-const LOCKED_TONE = "border-border bg-surface-alt text-foreground-muted";
+const LOCKED_TONE = "border-border bg-surface-hover text-foreground-muted";
 const CURRENT_TONE = "border-current-border bg-current-surface text-current-foreground";
 const COMPLETED_TONE = "border-accent-border bg-accent text-accent-foreground";
 const ALERT_TONE = "border-alert bg-alert text-alert-foreground";
@@ -67,9 +67,16 @@ describe("TrackMapNodeBubble", () => {
 
       expect(markup).toContain(LOCKED_TONE);
       expect(markup).toContain("cursor-not-allowed");
-      expect(markup).toContain("opacity-50");
       expect(markup).not.toContain("border-current-border");
       expect(markup).not.toContain("border-accent-border");
+    });
+
+    it("não usa transparência no nó bloqueado, para não deixar ver o tracejado por trás", () => {
+      const markup = renderToStaticMarkup(
+        <TrackMapNodeBubble node={{ ...baseNode, isUnlocked: false }} />,
+      );
+
+      expect(markup).not.toContain("opacity-");
     });
 
     it("não aplica o efeito de hover em um nó bloqueado", () => {
@@ -110,7 +117,7 @@ describe("TrackMapNodeBubble", () => {
       expect(markup).toContain("h-16 w-28");
       expect(markup).toContain(LOCKED_TONE);
       expect(markup).toContain("cursor-not-allowed");
-      expect(markup).toContain("opacity-50");
+      expect(markup).not.toContain("opacity-");
       expect(markup).toContain("Teste Final Bloqueado");
       expect(markup).not.toContain(ALERT_TONE);
     });
