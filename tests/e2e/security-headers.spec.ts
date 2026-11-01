@@ -91,7 +91,7 @@ test.describe('Cabeçalhos HTTP de segurança (Backend 2.1)', () => {
 
     for (const path of ['/tracks', `/tracks/${track.id}`, '/profile']) {
       await page.goto(path);
-      await expect(page.getByRole('link', { name: 'SAFE', exact: true })).toBeVisible();
+      await expect(page.getByRole('link', { name: 'AEGIS', exact: true })).toBeVisible();
     }
 
     await page

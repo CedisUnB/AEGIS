@@ -15,7 +15,7 @@ export default async function Home({ searchParams }: HomePageProps) {
       <main className="flex min-h-dvh flex-col bg-surface text-center lg:flex-row">
         <section className="flex flex-col bg-brand-primary px-6 pb-24 pt-12 [clip-path:polygon(0_0,100%_0,100%_calc(100%-3rem),0_100%)] lg:w-3/5 lg:shrink-0 lg:py-16 lg:pl-16 lg:pr-56 lg:[clip-path:polygon(0_0,calc(100%-12rem)_0,100%_100%,0_100%)]">
           <h1 className="mb-10 mt-8 text-4xl font-bold tracking-tight text-hero-foreground sm:text-5xl lg:mb-32 lg:mt-16">
-            SAFE
+            AEGIS
           </h1>
 
           <span className="mb-4 inline-block rounded-2xl border border-hero-border px-4 py-1.5 text-sm font-medium text-hero-foreground">
