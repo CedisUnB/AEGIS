@@ -2,17 +2,17 @@
 
 _Plataforma de Apoio ao Aprendizado de Segurança de Software_
 
-**Projeto:** SAFE - Segurança de Aplicações, Fundamentos e Ética (em IA)
+**Projeto:** AEGIS – AI, Ética e Gestão de Integridade em Software
 
-**Versão:** 1.2
+**Versão:** 1.3
 
 **Data:** 17 de Agosto de 2026
 
 **Autores:**
 João Pedro Rodrigues Morbeck e Pedro Henrique da Silva Melo
 
-**Universidade de Brasília (UnB)**
-**Faculdade de Ciências e Tecnologias em Engenharia (FCTE)**
+**Universidade de Brasília (UnB)** - 
+**Faculdade de Ciências e Tecnologias em Engenharia (FCTE)** - 
 **Curso de Engenharia de Software**
 
 ---
@@ -333,3 +333,4 @@ O histórico de revisões registra todas as modificações formais efetuadas no 
 | 17/Ago/2026 | 1.0    | Elaboração e detalhamento inicial da arquitetura do sistema baseado na stack Next.js e no padrão de pastas modular Folder-by-Feature para o início das Sprints de desenvolvimento do TCC 2. | P. H. Melo                 |
 | 23/Ago/2026 | 1.1    | Desenvolvimento dos diagramas de pacote, sequência e de implantação                                                                                                                         | P. H. Melo                 |
 | 25/Ago/2026 | 1.2    | DER e DLD, revisão geral do documento                                                                                                                                                       | P. H. Melo e J. P. Morbeck |
+| 01/Nov/2026 | 1.3    | Alteração do nome do projeto                                                                                                                                                       | J. P. Morbeck |

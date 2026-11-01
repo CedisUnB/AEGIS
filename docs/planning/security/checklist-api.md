@@ -78,6 +78,8 @@ Esta seção resume os pontos mais críticos e deve ser revisada a cada nova imp
 
 *Fonte e Adaptação: Este checklist foi adaptado para o contexto do projeto de TCC a partir de um checklist do mercado de trabalho na qual é uma obra derivada do API Security Checklist do projeto Shieldfy.*
 
+---
+
 ### Histórico de Versão
 Data     | Versão | Descrição | Autor | Revisor
 -------- | ------ | --------- | ----- | ---------

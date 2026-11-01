@@ -12,7 +12,9 @@ Os Requisitos Não Funcionais especificam características e restrições de qua
 | RNF04 | Suportabilidade | A arquitetura do sistema deve ser projetada de forma modular e extensível, permitindo a implementação futura de novas features (funcionalidades) com o mínimo de impacto e refatoração no código existente. |
 | RNF05 | Implementação | O ambiente de implantação/banco de dados deve ser configurado para que a única conta de administrador seja criada automaticamente durante a inicialização do sistema, tornando-a previamente disponível para uso. |
 
-*Fonte: Elaborada pelos autores.*
+<center>
+    Fonte: Elaborado pelos autores.
+</center>
 
 ## Requisitos Funcionais
 
@@ -51,7 +53,9 @@ Os Requisitos Funcionais especificam o que é esperado de funcionalidades e cara
 | 6 | US20 | Administrador | Excluir trilhas de conhecimento | Eu possa remover conteúdos obsoletos ou incorretos |
 | 6 | US21 | Administrador | Acessar um painel métrico (dashboard) com dados de uso | Eu possa remover conteúdos obsoletos ou incorretos |
 
-*Fonte: Elaborada pelos autores.*
+<center>
+    Fonte: Elaborado pelos autores.
+</center>
 
 ## Regras de negócio
 
@@ -78,6 +82,10 @@ Definido numa escala de 1 a 5, resultante da soma de três critérios de pontua�
 | É urgente? | 2 pts | Sua ausência bloqueia ou atrasa a validação de outras funcionalidades, ou atende a uma demanda crítica identificada na pesquisa com usuários (TCC1). |
 | É desejável? | 1 pt | Melhora a experiência ou complementa o produto, mas sua ausência não compromete o funcionamento do MVP. |
 
+<center>
+    Fonte: Elaborado pelos autores.
+</center>
+
 #### 1.2 Viabilidade
 
 Definida numa escala de 1 a 5, indicando o quanto a funcionalidade tem espaço para ser implementada sem preparação adicional de ambiente ou infraestrutura. Quanto maior a pontuação, mais viável é a funcionalidade no momento atual do projeto:
@@ -90,6 +98,10 @@ Definida numa escala de 1 a 5, indicando o quanto a funcionalidade tem espaço p
 | 4 | Alta viabilidade — poucos ajustes de ambiente necessários. |
 | 5 | Totalmente viável — pode ser implementada imediatamente, sem preparação adicional. |
 
+<center>
+    Fonte: Elaborado pelos autores.
+</center>
+
 #### 1.3 Facilidade de Implementação
 
 Definida numa escala de 1 a 5, indicando o quão simples é desenvolver a funcionalidade. Este critério substitui o eixo originalmente nomeado "Complexidade", mantendo a mesma escala, porém invertendo o sentido da pontuação para alinhá-la à mesma direção dos demais critérios:
@@ -101,6 +113,10 @@ Definida numa escala de 1 a 5, indicando o quão simples é desenvolver a funcio
 | 3 | Complexidade moderada — esforço médio, com pontos de incerteza técnica. |
 | 4 | Simples — implementação direta, poucos riscos técnicos. |
 | 5 | Muito simples — praticamente direta, sem riscos técnicos relevantes. |
+
+<center>
+    Fonte: Elaborado pelos autores.
+</center>
 
 *Nota metodológica: o eixo originalmente nomeado "Complexidade" pontuava o quão difícil era implementar a funcionalidade, o que invertia o sentido da soma — uma Feature mais complexa recebia nota mais alta, elevando indevidamente sua pontuação MoSCoW final. O eixo foi redefinido como Facilidade de Implementação, preservando a mesma escala de 1 a 5, porém alinhada na mesma direção de Valor de Negócio e Viabilidade, de modo que a soma dos três critérios reflita corretamente a prioridade da Feature.*
 
@@ -118,9 +134,7 @@ Definida numa escala de 1 a 5, indicando o quão simples é desenvolver a funcio
 *Faixas de pontuação: 0–4 Não Ter · 5–8 Pode Ter · 9–12 Deveria Ter · 13–15 Deve Ter.*
 
 <center>
-
-Fonte: Elaborada pelos autores.
-
+    Fonte: Elaborado pelos autores.
 </center>
 
 #### Justificativa de Atualização do MoSCoW e Escopo do MVP1
@@ -129,6 +143,8 @@ Durante a fase de detalhamento e refinamento das histórias de usuário, a equip
 - **Despriorização da Feature 5 (Central de Consulta Rápida - Guias de Revisão)**: A equipe definiu que os conteúdos disponibilizados na plataforma terão um formato mais introdutório e direto. Por não apresentarem uma densidade ou profundidade técnica que exija guias de revisão complexos e estruturados neste primeiro momento, a funcionalidade deixou de agregar o valor inicialmente previsto. Seu Valor de Negócio foi reduzido, sendo reclassificada como "Pode Ter" e realocada para o MVP3.
 
 - **Elevação de Prioridade das Features 2 (Motor de Navegação) e 4 (Laboratório de Prática)**: Com a decisão de adiar a Feature 5, a equipe pôde focar no destrinchamento das Features 2 e 4 em histórias mais granulares, claras e executáveis. Por representarem o núcleo de valor da aplicação, permitindo que o estudante efetivamente navegue pelo mapa e consuma o ciclo de teoria e prática. As pontuações referentes à viabilidade e facilidade de implementação dessas funcionalidades foram ajustadas positivamente. Isso consolidou ambas como requisitos críticos e prioritários ("Deve Ter") para o sucesso do MVP1.
+
+---
 
 ### Histórico de Versão
 Data     | Versão | Descrição | Autor | Revisor

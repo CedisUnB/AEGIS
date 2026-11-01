@@ -201,6 +201,8 @@ Para uma lista detalhada de todas as fontes consultadas, incluindo livros, artig
 
 [**Acessar a Lista Completa de Referências**](./references.md)
 
+---
+
 ### Histórico de Versão
 
 | Data     | Versão | Descrição                                                      | Autor                                            | Revisor                                           |

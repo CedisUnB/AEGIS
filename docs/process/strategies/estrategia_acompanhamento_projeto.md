@@ -24,6 +24,10 @@ Além de indicar progresso e atraso, a Vazão realizada em uma sprint alimenta o
 | Burnup do MVP | Vazão acumulada ao longo das sprints, comparada ao escopo total do MVP (Must have) | Por sprint | Vazão acumulada abaixo da referência planejada indica atraso no MVP como um todo |
 | Taxa de sucesso do objetivo da sprint | Nº de sprints em que o Sprint Goal foi cumprido ÷ Nº total de sprints | Acumulado | Taxa abaixo de 70% sinaliza risco recorrente de prazo |
 
+<center>
+    Fonte: Elaborado pelos autores.
+</center>
+
 ## 4. Métricas de Defeitos
 
 Para responder à questão da banca sobre como lidar com defeitos e sua quantidade, define-se o seguinte conjunto de métricas, com defeitos rastreados como issues rotuladas "bug" no GitHub Projects:
@@ -34,6 +38,10 @@ Para responder à questão da banca sobre como lidar com defeitos e sua quantida
 | Taxa de resolução de defeitos | Nº de defeitos corrigidos ÷ Nº de defeitos abertos no período | Por sprint |
 | Densidade de defeitos | Nº de defeitos ÷ Nº de Histórias/Features entregues na sprint | Por sprint |
 | Tempo médio de correção (MTTR) | Média do tempo entre abertura e fechamento das issues de defeito | Acumulado |
+
+<center>
+    Fonte: Elaborado pelos autores.
+</center>
 
 *Um aumento sustentado na densidade de defeitos por duas sprints consecutivas é tratado como gatilho para revisão do processo na Sprint Retrospective seguinte.*
 
@@ -80,6 +88,10 @@ A Sprint 3 foi planejada com 5 Histórias de Usuário (todas Must have). Ao fina
 | Taxa de resolução de defeitos | 1 ÷ 2 = 50% |
 | Densidade de defeitos | 2 ÷ 4 = 0,5 defeito por Feature entregue |
 
+<center>
+    Fonte: Elaborado pelos autores.
+</center>
+
 ### 6.3 Gestão (registro entre sprints)
 
 Recomenda-se manter uma planilha simples (uma linha por sprint) com as colunas: Sprint, Histórias planejadas, Histórias concluídas, Vazão (%), Vazão acumulada, Defeitos abertos, Defeitos corrigidos, Densidade de defeitos, Conformidade DoR (%), Conformidade DoD (%). Essa planilha pode ser preenchida manualmente a partir dos dados do GitHub Projects ao final de cada sprint, e é a base do Burnup do MVP apresentado a seguir.
@@ -93,6 +105,10 @@ Considere que o MVP do projeto foi dimensionado em 20 Histórias de Usuário Mus
 | 1 | 4 | 4 | 3,3 | 20% |
 | 2 | 3 | 7 | 6,7 | 35% |
 | 3 | 4 | 11 | 10,0 | 55% |
+
+<center>
+    Fonte: Elaborado pelos autores.
+</center>
 
 ### 6.5 Análise (o que fazer com o resultado)
 
@@ -117,6 +133,10 @@ Seguindo a prática apresentada na Seção 2.1, a equipe usa a Vazão realizada 
 | Qualidade | Densidade e taxa de defeitos | GitHub Projects (labels) | Elaborado pelos autores |
 | Processo | Conformidade DoR/DoD | Checklist por História | Rubin (2013) |
 
+<center>
+    Fonte: Elaborado pelos autores.
+</center>
+
 ## 8. Referências
 
 BECK, Kent; FOWLER, Martin. Planning Extreme Programming. Boston, MA: Addison-Wesley Professional, 2000.
@@ -128,8 +148,6 @@ KNIBERG, Henrik; SKARIN, Mattias. Kanban and Scrum: Making the Most of Both. Lul
 RUBIN, Kenneth S. Essential Scrum: A Practical Guide to the Most Popular Agile Process. Boston, MA: Addison-Wesley Professional, 2013.
 
 ---
-
-*Fonte: Elaborado pelos autores.*
 
 ### Histórico de Versão
 Data     | Versão | Descrição | Autor | Revisor

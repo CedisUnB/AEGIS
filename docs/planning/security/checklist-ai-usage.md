@@ -63,6 +63,8 @@ Saber a origem do código é crucial para futuras manutenções e auditorias de 
 
 *Fonte e Adaptação: Este checklist foi adaptado para o contexto do projeto*
 
+---
+
 ### Histórico de Versão
 Data     | Versão | Descrição | Autor | Revisor
 -------- | ------ | --------- | ----- | ---------

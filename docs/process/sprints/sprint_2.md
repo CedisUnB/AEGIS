@@ -29,22 +29,22 @@
 
 ### Justificativa da Escolha do Escopo
 
-O motor de navegação das trilhas e o laboratório de exercícios são as prioridades desta sprint pelo fato de comporem o principal valor da aplicação que gera aos usuários, sendo a prioridade seguida pelo que foi definido na tabela de priorização MoSCoW do [documento de requisitos](../../requirements/docs_requisitos_v2.md).
+O motor de navegação das trilhas e o laboratório de exercícios são as prioridades desta sprint pelo fato de comporem o principal valor da aplicação que gera aos usuários, sendo a prioridade seguida pelo que foi definido na tabela de priorização MoSCoW do [documento de requisitos](../../planning/requirements/docs_requisitos_v2.md).
 
 ### Prototipação
 
 Essa sprint foi utilizada para fazer a prototipação das telas correspondetes às features 2 e 4.
 
-![Protótipo da tela Home](../../images/prototipo_tela-home.jpg)
+![Protótipo da tela Home](./images/prototipo_tela-home.jpg)
 <center>Fonte: Autores (2026)</center>
 
-![Protótipo da tela da trilha](../../images/prototipo_tela-trilha.jpg)
+![Protótipo da tela da trilha](./images/prototipo_tela-trilha.jpg)
 <center>Fonte: Autores (2026)</center>
 
-![Protótipo da tela de conteúdo de leitura](../../images/prototipo_tela-leitura.jpg)
+![Protótipo da tela de conteúdo de leitura](./images/prototipo_tela-leitura.jpg)
 <center>Fonte: Autores (2026)</center>
 
-![Protótipo da tela de conteúdo de exercício](../../images/prototipo_tela-exercicio.jpg)
+![Protótipo da tela de conteúdo de exercício](./images/prototipo_tela-exercicio.jpg)
 <center>Fonte: Autores (2026)</center>
 
 ### Feedbacks dos Stakeholders / Clientes / Orientador

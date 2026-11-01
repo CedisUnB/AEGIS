@@ -100,6 +100,8 @@ A segurança é um hábito, não um ato.
 
 *Fonte e Adaptação: Este checklist foi adaptado para o contexto do projeto a partir da obra derivada do "The ultimate security checklist for developers" de Julien Enselme, licenciado sob Creative Commons Attribution-ShareAlike.*
 
+---
+
 ### Histórico de Versão
 Data     | Versão | Descrição | Autor | Revisor
 -------- | ------ | --------- | ----- | ---------

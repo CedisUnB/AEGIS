@@ -1,22 +1,40 @@
-site_name: SecurityApp — Plataforma de Apoio ao Aprendizado em Desenvolvimento de Software Seguro
+site_name: AEGIS – AI, Ética e Gestão de Integridade em Software
 site_description: Documentação do projeto do TCC
 repo_url: https://github.com/CedisUnB/SecurityAPP
+
+extra_css:
+  - stylesheets/extra.css
 
 theme:
   name: material
   language: pt-BR
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Modo Escuro
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Modo Claro
+
   features:
     - navigation.tabs
+    - navigation.tabs.sticky
     - navigation.sections
+    - navigation.expand
+    - navigation.path
+    - navigation.top
     - toc.integrate
     - search.suggest
 
 plugins:
   - search
   - awesome-pages
-  - git-revision-date-localized:
-      type: date
-      locale: pt-BR
 
 markdown_extensions:
   - admonition # permite blocos de destaque (nota, aviso, dica)
@@ -27,8 +45,21 @@ markdown_extensions:
 
 nav:
   - Início: index.md
-  - Arquitetura:
-      - DAS: architecture/software-architecture-document.md
+  - Planejamento:
+      - Arquitetura:
+          - DAS: planning/architecture/software-architecture-document.md
+      - Requisitos:
+          - Documento de Requisitos: planning/requirements/docs_requisitos_v2.md
+      - Segurança:
+          - Diretrizes: planning/security/guidelines.md
+          - Checklist Backend: planning/security/checklist-backend.md
+          - Checklist Frontend: planning/security/checklist-frontend.md
+          - Checklist API: planning/security/checklist-api.md
+          - Checklist Uso de IA: planning/security/checklist-ai-usage.md
+          - Referências: planning/security/references.md
+      - Cronograma:
+          - Planejado: planning/schedule/planned.md
+          - Executado: planning/schedule/executed.md
   - Processo:
       - Sprints:
           - Sprint 1: process/sprints/sprint_1.md
@@ -37,12 +68,4 @@ nav:
           - Template: process/sprints/template_de_sprint.md
       - Estratégia de Testes: process/strategies/estrategia_testes.md
       - Plano de Métricas do Projeto: process/strategies/estrategia_acompanhamento_projeto.md
-      - Documento de Requisitos: requirements/docs_requisitos_v2.md
-  - Segurança:
-      - Diretrizes: security/guidelines.md
-      - Checklist Backend: security/checklist-backend.md
-      - Checklist Frontend: security/checklist-frontend.md
-      - Checklist API: security/checklist-api.md
-      - Checklist Uso de IA: security/checklist-ai-usage.md
-      - Referências: security/references.md
-      - Avaliação da Feature 1: security/auditoria-seguranca-feature1.md # Realocar em outro tópico
+      - Avaliação da Feature 1: process/auditoria-seguranca-feature1.md

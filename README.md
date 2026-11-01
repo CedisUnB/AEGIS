@@ -1,7 +1,6 @@
 # SecurityAPP
 Trabalho de TCC - João Morbeck e Pedro Henrique
 
-
 ## Documentação / MkDocs
 
 A documentação do projeto (arquitetura, processos, sprints e diretrizes de segurança) é gerida e construída utilizando o **MkDocs** com o tema **Material for MkDocs**.
@@ -42,7 +41,6 @@ pip install -r docs-requirements.txt
 ### 4. Executando Localmente
 Todo o escopo da documentação está isolado na pasta `docs-site`. Para rodar o servidor, entre na pasta e inicie o MkDocs:
 ```bash
-cd docs-site
 mkdocs serve
 ```
 O servidor será iniciado em `http://127.0.0.1:8000`. Ele possui **hot-reload** — deixe o terminal aberto e toda vez que você salvar um arquivo `.md`, o navegador atualizará sozinho com as mudanças.
@@ -55,7 +53,6 @@ O servidor será iniciado em `http://127.0.0.1:8000`. Ele possui **hot-reload** 
 ### 6. Publicação (Deploy)
 Quando houver um incremento funcional da documentação pronto para ir ao ar para os avaliadores ou stakeholders, faça o deploy no GitHub Pages:
 ```bash
-cd docs-site
 mkdocs gh-deploy
 ```
 Isso fará o build estático e publicará automaticamente na branch `gh-pages` do repositório.

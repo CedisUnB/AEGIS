@@ -17,7 +17,11 @@ Para assegurar a confiabilidade, a manutenibilidade e a corretude das regras de 
 | **Testes de Integração** | Jest, Prisma Client | Operações de banco de dados, fluxo de autenticação, controle de pré-requisitos (RF08/RF11) e desbloqueio de guias (RF13). | Contêiner MySQL efêmero (Docker Service) | *Push* e *Pull Request* (pós-unitários) |
 | **Testes E2E** | *Playwright* | Fluxos completos de autenticação, consumo de trilhas pelo estudante e painéis gerenciais do administrador (RF20). | Navegador *Headless* (Chromium/Firefox) | *Merge* para a *branch* principal |
 
-*Fonte: ?*
+<center>
+    Fonte: Elaborado pelos autores.
+</center>
+
+---
 
 ### Histórico de Versão
 Data     | Versão | Descrição | Autor | Revisor

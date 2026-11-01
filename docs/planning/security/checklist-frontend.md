@@ -64,6 +64,8 @@ Dependências são extensões do código desenvolvido. Por isso é necessário c
 ### [ ] 3.3 Integração com Outras Camadas
 - [ ] **Validação do Checklist de Backend/API**: Confirma-se que os endpoints da API que estão sendo consumidos por esta funcionalidade do frontend também foram verificados e aprovados em seu próprio checklist de segurança.
 
+---
+
 ### Histórico de Versão
 Data     | Versão | Descrição | Autor | Revisor
 -------- | ------ | --------- | ----- | ---------
