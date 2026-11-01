@@ -43,7 +43,7 @@ export function TrackMapConnectors({ nodes }: TrackMapConnectorsProps) {
         strokeWidth="1.5"
         strokeDasharray="7 7"
         strokeLinecap="round"
-        className="text-border"
+        className="text-foreground-muted/70"
         vectorEffect="non-scaling-stroke"
       />
     </svg>

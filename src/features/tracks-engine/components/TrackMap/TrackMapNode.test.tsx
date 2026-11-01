@@ -133,8 +133,9 @@ describe("TrackMapNode", () => {
 
     expect(markup).toContain("disabled");
     expect(markup).toContain("bloqueado até concluir as etapas anteriores");
-    expect(markup).toContain("border-border bg-surface-alt text-foreground-muted");
+    expect(markup).toContain("border-border bg-surface-hover text-foreground-muted");
     expect(markup).toContain("cursor-not-allowed");
+    expect(markup).not.toContain("opacity-");
     expect(markup).not.toContain("border-current-border");
     expect(markup).toContain("Etapa 4");
   });

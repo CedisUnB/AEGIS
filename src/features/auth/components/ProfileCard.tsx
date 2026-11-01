@@ -32,7 +32,6 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ initialUser }) => {
   const formattedCreatedDate = FormatDate(user.createdAt);
   const formattedUpdatedDate = FormatDate(user.updatedAt);
 
-
   const handleCancel = () => {
     setFormData({
       username: user.username,
@@ -73,33 +72,33 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ initialUser }) => {
       router.refresh();
 
       setTimeout(() => setToastMessage(null), 4000);
-  });
-};
+    });
+  };
 
   return (
     <div className="relative w-full max-w-lg rounded-xl p-6 shadow-sm bg-surface-alt">
       {toastMessage && (
-        <div className="mb-4 rounded-md bg-confirm p-3 text-sm font-medium text-green-800 border border-green-200 dark:bg-green-950 dark:text-green-300 dark:border-green-800 transition">
+        <div className="mb-4 rounded-md bg-confirm p-3 text-sm font-medium text-white transition">
           {toastMessage}
         </div>
       )}
 
       {errorMessage && (
-        <div className="mb-4 rounded-md bg-red-50 p-3 text-sm font-medium text-red-800 border border-red-200 dark:bg-red-950 dark:text-red-300 dark:border-red-800">
+        <div className="mb-4 rounded-md bg-cancel p-3 text-sm font-medium text-white transition">
           {errorMessage}
         </div>
       )}
 
       <div className="mb-6 flex items-center justify-between">
         <div className="flex items-center space-x-4">
-          <div className="flex h-14 w-14 items-center justify-center rounded-full bg-blue-600 font-bold text-white text-xl uppercase">
+          <div className="flex h-14 w-14 items-center justify-center rounded-full bg-brand-primary font-bold text-white text-xl uppercase">
             {user.username.slice(0, 2)}
           </div>
           <div>
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+            <h2 className="text-xl font-semibold text-foreground">
               {user.username}
             </h2>
-            <span className="text-xs font-medium text-blue-600 dark:text-blue-400">
+            <span className="text-xs font-medium text-accent">
               {user.role === "admin" ? "Administrador" : "Estudante"}
             </span>
           </div>
@@ -109,7 +108,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ initialUser }) => {
           <button
             type="button"
             onClick={() => setIsEditing(true)}
-            className="rounded-md bg-blue-600 px-3.5 py-1.5 text-sm font-medium text-white hover:bg-blue-700 transition"
+            className="cursor-pointer rounded-md bg-brand-primary px-3.5 py-1.5 text-sm font-medium text-white hover:opacity-90 transition"
           >
             Editar Perfil
           </button>
@@ -119,38 +118,38 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ initialUser }) => {
       {!isEditing ? (
         <div className="space-y-4 text-sm">
           <div>
-            <label className="block text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+            <label className="block text-xs font-medium uppercase tracking-wider text-foreground-muted">
               Nome de Utilizador
             </label>
-            <p className="mt-1 font-medium text-gray-800 dark:text-gray-200">
+            <p className="mt-1 font-medium text-foreground">
               {user.username}
             </p>
           </div>
 
           <div>
-            <label className="block text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+            <label className="block text-xs font-medium uppercase tracking-wider text-foreground-muted">
               E-mail
             </label>
-            <p className="mt-1 font-medium text-gray-800 dark:text-gray-200">
+            <p className="mt-1 font-medium text-foreground">
               {user.email}
             </p>
           </div>
 
           <div>
-            <label className="block text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+            <label className="block text-xs font-medium uppercase tracking-wider text-foreground-muted">
               Data de Cadastro
             </label>
-            <p className="mt-1 font-medium text-gray-800 dark:text-gray-200">
+            <p className="mt-1 font-medium text-foreground">
               {formattedCreatedDate}
             </p>
           </div>
 
           {user.updatedAt && (
             <div>
-              <label className="block text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+              <label className="block text-xs font-medium uppercase tracking-wider text-foreground-muted">
                 Última Edição Registrada
               </label>
-              <p className="mt-1 font-medium text-gray-800 dark:text-gray-200">
+              <p className="mt-1 font-medium text-foreground">
                 {formattedUpdatedDate}
               </p>
             </div>
@@ -159,7 +158,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ initialUser }) => {
       ) : (
         <form onSubmit={handleSave} className="space-y-4 text-sm">
           <div>
-            <label htmlFor="profile-username" className="block text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+            <label htmlFor="profile-username" className="block text-xs font-medium uppercase tracking-wider text-foreground-muted">
               Nome de Utilizador
             </label>
             <input
@@ -167,16 +166,16 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ initialUser }) => {
               type="text"
               value={formData.username}
               onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-              className="mt-1 w-full rounded-md border border-gray-300 p-2 text-sm dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+              className="mt-1 w-full rounded-md border border-border bg-surface p-2 text-sm text-foreground focus:outline-none focus:border-brand-primary"
               required
             />
             {fieldErrors.username && (
-              <p className="mt-1 text-xs text-red-500">{fieldErrors.username}</p>
+              <p className="mt-1 text-xs text-cancel">{fieldErrors.username}</p>
             )}
           </div>
 
           <div>
-            <label htmlFor="profile-email" className="block text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+            <label htmlFor="profile-email" className="block text-xs font-medium uppercase tracking-wider text-foreground-muted">
               E-mail
             </label>
             <input
@@ -184,16 +183,16 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ initialUser }) => {
               type="email"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className="mt-1 w-full rounded-md border border-gray-300 p-2 text-sm dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+              className="mt-1 w-full rounded-md border border-border bg-surface p-2 text-sm text-foreground focus:outline-none focus:border-brand-primary"
               required
             />
             {fieldErrors.email && (
-              <p className="mt-1 text-xs text-red-500">{fieldErrors.email}</p>
+              <p className="mt-1 text-xs text-cancel">{fieldErrors.email}</p>
             )}
           </div>
 
           <div>
-            <label htmlFor="profile-password" className="block text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+            <label htmlFor="profile-password" className="block text-xs font-medium uppercase tracking-wider text-foreground-muted">
               Nova Senha (opcional)
             </label>
             <input
@@ -202,16 +201,16 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ initialUser }) => {
               placeholder="Deixe em branco para manter a atual"
               value={formData.password}
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-              className="mt-1 w-full rounded-md border border-gray-300 p-2 text-sm dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+              className="mt-1 w-full rounded-md border border-border bg-surface p-2 text-sm text-foreground focus:outline-none focus:border-brand-primary"
             />
             {fieldErrors.password && (
-              <p className="mt-1 text-xs text-red-500">{fieldErrors.password}</p>
+              <p className="mt-1 text-xs text-cancel">{fieldErrors.password}</p>
             )}
           </div>
 
           {formData.password && (
             <div>
-              <label htmlFor="profile-confirm-password" className="block text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+              <label htmlFor="profile-confirm-password" className="block text-xs font-medium uppercase tracking-wider text-foreground-muted">
                 Confirmar Nova Senha
               </label>
               <input
@@ -219,10 +218,10 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ initialUser }) => {
                 type="password"
                 value={formData.confirmPassword}
                 onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                className="mt-1 w-full rounded-md border border-gray-300 p-2 text-sm dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+                className="mt-1 w-full rounded-md border border-border bg-surface p-2 text-sm text-foreground focus:outline-none focus:border-brand-primary"
               />
               {fieldErrors.confirmPassword && (
-                <p className="mt-1 text-xs text-red-500">{fieldErrors.confirmPassword}</p>
+                <p className="mt-1 text-xs text-cancel">{fieldErrors.confirmPassword}</p>
               )}
             </div>
           )}
@@ -232,34 +231,34 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ initialUser }) => {
               type="button"
               onClick={handleCancel}
               disabled={isPending}
-              className="rounded-md border border-gray-300 px-3.5 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
+              className="cursor-pointer rounded-md border border-border px-3.5 py-1.5 text-sm font-medium text-foreground hover:bg-surface-hover transition"
             >
               Cancelar
             </button>
             <button
               type="submit"
               disabled={isPending}
-              className="rounded-md bg-blue-600 px-4 py-1.5 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
+              className="cursor-pointer rounded-md bg-brand-primary px-4 py-1.5 text-sm font-medium text-white hover:opacity-90 disabled:opacity-50 transition"
             >
               {isPending ? "A salvar..." : "Salvar Alterações"}
             </button>
           </div>
         </form>
       )}
-      <div className="mt-8 border-t border-gray-200 pt-6 dark:border-gray-800">
+      <div className="mt-8 border-t border-border pt-6">
         <div className="flex items-center justify-between">
           <div>
-            <h4 className="text-sm font-semibold text-gray-900 dark:text-white">
+            <h4 className="text-sm font-semibold text-foreground">
               Zona de Perigo
             </h4>
-            <p className="text-xs text-gray-500 dark:text-gray-400">
+            <p className="text-xs text-foreground-muted">
               Excluir sua conta e anonimizar seus dados permanentemente.
             </p>
           </div>
           <button
             type="button"
             onClick={() => setIsDeleteModalOpen(true)}
-            className="rounded-md border border-red-300 px-3 py-1.5 text-xs font-semibold text-red-600 hover:bg-red-50 dark:border-red-900/60 dark:text-red-400 dark:hover:bg-red-950/40 transition"
+            className="cursor-pointer rounded-md border border-cancel px-3 py-1.5 text-xs font-semibold text-cancel hover:bg-cancel hover:text-white transition"
           >
             Excluir Conta
           </button>

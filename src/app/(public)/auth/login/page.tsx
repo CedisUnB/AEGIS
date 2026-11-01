@@ -17,7 +17,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
         <SignInForm />
         
         {reauth === "1" && (
-          <div className="mb-4 w-full max-w-sm rounded-md bg-green-50 p-4 text-sm font-medium text-green-800 dark:border-green-800 dark:bg-green-950 dark:text-green-300">
+          <div className="mb-4 w-full max-w-sm rounded-md bg-confirm p-4 text-sm font-medium text-white">
             Perfil atualizado com sucesso! Por segurança, faça login novamente com suas novas credenciais.
           </div>
         )}

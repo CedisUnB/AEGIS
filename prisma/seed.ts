@@ -151,6 +151,32 @@ async function seedSecureDevelopmentTrack(
   }
 }
 
+// Slides de demonstração: 3 slides para exercitar o botão "Voltar" habilitado,
+// o slide sem tag e o bloco de referências (source). O corpo é texto puro,
+// pois a view renderiza o conteúdo como texto (tags HTML apareceriam literalmente).
+function buildDemoSlides(title: string) {
+  return [
+    {
+      tag: "Introdução",
+      title,
+      body: "Conteúdo de exemplo gerado pelo seed de desenvolvimento.\n\nEste é o primeiro slide da leitura.",
+      source: null,
+    },
+    {
+      tag: "",
+      title: `${title} — conceitos-chave`,
+      body: "Segundo slide, sem tag, para validar o layout quando ela não existe.\n\nAqui o botão Voltar já deve estar habilitado.",
+      source: null,
+    },
+    {
+      tag: "Resumo",
+      title: `${title} — resumo`,
+      body: "Terceiro e último slide. O botão principal deve mudar para Concluir.",
+      source: "OWASP Foundation. OWASP Top 10 — https://owasp.org/www-project-top-ten/",
+    },
+  ];
+}
+
 async function seedLessonNode(trackId: number, orderIndex: number, title: string) {
   const node = await prisma.trackNode.create({
     data: { trackId, nodeType: NodeType.lesson, orderIndex },
@@ -161,19 +187,63 @@ async function seedLessonNode(trackId: number, orderIndex: number, title: string
       trackNodeId: node.id,
       title,
       json: {
-        slides: [
-          {
-            tag: "Introdução",
-            title,
-            body: "<p>Conteúdo de exemplo gerado pelo seed de desenvolvimento.</p>",
-            source: null,
-          },
-        ],
+        slides: buildDemoSlides(title),
       },
     },
   });
 
   return node;
+}
+
+// Exercícios de demonstração, no formato atual do banco
+// ({ prompt, options, explanation, questionType, correctAnswer }),
+// cobrindo os 4 tipos de questão renderizados pelo ExerciseNodeView.
+function buildDemoExercises() {
+  return [
+    {
+      questionType: "multiple_choice",
+      prompt: "Pergunta de exemplo gerada pelo seed.",
+      options: ["Opção A", "Opção B", "Opção C"],
+      correctAnswer: 0,
+      explanation: "Explicação de exemplo para a resposta incorreta.",
+    },
+    {
+      questionType: "true_false",
+      prompt:
+        "Validar as entradas apenas no navegador é suficiente para prevenir SQL Injection.",
+      options: ["Verdadeiro", "Falso"],
+      correctAnswer: 1,
+      explanation:
+        "A validação no cliente pode ser contornada. A prevenção exige consultas parametrizadas e validação no servidor.",
+    },
+    {
+      questionType: "fill_in_the_blank",
+      prompt:
+        'Complete o código para usar uma consulta parametrizada:\n\nconst result = await db.query(\n  "SELECT * FROM users WHERE id = ?",\n  [____]\n);',
+      options: [],
+      correctAnswer: "userId",
+      explanation:
+        "O valor deve ser passado como parâmetro (userId), nunca concatenado na string da consulta.",
+    },
+    {
+      questionType: "ordering",
+      prompt: "Coloque em ordem as etapas para tratar uma entrada de usuário com segurança:",
+      options: [
+        "Executar a consulta",
+        "Receber a entrada",
+        "Usar consulta parametrizada",
+        "Validar a entrada",
+      ],
+      correctAnswer: [
+        "Receber a entrada",
+        "Validar a entrada",
+        "Usar consulta parametrizada",
+        "Executar a consulta",
+      ],
+      explanation:
+        "A entrada é recebida, validada e só então usada em uma consulta parametrizada antes da execução.",
+    },
+  ];
 }
 
 async function seedExerciseNode(
@@ -185,18 +255,12 @@ async function seedExerciseNode(
     data: { trackId, nodeType: NodeType.exercise, orderIndex },
   });
 
-  await prisma.exercise.create({
-    data: {
+  await prisma.exercise.createMany({
+    data: buildDemoExercises().map((json) => ({
       trackNodeId: node.id,
       type: exerciseType,
-      json: {
-        type: "multiple_choice",
-        prompt: "Pergunta de exemplo gerada pelo seed.",
-        options: ["Opção A", "Opção B", "Opção C"],
-        correctOption: 0,
-        feedback: "Explicação de exemplo para a resposta incorreta.",
-      },
-    },
+      json,
+    })),
   });
 
   return node;

@@ -24,7 +24,7 @@ export default function ErrorBoundary({
           {isForbidden ? "401" : isUnauthorized ? "401" : "Erro"}
         </span>
 
-        <h2 className="mt-4 text-xl font-bold text-gray-900 dark:text-white">
+        <h2 className="mt-4 text-xl font-bold text-foreground">
           {isForbidden
             ? "Acesso Proibido"
             : isUnauthorized
@@ -32,7 +32,7 @@ export default function ErrorBoundary({
             : "Ocorreu um problema inesperado"}
         </h2>
 
-        <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        <p className="mt-2 text-sm text-foreground-muted">
           {isForbidden
             ? "Você não possui permissão de administrador para acessar este recurso."
             : isUnauthorized
@@ -45,7 +45,7 @@ export default function ErrorBoundary({
           {!isForbidden && !isUnauthorized && (
             <button
               onClick={() => reset()}
-              className="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
+              className="rounded-md border border-border px-4 py-2 text-sm font-medium text-foreground hover:bg-surface-hover transition"
             >
               Tentar novamente
             </button>
@@ -53,7 +53,7 @@ export default function ErrorBoundary({
 
           <Link
             href={"/tracks"}
-            className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 transition"
+            className="rounded-md bg-brand-primary px-4 py-2 text-sm font-medium text-white hover:opacity-90 transition"
           >
             {"Voltar para o Início"}
           </Link>

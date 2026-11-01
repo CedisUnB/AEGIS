@@ -34,25 +34,25 @@ export const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({ isOpen, 
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
-      <div className="w-full max-w-md rounded-xl border border-red-200 bg-white p-6 shadow-xl dark:border-red-900/50 dark:bg-gray-900">
-        <h3 className="text-lg font-bold text-red-600 dark:text-red-400">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-overlay p-4 backdrop-blur-sm">
+      <div className="w-full max-w-md rounded-xl border border-cancel bg-surface p-6 shadow-xl">
+        <h3 className="text-lg font-bold text-cancel">
           Excluir Conta Permanentemente
         </h3>
 
-        <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
+        <p className="mt-2 text-sm text-foreground-muted">
           Esta ação é <strong>irreversível</strong>. Todos os seus dados serão anonimizados e sua sessão será encerrada de acordo com as diretrizes da LGPD.
         </p>
 
         {error && (
-          <div className="mt-3 rounded-md bg-red-50 p-2.5 text-xs font-medium text-red-800 dark:bg-red-950 dark:text-red-300">
+          <div className="mt-3 rounded-md bg-cancel p-2.5 text-xs font-medium text-white transition">
             {error}
           </div>
         )}
 
         <form onSubmit={handleDelete} className="mt-4 space-y-4">
           <div>
-            <label htmlFor="delete-account-password" className="block text-xs font-semibold uppercase tracking-wider text-gray-700 dark:text-gray-300">
+            <label htmlFor="delete-account-password" className="block text-xs font-semibold uppercase tracking-wider text-foreground-muted">
               Digite sua senha atual para confirmar
             </label>
             <input
@@ -62,7 +62,7 @@ export const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({ isOpen, 
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Sua senha"
               required
-              className="mt-1.5 w-full rounded-md border border-gray-300 p-2 text-sm focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+              className="mt-1.5 w-full rounded-md border border-border bg-surface p-2 text-sm text-foreground focus:border-cancel focus:outline-none focus:ring-1 focus:ring-cancel transition"
             />
           </div>
 
@@ -71,14 +71,14 @@ export const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({ isOpen, 
               type="button"
               onClick={onClose}
               disabled={isPending}
-              className="rounded-md border border-gray-300 px-3.5 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
+              className="cursor-pointer rounded-md border border-border px-3.5 py-1.5 text-sm font-medium text-foreground hover:bg-surface-hover transition"
             >
               Cancelar
             </button>
             <button
               type="submit"
               disabled={isPending}
-              className="rounded-md bg-red-600 px-4 py-1.5 text-sm font-medium text-white hover:bg-red-700 disabled:opacity-50"
+              className="cursor-pointer rounded-md bg-cancel px-4 py-1.5 text-sm font-medium text-white hover:opacity-90 disabled:opacity-50 transition"
             >
               {isPending ? "Excluindo..." : "Confirmar Exclusão"}
             </button>
