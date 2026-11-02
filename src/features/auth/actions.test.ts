@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { verifyToken } from "@/core/security";
 import { authRepository } from "./repositories/auth.repository";
+import { TooManyAttemptsError } from "./services/login-rate-limit";
 import {
   EmailAlreadyExistsError,
   InvalidCredentialsError,
@@ -42,6 +43,22 @@ jest.mock("./repositories/auth.repository", () => ({
     findById: jest.fn(),
   },
 }));
+
+jest.mock("./services/login-rate-limit", () => {
+  class MockTooManyAttemptsError extends Error {
+    retryAfterSeconds: number;
+
+    constructor(retryAfterSeconds = 60) {
+      super("Muitas tentativas de login. Tente novamente em alguns minutos.");
+      this.name = "TooManyAttemptsError";
+      this.retryAfterSeconds = retryAfterSeconds;
+    }
+  }
+
+  return {
+    TooManyAttemptsError: MockTooManyAttemptsError,
+  };
+});
 
 jest.mock("./services/auth", () => {
   class MockEmailAlreadyExistsError extends Error {
@@ -219,6 +236,47 @@ describe("signInAction", () => {
       maxAge: 7200,
     });
     expect(mockedRedirect).toHaveBeenCalledWith("/tracks");
+  });
+
+    it("retorna a mensagem de bloqueio quando o limite de tentativas é excedido", async () => {
+    const consoleSpy = jest.spyOn(console, "error").mockImplementation(() => {});
+    mockedLoginUser.mockRejectedValue(new TooManyAttemptsError(300));
+
+    const result = await signInAction(initialSignInState, createFormData());
+
+    expect(result).toEqual({
+      error: "Muitas tentativas de login. Tente novamente em alguns minutos.",
+      fieldErrors: {},
+      fieldValues: { email: "student@example.com" },
+      resetKey: expect.any(String),
+    });
+    expect(mockCookieStore.set).not.toHaveBeenCalled();
+    expect(mockedRedirect).not.toHaveBeenCalled();
+    expect(consoleSpy).not.toHaveBeenCalled();
+
+    consoleSpy.mockRestore();
+  });
+
+  it("não expõe o tempo de espera na mensagem de bloqueio", async () => {
+    mockedLoginUser.mockRejectedValue(new TooManyAttemptsError(300));
+
+    const result = await signInAction(initialSignInState, createFormData());
+
+    expect(result.error).not.toContain("300");
+  });
+
+  it("retorna erro genérico quando o login lança exceção desconhecida", async () => {
+    const consoleSpy = jest.spyOn(console, "error").mockImplementation(() => {});
+    mockedLoginUser.mockRejectedValue(new Error("Database offline"));
+
+    const result = await signInAction(initialSignInState, createFormData());
+
+    expect(result.error).toBe("Não foi possível logar a conta. Tente novamente.");
+    expect(result.error).not.toBe("Muitas tentativas de login. Tente novamente em alguns minutos.");
+    expect(mockCookieStore.set).not.toHaveBeenCalled();
+    expect(mockedRedirect).not.toHaveBeenCalled();
+
+    consoleSpy.mockRestore();
   });
 });
 

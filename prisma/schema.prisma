@@ -138,3 +138,12 @@ model Progress {
   @@index([trackNodeId], map: "progress_fk_track_node_id_fkey")
   @@map("progress")
 }
+
+model LoginAttempt {
+  id        Int      @id @default(autoincrement())
+  emailHash String   @map("email_hash") @db.VarChar(64)
+  createdAt DateTime @map("created_at")
+
+  @@index([emailHash, createdAt])
+  @@map("login_attempts")
+}
