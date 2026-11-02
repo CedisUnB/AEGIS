@@ -4,8 +4,8 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { signUpSchema, signInSchema, updateProfileSchema, deleteAccountSchema } from "./types/auth.types";
 import type { DeleteAccountInput, SignInInput, SignUpInput, UpdateProfileInput, UserProfile } from "./types/auth.types";
-import { deleteUserAccount, ForbiddenError, getAdminProfile, getUserProfile, InvalidCredentialsError, loginUser, registerUser, updateUserProfile } from "./services/auth";
-import { getAuthErrorState } from "./errors";
+import { deleteUserAccount, getAdminProfile, getUserProfile, InvalidCredentialsError, loginUser, registerUser, updateUserProfile } from "./services/auth";
+import { getActionFailure, getAuthErrorState } from "./errors";
 import { verifyToken } from "@/core/security";
 import { authRepository } from "./repositories/auth.repository";
 import { TooManyAttemptsError } from "./services/login-rate-limit";
@@ -193,12 +193,8 @@ export async function getProfileUserAction(): Promise<ActionResponse<UserProfile
       requiresReauth: false,
       statusCode: 200
     }
-  } catch(err) {
-    return {
-      success: false,
-      error: (err as Error).message || "Erro ao carregar perfil",
-      statusCode: 500,
-    }
+  } catch (err) {
+    return getActionFailure(err, "auth:getProfile", "Erro ao carregar perfil");
   }
 
 }
@@ -277,11 +273,7 @@ export async function updateProfileUserAction(input: UpdateProfileInput): Promis
       statusCode: 200
     };
   } catch (err) {
-    return {
-      success: false,
-      error: (err as Error).message || "Erro ao atualizar perfil",
-      statusCode: 500,
-    };
+    return getActionFailure(err, "auth:updateProfile", "Erro ao atualizar perfil");
   }
 }
 
@@ -328,11 +320,7 @@ export async function deleteAccountAction(
       return { success: false, error: "Senha incorreta.", statusCode: 400 };
     }
 
-    return {
-      success: false,
-      error: (err as Error).message || "Erro ao excluir conta",
-      statusCode: 500,
-    };
+    return getActionFailure(err, "auth:deleteAccount", "Erro ao excluir conta");
   }
 }
 
@@ -366,14 +354,6 @@ export async function getAdminProfileAction(): Promise<ActionResponse<UserProfil
       statusCode: 200
     };
   } catch (err) {
-    if (err instanceof ForbiddenError) {
-      return { success: false, error: err.message, statusCode: 403 };
-    }
-
-    return {
-      success: false,
-      error: (err as Error).message || "Erro ao carregar perfil administrativo",
-      statusCode: 500,
-    };
+    return getActionFailure(err, "auth:getAdminProfile", "Erro ao carregar perfil administrativo");
   }
 }

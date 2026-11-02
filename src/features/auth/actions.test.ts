@@ -3,10 +3,12 @@ import { redirect } from "next/navigation";
 import { verifyToken } from "@/core/security";
 import { authRepository } from "./repositories/auth.repository";
 import { TooManyAttemptsError } from "./services/login-rate-limit";
+import { logServerError } from "@/core/logging/log-server-error";
 import {
   EmailAlreadyExistsError,
   InvalidCredentialsError,
   ForbiddenError,
+  UserNotFoundError,
   loginUser,
   registerUser,
   getUserProfile,
@@ -60,6 +62,10 @@ jest.mock("./services/login-rate-limit", () => {
   };
 });
 
+jest.mock("@/core/logging/log-server-error", () => ({
+  logServerError: jest.fn(),
+}));
+
 jest.mock("./services/auth", () => {
   class MockEmailAlreadyExistsError extends Error {
     constructor() {
@@ -75,6 +81,13 @@ jest.mock("./services/auth", () => {
     }
   }
 
+  class MockUserNotFoundError extends Error {
+    constructor() {
+      super("Usuário não encontrado.");
+      this.name = "UserNotFoundError";
+    }
+  }
+
   class MockForbiddenError extends Error {
     constructor(message = "Acesso restrito a administradores.") {
       super(message);
@@ -85,6 +98,7 @@ jest.mock("./services/auth", () => {
   return {
     EmailAlreadyExistsError: MockEmailAlreadyExistsError,
     InvalidCredentialsError: MockInvalidCredentialsError,
+    UserNotFoundError: MockUserNotFoundError,
     ForbiddenError: MockForbiddenError,
     loginUser: jest.fn(),
     registerUser: jest.fn(),
@@ -99,6 +113,7 @@ const mockedCookies = cookies as jest.MockedFunction<typeof cookies>;
 const mockedRedirect = redirect as jest.MockedFunction<typeof redirect>;
 const mockedVerifyToken = verifyToken as jest.MockedFunction<typeof verifyToken>;
 const mockedAuthRepo = authRepository as jest.Mocked<typeof authRepository>;
+const mockedLogServerError = logServerError as jest.MockedFunction<typeof logServerError>;
 
 const mockedLoginUser = loginUser as jest.MockedFunction<typeof loginUser>;
 const mockedRegisterUser = registerUser as jest.MockedFunction<typeof registerUser>;
@@ -114,6 +129,9 @@ const mockCookieStore = {
 };
 
 const VALID_USER_ID = "98c70071-3cdb-4fcf-b167-c7ff54644d49";
+
+const INTERNAL_ERROR_MESSAGE =
+  "Invalid `prisma.user.findUnique()` invocation: Can't reach database server at `db:3306` (table `sec-app_db`.`users`)";
 
 const validFields = {
   username: "student",
@@ -135,6 +153,14 @@ function createFormData(
   formData.set("password", fields.password);
   formData.set("confirmPassword", fields.confirmPassword ?? fields.password);
   return formData;
+}
+
+function expectNoInternalDetails(result: unknown) {
+  const serialized = JSON.stringify(result);
+
+  expect(serialized).not.toContain("prisma");
+  expect(serialized).not.toContain("sec-app_db");
+  expect(serialized).not.toContain("db:3306");
 }
 
 beforeEach(() => {
@@ -210,6 +236,7 @@ describe("signInAction", () => {
     expect(result.fieldValues).toEqual({ email: "student@example.com" });
     expect(mockCookieStore.set).not.toHaveBeenCalled();
     expect(mockedRedirect).not.toHaveBeenCalled();
+    expect(mockedLogServerError).not.toHaveBeenCalled();
   });
 
   it("define cookies de token e username e redireciona no login com sucesso", async () => {
@@ -238,8 +265,7 @@ describe("signInAction", () => {
     expect(mockedRedirect).toHaveBeenCalledWith("/tracks");
   });
 
-    it("retorna a mensagem de bloqueio quando o limite de tentativas é excedido", async () => {
-    const consoleSpy = jest.spyOn(console, "error").mockImplementation(() => {});
+  it("retorna a mensagem de bloqueio quando o limite de tentativas é excedido", async () => {
     mockedLoginUser.mockRejectedValue(new TooManyAttemptsError(300));
 
     const result = await signInAction(initialSignInState, createFormData());
@@ -252,9 +278,7 @@ describe("signInAction", () => {
     });
     expect(mockCookieStore.set).not.toHaveBeenCalled();
     expect(mockedRedirect).not.toHaveBeenCalled();
-    expect(consoleSpy).not.toHaveBeenCalled();
-
-    consoleSpy.mockRestore();
+    expect(mockedLogServerError).not.toHaveBeenCalled();
   });
 
   it("não expõe o tempo de espera na mensagem de bloqueio", async () => {
@@ -265,18 +289,18 @@ describe("signInAction", () => {
     expect(result.error).not.toContain("300");
   });
 
-  it("retorna erro genérico quando o login lança exceção desconhecida", async () => {
-    const consoleSpy = jest.spyOn(console, "error").mockImplementation(() => {});
-    mockedLoginUser.mockRejectedValue(new Error("Database offline"));
+  it("retorna erro genérico e registra no servidor quando o login lança exceção desconhecida", async () => {
+    const unexpected = new Error("Database offline");
+    mockedLoginUser.mockRejectedValue(unexpected);
 
     const result = await signInAction(initialSignInState, createFormData());
 
     expect(result.error).toBe("Não foi possível logar a conta. Tente novamente.");
     expect(result.error).not.toBe("Muitas tentativas de login. Tente novamente em alguns minutos.");
+    expect(JSON.stringify(result)).not.toContain("Database offline");
+    expect(mockedLogServerError).toHaveBeenCalledWith("auth", unexpected);
     expect(mockCookieStore.set).not.toHaveBeenCalled();
     expect(mockedRedirect).not.toHaveBeenCalled();
-
-    consoleSpy.mockRestore();
   });
 });
 
@@ -334,19 +358,20 @@ describe("signUpAction", () => {
     expect(result.fieldErrors.email).toBe("Este e-mail já foi cadastrado.");
     expect(mockCookieStore.set).not.toHaveBeenCalled();
     expect(mockedRedirect).not.toHaveBeenCalled();
+    expect(mockedLogServerError).not.toHaveBeenCalled();
   });
 
-  it("retorna erro genérico quando o serviço lança exceção desconhecida", async () => {
-    const consoleSpy = jest.spyOn(console, "error").mockImplementation(() => {});
-    mockedRegisterUser.mockRejectedValue(new Error("Database offline"));
+  it("retorna erro genérico e registra no servidor quando o serviço lança exceção desconhecida", async () => {
+    const unexpected = new Error("Database offline");
+    mockedRegisterUser.mockRejectedValue(unexpected);
 
     const result = await signUpAction(initialSignUpState, createFormData());
 
     expect(result.error).toBe("Não foi possível criar a conta. Tente novamente.");
+    expect(JSON.stringify(result)).not.toContain("Database offline");
+    expect(mockedLogServerError).toHaveBeenCalledWith("auth", unexpected);
     expect(mockCookieStore.set).not.toHaveBeenCalled();
     expect(mockedRedirect).not.toHaveBeenCalled();
-
-    consoleSpy.mockRestore();
   });
 
   it("define cookies e redireciona após cadastro realizado com sucesso", async () => {
@@ -432,18 +457,38 @@ describe("getProfileUserAction", () => {
     });
   });
 
-  it("retorna 500 com mensagem padrão quando o erro for lançado sem message (linha 194: branch || 'Erro ao carregar perfil')", async () => {
+  it("retorna mensagem genérica e registra no servidor quando ocorre um erro inesperado", async () => {
+    mockCookieStore.get.mockReturnValue({ value: "valid-token" });
+    mockedVerifyToken.mockResolvedValue({ sub: VALID_USER_ID, role: "student" } as never);
+    const internalError = new Error(INTERNAL_ERROR_MESSAGE);
+    mockedGetUserProfile.mockRejectedValue(internalError);
+
+    const result = await getProfileUserAction();
+
+    expect(result).toEqual({ success: false, error: "Erro ao carregar perfil", statusCode: 500 });
+    expectNoInternalDetails(result);
+    expect(mockedLogServerError).toHaveBeenCalledWith("auth:getProfile", internalError);
+  });
+
+  it("retorna mensagem genérica quando o erro inesperado não possui message", async () => {
     mockCookieStore.get.mockReturnValue({ value: "valid-token" });
     mockedVerifyToken.mockResolvedValue({ sub: VALID_USER_ID, role: "student" } as never);
     mockedGetUserProfile.mockRejectedValue(new Error(""));
 
     const result = await getProfileUserAction();
 
-    expect(result).toEqual({
-      success: false,
-      error: "Erro ao carregar perfil",
-      statusCode: 500,
-    });
+    expect(result).toEqual({ success: false, error: "Erro ao carregar perfil", statusCode: 500 });
+  });
+
+  it("retorna 404 com a mensagem do domínio quando o usuário não é encontrado", async () => {
+    mockCookieStore.get.mockReturnValue({ value: "valid-token" });
+    mockedVerifyToken.mockResolvedValue({ sub: VALID_USER_ID, role: "student" } as never);
+    mockedGetUserProfile.mockRejectedValue(new UserNotFoundError());
+
+    const result = await getProfileUserAction();
+
+    expect(result).toEqual({ success: false, error: "Usuário não encontrado.", statusCode: 404 });
+    expect(mockedLogServerError).not.toHaveBeenCalled();
   });
 });
 
@@ -590,7 +635,21 @@ describe("updateProfileUserAction", () => {
     });
   });
 
-  it("retorna 500 com mensagem padrão quando o erro não possuir message (linha 277: branch || 'Erro ao atualizar perfil')", async () => {
+  it("retorna mensagem genérica e registra no servidor quando ocorre um erro inesperado", async () => {
+    mockCookieStore.get.mockReturnValue({ value: "token" });
+    mockedVerifyToken.mockResolvedValue({ sub: VALID_USER_ID } as never);
+    mockedAuthRepo.findById.mockResolvedValue(currentUser as never);
+    const internalError = new Error(INTERNAL_ERROR_MESSAGE);
+    mockedUpdateUserProfile.mockRejectedValue(internalError);
+
+    const result = await updateProfileUserAction(updateInput);
+
+    expect(result).toEqual({ success: false, error: "Erro ao atualizar perfil", statusCode: 500 });
+    expectNoInternalDetails(result);
+    expect(mockedLogServerError).toHaveBeenCalledWith("auth:updateProfile", internalError);
+  });
+
+  it("retorna mensagem genérica quando o erro inesperado não possui message", async () => {
     mockCookieStore.get.mockReturnValue({ value: "token" });
     mockedVerifyToken.mockResolvedValue({ sub: VALID_USER_ID } as never);
     mockedAuthRepo.findById.mockResolvedValue(currentUser as never);
@@ -598,11 +657,35 @@ describe("updateProfileUserAction", () => {
 
     const result = await updateProfileUserAction(updateInput);
 
+    expect(result).toEqual({ success: false, error: "Erro ao atualizar perfil", statusCode: 500 });
+  });
+
+  it("retorna 409 com a mensagem do domínio quando o e-mail já está em uso", async () => {
+    mockCookieStore.get.mockReturnValue({ value: "token" });
+    mockedVerifyToken.mockResolvedValue({ sub: VALID_USER_ID } as never);
+    mockedAuthRepo.findById.mockResolvedValue(currentUser as never);
+    mockedUpdateUserProfile.mockRejectedValue(new EmailAlreadyExistsError());
+
+    const result = await updateProfileUserAction(updateInput);
+
     expect(result).toEqual({
       success: false,
-      error: "Erro ao atualizar perfil",
-      statusCode: 500,
+      error: "Este e-mail já foi cadastrado.",
+      statusCode: 409,
     });
+    expect(mockedLogServerError).not.toHaveBeenCalled();
+  });
+
+  it("retorna 404 com a mensagem do domínio quando o serviço não encontra o usuário", async () => {
+    mockCookieStore.get.mockReturnValue({ value: "token" });
+    mockedVerifyToken.mockResolvedValue({ sub: VALID_USER_ID } as never);
+    mockedAuthRepo.findById.mockResolvedValue(currentUser as never);
+    mockedUpdateUserProfile.mockRejectedValue(new UserNotFoundError());
+
+    const result = await updateProfileUserAction(updateInput);
+
+    expect(result).toEqual({ success: false, error: "Usuário não encontrado.", statusCode: 404 });
+    expect(mockedLogServerError).not.toHaveBeenCalled();
   });
 });
 
@@ -657,6 +740,7 @@ describe("deleteAccountAction", () => {
       error: "Senha incorreta.",
       statusCode: 400,
     });
+    expect(mockedLogServerError).not.toHaveBeenCalled();
   });
 
   it("deleta a conta, remove o cookie e retorna sucesso", async () => {
@@ -676,18 +760,39 @@ describe("deleteAccountAction", () => {
     });
   });
 
-  it("retorna 500 com mensagem padrão quando o erro for lançado sem message (linha 328: branch || 'Erro ao excluir conta')", async () => {
+  it("retorna mensagem genérica e registra no servidor quando ocorre um erro inesperado", async () => {
+    mockCookieStore.get.mockReturnValue({ value: "token" });
+    mockedVerifyToken.mockResolvedValue({ sub: VALID_USER_ID } as never);
+    const internalError = new Error(INTERNAL_ERROR_MESSAGE);
+    mockedDeleteUserAccount.mockRejectedValue(internalError);
+
+    const result = await deleteAccountAction(deleteInput);
+
+    expect(result).toEqual({ success: false, error: "Erro ao excluir conta", statusCode: 500 });
+    expectNoInternalDetails(result);
+    expect(mockedLogServerError).toHaveBeenCalledWith("auth:deleteAccount", internalError);
+    expect(mockCookieStore.delete).not.toHaveBeenCalled();
+  });
+
+  it("retorna mensagem genérica quando o erro inesperado não possui message", async () => {
     mockCookieStore.get.mockReturnValue({ value: "token" });
     mockedVerifyToken.mockResolvedValue({ sub: VALID_USER_ID } as never);
     mockedDeleteUserAccount.mockRejectedValue(new Error(""));
 
     const result = await deleteAccountAction(deleteInput);
 
-    expect(result).toEqual({
-      success: false,
-      error: "Erro ao excluir conta",
-      statusCode: 500,
-    });
+    expect(result).toEqual({ success: false, error: "Erro ao excluir conta", statusCode: 500 });
+  });
+
+  it("retorna 404 com a mensagem do domínio quando o usuário não é encontrado", async () => {
+    mockCookieStore.get.mockReturnValue({ value: "token" });
+    mockedVerifyToken.mockResolvedValue({ sub: VALID_USER_ID } as never);
+    mockedDeleteUserAccount.mockRejectedValue(new UserNotFoundError());
+
+    const result = await deleteAccountAction(deleteInput);
+
+    expect(result).toEqual({ success: false, error: "Usuário não encontrado.", statusCode: 404 });
+    expect(mockedLogServerError).not.toHaveBeenCalled();
   });
 });
 
@@ -759,9 +864,38 @@ describe("getAdminProfileAction", () => {
       error: "Acesso restrito a administradores.",
       statusCode: 403,
     });
+    expect(mockedLogServerError).not.toHaveBeenCalled();
   });
 
-  it("retorna 500 com mensagem padrão quando o serviço lança erro sem message (linha 370: branch || 'Erro ao carregar perfil administrativo')", async () => {
+  it("retorna 404 com a mensagem do domínio quando o usuário não é encontrado", async () => {
+    mockCookieStore.get.mockReturnValue({ value: "token" });
+    mockedVerifyToken.mockResolvedValue({ sub: VALID_USER_ID, role: "admin" } as never);
+    mockedGetAdminProfile.mockRejectedValue(new UserNotFoundError());
+
+    const result = await getAdminProfileAction();
+
+    expect(result).toEqual({ success: false, error: "Usuário não encontrado.", statusCode: 404 });
+    expect(mockedLogServerError).not.toHaveBeenCalled();
+  });
+
+  it("retorna mensagem genérica e registra no servidor quando o serviço lança erro inesperado", async () => {
+    mockCookieStore.get.mockReturnValue({ value: "token" });
+    mockedVerifyToken.mockResolvedValue({ sub: VALID_USER_ID, role: "admin" } as never);
+    const internalError = new Error(INTERNAL_ERROR_MESSAGE);
+    mockedGetAdminProfile.mockRejectedValue(internalError);
+
+    const result = await getAdminProfileAction();
+
+    expect(result).toEqual({
+      success: false,
+      error: "Erro ao carregar perfil administrativo",
+      statusCode: 500,
+    });
+    expectNoInternalDetails(result);
+    expect(mockedLogServerError).toHaveBeenCalledWith("auth:getAdminProfile", internalError);
+  });
+
+  it("retorna mensagem genérica quando o erro inesperado não possui message", async () => {
     mockCookieStore.get.mockReturnValue({ value: "token" });
     mockedVerifyToken.mockResolvedValue({ sub: VALID_USER_ID, role: "admin" } as never);
     mockedGetAdminProfile.mockRejectedValue(new Error(""));
