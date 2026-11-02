@@ -1,61 +1,144 @@
-# SecurityAPP
-Trabalho de TCC - João Morbeck e Pedro Henrique
+# AEGIS — AI, Ética e Gestão de Integridade em Software
 
+Trabalho de Conclusão de Curso em Engenharia de Software na FCTE/UnB. A plataforma apoia o aprendizado introdutório de desenvolvimento seguro de software e o uso consciente e ético de Inteligência Artificial, por meio de trilhas, conteúdos, exercícios e acompanhamento de progresso.
 
-## Documentação / MkDocs
+## Documentação do projeto
 
-A documentação do projeto (arquitetura, processos, sprints e diretrizes de segurança) é gerida e construída utilizando o **MkDocs** com o tema **Material for MkDocs**.
+A documentação de arquitetura, requisitos, planejamento, segurança e processo está na branch docs.
 
-Siga os passos abaixo para rodar a documentação localmente e contribuir:
+### Executar a documentação localmente
 
-### 1. Pré-requisitos
-Certifique-se de ter o Python 3 e o `pip` instalados na sua máquina:
+Pré-requisitos: Python 3 e pip.
+
 ```bash
-python3 --version
-pip3 --version
+python -m venv .venv-docs
 ```
 
-### 2. Preparando o Ambiente (Virtualenv)
-Para não misturar as dependências da documentação com o restante do ambiente ou com o projeto Next.js, recomendamos utilizar um ambiente virtual.
+Ative o ambiente virtual:
 
-Na raiz do repositório, rode:
 ```bash
-# Cria o ambiente virtual
-python3 -m venv .venv-docs
+# Windows (PowerShell)
+.\.venv-docs\Scripts\Activate.ps1
 
-# Ativa o ambiente virtual (Linux/macOS)
+# Linux/macOS
 source .venv-docs/bin/activate
-
-# Nota: Se estiver utilizando Windows (PowerShell), o comando de ativação é:
-# .venv-docs\Scripts\activate
 ```
 
-### 3. Instalando as Dependências
-Com o ambiente ativado, instale o MkDocs e os plugins necessários. 
+Instale as dependências documentais e inicie o servidor na raiz do repositório:
 
-Se você tiver o arquivo de requisitos (recomendado), basta rodar:
 ```bash
-pip install -r docs-requirements.txt
-```
-*(Caso não tenha o arquivo, instale os pacotes manualmente com: `pip install mkdocs mkdocs-material mkdocs-awesome-pages-plugin mkdocs-git-revision-date-localized-plugin`)*
-
-### 4. Executando Localmente
-Todo o escopo da documentação está isolado na pasta `docs-site`. Para rodar o servidor, entre na pasta e inicie o MkDocs:
-```bash
-cd docs-site
+python -m pip install -r docs-requirements.txt
 mkdocs serve
 ```
-O servidor será iniciado em `http://127.0.0.1:8000`. Ele possui **hot-reload** — deixe o terminal aberto e toda vez que você salvar um arquivo `.md`, o navegador atualizará sozinho com as mudanças.
 
-### 5. Dicas de Edição e Contribuição
-- **Estrutura:** Escreva e edite o conteúdo dentro de `docs-site/docs/`.
-- **Navegação (Menu):** O menu lateral é configurado explicitamente no arquivo `docs-site/mkdocs.yml`. Sempre que criar um novo arquivo (como o de uma nova Sprint), adicione o mapeamento apontando para o `.md` específico no bloco `nav`.
-- **Checklists de Segurança:** O Markdown do projeto está configurado para suportar checklists reais. Utilize a sintaxe de `- [ ] Tarefa pendente` e `- [x] Tarefa concluída` para renderizar caixas de seleção na página.
+A documentação ficará disponível em `http://127.0.0.1:8000` e será atualizada automaticamente durante a edição. Para gerar a versão estática, execute `mkdocs build`. Para publicar no GitHub Pages, execute `mkdocs gh-deploy`.
 
-### 6. Publicação (Deploy)
-Quando houver um incremento funcional da documentação pronto para ir ao ar para os avaliadores ou stakeholders, faça o deploy no GitHub Pages:
-```bash
-cd docs-site
-mkdocs gh-deploy
+Os arquivos Markdown ficam em `docs/`. Ao criar páginas que devem aparecer no menu, atualize a seção `nav` de `mkdocs.yml`.
+
+## Aplicação
+
+### Tecnologias
+
+| Tecnologia | Uso |
+|---|---|
+| Node.js 24.19.0 | Runtime usado no CI |
+| Next.js 16 | Framework da aplicação web e camada de servidor |
+| React 19 | Interface |
+| TypeScript 5 | Linguagem e tipagem estática |
+| Prisma ORM 7 | Acesso ao banco e migrações |
+| MySQL 8 | Banco de dados relacional |
+| Jest 30 | Testes unitários e de integração |
+| Playwright | Testes end-to-end |
+
+As versões exatas e faixas de dependências estão definidas em `package.json` e `package-lock.json`.
+
+### Pré-requisitos
+
+- Node.js 24.19.0 e npm.
+- Docker e Docker Compose para iniciar o MySQL local incluído em `docker-compose.yml`.
+
+### Configuração do ambiente
+
+Crie o arquivo local de variáveis a partir do exemplo:
+
+```powershell
+Copy-Item .env.example .env
 ```
-Isso fará o build estático e publicará automaticamente na branch `gh-pages` do repositório.
+
+No Linux/macOS:
+
+```bash
+cp .env.example .env
+```
+
+Edite `.env` antes de iniciar. Configure `DATABASE_URL` com a URL MySQL e preencha `DATABASE_HOST`, `DATABASE_PORT`, `DATABASE_USER`, `DATABASE_PASSWORD` e `DATABASE_NAME` para corresponder ao banco escolhido. Para o banco local do Docker Compose, use o endereço e a porta publicados para acesso a partir do host; dentro do container da aplicação, o serviço do banco é `db`. Defina também `JWT_SECRET` como um valor aleatório com pelo menos 32 caracteres. Não versione `.env` nem compartilhe segredos.
+
+### Executar localmente
+
+Instale dependências, inicie o MySQL e aplique as migrações:
+
+```bash
+npm ci
+docker compose up -d db
+npx prisma migrate deploy
+```
+
+Inicie o servidor de desenvolvimento:
+
+```bash
+npm run dev
+```
+
+A aplicação fica disponível em `http://localhost:3000`.
+
+O cliente Prisma é gerado automaticamente durante a instalação (`postinstall`). Para gerá-lo novamente após alterações no schema:
+
+```bash
+npx prisma generate
+```
+
+As migrações existentes são aplicadas com `npx prisma migrate deploy`. O schema está em `prisma/schema.prisma`.
+
+### Executar com Docker Compose
+
+Com `.env` configurado, inicie o banco e a aplicação:
+
+```bash
+docker compose up --build -d
+```
+
+A primeira inicialização não aplica migrações automaticamente. Depois que os serviços estiverem ativos, aplique-as dentro do container da aplicação:
+
+```bash
+docker compose exec app npx prisma migrate deploy
+```
+
+A aplicação também fica disponível em `http://localhost:3000`. Para acompanhar os logs, use `docker compose logs -f app`; para parar os serviços, `docker compose down`. Os dados do MySQL são mantidos no volume `mysql_data`.
+
+### Testes e verificações
+
+```bash
+npm run lint
+npm run type-check
+npm run test:unit
+npm run test:integration
+npm run test:e2e
+npm run security:audit
+```
+
+Os testes de integração e E2E precisam de um banco MySQL de teste com as migrações aplicadas. Para os testes E2E, instale também o navegador Chromium do Playwright:
+
+```bash
+npx playwright install chromium
+```
+
+Para executar todos os testes Jest, use `npm test`.
+
+### Build e execução de produção
+
+```bash
+npm run build
+npm run start
+```
+
+O servidor de produção inicia em `http://localhost:3000`.

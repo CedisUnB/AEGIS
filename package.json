@@ -10,6 +10,7 @@
     "start": "next start",
     "lint": "eslint",
     "type-check": "tsc --noEmit",
+    "security:audit": "npm audit --audit-level=high",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:unit": "jest --ci --selectProjects unit",
