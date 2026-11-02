@@ -49,6 +49,8 @@ Durante a revisão do escopo, concluiu-se que a Feature 5 (Central de Consulta R
 
 Também foi incluída uma atividade de avaliação de segurança da aplicação. Essa análise busca identificar aspectos que precisam de atenção na implementação e verificar a aplicação prática dos princípios de desenvolvimento seguro abordados no projeto. Seus resultados podem contribuir para documentar a experiência como um estudo de caso.
 
+---
+
 ## Histórico de Revisão
 
 O histórico de revisões registra todas as modificações formais efetuadas no Documento de Arquitetura de Software (DAS), garantindo o controle de versão e a rastreabilidade das decisões de _design_.

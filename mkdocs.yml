@@ -46,10 +46,15 @@ markdown_extensions:
 nav:
   - Início: index.md
   - Planejamento:
+      - Metodologia de Desenvolvimento:
+          - Scrum + XP: planning/development/methodology.md
+      - Requisitos:
+          - Documento de Requisitos: planning/requirements/docs_requisitos_v2.mdþ
       - Arquitetura:
           - DAS: planning/architecture/software-architecture-document.md
-      - Requisitos:
-          - Documento de Requisitos: planning/requirements/docs_requisitos_v2.md
+      - Cronograma:
+          - Planejado: planning/schedule/planned.md
+          - Executado: planning/schedule/executed.md
       - Segurança:
           - Diretrizes: planning/security/guidelines.md
           - Checklist Backend: planning/security/checklist-backend.md
@@ -57,14 +62,14 @@ nav:
           - Checklist API: planning/security/checklist-api.md
           - Checklist Uso de IA: planning/security/checklist-ai-usage.md
           - Referências: planning/security/references.md
-      - Cronograma:
-          - Planejado: planning/schedule/planned.md
-          - Executado: planning/schedule/executed.md
+
   - Processo:
       - Sprints:
+          - Sprint 0: process/sprints/sprint_0.md
           - Sprint 1: process/sprints/sprint_1.md
           - Sprint 2: process/sprints/sprint_2.md
           - Sprint 3: process/sprints/sprint_3.md
+          - Sprint 4: process/sprints/sprint_4.md
           - Template: process/sprints/template_de_sprint.md
       - Estratégia de Testes: process/strategies/estrategia_testes.md
       - Plano de Métricas do Projeto: process/strategies/estrategia_acompanhamento_projeto.md
