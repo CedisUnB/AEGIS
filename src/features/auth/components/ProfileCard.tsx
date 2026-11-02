@@ -6,6 +6,7 @@ import { UserProfile, UpdateProfileInput } from "../types/auth.types";
 import { updateProfileUserAction } from "../actions";
 import { FormatDate } from "@/utils/dateFormatter";
 import { DeleteAccountModal } from "./DeleteAccountModal";
+import { PasswordStrengthIndicator } from "@/components/inputs/PasswordStrengthIndicator";
 
 interface ProfileCardProps {
   initialUser: UserProfile;
@@ -201,8 +202,14 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ initialUser }) => {
               placeholder="Deixe em branco para manter a atual"
               value={formData.password}
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+              aria-describedby={formData.password ? "profile-password-strength" : undefined}
               className="mt-1 w-full rounded-md border border-border bg-surface p-2 text-sm text-foreground focus:outline-none focus:border-brand-primary"
             />
+            {formData.password && (
+              <div className="mt-2">
+                <PasswordStrengthIndicator id="profile-password-strength" password={formData.password} />
+              </div>
+            )}
             {fieldErrors.password && (
               <p className="mt-1 text-xs text-cancel">{fieldErrors.password}</p>
             )}

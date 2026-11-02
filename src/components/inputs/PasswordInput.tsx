@@ -7,8 +7,9 @@ interface PasswordInputProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: string;
 }
 
-export function PasswordInput({ label, error, id, ...inputProps }: PasswordInputProps) {
+export function PasswordInput({ label, error, id, "aria-describedby": describedBy, ...inputProps }: PasswordInputProps) {
   const [visible, setVisible] = useState(false);
+  const describedByIds = [describedBy, error ? `${id}-error` : undefined].filter(Boolean).join(" ") || undefined;
 
   return (
     <div className="flex flex-col gap-1">
@@ -20,7 +21,7 @@ export function PasswordInput({ label, error, id, ...inputProps }: PasswordInput
           id={id}
           type={visible ? "text" : "password"}
           aria-invalid={Boolean(error)}
-          aria-describedby={error ? `${id}-error` : undefined}
+          aria-describedby={describedByIds}
           className="w-full rounded-md border border-brand-primary px-3 py-2 pr-10 text-foreground outline-none focus:ring-2 focus:ring-brand-secondary"
           {...inputProps}
         />
