@@ -1,6 +1,7 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
+import { PasswordStrengthIndicator } from "@/components/inputs/PasswordStrengthIndicator";
 import { signUpAction, type SignUpState } from "@/features/auth";
 import { PasswordInput } from "@/components/inputs/PasswordInput";
 
@@ -13,9 +14,20 @@ const initialState: SignUpState = {
 
 export function SignUpForm() {
   const [state, formAction, isPending] = useActionState(signUpAction, initialState);
+  const [password, setPassword] = useState("");
 
   return (
-    <form action={formAction} className="flex flex-col gap-4">
+    <form
+      action={formAction}
+      onReset={() => setPassword("")}
+      onInput={(e) => {
+        const target = e.target;
+        if (target instanceof HTMLInputElement && target.name === "password") {
+          setPassword(target.value);
+        }
+      }}
+      className="flex flex-col gap-4"
+    >
       <div className="flex flex-col gap-1">
         <label htmlFor="username" className="text-sm font-medium text-foreground">
           Nome de usuário
@@ -67,7 +79,9 @@ export function SignUpForm() {
         pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).+"
         title="8-20 caracteres, com maiúscula, minúscula, número e caractere especial"
         error={state.fieldErrors.password}
+        aria-describedby="password-strength"
       />
+      <PasswordStrengthIndicator id="password-strength" password={password} />
 
       <PasswordInput
         id="confirmPassword"

@@ -8,6 +8,7 @@ import { deleteUserAccount, ForbiddenError, getAdminProfile, getUserProfile, Inv
 import { getAuthErrorState } from "./errors";
 import { verifyToken } from "@/core/security";
 import { authRepository } from "./repositories/auth.repository";
+import { TooManyAttemptsError } from "./services/login-rate-limit";
 
 const TOKEN_AGE = 60 * 60 * 2; // 2 hours
 
@@ -87,6 +88,10 @@ export async function signInAction(
     });
 
   } catch (err) {
+    if (err instanceof TooManyAttemptsError) {
+      return { error: err.message, fieldErrors: {}, fieldValues, resetKey };
+    }
+
     const result = getAuthErrorState(
       err,
       "Não foi possível logar a conta. Tente novamente."

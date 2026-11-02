@@ -3,6 +3,9 @@ import { PrismaClientKnownRequestError } from "@prisma/client/runtime/client";
 import { signToken } from "@/core/security";
 import { authRepository } from "../repositories/auth.repository";
 import { SignUpInput, SignInInput, UserProfileSchema, UserProfile, UpdateProfileInput, DeleteAccountInput } from "../types/auth.types";
+import { beginLoginAttempt, clearLoginAttempts } from "./login-rate-limit";
+
+const DUMMY_HASH = bcrypt.hashSync("senha-inexistente", 10);
 
 export class EmailAlreadyExistsError extends Error {
   constructor() {
@@ -26,21 +29,18 @@ export class ForbiddenError extends Error {
 }
 
 export async function loginUser(input: SignInInput) {
+  const emailHash = await beginLoginAttempt(input.email);
+
   const user = await authRepository.findByEmail(input.email);
+  const isValidPassword = await bcrypt.compare(input.password, user?.password ?? DUMMY_HASH);
 
-  if (!user) {
+  if (!user || !isValidPassword) {
     throw new InvalidCredentialsError();
   }
 
-  const isValidPassword = await bcrypt.compare(input.password, user.password);
+  await clearLoginAttempts(emailHash);
 
-  if (!isValidPassword) {
-    throw new InvalidCredentialsError();
-  }
-  const token = await signToken({
-    sub: user.id,
-    role: user.role,
-  });
+  const token = await signToken({ sub: user.id, role: user.role });
 
   return { user: user.username, token };
 }

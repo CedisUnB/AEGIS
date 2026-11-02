@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/client";
 import { signToken } from "@/core/security";
 import { authRepository } from "../repositories/auth.repository";
+import { beginLoginAttempt, clearLoginAttempts } from "./login-rate-limit";
 import {
   EmailAlreadyExistsError,
   InvalidCredentialsError,
@@ -14,10 +15,19 @@ import {
   getAdminProfile,
 } from "./auth";
 
+jest.mock("./login-rate-limit", () => ({
+  beginLoginAttempt: jest.fn(),
+  clearLoginAttempts: jest.fn(),
+}));
+
+const mockedBeginAttempt = beginLoginAttempt as jest.MockedFunction<typeof beginLoginAttempt>;
+const mockedClearAttempts = clearLoginAttempts as jest.MockedFunction<typeof clearLoginAttempts>;
+
 jest.mock("bcryptjs", () => ({
   __esModule: true,
   default: {
     hash: jest.fn(),
+    hashSync: jest.fn(() => "dummy-hash"),
     compare: jest.fn(),
   },
 }));
@@ -72,9 +82,10 @@ describe("loginUser", () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    mockedBeginAttempt.mockResolvedValue("email-hash");
   });
 
-  it("efetua login com sucesso e retorna username e token", async () => {
+  it("efetua login com sucesso, retorna username e token e zera o contador de tentativas", async () => {
     mockedAuthRepo.findByEmail.mockResolvedValue({
       id: VALID_USER_ID,
       email: loginInput.email,
@@ -88,21 +99,33 @@ describe("loginUser", () => {
 
     const result = await loginUser(loginInput);
 
+    expect(mockedBeginAttempt).toHaveBeenCalledWith(loginInput.email);
     expect(mockedAuthRepo.findByEmail).toHaveBeenCalledWith(loginInput.email);
     expect(mockedBcrypt.compare).toHaveBeenCalledWith(loginInput.password, "hashedPassword");
+    expect(mockedClearAttempts).toHaveBeenCalledWith("email-hash");
     expect(mockedSignToken).toHaveBeenCalledWith({ sub: VALID_USER_ID, role: "student" });
     expect(result).toEqual({ user: "user1", token: "jwt-token" });
   });
 
-  it("lança InvalidCredentialsError se usuário não existir", async () => {
+  it("lança InvalidCredentialsError se usuário não existir, sem zerar o contador", async () => {
     mockedAuthRepo.findByEmail.mockResolvedValue(null);
+    mockedBcrypt.compare.mockResolvedValue(false as never);
 
     await expect(loginUser(loginInput)).rejects.toBeInstanceOf(InvalidCredentialsError);
-    expect(mockedBcrypt.compare).not.toHaveBeenCalled();
+    expect(mockedClearAttempts).not.toHaveBeenCalled();
     expect(mockedSignToken).not.toHaveBeenCalled();
   });
 
-  it("lança InvalidCredentialsError se senha estiver incorreta", async () => {
+  it("executa o bcrypt mesmo sem usuário, para não revelar a conta pelo tempo de resposta", async () => {
+    mockedAuthRepo.findByEmail.mockResolvedValue(null);
+    mockedBcrypt.compare.mockResolvedValue(false as never);
+
+    await expect(loginUser(loginInput)).rejects.toBeInstanceOf(InvalidCredentialsError);
+
+    expect(mockedBcrypt.compare).toHaveBeenCalledWith(loginInput.password, "dummy-hash");
+  });
+
+  it("lança InvalidCredentialsError se senha estiver incorreta, sem zerar o contador", async () => {
     mockedAuthRepo.findByEmail.mockResolvedValue({
       id: VALID_USER_ID,
       password: "hashedPassword",
@@ -110,6 +133,35 @@ describe("loginUser", () => {
     mockedBcrypt.compare.mockResolvedValue(false as never);
 
     await expect(loginUser(loginInput)).rejects.toBeInstanceOf(InvalidCredentialsError);
+    expect(mockedClearAttempts).not.toHaveBeenCalled();
+    expect(mockedSignToken).not.toHaveBeenCalled();
+  });
+
+  it("gera a mesma resposta para e-mail inexistente e senha incorreta", async () => {
+    mockedBcrypt.compare.mockResolvedValue(false as never);
+
+    mockedAuthRepo.findByEmail.mockResolvedValueOnce(null);
+    const missing = await loginUser(loginInput).catch((e) => e);
+
+    mockedAuthRepo.findByEmail.mockResolvedValueOnce({
+      id: VALID_USER_ID,
+      password: "hashedPassword",
+    } as never);
+    const wrongPassword = await loginUser(loginInput).catch((e) => e);
+
+    expect(missing).toBeInstanceOf(InvalidCredentialsError);
+    expect(wrongPassword).toBeInstanceOf(InvalidCredentialsError);
+    expect(missing.message).toBe(wrongPassword.message);
+  });
+
+  it("interrompe o login sem consultar usuário nem senha quando o limite é excedido", async () => {
+    const blocked = new Error("limite excedido");
+    mockedBeginAttempt.mockRejectedValue(blocked);
+
+    await expect(loginUser(loginInput)).rejects.toBe(blocked);
+
+    expect(mockedAuthRepo.findByEmail).not.toHaveBeenCalled();
+    expect(mockedBcrypt.compare).not.toHaveBeenCalled();
     expect(mockedSignToken).not.toHaveBeenCalled();
   });
 });
