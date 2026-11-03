@@ -49,7 +49,7 @@ nav:
       - Metodologia de Desenvolvimento:
           - Scrum + XP: planning/development/methodology.md
       - Requisitos:
-          - Documento de Requisitos: planning/requirements/docs_requisitos_v2.mdþ
+          - Documento de Requisitos: planning/requirements/docs_requisitos_v2.md
       - Arquitetura:
           - DAS: planning/architecture/software-architecture-document.md
       - Cronograma:

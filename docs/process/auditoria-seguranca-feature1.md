@@ -2,7 +2,7 @@
 
 > **Data da Auditoria Realizada**: 04/10/2026
 >
-> **Status final da auditoria:** revisão concluída com base em `guidelines.md`, nos checklists de segurança, no código da feature 1 e na planilha `docs/security/arquivos-pendentes-auditoria.xlsx`.
+> **Status final da auditoria:** revisão concluída com base em `guidelines.md`, nos checklists de segurança e no código da feature 1.
 >
 > A feature 1 está em estado de implementação funcional, mas ainda não atende integralmente ao DoD de segurança definido nas diretrizes. Há controles importantes já implementados, porém existem gaps de segurança relevantes que precisam ser tratados antes da conclusão da feature.
 
