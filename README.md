@@ -31,7 +31,7 @@ python -m pip install -r docs-requirements.txt
 mkdocs serve
 ```
 
-A documentação ficará disponível em `http://127.0.0.1:8000` e será atualizada automaticamente durante a edição. Para gerar a versão estática, execute `mkdocs build`. Para publicar no GitHub Pages, execute `mkdocs gh-deploy`.
+A documentação ficará disponível em `http://localhost:8000` e será atualizada automaticamente durante a edição. Para gerar a versão estática, execute `mkdocs build`. Para publicar no GitHub Pages, execute `mkdocs gh-deploy`.
 
 Os arquivos Markdown ficam em `docs/`. Ao criar páginas que devem aparecer no menu, atualize a seção `nav` de `mkdocs.yml`.
 
@@ -132,13 +132,75 @@ Os testes de integração e E2E precisam de um banco MySQL de teste com as migra
 npx playwright install chromium
 ```
 
-Para executar todos os testes Jest, use `npm test`.
+### Container de produção
 
-### Build e execução de produção
+O Compose padrão continua sendo o ambiente de desenvolvimento. Para validar o
+container de produção localmente, copie `.env.production.example` para
+`.env.production`, gere segredos próprios e configure `DATABASE_URL` com host
+`db` e as mesmas credenciais do banco. Use credenciais URL-safe ou codifique
+caracteres reservados na URL. Não versione `.env.production`.
 
-```bash
-npm run build
-npm run start
+No PowerShell, copie o exemplo com:
+
+```powershell
+Copy-Item .env.production.example .env.production
 ```
 
-O servidor de produção inicia em `http://localhost:3000`.
+Gere valores aleatórios diferentes para `DATABASE_PASSWORD`,
+`MYSQL_ROOT_PASSWORD` e `JWT_SECRET` (execute o comando três vezes e não
+reutilize os valores):
+
+```bash
+node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"
+```
+
+O valor hexadecimal pode ser usado diretamente em `DATABASE_URL`; mantenha nela
+a mesma senha definida em `DATABASE_PASSWORD`.
+
+```bash
+docker compose --env-file .env.production -f docker-compose.prod.yml up -d db
+```
+
+As migrações são uma etapa explícita do deploy e devem ser aplicadas antes de
+iniciar a aplicação:
+
+```bash
+docker compose --env-file .env.production -f docker-compose.prod.yml --profile maintenance run --build --rm migrate
+docker compose --env-file .env.production -f docker-compose.prod.yml up --build -d app
+```
+
+A imagem final usa o build standalone do Next.js, executa como usuário sem
+privilégios e não inclui código de testes, documentação ou o seed de
+demonstração. O MySQL não publica uma porta no host; os dados são mantidos no
+volume `mysql_data`. A aplicação fica disponível em `http://localhost:3000`.
+
+O seed de demonstração (`prisma/seed.demo.ts`) cria uma conta com senha
+conhecida e substitui trilhas de mesmo tema, por isso não é incluído nem
+executado no container de produção. O seed configurado para produção
+(`prisma/seed.ts`) é intencionalmente apenas um esqueleto e falha de forma
+explícita até ser implementado. Quando estiver pronto, execute-o manualmente
+após as migrações:
+
+```bash
+docker compose --env-file .env.production -f docker-compose.prod.yml --profile maintenance run --rm migrate npx prisma db seed
+```
+
+Para acompanhar os logs, use `docker compose --env-file .env.production -f docker-compose.prod.yml logs -f app`.
+Para parar os serviços sem apagar o banco, use `docker compose --env-file .env.production -f docker-compose.prod.yml down`.
+Não use `down -v` em produção: isso remove o volume de dados.
+
+Esse fluxo pode ser validado em uma máquina local com Docker; não depende de
+acesso ao servidor de destino. Antes do deploy, valide a configuração e construa
+a imagem:
+
+```bash
+docker compose --env-file .env.production -f docker-compose.prod.yml config
+docker compose --env-file .env.production -f docker-compose.prod.yml build app
+```
+
+Com os serviços iniciados, confirme o estado e faça uma requisição HTTP local:
+
+```bash
+docker compose --env-file .env.production -f docker-compose.prod.yml ps
+curl http://localhost:3000
+```
