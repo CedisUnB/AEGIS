@@ -11,7 +11,7 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "Security App",
+  title: "AEGIS",
   description: "Plataforma de apoio ao aprendizado sobre segurança de software",
 };
 
