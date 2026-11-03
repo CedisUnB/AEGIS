@@ -11,14 +11,15 @@ import {
 } from "./types/content.types";
 import { getSession } from "@/core/security";
 import { redirect } from "next/navigation";
+import { getContentFailure } from "./errors";
 
 const contentDeliveryService = new ContentDeliveryService();
 const progressTrackingService = new ProgressTrackingService();
 
 async function getAuthenticatedUserId(): Promise<string> {
   const session = await getSession();
-  if (!session?.sub) redirect("auth/login");
-  return session.sub;  
+  if (!session?.sub) redirect("/auth/login");
+  return session.sub;
 }
 
 type ActionResponse<T> =
@@ -33,11 +34,7 @@ export async function getLessonContentAction(
     const data = await contentDeliveryService.getLessonContent(userId, trackNodeId);
     return { success: true, statusCode: 200, data };
   } catch (err) {
-    return {
-      success: false,
-      statusCode: 500,
-      error: (err as Error).message || "Erro ao carregar o conteúdo da lição.",
-    };
+    return getContentFailure(err, "content:getLessonContent", "Erro ao carregar o conteúdo da lição.");
   }
 }
 
@@ -49,11 +46,7 @@ export async function getExercisesContentAction(
     const data = await contentDeliveryService.getExercisesContent(userId, trackNodeId);
     return { success: true, statusCode: 200, data };
   } catch (err) {
-    return {
-      success: false,
-      statusCode: 500,
-      error: (err as Error).message || "Erro ao carregar os exercícios.",
-    };
+    return getContentFailure(err, "content:getExercises", "Erro ao carregar os exercícios.");
   }
 }
 
@@ -74,11 +67,7 @@ export async function completeLessonAction(
       data: { message: "Leitura concluída com sucesso." },
     };
   } catch (err) {
-    return {
-      success: false,
-      statusCode: 500,
-      error: (err as Error).message || "Erro ao concluir a leitura da lição.",
-    };
+    return getContentFailure(err, "content:completeLesson", "Erro ao concluir a leitura da lição.");
   }
 }
 
@@ -90,12 +79,15 @@ export async function submitExercisesAction(
     const userId = await getAuthenticatedUserId();
 
     // Validação estrita dos dados recebidos com o Zod
-    const parsedSubmission = submissionSchema.parse(rawPayload);
+    const parsedSubmission = submissionSchema.safeParse(rawPayload);
+    if (!parsedSubmission.success) {
+      return { success: false, statusCode: 400, error: "Dados inválidos." };
+    }
 
     // Executa a correção (corte de 60% ou 80%) e persistência
     const result = await progressTrackingService.submitExercises(
       userId,
-      parsedSubmission
+      parsedSubmission.data
     );
 
     // Se o nó foi superado com sucesso, revalida a interface da trilha
@@ -105,11 +97,7 @@ export async function submitExercisesAction(
 
     return { success: true, statusCode: 200, data: result };
   } catch (err) {
-    return {
-      success: false,
-      statusCode: 500,
-      error: (err as Error).message || "Erro ao processar as respostas dos exercícios.",
-    };
+    return getContentFailure(err, "content:submitExercises", "Erro ao processar as respostas dos exercícios.");
   }
 }
 
@@ -119,17 +107,13 @@ export async function getNodeTypeAction(
   try {
     const userId = await getAuthenticatedUserId();
     const node = await contentDeliveryService.validateNodeAccess(userId, trackNodeId);
-    
-    return { 
+
+    return {
       success: true,
       statusCode: 200,
-      data: { nodeType: node.nodeType } 
+      data: { nodeType: node.nodeType },
     };
   } catch (err) {
-    return {
-      success: false,
-      statusCode: 500,
-      error: (err as Error).message || "Erro ao carregar as informações do nó.",
-    };
+    return getContentFailure(err, "content:getNodeType", "Erro ao carregar as informações do nó.");
   }
 }

@@ -1,7 +1,19 @@
-import { EmailAlreadyExistsError, InvalidCredentialsError } from "./services/auth";
+import {
+  EmailAlreadyExistsError,
+  ForbiddenError,
+  InvalidCredentialsError,
+  UserNotFoundError,
+} from "./services/auth";
+import { logServerError } from "@/core/logging/log-server-error";
 import type { SignInField, SignUpField } from "./actions";
 
 export type AuthErrorField = SignInField | SignUpField;
+
+export interface ActionFailure {
+  success: false;
+  error: string;
+  statusCode: number;
+}
 
 function emptyFieldErrors<TField extends string>(): Partial<Record<TField, string>> {
   return {};
@@ -36,7 +48,37 @@ export function getAuthErrorState<TField extends string = string>(
     };
   }
 
-  console.error("[auth] erro não tratado:", error);
+  logServerError("auth", error);
 
   return { error: fallbackMessage, fieldErrors: emptyFieldErrors<TField>() };
+}
+
+/**
+ * Traduz um erro capturado em uma Server Action de perfil/conta para a
+ * resposta de falha devolvida ao cliente.
+ *
+ * Só erros de domínio conhecidos expõem a própria mensagem. Qualquer outro
+ * erro vira `fallbackMessage` (status 500) e seus detalhes técnicos são
+ * registrados apenas no servidor.
+ */
+export function getActionFailure(
+  error: unknown,
+  context: string,
+  fallbackMessage: string,
+): ActionFailure {
+  if (error instanceof ForbiddenError) {
+    return { success: false, error: error.message, statusCode: 403 };
+  }
+
+  if (error instanceof UserNotFoundError) {
+    return { success: false, error: error.message, statusCode: 404 };
+  }
+
+  if (error instanceof EmailAlreadyExistsError) {
+    return { success: false, error: error.message, statusCode: 409 };
+  }
+
+  logServerError(context, error);
+
+  return { success: false, error: fallbackMessage, statusCode: 500 };
 }

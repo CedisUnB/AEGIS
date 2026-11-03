@@ -22,7 +22,8 @@
     "paths": {
       "@/*": ["./src/*"],
       "@generated/*": ["./generated/*"],
-      "@components/*": ["./components/*"]
+      "@components/*": ["./components/*"],
+      "@core/*": ["./core/*"],
     }
   },
   "include": [

@@ -1,4 +1,5 @@
 import { ProgressTrackingService } from "./progress-tracking";
+import { ContentError } from "../errors";
 
 jest.mock("../repositories/track-node.repository", () => ({
   TrackNodeRepository: jest.fn(),
@@ -6,6 +7,19 @@ jest.mock("../repositories/track-node.repository", () => ({
 jest.mock("../repositories/progress.repository", () => ({
   ProgressRepository: jest.fn(),
 }));
+async function expectContentError(
+  promise: Promise<unknown>,
+  message: string,
+  statusCode: 400 | 403 | 404,
+) {
+  const error = await promise.then(() => null, (rejection: unknown) => rejection);
+
+  expect(error).toBeInstanceOf(ContentError);
+  expect(error).toMatchObject({
+    message: expect.stringContaining(message),
+    statusCode,
+  });
+} 
 
 describe("ProgressTrackingService", () => {
   it("completes lessons with the last-node flag and rejects invalid nodes", async () => {
@@ -24,9 +38,11 @@ describe("ProgressTrackingService", () => {
     expect(delivery.validateNodeAccess).toHaveBeenCalledWith("u", 4);
     expect(progress.completeLessonNode).toHaveBeenCalledWith("u", 4, 7, true);
     delivery.validateNodeAccess.mockResolvedValue({ id: 4, nodeType: "exercise" });
-    await expect(service.completeLesson("u", 4)).rejects.toThrow("Nó inválido");
-    delivery.validateNodeAccess.mockRejectedValueOnce(new Error("Acesso bloqueado"));
-    await expect(service.completeLesson("u", 4)).rejects.toThrow("Acesso bloqueado");
+    await expectContentError(service.completeLesson("u", 4), "Nó inválido", 400);
+
+    const blockedError = new ContentError("Acesso bloqueado: conclua o nó anterior da trilha para continuar.", 403);
+    delivery.validateNodeAccess.mockRejectedValueOnce(blockedError);
+    await expect(service.completeLesson("u", 4)).rejects.toBe(blockedError);
     expect(progress.completeLessonNode).toHaveBeenCalledTimes(1);
   });
 
@@ -76,17 +92,23 @@ describe("ProgressTrackingService", () => {
       {} as never,
       delivery as never,
     );
-    delivery.validateNodeAccess.mockRejectedValue(new Error("Nó da trilha não encontrado."));
-    await expect(service.submitExercises("u", { trackNodeId: 4, exercises: [] })).rejects.toThrow("Nó da trilha não encontrado");
+    const notFoundError = new ContentError("Nó da trilha não encontrado.", 404);
+    delivery.validateNodeAccess.mockRejectedValue(notFoundError);
+    await expect(service.submitExercises("u", { trackNodeId: 4, exercises: [] })).rejects.toBe(notFoundError);
+
     delivery.validateNodeAccess.mockResolvedValue({ id: 4, nodeType: "lesson" });
-    await expect(service.submitExercises("u", { trackNodeId: 4, exercises: [] })).rejects.toThrow("Nó inválido");
+    await expectContentError(service.submitExercises("u", { trackNodeId: 4, exercises: [] }), "Nó inválido", 400);
+
     delivery.validateNodeAccess.mockResolvedValue({ id: 4, nodeType: "exercise" });
     nodes.findExercisesByNodeId.mockResolvedValue(null);
-    await expect(service.submitExercises("u", { trackNodeId: 4, exercises: [] })).rejects.toThrow("Não existem exercícios");
+    await expectContentError(service.submitExercises("u", { trackNodeId: 4, exercises: [] }), "Não existem exercícios", 404);
+
     nodes.findExercisesByNodeId.mockResolvedValue([]);
-    await expect(service.submitExercises("u", { trackNodeId: 4, exercises: [] })).rejects.toThrow("Não existem exercícios");
-    delivery.validateNodeAccess.mockRejectedValueOnce(new Error("Acesso bloqueado"));
-    await expect(service.submitExercises("u", { trackNodeId: 4, exercises: [] })).rejects.toThrow("Acesso bloqueado");
+    await expectContentError(service.submitExercises("u", { trackNodeId: 4, exercises: [] }), "Não existem exercícios", 404);
+
+    const blockedError = new ContentError("Acesso bloqueado: conclua o nó anterior da trilha para continuar.", 403);
+    delivery.validateNodeAccess.mockRejectedValueOnce(blockedError);
+    await expect(service.submitExercises("u", { trackNodeId: 4, exercises: [] })).rejects.toBe(blockedError);
     expect(progress.saveExerciseSubmissionTransaction).not.toHaveBeenCalled();
   });
 });

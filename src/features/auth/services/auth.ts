@@ -21,6 +21,13 @@ export class InvalidCredentialsError extends Error {
   }
 }
 
+export class UserNotFoundError extends Error {
+  constructor() {
+    super("Usuário não encontrado.");
+    this.name = "UserNotFoundError";
+  }
+}
+
 export class ForbiddenError extends Error {
   constructor(message = "Acesso restrito a administradores.") {
     super(message);
@@ -83,7 +90,7 @@ export async function getUserProfile(id: string): Promise <UserProfile> {
   const user = await authRepository.findById(id);
 
   if (!user) {
-    throw new Error("Usuário não encontrado.");
+    throw new UserNotFoundError();
   }
 
   return UserProfileSchema.parse(user);
@@ -95,7 +102,7 @@ export async function updateUserProfile(
 ): Promise<UserProfile> {
   const currentUser = await authRepository.findById(userId);
   if (!currentUser) {
-    throw new Error("Utilizador não encontrado");
+    throw new UserNotFoundError();
   }
 
   if (input.email !== currentUser.email) {
@@ -130,7 +137,7 @@ export async function updateUserProfile(
 export async function deleteUserAccount(userId: string, input: DeleteAccountInput) {
   const user = await authRepository.findPasswordHashById(userId);
   if (!user) {
-    throw new Error("Usuário não encontrado.");
+    throw new UserNotFoundError();
   }
 
   const isPasswordValid = await bcrypt.compare(input.password, user.password);
@@ -150,7 +157,7 @@ export async function getAdminProfile(userId: string): Promise<UserProfile> {
   const user = await authRepository.findById(userId);
 
   if (!user) {
-    throw new Error("Usuário não encontrado.");
+    throw new UserNotFoundError();
   }
 
   if (user.role !== "admin") {

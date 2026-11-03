@@ -1,16 +1,23 @@
 import { listTrackCatalogData, startTrack as startTrackRecord } from "../repositories";
 import { listTracks, startTrack } from "./tracks";
 import type { TrackCatalogEntry } from "../types";
+import { logServerError } from "@/core/logging/log-server-error";
 
 jest.mock("../repositories", () => ({
   listTrackCatalogData: jest.fn(),
   startTrack: jest.fn(),
 }));
 
+jest.mock("@/core/logging/log-server-error", () => ({
+  logServerError: jest.fn(),
+}));
+
 const mockedListTrackCatalogData =
   listTrackCatalogData as jest.MockedFunction<typeof listTrackCatalogData>;
 const mockedStartTrackRecord =
   startTrackRecord as jest.MockedFunction<typeof startTrackRecord>;
+const mockedLogServerError =
+  logServerError as jest.MockedFunction<typeof logServerError>;
 
 describe("listTracks", () => {
   beforeEach(() => {
@@ -28,22 +35,18 @@ describe("listTracks", () => {
       expect(mockedStartTrackRecord).toHaveBeenCalledWith("user-123", 11);
     });
 
-    it("logs repository errors and throws a generic start error", async () => {
+        it("logs repository errors and throws a generic start error", async () => {
       const repositoryError = new Error("database connection details");
-      const consoleError = jest.spyOn(console, "error").mockImplementation();
       mockedStartTrackRecord.mockRejectedValueOnce(repositoryError);
 
-      try {
-        await expect(startTrack("user-123", 11)).rejects.toThrow(
-          "Não foi possível iniciar a trilha.",
-        );
-        expect(consoleError).toHaveBeenCalledWith(
-          "Falha ao iniciar a trilha.",
-          repositoryError,
-        );
-      } finally {
-        consoleError.mockRestore();
-      }
+      await expect(startTrack("user-123", 11)).rejects.toHaveProperty(
+        "message",
+        "Não foi possível iniciar a trilha.",
+      );
+      expect(mockedLogServerError).toHaveBeenCalledWith(
+        "tracks-engine:startTrack",
+        repositoryError,
+      );
     });
   });
 
@@ -78,21 +81,17 @@ describe("listTracks", () => {
     await expect(listTracks()).resolves.toEqual([]);
   });
 
-  it("logs repository errors and throws a generic catalog error", async () => {
+    it("logs repository errors and throws a generic catalog error", async () => {
     const repositoryError = new Error("database connection details");
-    const consoleError = jest.spyOn(console, "error").mockImplementation();
     mockedListTrackCatalogData.mockRejectedValueOnce(repositoryError);
 
-    try {
-      await expect(listTracks()).rejects.toThrow(
-        "Não foi possível carregar o catálogo de trilhas.",
-      );
-      expect(consoleError).toHaveBeenCalledWith(
-        "Falha ao carregar o catálogo de trilhas.",
-        repositoryError,
-      );
-    } finally {
-      consoleError.mockRestore();
-    }
+    await expect(listTracks()).rejects.toHaveProperty(
+      "message",
+      "Não foi possível carregar o catálogo de trilhas.",
+    );
+    expect(mockedLogServerError).toHaveBeenCalledWith(
+      "tracks-engine:listTracks",
+      repositoryError,
+    );
   });
 });

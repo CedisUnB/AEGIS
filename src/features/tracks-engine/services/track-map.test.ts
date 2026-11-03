@@ -9,12 +9,17 @@ import {
   getTrackMap,
   getTrackNode,
 } from "./track-map";
+import { logServerError } from "@/core/logging/log-server-error";
 
 jest.mock("../repositories", () => ({
   findTrackMapData: jest.fn(),
   findTrackNodeData: jest.fn(),
   upsertNodeProgress: jest.fn(),
   updateTakesStatus: jest.fn(),
+}));
+
+jest.mock("@/core/logging/log-server-error", () => ({
+  logServerError: jest.fn(),
 }));
 
 const mockedFindTrackMapData =
@@ -25,6 +30,8 @@ const mockedUpsertNodeProgress =
   upsertNodeProgress as jest.MockedFunction<typeof upsertNodeProgress>;
 const mockedUpdateTakesStatus =
   updateTakesStatus as jest.MockedFunction<typeof updateTakesStatus>;
+const mockedLogServerError =
+  logServerError as jest.MockedFunction<typeof logServerError>;
 
 function trackNode(
   id: number,
@@ -302,6 +309,20 @@ describe("getTrackMap", () => {
 
     await expect(getTrackMap(404, undefined, "user-123")).resolves.toBeNull();
   });
+
+    it("logs repository errors and throws a generic error", async () => {
+    const repositoryError = new Error("database connection details");
+    mockedFindTrackMapData.mockRejectedValueOnce(repositoryError);
+
+    await expect(getTrackMap(12, undefined, "user-123")).rejects.toHaveProperty(
+      "message",
+      "Não foi possível carregar o mapa da trilha.",
+    );
+    expect(mockedLogServerError).toHaveBeenCalledWith(
+      "tracks-engine:getTrackMap",
+      repositoryError,
+    );
+  });
 });
 
 describe("getTrackNode", () => {
@@ -314,6 +335,35 @@ describe("getTrackNode", () => {
 
     await expect(getTrackNode(12, 99, "user-123")).resolves.toBeNull();
     expect(mockedFindTrackNodeData).toHaveBeenCalledWith(12, 99);
+  });
+
+    it("logs node lookup errors and throws a generic error", async () => {
+    const repositoryError = new Error("database connection details");
+    mockedFindTrackNodeData.mockRejectedValueOnce(repositoryError);
+
+    await expect(getTrackNode(12, 99, "user-123")).rejects.toHaveProperty(
+      "message",
+      "Não foi possível carregar o conteúdo da etapa.",
+    );
+    expect(mockedLogServerError).toHaveBeenCalledWith(
+      "tracks-engine:getTrackNode",
+      repositoryError,
+    );
+  });
+
+  it("logs track lookup errors after the node is found and throws a generic error", async () => {
+    const repositoryError = new Error("database connection details");
+    mockedFindTrackNodeData.mockResolvedValueOnce(trackNode(99) as never);
+    mockedFindTrackMapData.mockRejectedValueOnce(repositoryError);
+
+    await expect(getTrackNode(12, 99, "user-123")).rejects.toHaveProperty(
+      "message",
+      "Não foi possível carregar o conteúdo da etapa.",
+    );
+    expect(mockedLogServerError).toHaveBeenCalledWith(
+      "tracks-engine:getTrackNode",
+      repositoryError,
+    );
   });
 });
 
@@ -353,45 +403,37 @@ describe("completeTrackIfPassed", () => {
     expect(mockedUpdateTakesStatus).not.toHaveBeenCalled();
   });
 
-  it("logs progress persistence errors and throws a generic error", async () => {
+    it("logs progress persistence errors and throws a generic error", async () => {
     const repositoryError = new Error("database connection details");
-    const consoleError = jest.spyOn(console, "error").mockImplementation();
     mockedUpsertNodeProgress.mockRejectedValueOnce(repositoryError);
 
-    try {
-      await expect(
-        completeTrackIfPassed("user-123", 12, 43, 80),
-      ).rejects.toThrow(
-        "Não foi possível registrar o resultado do teste final.",
-      );
-      expect(consoleError).toHaveBeenCalledWith(
-        "Falha ao registrar a conclusão do teste final.",
-        repositoryError,
-      );
-      expect(mockedUpdateTakesStatus).not.toHaveBeenCalled();
-    } finally {
-      consoleError.mockRestore();
-    }
+    await expect(
+      completeTrackIfPassed("user-123", 12, 43, 80),
+    ).rejects.toHaveProperty(
+      "message",
+      "Não foi possível registrar o resultado do teste final.",
+    );
+    expect(mockedLogServerError).toHaveBeenCalledWith(
+      "tracks-engine:completeTrackIfPassed",
+      repositoryError,
+    );
+    expect(mockedUpdateTakesStatus).not.toHaveBeenCalled();
   });
 
   it("logs track status errors and throws a generic error", async () => {
     const repositoryError = new Error("database connection details");
-    const consoleError = jest.spyOn(console, "error").mockImplementation();
     mockedUpsertNodeProgress.mockResolvedValueOnce({} as never);
     mockedUpdateTakesStatus.mockRejectedValueOnce(repositoryError);
 
-    try {
-      await expect(
-        completeTrackIfPassed("user-123", 12, 43, 80),
-      ).rejects.toThrow(
-        "Não foi possível registrar o resultado do teste final.",
-      );
-      expect(consoleError).toHaveBeenCalledWith(
-        "Falha ao registrar a conclusão do teste final.",
-        repositoryError,
-      );
-    } finally {
-      consoleError.mockRestore();
-    }
+    await expect(
+      completeTrackIfPassed("user-123", 12, 43, 80),
+    ).rejects.toHaveProperty(
+      "message",
+      "Não foi possível registrar o resultado do teste final.",
+    );
+    expect(mockedLogServerError).toHaveBeenCalledWith(
+      "tracks-engine:completeTrackIfPassed",
+      repositoryError,
+    );
   });
 });

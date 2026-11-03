@@ -1,4 +1,5 @@
 import { TrackNodeRepository } from "../repositories/track-node.repository";
+import { ContentError } from "../errors";
 import { ProgressRepository } from "../repositories/progress.repository";
 import {
   LessonContent,
@@ -18,7 +19,7 @@ export class ContentDeliveryService {
   async validateNodeAccess(userId: string, trackNodeId: number) {
     const node = await this.trackNodeRepo.findById(trackNodeId);
     if (!node) {
-      throw new Error("Nó da trilha não encontrado.");
+      throw new ContentError("Nó da trilha não encontrado.", 404);    
     }
 
     const previousNode = await this.trackNodeRepo.findPreviousNodeInTrack(
@@ -33,7 +34,7 @@ export class ContentDeliveryService {
       );
 
       if (!isPreviousCompleted) {
-        throw new Error("Acesso bloqueado: conclua o nó anterior da trilha para continuar.");
+        throw new ContentError("Acesso bloqueado: conclua o nó anterior da trilha para continuar.", 403);
       }
     }
 
@@ -44,12 +45,12 @@ export class ContentDeliveryService {
     const node = await this.validateNodeAccess(userId, trackNodeId);
 
     if (node.nodeType !== "lesson") {
-      throw new Error("O nó solicitado não é do tipo lição.");
+      throw new ContentError("O nó solicitado não é do tipo lição.", 400); 
     }
 
     const lesson = await this.trackNodeRepo.findLessonByNodeId(trackNodeId);
     if (!lesson) {
-      throw new Error("Conteúdo da lição não encontrado para este nó.");
+      throw new ContentError("Conteúdo da lição não encontrado para este nó.", 404);
     }
 
     return lessonSchema.parse({
@@ -66,12 +67,12 @@ export class ContentDeliveryService {
     const node = await this.validateNodeAccess(userId, trackNodeId);
 
     if (node.nodeType !== "exercise") {
-      throw new Error("O nó solicitado não é do tipo exercício.");
+      throw new ContentError("O nó solicitado não é do tipo exercício.", 400);
     }
 
     const exercises = await this.trackNodeRepo.findExercisesByNodeId(trackNodeId);
     if (!exercises || exercises.length === 0) {
-      throw new Error("Nenhum exercício cadastrado para este nó.");
+      throw new ContentError("Nenhum exercício cadastrado para este nó.", 404); 
     }
 
     const sanitizedExercises = exercises.map((exercise: (typeof exercises)[number]) => {

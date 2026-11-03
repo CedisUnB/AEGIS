@@ -29,6 +29,11 @@ jest.mock("next/navigation", () => ({
   redirect: jest.fn((path: string) => {
     throw new Error(`Redirected to ${path}`);
   }),
+  unstable_rethrow: jest.fn((error: unknown) => {
+    if (error instanceof Error && error.message.startsWith("Redirected to ")) {
+      throw error;
+    }
+  }),
 }));
 
 jest.mock("@/core/security", () => ({
@@ -138,7 +143,7 @@ describe("Integração da feature content", () => {
     const blockedExercises = await getExercisesContentAction(regularExerciseNodeId);
     expect(blockedExercises).toMatchObject({
       success: false,
-      statusCode: 500,
+      statusCode: 403,
       error: expect.stringContaining("Acesso bloqueado"),
     });
 
@@ -148,6 +153,7 @@ describe("Integração da feature content", () => {
     );
     expect(blockedLessonCompletion).toMatchObject({
       success: false,
+      statusCode: 403,
       error: expect.stringContaining("Acesso bloqueado"),
     });
 
@@ -157,8 +163,10 @@ describe("Integração da feature content", () => {
     });
     expect(blockedExerciseSubmission).toMatchObject({
       success: false,
+      statusCode: 403,
       error: expect.stringContaining("Acesso bloqueado"),
     });
+    
     await expect(
       prisma.progress.count({
         where: {
@@ -232,13 +240,10 @@ describe("Integração da feature content", () => {
     });
 
     mockedGetSession.mockResolvedValue(null);
-    const unauthenticated = await getLessonContentAction(firstLessonNodeId);
-    expect(unauthenticated).toMatchObject({
-      success: false,
-      statusCode: 500,
-      error: "Redirected to auth/login",
-    });
-    expect(mockedRedirect).toHaveBeenCalledWith("auth/login");
+    await expect(getLessonContentAction(firstLessonNodeId)).rejects.toThrow(
+      "Redirected to /auth/login",
+    );
+    expect(mockedRedirect).toHaveBeenCalledWith("/auth/login");
   });
 
   it("avalia exercícios de revisão com corte de 60% e mantém melhor nota e tentativas", async () => {
@@ -267,9 +272,10 @@ describe("Integração da feature content", () => {
         { id: exercises[0].id, value: 0 },
       ],
     });
-    expect(repeatedQuestion).toMatchObject({
+        expect(repeatedQuestion).toMatchObject({
       success: false,
-      error: expect.stringContaining("Cada questão deve ser respondida apenas uma vez."),
+      statusCode: 400,
+      error: "Dados inválidos.",
     });
     await expect(
       prisma.progress.findUnique({
@@ -449,8 +455,8 @@ describe("Integração da feature content", () => {
 
     expect(response).toMatchObject({
       success: false,
-      statusCode: 500,
-      error: expect.any(String),
+      statusCode: 400,
+      error: "Dados inválidos.",
     });
     await expect(prisma.progress.count({ where: { userId: student.id } })).resolves.toBe(0);
     await expect(prisma.answers.count({ where: { userId: student.id } })).resolves.toBe(0);
