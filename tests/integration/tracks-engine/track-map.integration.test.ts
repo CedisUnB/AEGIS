@@ -143,7 +143,7 @@ describe("Mapa e progresso da trilha (US07/US08)", () => {
       getTrackMap(track.id, otherTrackNodeId, student.id),
     ).resolves.toBeNull();
     await expect(
-      getTrackMap(track.id, Number.MAX_AEGIS_INTEGER, student.id),
+      getTrackMap(track.id, Number.MAX_SAFE_INTEGER, student.id),
     ).resolves.toBeNull();
   });
 
