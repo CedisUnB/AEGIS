@@ -6,6 +6,7 @@ import {
   AnswerValue,
 } from "../types/content.types";
 import { ExerciseAnswerUpdateInput } from "../repositories/progress.repository";
+import { ContentError } from "../errors";
 
 export interface EvaluationOutcome {
   result: Result;
@@ -38,7 +39,7 @@ export class ExerciseEvaluationService {
       submission.exercises.length !== exercisesFromDb.length ||
       new Set(submittedExerciseIds).size !== submittedExerciseIds.length
     ) {
-      throw new Error("Todas as questões do nó devem ser respondidas.");
+      throw new ContentError("Todas as questões do nó devem ser respondidas.", 400);  
     }
 
     const exerciseMap = new Map(exercisesFromDb.map((ex) => [ex.id, ex]));
@@ -49,7 +50,7 @@ export class ExerciseEvaluationService {
     for (const submissionItem of submission.exercises) {
       const exercise = exerciseMap.get(submissionItem.id);
       if (!exercise) {
-        throw new Error(`Exercício ID ${submissionItem.id} não pertence a este nó.`);
+        throw new ContentError(`Exercício ID ${submissionItem.id} não pertence a este nó.`, 400);  
       }
 
       const internalData = exerciseInternalJsonSchema.parse(exercise.json);

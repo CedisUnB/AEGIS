@@ -3,6 +3,7 @@ import { ProgressRepository } from "../repositories/progress.repository";
 import { ExerciseEvaluationService } from "./exercise-evaluation";
 import { ContentDeliveryService } from "./content-delivery";
 import { Submission, Result } from "../types/content.types";
+import { ContentError } from "../errors";
 
 export class ProgressTrackingService {
   constructor(
@@ -15,7 +16,7 @@ export class ProgressTrackingService {
   async completeLesson(userId: string, trackNodeId: number) {
     const node = await this.contentDeliveryService.validateNodeAccess(userId, trackNodeId);
     if (node.nodeType !== "lesson") {
-      throw new Error("Nó inválido ou não corresponde a uma lição.");
+      throw new ContentError("Nó inválido ou não corresponde a uma lição.", 400);  
     }
     const isLastNode = await this.trackNodeRepo.isLastNodeOfTrack(node.trackId, node.orderIndex);
 
@@ -28,12 +29,12 @@ export class ProgressTrackingService {
       submission.trackNodeId
     );
     if (node.nodeType !== "exercise") {
-        throw new Error("Nó inválido ou não corresponde a uma bateria de exercícios.");
+        throw new ContentError("Nó inválido ou não corresponde a uma bateria de exercícios.", 400);
     }
 
     const exercisesFromDb = await this.trackNodeRepo.findExercisesByNodeId(node.id);
     if (!exercisesFromDb || exercisesFromDb.length === 0) {
-        throw new Error("Não existem exercícios cadastrados para este nó.");
+        throw new ContentError("Não existem exercícios cadastrados para este nó.", 404);  
     }
 
     const isFinalTest = await this.trackNodeRepo.isLastNodeOfTrack(node.trackId, node.orderIndex);
