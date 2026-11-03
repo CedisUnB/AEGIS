@@ -1,5 +1,5 @@
 import { NodeType } from "@generated/prisma/enums";
-import { logServerError } from "@/core/logging/log-server-error";
+import { toTrackEngineError } from "../errors";
 import {
   findTrackMapData,
   findTrackNodeData,
@@ -71,7 +71,7 @@ export async function getTrackMap(
         const isMostAdvanced =
           mostAdvancedNode !== undefined && node.id === mostAdvancedNode.id;
 
-        return {
+      return {
           id: node.id,
           orderIndex: node.orderIndex,
           nodeType: node.nodeType,
@@ -90,9 +90,12 @@ export async function getTrackMap(
         };
       }),
     };
-  } catch (error) {
-    logServerError("tracks-engine:getTrackMap", error);
-    throw new Error("Não foi possível carregar o mapa da trilha.");
+   } catch (error) {
+    throw toTrackEngineError(
+      error,
+      "tracks-engine:getTrackMap",
+      "Não foi possível carregar o mapa da trilha.",
+    );
   }
 }
 
@@ -124,9 +127,12 @@ export async function getTrackNode(
       title,
       isFinalTest,
     };
-  } catch (error) {
-    logServerError("tracks-engine:getTrackNode", error);
-    throw new Error("Não foi possível carregar o conteúdo da etapa.");
+    } catch (error) {
+    throw toTrackEngineError(
+      error,
+      "tracks-engine:getTrackNode",
+      "Não foi possível carregar o conteúdo da etapa.",
+    );
   }
 }
 
@@ -149,8 +155,11 @@ export async function completeTrackIfPassed(
     }
 
     return { passed };
-  } catch (error) {
-    logServerError("tracks-engine:completeTrackIfPassed", error);
-    throw new Error("Não foi possível registrar o resultado do teste final.");
+    } catch (error) {
+    throw toTrackEngineError(
+      error,
+      "tracks-engine:completeTrackIfPassed",
+      "Não foi possível registrar o resultado do teste final.",
+    );
   }
 }

@@ -168,6 +168,7 @@ describe("TrackDetailsDialog", () => {
     expect(container.querySelector('[role="alert"]')?.textContent).toBe(
       "Não foi possível iniciar a trilha. Tente novamente.",
     );
+    expect(container.textContent).not.toContain("database error");
     expect(mockRouterPush).not.toHaveBeenCalled();
   });
 

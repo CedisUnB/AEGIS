@@ -9,6 +9,7 @@ import {
 } from "./types";
 import type { TrackCatalogEntry } from "./types";
 import type { TrackMapDTO, TrackNodeContentDTO } from "./types";
+import { TrackEngineError } from "./errors";
 
 async function requireSession() {
   const session = await getSession();
@@ -35,7 +36,7 @@ export async function startTrackAction(params: {trackId: string}): Promise<void>
 
   const parsed = trackMapRouteParamsSchema.safeParse(params);
   if (!parsed.success) {
-    throw new Error("Identificador de trilha inválido.");
+      throw new TrackEngineError("Identificador de trilha inválido.");
   }
 
   await startTrack(userId, parsed.data.trackId);
