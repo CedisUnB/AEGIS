@@ -35,7 +35,7 @@ export async function startTrackAction(params: {trackId: string}): Promise<void>
 
   const parsed = trackMapRouteParamsSchema.safeParse(params);
   if (!parsed.success) {
-    throw new Error(parsed.error.message);
+    throw new Error("Identificador de trilha inválido.");
   }
 
   await startTrack(userId, parsed.data.trackId);

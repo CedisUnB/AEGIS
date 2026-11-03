@@ -1,4 +1,5 @@
 import { NodeType } from "@generated/prisma/enums";
+import { logServerError } from "@/core/logging/log-server-error";
 import {
   findTrackMapData,
   findTrackNodeData,
@@ -90,7 +91,7 @@ export async function getTrackMap(
       }),
     };
   } catch (error) {
-    console.error("Falha ao carregar o mapa da trilha.", error);
+    logServerError("tracks-engine:getTrackMap", error);
     throw new Error("Não foi possível carregar o mapa da trilha.");
   }
 }
@@ -124,7 +125,7 @@ export async function getTrackNode(
       isFinalTest,
     };
   } catch (error) {
-    console.error("Falha ao carregar o nó da trilha.", error);
+    logServerError("tracks-engine:getTrackNode", error);
     throw new Error("Não foi possível carregar o conteúdo da etapa.");
   }
 }
@@ -149,7 +150,7 @@ export async function completeTrackIfPassed(
 
     return { passed };
   } catch (error) {
-    console.error("Falha ao registrar a conclusão do teste final.", error);
+    logServerError("tracks-engine:completeTrackIfPassed", error);
     throw new Error("Não foi possível registrar o resultado do teste final.");
   }
 }
