@@ -22,7 +22,7 @@ jobs:
       - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "24.19.0"
+          node-version: "24.22.0"
 
       - name: Auditar dependências (alta e crítica)
         run: npm run security:audit
@@ -40,7 +40,7 @@ jobs:
       - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "24.19.0"
+          node-version: "24.22.0"
           cache: "npm"
 
       - name: Instalar Dependências
@@ -65,7 +65,7 @@ jobs:
       - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "24.19.0"
+          node-version: "24.22.0"
           cache: "npm"
 
       - name: Instalar Dependências
@@ -108,7 +108,7 @@ jobs:
       - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "24.19.0"
+          node-version: "24.22.0"
           cache: "npm"
 
       - name: Instalar Dependências
@@ -160,7 +160,7 @@ jobs:
       - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "24.19.0"
+          node-version: "24.22.0"
           cache: "npm"
 
       - name: Instalar Dependências

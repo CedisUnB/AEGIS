@@ -1,7 +1,8 @@
+name: aegis-dev
+
 services:
   db:
     image: mysql:8.0
-    container_name: tcc_mysql
     restart: always
     command: --default-authentication-plugin=mysql_native_password
     environment:
@@ -15,7 +16,6 @@ services:
       - mysql_data:/var/lib/mysql
 
   app:
-    container_name: tcc_app
     build:
       context: .
       dockerfile: Dockerfile.dev
