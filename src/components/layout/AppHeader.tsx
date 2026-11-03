@@ -14,7 +14,7 @@ export function AppHeader({ user, role }: AppHeaderProps) {
   return (
     <header className="sticky top-0 z-50 flex items-center justify-between gap-3 bg-brand-primary px-4 py-3">
       <Link href="/tracks" className="text-xl font-bold tracking-tight text-white">
-        SAFE
+        AEGIS
       </Link>
 
       <div className="flex items-center gap-2">

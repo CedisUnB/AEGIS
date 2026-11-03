@@ -1,3 +1,4 @@
+import { PrivacyPolicyLink } from "@/components/layout/PrivacyPolicyLink";
 import { SignInForm } from "@/features/auth/components";
 
 interface LoginPageProps {
@@ -13,14 +14,17 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
         <h1 className="mb-6 text-center text-2xl text-foreground font-semibold">
           Entre na sua conta
         </h1>
-        
-        <SignInForm />
-        
+
         {reauth === "1" && (
           <div className="mb-4 w-full max-w-sm rounded-md bg-confirm p-4 text-sm font-medium text-white">
             Perfil atualizado com sucesso! Por segurança, faça login novamente com suas novas credenciais.
           </div>
         )}
+        
+        <SignInForm />
+        <div className="mt-4 flex justify-center">
+          <PrivacyPolicyLink />
+        </div>
       </div>
     </main>
   );

@@ -4,7 +4,7 @@ test.describe('Página Inicial / Auth', () => {
   test('deve carregar a home e exibir a landing page', async ({ page }) => {
   await page.goto('/');
 
-  await expect(page.getByRole('heading', { name: 'SAFE' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'AEGIS' })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Entrar' })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Criar conta' })).toBeVisible();
 });
