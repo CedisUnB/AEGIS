@@ -2,7 +2,7 @@
 
 | Sprint | Período | Data Reunião de Planejamento | Data Reunião de Review | Participantes |
 |---|---|---|---|---|
-| 4 | 20/10/26 - 02/11/26 | 20/10/26 | dd/mm/yy | Pedro Henrique da Silva Melo e João Pedro Rodrigues Morbeck |
+| 4 | 20/10/26 - 02/11/26 | 20/10/26 | 02/11/26 | Pedro Henrique da Silva Melo e João Pedro Rodrigues Morbeck |
 
 ## Planejamento da Sprint
 
@@ -47,24 +47,27 @@ O orientador apontou a grande quantidade de trabalho restante e o pouco tempo di
 se voltou a finalizar o máximo de tarefas possível, com foco nos que são considerados mais importantes e que sua implementação seja rápida.
 
 ## 2. Sprint Review
--
+- A sprint foi bem executada com a entrega rápida da feature 3 na primeira semana, enquanto a segunda semana o foco foi em resolver tarefas que estavam em backlog para ajustes pontuais e necessários para a segurança e interatividade da aplicação.
 
 ### Histórias de Usuário Validadas (Entregues)
 
-- 
+- US10 e US11
+    - Histórias referentes a feature 3 a respeito da visualização e indicadores de progresso para determinar o andamento das trilhas e da plataforma.
 
 ## 3. Sprint Retrospective
 
 *Avaliação do processo de trabalho da dupla:*
 
 ### ✅ O que funcionou bem (Continue)
-- 
+- Divisão das atividades entre os desenvolvedores;
+- Entrega de atividades mais rápidas.
 
 ### 🛑 O que impediu o progresso (Stop)
-- 
+- Quebra da pipeline de CI;
+- Resolver issues relacionadas a feature 1 a qual apresentava vulnerabilidades de segurança mapeadas pela [auditoria de segurança](docs/process/auditoria-seguranca-feature1.md) realizada anteriormente.
 
 ### 🚀 Ações de Melhoria para a Próxima Sprint (Act)
-- 
+- N/A - Não se Aplica.
 
 ---
 
