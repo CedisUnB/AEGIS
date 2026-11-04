@@ -90,4 +90,25 @@ describe("logServerError", () => {
     const [, payload] = consoleSpy.mock.calls[0];
     expect(payload.code).toBeUndefined();
   });
+
+  it("usa a mensagem quando o erro não tem stack", () => {
+    const error = new Error("erro sem stack");
+    error.stack = undefined;
+
+    logServerError("auth", error);
+
+    const [, payload] = consoleSpy.mock.calls[0];
+    expect(payload.detail).toBe("erro sem stack");
+  });
+
+  it.each([null, undefined])("aceita erros não-Error %s", (error) => {
+    logServerError("auth", error);
+
+    const [, payload] = consoleSpy.mock.calls.at(-1)!;
+    expect(payload).toEqual({
+      name: typeof error,
+      code: undefined,
+      detail: String(error),
+    });
+  });
 });

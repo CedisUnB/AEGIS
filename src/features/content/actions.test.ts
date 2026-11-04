@@ -1,6 +1,6 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { getSession } from "@/core/security";
+import { getSessionWithRefresh } from "@/core/security";
 import { logServerError } from "@/core/logging/log-server-error";
 import { ContentDeliveryService } from "./services/content-delivery";
 import { ProgressTrackingService } from "./services/progress-tracking";
@@ -23,7 +23,7 @@ jest.mock("next/navigation", () => ({
     }
   }),
 }));
-jest.mock("@/core/security", () => ({ getSession: jest.fn() }));
+jest.mock("@/core/security", () => ({ getSessionWithRefresh: jest.fn() }));
 jest.mock("@/core/logging/log-server-error", () => ({ logServerError: jest.fn() }));
 jest.mock("./services/content-delivery", () => ({
   ContentDeliveryService: jest.fn().mockImplementation(() => ({
@@ -48,7 +48,7 @@ const tracking = (ProgressTrackingService as jest.Mock).mock.results[0].value as
   completeLesson: jest.Mock;
   submitExercises: jest.Mock;
 };
-const sessionMock = getSession as jest.MockedFunction<typeof getSession>;
+const sessionMock = getSessionWithRefresh as jest.MockedFunction<typeof getSessionWithRefresh>;
 const mockedLogServerError = logServerError as jest.MockedFunction<typeof logServerError>;
 
 const INTERNAL_ERROR_MESSAGE =
@@ -106,7 +106,7 @@ const actionCases = [
 describe("content server actions", () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    sessionMock.mockResolvedValue({ sub: "user-1" } as Awaited<ReturnType<typeof getSession>>);
+    sessionMock.mockResolvedValue({ sub: "user-1" } as Awaited<ReturnType<typeof getSessionWithRefresh>>);
   });
 
   it("returns lesson and exercise content for authenticated users", async () => {
@@ -252,7 +252,7 @@ describe("content server actions", () => {
     it.each(actionCases)(
       "$name redirects to the login page instead of returning an error response",
       async ({ call }) => {
-        sessionMock.mockResolvedValueOnce(null as Awaited<ReturnType<typeof getSession>>);
+        sessionMock.mockResolvedValueOnce(null as Awaited<ReturnType<typeof getSessionWithRefresh>>);
 
         await expect(call()).rejects.toHaveProperty("message", "redirect:/auth/login");
 
@@ -265,7 +265,7 @@ describe("content server actions", () => {
     );
 
     it("redirects when the session has no subject", async () => {
-      sessionMock.mockResolvedValueOnce({} as Awaited<ReturnType<typeof getSession>>);
+      sessionMock.mockResolvedValueOnce({} as Awaited<ReturnType<typeof getSessionWithRefresh>>);
 
       await expect(getLessonContentAction(3)).rejects.toHaveProperty(
         "message",

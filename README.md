@@ -128,6 +128,10 @@ npm run security:audit
 
 Os testes de integração e E2E precisam de um banco MySQL de teste com as migrações aplicadas. Para os testes E2E, instale também o navegador Chromium do Playwright:
 
+O Playwright inicia um servidor de desenvolvimento isolado na porta `3100`,
+para não reutilizar uma aplicação já disponível na porta `3000`. A porta pode
+ser alterada pela variável `E2E_PORT`.
+
 ```bash
 npx playwright install chromium
 ```

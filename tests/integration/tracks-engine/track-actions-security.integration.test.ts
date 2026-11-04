@@ -3,7 +3,7 @@
  */
 import { redirect } from "next/navigation";
 import { prisma } from "@/core/database/prisma";
-import { getSession } from "@/core/security";
+import { getSessionWithRefresh } from "@/core/security";
 import {
   getCatalogAction,
   getTrackMapAction,
@@ -26,7 +26,7 @@ jest.mock("next/navigation", () => ({
 }));
 
 jest.mock("@/core/security", () => ({
-  getSession: jest.fn(),
+  getSessionWithRefresh: jest.fn(),
 }));
 
 jest.mock("@/features/tracks-engine/repositories", () => {
@@ -39,7 +39,7 @@ jest.mock("@/features/tracks-engine/repositories", () => {
 });
 
 const PREFIX = createTestPrefix();
-const mockedGetSession = jest.mocked(getSession);
+const mockedGetSession = jest.mocked(getSessionWithRefresh);
 const mockedRedirect = jest.mocked(redirect);
 
 jest.setTimeout(30000);
@@ -95,6 +95,7 @@ describe("Isolamento e validação das actions de trilhas (A01)", () => {
     mockedGetSession.mockResolvedValue({
       sub: "session-user",
       role: "student",
+      tokenUse: "access",
     });
 
     for (const invalidId of ["not-a-number", "-1", "0"]) {
@@ -119,7 +120,11 @@ describe("Isolamento e validação das actions de trilhas (A01)", () => {
     const track = await createTrack(PREFIX, { lessons: 2, withFinalTest: false });
     await completeNodes(owner.id, track.contentNodeIds);
 
-    mockedGetSession.mockResolvedValue({ sub: attacker.id, role: "student" });
+    mockedGetSession.mockResolvedValue({
+      sub: attacker.id,
+      role: "student",
+      tokenUse: "access",
+    });
 
     const map = await getTrackMapAction({
       trackId: String(track.id),

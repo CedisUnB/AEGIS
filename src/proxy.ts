@@ -1,8 +1,16 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { verifyToken } from "@/core/security";
+import {
+  ACCESS_TOKEN_COOKIE,
+  REFRESH_TOKEN_COOKIE,
+  clearAuthCookies,
+  isSameOriginRefreshRequest,
+  rotateRefreshToken,
+  setAuthCookies,
+  verifyAccessToken,
+} from "@/core/security";
 
-const PROTECTED_PREFIXES = ["/tracks", "/practice", "/progress", "/revision", "/admin"];
+const PROTECTED_PREFIXES = ["/tracks", "/practice", "/progress", "/revision", "/admin", "/profile"];
 
 function isProtectedPath(pathname: string) {
   return PROTECTED_PREFIXES.some(
@@ -28,12 +36,26 @@ function buildCsp(nonce: string) {
 }
 
 export async function proxy(request: NextRequest) {
-  if (isProtectedPath(request.nextUrl.pathname)) {
-    const token = request.cookies.get("token")?.value;
-    const session = token ? await verifyToken(token) : null;
+  if (isProtectedPath(request.nextUrl.pathname) && request.method === "GET") {
+    const token = request.cookies.get(ACCESS_TOKEN_COOKIE)?.value;
+    const session = token ? await verifyAccessToken(token) : null;
 
     if (!session) {
-      return NextResponse.redirect(new URL("/auth/login", request.url));
+      const refreshToken = request.cookies.get(REFRESH_TOKEN_COOKIE)?.value;
+      const canRefresh = isSameOriginRefreshRequest(request.headers, "GET");
+
+      if (refreshToken && canRefresh) {
+        const rotated = await rotateRefreshToken(refreshToken);
+        if (rotated) {
+          const response = NextResponse.redirect(request.nextUrl);
+          setAuthCookies(response.cookies, rotated, rotated.user.username);
+          return response;
+        }
+      }
+
+      const response = NextResponse.redirect(new URL("/auth/login", request.url));
+      if (canRefresh) clearAuthCookies(response.cookies);
+      return response;
     }
 
     // Testando página de erro padrão, controle de acesso sendo feito direto na página do admin

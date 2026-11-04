@@ -1,6 +1,11 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { verifyToken } from "@/core/security";
+import {
+  clearAuthCookies,
+  getSessionWithRefresh,
+  setAuthCookies,
+  verifyToken,
+} from "@/core/security";
 import { authRepository } from "../repositories/auth.repository";
 import { TooManyAttemptsError } from "./login-rate-limit";
 import { logServerError } from "@/core/logging/log-server-error";
@@ -37,7 +42,14 @@ jest.mock("next/navigation", () => ({
 }));
 
 jest.mock("@/core/security", () => ({
+  ACCESS_TOKEN_COOKIE: "access_token",
+  REFRESH_TOKEN_COOKIE: "refresh_token",
   verifyToken: jest.fn(),
+  getSessionWithRefresh: jest.fn(),
+  setAuthCookies: jest.fn(),
+  clearAuthCookies: jest.fn(),
+  revokeRefreshToken: jest.fn(),
+  revokeAllRefreshTokens: jest.fn(),
 }));
 
 jest.mock("../repositories/auth.repository", () => ({
@@ -112,6 +124,9 @@ jest.mock("./auth", () => {
 const mockedCookies = cookies as jest.MockedFunction<typeof cookies>;
 const mockedRedirect = redirect as jest.MockedFunction<typeof redirect>;
 const mockedVerifyToken = verifyToken as jest.MockedFunction<typeof verifyToken>;
+const mockedGetSessionWithRefresh = getSessionWithRefresh as jest.MockedFunction<typeof getSessionWithRefresh>;
+const mockedSetAuthCookies = setAuthCookies as jest.MockedFunction<typeof setAuthCookies>;
+const mockedClearAuthCookies = clearAuthCookies as jest.MockedFunction<typeof clearAuthCookies>;
 const mockedAuthRepo = authRepository as jest.Mocked<typeof authRepository>;
 const mockedLogServerError = logServerError as jest.MockedFunction<typeof logServerError>;
 
@@ -166,6 +181,28 @@ function expectNoInternalDetails(result: unknown) {
 beforeEach(() => {
   jest.clearAllMocks();
   mockedCookies.mockResolvedValue(mockCookieStore as unknown as Awaited<ReturnType<typeof cookies>>);
+  mockedGetSessionWithRefresh.mockImplementation(async () => {
+    const token = (await mockedCookies()).get("access_token")?.value;
+    return token ? mockedVerifyToken(token) : null;
+  });
+  mockedSetAuthCookies.mockImplementation((cookieStore, tokens, username) => {
+    cookieStore.delete("token");
+    cookieStore.set("access_token", tokens.accessToken, {
+      httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "lax", path: "/", maxAge: 600,
+    });
+    cookieStore.set("refresh_token", tokens.refreshToken, {
+      httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "lax", path: "/", maxAge: 2592000,
+    });
+    cookieStore.set("username", username, {
+      httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "lax", path: "/", maxAge: 2592000,
+    });
+  });
+  mockedClearAuthCookies.mockImplementation((cookieStore) => {
+    cookieStore.delete("access_token");
+    cookieStore.delete("refresh_token");
+    cookieStore.delete("username");
+    cookieStore.delete("token");
+  });
 });
 
 describe("logoutAction", () => {
@@ -240,7 +277,12 @@ describe("signInAction", () => {
   });
 
   it("define cookies de token e username e redireciona no login com sucesso", async () => {
-    mockedLoginUser.mockResolvedValue({ user: "student", token: "signed-token" });
+    mockedLoginUser.mockResolvedValue({
+      user: "student",
+      accessToken: "signed-access-token",
+      refreshToken: "signed-refresh-token",
+      refreshTokenExpiresAt: new Date(),
+    });
 
     await signInAction(initialSignInState, createFormData());
 
@@ -248,19 +290,26 @@ describe("signInAction", () => {
       email: "student@example.com",
       password: "Senha@123",
     });
-    expect(mockCookieStore.set).toHaveBeenCalledWith("token", "signed-token", {
+    expect(mockCookieStore.set).toHaveBeenCalledWith("access_token", "signed-access-token", {
       httpOnly: true,
       secure: false,
       sameSite: "lax",
       path: "/",
-      maxAge: 7200,
+      maxAge: 600,
     });
-    expect(mockCookieStore.set).toHaveBeenCalledWith("username", "student", {
-      httpOnly: false,
+    expect(mockCookieStore.set).toHaveBeenCalledWith("refresh_token", "signed-refresh-token", {
+      httpOnly: true,
       secure: false,
       sameSite: "lax",
       path: "/",
-      maxAge: 7200,
+      maxAge: 2592000,
+    });
+    expect(mockCookieStore.set).toHaveBeenCalledWith("username", "student", {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+      path: "/",
+      maxAge: 2592000,
     });
     expect(mockedRedirect).toHaveBeenCalledWith("/tracks");
   });
@@ -377,7 +426,9 @@ describe("signUpAction", () => {
   it("define cookies e redireciona após cadastro realizado com sucesso", async () => {
     mockedRegisterUser.mockResolvedValue({
       user: "student",
-      token: "signed-token",
+      accessToken: "signed-access-token",
+      refreshToken: "signed-refresh-token",
+      refreshTokenExpiresAt: new Date(),
     });
 
     await signUpAction(initialSignUpState, createFormData());
@@ -388,19 +439,26 @@ describe("signUpAction", () => {
       password: validFields.password,
       confirmPassword: validFields.confirmPassword,
     });
-    expect(mockCookieStore.set).toHaveBeenCalledWith("token", "signed-token", {
+    expect(mockCookieStore.set).toHaveBeenCalledWith("access_token", "signed-access-token", {
       httpOnly: true,
       secure: false,
       sameSite: "lax",
       path: "/",
-      maxAge: 7200,
+      maxAge: 600,
     });
-    expect(mockCookieStore.set).toHaveBeenCalledWith("username", "student", {
-      httpOnly: false,
+    expect(mockCookieStore.set).toHaveBeenCalledWith("refresh_token", "signed-refresh-token", {
+      httpOnly: true,
       secure: false,
       sameSite: "lax",
       path: "/",
-      maxAge: 7200,
+      maxAge: 2592000,
+    });
+    expect(mockCookieStore.set).toHaveBeenCalledWith("username", "student", {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+      path: "/",
+      maxAge: 2592000,
     });
     expect(mockedRedirect).toHaveBeenCalledWith("/tracks");
   });
