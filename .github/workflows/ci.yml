@@ -83,6 +83,7 @@ jobs:
     name: Testes de Integração
     runs-on: self-hosted
     needs: [code-quality, unit-tests, dependency-audit]
+
     env:
       DATABASE_URL: mysql://tcc_user:tcc_password@127.0.0.1:3306/tcc_db_test?connect_timeout=30&pool_timeout=30
       DATABASE_HOST: 127.0.0.1
