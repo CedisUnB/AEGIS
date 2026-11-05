@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/client";
-import { signToken } from "@/core/security";
+import { createTokenSession } from "@/core/security";
 import { authRepository } from "../repositories/auth.repository";
 import { SignUpInput, SignInInput, UserProfileSchema, UserProfile, UpdateProfileInput, DeleteAccountInput } from "../types/auth.types";
 import { beginLoginAttempt, clearLoginAttempts } from "./login-rate-limit";
@@ -47,9 +47,9 @@ export async function loginUser(input: SignInInput) {
 
   await clearLoginAttempts(emailHash);
 
-  const token = await signToken({ sub: user.id, role: user.role });
+  const tokens = await createTokenSession(user);
 
-  return { user: user.username, token };
+  return { user: user.username, ...tokens };
 }
 
 export async function registerUser(input: SignUpInput) {
@@ -77,9 +77,9 @@ export async function registerUser(input: SignUpInput) {
     throw error;
   }
 
-  const token = await signToken({ sub: user.id, role: user.role });
+  const tokens = await createTokenSession(user);
 
-  return { user: user.username, token };
+  return { user: user.username, ...tokens };
 }
 
 export async function getUserProfile(id: string): Promise <UserProfile> {

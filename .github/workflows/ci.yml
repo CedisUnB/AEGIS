@@ -58,6 +58,8 @@ jobs:
   unit-tests:
     name: Testes Unitários
     runs-on: self-hosted
+    env:
+      JWT_SECRET: chave-aleatoria-com-pelo-menos-32-caracteres
     steps:
       - name: Checkout do Código
         uses: actions/checkout@v4

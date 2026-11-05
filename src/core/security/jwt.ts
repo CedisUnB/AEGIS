@@ -1,5 +1,5 @@
 import { SignJWT, jwtVerify, type JWTPayload } from "jose";
-import { Role, type Role as RoleValue } from "@generated/prisma/client";
+import { Role, type Role as RoleValue } from "@generated/prisma/enums";
 
 const jwtSecret = process.env.JWT_SECRET;
 
@@ -12,19 +12,22 @@ const secret = new TextEncoder().encode(jwtSecret);
 export interface SessionPayload extends JWTPayload {
   sub: string;
   role: RoleValue;
+  tokenUse: "access";
 }
 
-export async function signToken(
+export const ACCESS_TOKEN_TTL_SECONDS = 10 * 60;
+
+export async function signAccessToken(
   payload: Pick<SessionPayload, "sub" | "role">,
 ): Promise<string> {
-  return new SignJWT(payload)
+  return new SignJWT({ ...payload, tokenUse: "access" })
     .setProtectedHeader({ alg: "HS256", typ: "JWT" })
     .setIssuedAt()
-    .setExpirationTime("2h")
+    .setExpirationTime("10m")
     .sign(secret);
 }
 
-export async function verifyToken(
+export async function verifyAccessToken(
   token: string,
 ): Promise<SessionPayload | null> {
   try {
@@ -34,7 +37,11 @@ export async function verifyToken(
 
     const validRoles = Object.values(Role);
     
-    if (typeof payload.sub !== "string" || !validRoles.includes(payload.role as Role)) {
+    if (
+      typeof payload.sub !== "string" ||
+      !validRoles.includes(payload.role as Role) ||
+      payload.tokenUse !== "access"
+    ) {
       return null;
     }
 
@@ -43,3 +50,5 @@ export async function verifyToken(
     return null;
   }
 }
+
+export const verifyToken = verifyAccessToken;

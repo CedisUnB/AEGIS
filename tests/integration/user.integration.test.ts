@@ -1,6 +1,7 @@
 /**
  * @jest-environment node
  */
+import { createHash } from "node:crypto";
 import bcrypt from 'bcryptjs';
 import { prisma } from '@/core/database/prisma';
 import {
@@ -10,8 +11,8 @@ import {
   registerUser,
 } from '@/features/auth/services/auth';
 
-jest.mock('@/core/security', () => ({
-  signToken: jest.fn().mockResolvedValue('integration-test-token'),
+jest.mock('@/core/security/jwt', () => ({
+  signAccessToken: jest.fn().mockResolvedValue('integration-test-access-token'),
 }));
 
 jest.setTimeout(30000);
@@ -40,7 +41,7 @@ describe('Integração: cadastro de usuário', () => {
     }
   }, 30000);
 
-  it('deve criar o usuário com senha hash e gerar token de sessão', async () => {
+  it('deve criar o usuário com senha hash e persistir o refresh token como hash', async () => {
     const input = {
       username: 'integration_user',
       email: emails[0],
@@ -51,8 +52,8 @@ describe('Integração: cadastro de usuário', () => {
     const result = await registerUser(input);
 
     expect(result.user).toBe(input.username);
-    expect(typeof result.token).toBe('string');
-    expect(result.token.length).toBeGreaterThan(20);
+    expect(result.accessToken.length).toBeGreaterThan(20);
+    expect(result.refreshToken.length).toBeGreaterThan(20);
 
     const persistedUser = await prisma.user.findUnique({ where: { email: input.email } });
     expect(persistedUser).not.toBeNull();
@@ -60,6 +61,14 @@ describe('Integração: cadastro de usuário', () => {
     expect(persistedUser?.role).toBe('student');
     expect(persistedUser?.password).not.toBe(input.password);
     expect(await bcrypt.compare(input.password, persistedUser!.password)).toBe(true);
+
+    const persistedRefreshToken = await prisma.refreshToken.findUnique({
+      where: {
+        tokenHash: createHash('sha256').update(result.refreshToken).digest('hex'),
+      },
+    });
+    expect(persistedRefreshToken?.userId).toBe(persistedUser!.id);
+    expect(persistedRefreshToken?.tokenHash).not.toBe(result.refreshToken);
   });
 
   it('deve rejeitar e-mail duplicado usando a constraint real do banco', async () => {
@@ -111,7 +120,7 @@ describe('Integração: cadastro de usuário', () => {
     ).rejects.toBeInstanceOf(InvalidCredentialsError);
   });
 
-  it('deve autenticar o usuário com senha correta e devolver o token', async () => {
+  it('deve autenticar o usuário e emitir um par de tokens', async () => {
     const password = 'Senha@123';
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -130,7 +139,7 @@ describe('Integração: cadastro de usuário', () => {
     });
 
     expect(result.user).toBe('login_user');
-    expect(typeof result.token).toBe('string');
-    expect(result.token.length).toBeGreaterThan(20);
+    expect(result.accessToken.length).toBeGreaterThan(20);
+    expect(result.refreshToken.length).toBeGreaterThan(20);
   });
 });

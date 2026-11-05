@@ -9,7 +9,7 @@ import {
   ExercisesContent,
   Result,
 } from "./types/content.types";
-import { getSession } from "@/core/security";
+import { getSessionWithRefresh } from "@/core/security";
 import { redirect } from "next/navigation";
 import { getContentFailure } from "./errors";
 
@@ -17,7 +17,7 @@ const contentDeliveryService = new ContentDeliveryService();
 const progressTrackingService = new ProgressTrackingService();
 
 async function getAuthenticatedUserId(): Promise<string> {
-  const session = await getSession();
+  const session = await getSessionWithRefresh();
   if (!session?.sub) redirect("/auth/login");
   return session.sub;
 }

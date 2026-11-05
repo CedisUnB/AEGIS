@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { getSession } from "@/core/security";
+import { getSessionWithRefresh } from "@/core/security";
 import { getTrackMap, getTrackNode, listTracks, startTrack } from "./services";
 import {
   getCatalogAction,
@@ -14,7 +14,7 @@ jest.mock("next/navigation", () => ({
 }));
 
 jest.mock("@/core/security", () => ({
-  getSession: jest.fn(),
+  getSessionWithRefresh: jest.fn(),
 }));
 
 jest.mock("./services", () => ({
@@ -25,7 +25,7 @@ jest.mock("./services", () => ({
 }));
 
 const mockedRedirect = redirect as jest.MockedFunction<typeof redirect>;
-const mockedGetSession = getSession as jest.MockedFunction<typeof getSession>;
+const mockedGetSession = getSessionWithRefresh as jest.MockedFunction<typeof getSessionWithRefresh>;
 const mockedGetTrackMap = getTrackMap as jest.MockedFunction<typeof getTrackMap>;
 const mockedGetTrackNode = getTrackNode as jest.MockedFunction<typeof getTrackNode>;
 const mockedListTracks = listTracks as jest.MockedFunction<typeof listTracks>;

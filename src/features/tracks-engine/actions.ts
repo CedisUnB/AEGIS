@@ -1,7 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { getSession } from "@/core/security";
+import { getSessionWithRefresh } from "@/core/security";
 import { getTrackMap, getTrackNode, listTracks, startTrack } from "./services";
 import {
   trackMapRouteParamsSchema,
@@ -12,7 +12,7 @@ import type { TrackMapDTO, TrackNodeContentDTO } from "./types";
 import { TrackEngineError } from "./errors";
 
 async function requireSession() {
-  const session = await getSession();
+  const session = await getSessionWithRefresh();
 
   if (!session?.sub) {
     redirect("/auth/login");

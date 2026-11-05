@@ -4,7 +4,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { prisma } from "@/core/database/prisma";
-import { getSession } from "@/core/security";
+import { getSessionWithRefresh } from "@/core/security";
 import {
   completeLessonAction,
   getExercisesContentAction,
@@ -37,11 +37,11 @@ jest.mock("next/navigation", () => ({
 }));
 
 jest.mock("@/core/security", () => ({
-  getSession: jest.fn(),
+  getSessionWithRefresh: jest.fn(),
 }));
 
 const PREFIX = createTestPrefix();
-const mockedGetSession = jest.mocked(getSession);
+const mockedGetSession = jest.mocked(getSessionWithRefresh);
 const mockedRedirect = jest.mocked(redirect);
 
 jest.setTimeout(30000);
@@ -127,6 +127,7 @@ describe("Integração da feature content", () => {
     mockedGetSession.mockResolvedValue({
       sub: student.id,
       role: "student",
+      tokenUse: "access",
     });
 
     const lesson = await getLessonContentAction(firstLessonNodeId);
@@ -263,6 +264,7 @@ describe("Integração da feature content", () => {
     mockedGetSession.mockResolvedValue({
       sub: student.id,
       role: "student",
+      tokenUse: "access",
     });
 
     const repeatedQuestion = await submitExercisesAction(track.id, {
@@ -391,6 +393,7 @@ describe("Integração da feature content", () => {
     mockedGetSession.mockResolvedValue({
       sub: student.id,
       role: "student",
+      tokenUse: "access",
     });
 
     const rejected = await submitExercisesAction(
@@ -446,6 +449,7 @@ describe("Integração da feature content", () => {
     mockedGetSession.mockResolvedValue({
       sub: student.id,
       role: "student",
+      tokenUse: "access",
     });
 
     const response = await submitExercisesAction(track.id, {

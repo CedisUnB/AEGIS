@@ -3,7 +3,7 @@
  */
 import { redirect } from "next/navigation";
 import { prisma } from "@/core/database/prisma";
-import { getSession } from "@/core/security";
+import { getSessionWithRefresh } from "@/core/security";
 import { startTrackAction } from "@/features/tracks-engine/actions";
 import {
   cleanup,
@@ -19,11 +19,11 @@ jest.mock("next/navigation", () => ({
 }));
 
 jest.mock("@/core/security", () => ({
-  getSession: jest.fn(),
+  getSessionWithRefresh: jest.fn(),
 }));
 
 const PREFIX = createTestPrefix();
-const mockedGetSession = jest.mocked(getSession);
+const mockedGetSession = jest.mocked(getSessionWithRefresh);
 const mockedRedirect = jest.mocked(redirect);
 
 jest.setTimeout(30000);
@@ -50,6 +50,7 @@ describe("Action de início de trilha", () => {
     mockedGetSession.mockResolvedValue({
       sub: student.id,
       role: "student",
+      tokenUse: "access",
     });
 
     await expect(
@@ -86,6 +87,7 @@ describe("Action de início de trilha", () => {
     mockedGetSession.mockResolvedValue({
       sub: student.id,
       role: "student",
+      tokenUse: "access",
     });
 
     await startTrackAction({ trackId: String(track.id) });
@@ -116,6 +118,7 @@ describe("Action de início de trilha", () => {
       mockedGetSession.mockResolvedValue({
         sub: "session-user",
         role: "student",
+        tokenUse: "access",
       });
 
       await expect(startTrackAction({ trackId })).rejects.toThrow();

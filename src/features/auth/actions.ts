@@ -6,11 +6,18 @@ import { signUpSchema, signInSchema, updateProfileSchema, deleteAccountSchema } 
 import type { DeleteAccountInput, SignInInput, SignUpInput, UpdateProfileInput, UserProfile } from "./types/auth.types";
 import { deleteUserAccount, getAdminProfile, getUserProfile, InvalidCredentialsError, loginUser, registerUser, updateUserProfile } from "./services/auth";
 import { getActionFailure, getAuthErrorState } from "./errors";
-import { verifyToken } from "@/core/security";
+import {
+  ACCESS_TOKEN_COOKIE,
+  REFRESH_TOKEN_COOKIE,
+  clearAuthCookies,
+  getSessionWithRefresh,
+  revokeAllRefreshTokens,
+  revokeRefreshToken,
+  REFRESH_TOKEN_TTL_SECONDS,
+  setAuthCookies,
+} from "@/core/security";
 import { authRepository } from "./repositories/auth.repository";
 import { TooManyAttemptsError } from "./services/login-rate-limit";
-
-const TOKEN_AGE = 60 * 60 * 2; // 2 hours
 
 export type SignUpField = keyof SignUpInput;
 export type SignInField = keyof SignInInput;
@@ -34,8 +41,12 @@ export interface SignInState {
 }
 
 export async function logoutAction(): Promise<never> {
-  (await cookies()).delete("token");
-  (await cookies()).delete("username")
+  const cookieStore = await cookies();
+  const refreshToken = cookieStore.get(REFRESH_TOKEN_COOKIE)?.value;
+  if (refreshToken) {
+    await revokeRefreshToken(refreshToken);
+  }
+  clearAuthCookies(cookieStore);
   redirect("/");
 }
 
@@ -69,24 +80,13 @@ export async function signInAction(
   }
 
   try {
-    const { user, token } = await loginUser(parsed.data);
-
-    (await cookies()).set("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      path: "/",
-      maxAge: TOKEN_AGE,
-    });
-
-    (await cookies()).set("username", user, {
-      httpOnly: false,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      path: "/",
-      maxAge: TOKEN_AGE,
-    });
-
+    const { user, accessToken, refreshToken, refreshTokenExpiresAt } =
+      await loginUser(parsed.data);
+    setAuthCookies(
+      await cookies(),
+      { accessToken, refreshToken, refreshTokenExpiresAt },
+      user,
+    );
   } catch (err) {
     if (err instanceof TooManyAttemptsError) {
       return { error: err.message, fieldErrors: {}, fieldValues, resetKey };
@@ -137,28 +137,19 @@ export async function signUpAction(
   }
 
   try {
-    const { user, token } = await registerUser({
-      username: parsed.data.username,
-      email: parsed.data.email,
-      password: parsed.data.password,
-      confirmPassword: parsed.data.confirmPassword,
-    });
+    const { user, accessToken, refreshToken, refreshTokenExpiresAt } =
+      await registerUser({
+        username: parsed.data.username,
+        email: parsed.data.email,
+        password: parsed.data.password,
+        confirmPassword: parsed.data.confirmPassword,
+      });
 
-    (await cookies()).set("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      path: "/",
-      maxAge: TOKEN_AGE,
-    });
-
-    (await cookies()).set("username", user, {
-      httpOnly: false,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      path: "/",
-      maxAge: TOKEN_AGE,
-    });
+    setAuthCookies(
+      await cookies(),
+      { accessToken, refreshToken, refreshTokenExpiresAt },
+      user,
+    );
   } catch (err) {
     const result = getAuthErrorState(
       err,
@@ -174,13 +165,13 @@ export async function signUpAction(
 
 export async function getProfileUserAction(): Promise<ActionResponse<UserProfile>> {
   try {
-    const token = (await cookies()).get("token")?.value;
+    const cookieStore = await cookies();
+    const hadAccessToken = Boolean(cookieStore.get(ACCESS_TOKEN_COOKIE)?.value);
+    const session = await getSessionWithRefresh();
 
-    if (!token) {
+    if (!session && !hadAccessToken) {
       return { success: false, error: "Não autorizado", statusCode: 401 };
     }
-
-    const session = await verifyToken(token);
     if (!session || !session.sub) {
       return { success: false, error: "Sessão inválida ou expirada", statusCode: 401 };
     }
@@ -201,14 +192,15 @@ export async function getProfileUserAction(): Promise<ActionResponse<UserProfile
 
 export async function updateProfileUserAction(input: UpdateProfileInput): Promise<ActionResponse<UserProfile>> {
   try {
-    const token = (await cookies()).get("token")?.value;
+    const cookieStore = await cookies();
+    const hadAccessToken = Boolean(cookieStore.get(ACCESS_TOKEN_COOKIE)?.value);
+    const session = await getSessionWithRefresh();
 
-    if (!token) {
+    if (!session && !hadAccessToken) {
       return { success: false, error: "Não autorizado", statusCode: 401 };
     }
 
-    const session = await verifyToken(token);
-    const userId = session?.sub as string;
+    const userId = session?.sub;
 
     if (!session || !userId) {
       return { success: false, error: "Sessão inválida ou expirada", statusCode: 401 };
@@ -246,8 +238,8 @@ export async function updateProfileUserAction(input: UpdateProfileInput): Promis
     const updatedProfile = await updateUserProfile(userId, parsed.data);
     
     if (requiresReauth) {
-      (await cookies()).delete("token");
-      (await cookies()).delete("username");
+      await revokeAllRefreshTokens(userId);
+      clearAuthCookies(cookieStore);
 
       return {
         success: true,
@@ -256,13 +248,13 @@ export async function updateProfileUserAction(input: UpdateProfileInput): Promis
         statusCode: 200
       };
     } else if (usernameChanged) {
-      (await cookies()).delete("username");
-      (await cookies()).set("username", parsed.data.username, {
-        httpOnly: false,
+      cookieStore.delete("username");
+      cookieStore.set("username", parsed.data.username, {
+        httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "lax",
         path: "/",
-        maxAge: TOKEN_AGE,
+        maxAge: REFRESH_TOKEN_TTL_SECONDS,
       });
     }
 
@@ -282,14 +274,14 @@ export async function deleteAccountAction(
 ): Promise<ActionResponse<null, keyof DeleteAccountInput>> {
   try {
     const cookieStore = await cookies();
-    const token = cookieStore.get("token")?.value;
+    const hadAccessToken = Boolean(cookieStore.get(ACCESS_TOKEN_COOKIE)?.value);
+    const session = await getSessionWithRefresh();
 
-    if (!token) {
+    if (!session && !hadAccessToken) {
       return { success: false, error: "Não autorizado", statusCode: 401 };
     }
 
-    const session = await verifyToken(token);
-    const userId = session?.sub as string;
+    const userId = session?.sub;
 
     if (!session || !userId) {
       return { success: false, error: "Sessão inválida ou expirada", statusCode: 401 };
@@ -306,8 +298,8 @@ export async function deleteAccountAction(
 
     await deleteUserAccount(userId, parsed.data);
 
-    // Destrói imediatamente a sessão do usuário
-    cookieStore.delete("token");
+    await revokeAllRefreshTokens(userId);
+    clearAuthCookies(cookieStore);
 
     return {
       success: true,
@@ -327,14 +319,14 @@ export async function deleteAccountAction(
 export async function getAdminProfileAction(): Promise<ActionResponse<UserProfile>> {
   try {
     const cookieStore = await cookies();
-    const token = cookieStore.get("token")?.value;
+    const hadAccessToken = Boolean(cookieStore.get(ACCESS_TOKEN_COOKIE)?.value);
+    const session = await getSessionWithRefresh();
 
-    if (!token) {
+    if (!session && !hadAccessToken) {
       return { success: false, error: "Não autorizado", statusCode: 401 };
     }
 
-    const session = await verifyToken(token);
-    const userId = session?.sub as string;
+    const userId = session?.sub;
 
     if (!session || !userId) {
       return { success: false, error: "Sessão inválida ou expirada", statusCode: 401 };
