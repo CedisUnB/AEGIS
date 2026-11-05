@@ -180,10 +180,10 @@ volume `mysql_data`. A aplicação fica disponível em `http://localhost:3000`.
 
 O seed de demonstração (`prisma/seed.demo.ts`) cria uma conta com senha
 conhecida e substitui trilhas de mesmo tema, por isso não é incluído nem
-executado no container de produção. O seed configurado para produção
-(`prisma/seed.ts`) é intencionalmente apenas um esqueleto e falha de forma
-explícita até ser implementado. Quando estiver pronto, execute-o manualmente
-após as migrações:
+executado no container de produção. O seed de produção (`prisma/seed.ts`) cria
+as trilhas de `prisma/seed-data.json` e ignora trilhas cujo tema já exista,
+preservando conteúdo e progresso existentes. Execute-o manualmente após as
+migrações:
 
 ```bash
 docker compose --env-file .env.production -f docker-compose.prod.yml --profile maintenance run --rm migrate npx prisma db seed
