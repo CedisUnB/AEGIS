@@ -64,7 +64,7 @@ se voltou a finalizar o máximo de tarefas possível, com foco nos que são cons
 
 ### 🛑 O que impediu o progresso (Stop)
 - Quebra da pipeline de CI;
-- Resolver issues relacionadas a feature 1 a qual apresentava vulnerabilidades de segurança mapeadas pela [auditoria de segurança](docs/process/auditoria-seguranca-feature1.md) realizada anteriormente.
+- Resolver issues relacionadas a feature 1 a qual apresentava vulnerabilidades de segurança mapeadas pela [auditoria de segurança](../auditoria-seguranca-feature1.md) realizada anteriormente.
 
 ### 🚀 Ações de Melhoria para a Próxima Sprint (Act)
 - N/A - Não se Aplica.
