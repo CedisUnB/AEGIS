@@ -11,7 +11,7 @@
       
       
       
-        <link rel="prev" href="../../development/methodology/">
+        <link rel="prev" href="../../requirements/docs_requisitos_v2/">
       
       
         <link rel="next" href="../../schedule/planned/">
@@ -592,7 +592,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../requirements/docs_requisitos_v2.mdþ" class="md-nav__link">
+      <a href="../../requirements/docs_requisitos_v2/" class="md-nav__link">
         
   
   
@@ -883,6 +883,67 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#44-componentes-transversais-de-seguranca" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Componentes Transversais de Segurança
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.4 Componentes Transversais de Segurança">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#441-tratamento-de-erros-sem-exposicao-de-detalhes-internos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4.1 Tratamento de Erros sem Exposição de Detalhes Internos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#442-registro-seguro-de-falhas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4.2 Registro Seguro de Falhas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#443-proxy-cabecalhos-de-seguranca-e-csp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4.3 Proxy, Cabeçalhos de Segurança e CSP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#444-limite-de-tentativas-de-login" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4.4 Limite de Tentativas de Login
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -901,15 +962,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#51-fluxo-de-submissao-e-correcao-de-exercicios-practice-labs" class="md-nav__link">
+  <a href="#51-fluxo-de-submissao-e-correcao-de-exercicios-content" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5.1 Fluxo de Submissão e Correção de Exercícios (practice-labs)
+        5.1 Fluxo de Submissão e Correção de Exercícios (content)
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="5.1 Fluxo de Submissão e Correção de Exercícios (practice-labs)">
+    <nav class="md-nav" aria-label="5.1 Fluxo de Submissão e Correção de Exercícios (content)">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -985,6 +1046,23 @@
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="8. Visão de Dados">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-evolucao-do-modelo-migrations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 Evolução do Modelo (Migrations)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1654,6 +1732,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../process/sprints/sprint_5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sprint 5
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../process/sprints/template_de_sprint/" class="md-nav__link">
         
   
@@ -1871,8 +1977,8 @@
 <h1 id="documento-de-arquitetura-de-software">Documento de Arquitetura de Software<a class="headerlink" href="#documento-de-arquitetura-de-software" title="Permanent link">&para;</a></h1>
 <p><em>Plataforma de Apoio ao Aprendizado de Segurança de Software</em></p>
 <p><strong>Projeto:</strong> AEGIS – AI, Ética e Gestão de Integridade em Software</p>
-<p><strong>Versão:</strong> 1.3</p>
-<p><strong>Data:</strong> 17 de Agosto de 2026</p>
+<p><strong>Versão:</strong> 1.4</p>
+<p><strong>Data:</strong> 3 de Novembro de 2026</p>
 <p><strong>Autores:</strong>
 João Pedro Rodrigues Morbeck e Pedro Henrique da Silva Melo</p>
 <p><strong>Universidade de Brasília (UnB)</strong> - 
@@ -1926,6 +2032,26 @@ João Pedro Rodrigues Morbeck e Pedro Henrique da Silva Melo</p>
 <td><strong>Folder-by-Feature</strong></td>
 <td>Método de organização de diretórios onde os arquivos são agrupados por domínio de negócio/funcionalidade, e não pelo tipo de arquivo técnico.</td>
 </tr>
+<tr>
+<td><strong>Proxy (<code>proxy.ts</code>)</strong></td>
+<td>Arquivo do Next.js que intercepta as requisições antes da renderização (função antes conhecida como <em>middleware</em>), usado para validar a sessão nas rotas protegidas e aplicar a Content Security Policy.</td>
+</tr>
+<tr>
+<td><strong>CSP (Content Security Policy)</strong></td>
+<td>Cabeçalho HTTP que restringe as origens de onde scripts, estilos e outros recursos podem ser carregados, reduzindo o impacto de ataques de injeção de código (XSS).</td>
+</tr>
+<tr>
+<td><strong>Nonce</strong></td>
+<td>Valor aleatório gerado a cada requisição e incluído na CSP e nas tags <code>&lt;script&gt;</code> legítimas, de modo que apenas os scripts emitidos pelo servidor sejam executados.</td>
+</tr>
+<tr>
+<td><strong>Rate Limiting</strong></td>
+<td>Controle que limita a quantidade de tentativas de uma operação em uma janela de tempo. Na plataforma, é aplicado ao login para dificultar ataques de força bruta.</td>
+</tr>
+<tr>
+<td><strong>LGPD</strong></td>
+<td>Lei Geral de Proteção de Dados Pessoais (Lei nº 13.709/2018), que fundamenta a política de privacidade e os direitos dos titulares na plataforma.</td>
+</tr>
 </tbody>
 </table>
 <h3 id="14-referencias">1.4 Referências<a class="headerlink" href="#14-referencias" title="Permanent link">&para;</a></h3>
@@ -1935,20 +2061,28 @@ João Pedro Rodrigues Morbeck e Pedro Henrique da Silva Melo</p>
 <li><em>Dowd, M.; McDonald, J.; Schuh, J. (2006).</em> The Art of Software Security Assessment: Identifying and Preventing Software Vulnerabilities. Addison-Wesley Professional.</li>
 <li><em>Sommerville, Ian (2019).</em> Engenharia de Software. 10ª Edição. Pearson Education.</li>
 <li><em>Leffingwell, D.; Widrig, D. (2003).</em> Managing Software Requirements: A Use Case Approach. 2ª Edição. Addison-Wesley Professional.</li>
+<li><em>OWASP Foundation (2025).</em> OWASP Top 10. Disponível em: <a href="https://top10.owasp.org/2025/">top10.owasp.org/2025</a>.</li>
+<li><em>Brasil (2018).</em> Lei nº 13.709, de 14 de agosto de 2018 (Lei Geral de Proteção de Dados Pessoais - LGPD).</li>
 </ul>
 <h3 id="15-visao-geral">1.5 Visão Geral<a class="headerlink" href="#15-visao-geral" title="Permanent link">&para;</a></h3>
-<p>Este documento está organizado seguindo a estrutura padrão RUP (<em>Rational Unified Process</em>) para DAS. A seção 2 introduz a representação arquitetural global (BFF de n-camadas). A seção 3 mapeia os objetivos e restrições técnicas amparados pelos requisitos não funcionais. A seção 4 apresenta a visão lógica baseada na decomposição de módulos (<em>features</em>) e na hierarquia física de pastas do Next.js. A seção 5 ilustra o fluxo dinâmico dos processos chaves. A seção 6 mapeia a implantação física (CEDIS e Prisma ORM), seguido pela visão de implementação na seção 7, representação de dados na seção 8, e considerações sobre tamanho, desempenho e qualidade nas seções 9 e 10.</p>
+<p>Este documento está organizado seguindo a estrutura padrão RUP (<em>Rational Unified Process</em>) para DAS. A seção 2 introduz a representação arquitetural global (BFF de n-camadas). A seção 3 mapeia os objetivos e restrições técnicas amparados pelos requisitos não funcionais. A seção 4 apresenta a visão lógica baseada na decomposição de módulos (<em>features</em>), na hierarquia física de pastas do Next.js e nos componentes transversais de segurança. A seção 5 ilustra o fluxo dinâmico dos processos chaves. A seção 6 mapeia a implantação física (CEDIS e Prisma ORM), seguido pela visão de implementação na seção 7, representação de dados na seção 8, e considerações sobre tamanho, desempenho e qualidade nas seções 9 e 10.</p>
 <hr />
 <h2 id="2-representacao-arquitetural">2. Representação Arquitetural<a class="headerlink" href="#2-representacao-arquitetural" title="Permanent link">&para;</a></h2>
 <p>Para assegurar um desenho de software robusto, flexível e academicamente defensável, adota-se o <strong>Modelo de Visões 4+1 de Kruchten (1995)</strong>. Este modelo decompõe a arquitetura do software sob as óticas de casos de uso (o coração que unifica o design), lógica (decomposição estrutural), processos (dinâmica e sincronização), física/implantação (hardware e infraestrutura) e implementação (organização física do código fonte). Apesar do modelo cobrir a ótica de casos de uso, este projeto não adota tal visão.</p>
-<p>O estilo arquitetural escolhido baseia-se em uma <strong>Arquitetura Cliente-Servidor de N-Camadas</strong> com o uso integrado do padrão <strong>Backend-for-Frontend (BFF)</strong> embutido e centralizado sob o <strong>Next.js App Router</strong>. O lado cliente, operando em browsers de desktop ou smartphones, renderiza páginas responsivas por meio de componentes React reativos. O BFF intermediará de forma exclusiva todas as requisições de backend via Server Actions e API Routes, aplicando middlewares para a criptografia e proteção de rotas antes de bater nas tabelas e views estruturadas no banco relacional MySQL por meio do Prisma ORM.</p>
+<p>O estilo arquitetural escolhido baseia-se em uma <strong>Arquitetura Cliente-Servidor de N-Camadas</strong> com o uso integrado do padrão <strong>Backend-for-Frontend (BFF)</strong> embutido e centralizado sob o <strong>Next.js App Router</strong>. O lado cliente, operando em browsers de desktop ou smartphones, renderiza páginas responsivas por meio de componentes React reativos. O BFF intermediará de forma exclusiva todas as requisições de backend via Server Actions e API Routes, aplicando o <em>proxy</em> do Next.js (<code>proxy.ts</code>) para a proteção de rotas e da Content Security Policy antes de bater nas tabelas estruturadas no banco relacional MySQL por meio do Prisma ORM.</p>
 <hr />
 <h2 id="3-objetivos-e-restricoes-arquiteturais">3. Objetivos e Restrições Arquiteturais<a class="headerlink" href="#3-objetivos-e-restricoes-arquiteturais" title="Permanent link">&para;</a></h2>
 <p>A arquitetura deste software é restrita e moldada diretamente para atender aos cinco Requisitos Não Funcionais (RNFs) elicitados no TCC 1, as quais atuam como as metas de qualidade do sistema de <em>microlearning</em>:</p>
 <ul>
-<li><strong>Segurança (RNF01) como Meta de Confidencialidade:</strong> A arquitetura blinda o sistema contra acessos indevidos. Todas as rotas administrativas são interceptadas no nível de rede do Next.js via <em>Middleware</em>, validando assinaturas criptográficas de tokens JWT. A segurança de isolamento de registros é garantida de forma lógica na camada de aplicação através das camadas de <em>Services</em> e <em>Repositories</em> do Prisma ORM, onde todas as consultas e escritas de dados filtram rigorosamente pelo identificador do usuário autenticado (userId) extraído da sessão segura, prevenindo vazamentos de progresso ou acesso a conteúdos de terceiros.</li>
-<li><strong>Usabilidade e Responsividade Multiplataforma (RNF02):</strong> Para solucionar a dualidade observada no questionário aplicado no TCC1 (demanda por mobilidade no microlearning vs. necessidade de IDE para exercícios práticos complexos), o frontend foi projetado como uma aplicação <em>Web</em> responsiva integrada. Utiliza-se React.js e Tailwind CSS para fornecer uma transição de interface fluida e adaptável a telas de smartphones, tablets e desktops.</li>
-<li><strong>Desempenho e Tempo de Resposta (RNF03):</strong> Para manter o engajamento e a fluidez instrucional, o sistema possui o limite estrito de processar o feedback das avaliações de código e quizzes com tempo de resposta máximo de até 3 segundos. Isso é assegurado usando Server Actions assíncronas no Next.js e conexões estruturadas em pool otimizadas com o banco MySQL via Prisma ORM.</li>
+<li><strong>Segurança (RNF01) como Meta de Confidencialidade:</strong> A arquitetura blinda o sistema contra acessos indevidos por meio de camadas complementares:</li>
+<li><strong>Controle de acesso em duas camadas:</strong> as rotas protegidas são interceptadas pelo <em>proxy</em> do Next.js (<code>proxy.ts</code>), que valida a assinatura criptográfica dos tokens JWT, e cada Server Action de dados autenticados verifica novamente a sessão (defesa em profundidade), redirecionando para <code>/auth/login</code> quando ela é inválida.</li>
+<li><strong>Isolamento de registros:</strong> garantido de forma lógica na camada de aplicação através das camadas de <em>Services</em> e <em>Repositories</em> do Prisma ORM, onde todas as consultas e escritas de dados filtram rigorosamente pelo identificador do usuário autenticado (userId) extraído da sessão segura, prevenindo vazamentos de progresso ou acesso a conteúdos de terceiros.</li>
+<li><strong>Proteção do login:</strong> limite de tentativas por e-mail (rate limiting), com registro na tabela <code>LoginAttempt</code>, e comparação de senha em tempo equivalente para usuários existentes e inexistentes, evitando enumeração de contas (seção 4.4.4).</li>
+<li><strong>Proteção contra injeção de código:</strong> cabeçalhos de segurança HTTP e Content Security Policy com <em>nonce</em> por requisição, sem <code>'unsafe-inline'</code> em <code>script-src</code>, que evita que scripts maliciosos sejam injetados (seção 4.4.3).</li>
+<li><strong>Rejeição sem exposição de detalhes internos:</strong> o cliente nunca recebe mensagens de erro técnicas. Apenas classes de erro conhecidas expõem mensagem, e o detalhe técnico fica restrito ao log do servidor, com segredos mascarados (seções 4.4.1 e 4.4.2).</li>
+<li><strong>Privacidade:</strong> a plataforma mantém uma Política de Privacidade pública (<code>/privacy</code>) alinhada à LGPD, com canal de contato para os direitos dos titulares.</li>
+<li><strong>Usabilidade e Responsividade Multiplataforma (RNF02):</strong> Para solucionar a dualidade observada no questionário aplicado no TCC1 (demanda por mobilidade no microlearning vs. necessidade de IDE para exercícios práticos complexos), o frontend foi projetado como uma aplicação <em>Web</em> responsiva integrada. Utiliza-se React.js e Tailwind CSS para fornecer uma transição de interface fluida e adaptável a telas de smartphones, tablets e desktops. Os formulários de cadastro e de alteração de senha exibem um indicador de força de senha com requisitos acessíveis a leitores de tela.</li>
+<li><strong>Desempenho e Tempo de Resposta (RNF03):</strong> Para manter o engajamento e a fluidez instrucional, o sistema possui o limite estrito de processar o feedback dos exercícios de cada trilha com tempo de resposta máximo de até 3 segundos. Isso é assegurado usando Server Actions assíncronas no Next.js e conexões estruturadas em pool otimizadas com o banco MySQL via Prisma ORM.</li>
 <li><strong>Suportabilidade e Modularidade (RNF04):</strong> A arquitetura de software é projetada de forma extensível por meio do agrupamento por domínios. Isso possibilita que novas trilhas técnicas ou recursos lúdicos (features adicionais) sejam acoplados sem impacto ou refatoração do código existente.</li>
 <li><strong>Implementação e Inicialização (RNF05):</strong> O ecossistema em nuvem é configurado para inicializar automaticamente a única conta administrativa preexistente e criar o catálogo técnico básico de trilhas a partir de rotas protegidas durante o bootstrap e inicialização da base de dados do MySQL via Prisma ORM.</li>
 </ul>
@@ -1957,32 +2091,64 @@ João Pedro Rodrigues Morbeck e Pedro Henrique da Silva Melo</p>
 <p>Para concretizar o requisito não funcional de modularidade e suportabilidade (RNF04), a decomposição lógica do sistema abandona o padrão técnico monolítico e adota a arquitetura <strong>Folder-by-Feature (Pasta por Funcionalidade)</strong>. Os diretórios da aplicação Next.js estruturam-se sob módulos de domínio de negócio autossuficientes, contendo seus próprios componentes, <em>types</em> e chamadas de API, facilitando a coesão interna e reduzindo o acoplamento global.</p>
 <h3 id="41-organizacao-das-rotas">4.1 Organização das Rotas<a class="headerlink" href="#41-organizacao-das-rotas" title="Permanent link">&para;</a></h3>
 <p>A estrutura de rotas da aplicação segue o padrão de <em>Route Groups</em> do Next.js App Router, agrupando as páginas pelo critério de proteção de acesso.</p>
-<p>Rotas públicas, acessíveis sem autenticação, são isoladas no grupo <code>(public)</code> e compreendem as páginas de login e cadastro da plataforma.</p>
-<p>Rotas protegidas, que exigem sessão JWT válida, são isoladas no grupo <code>(protected)</code> e compreendem todas as funcionalidades do estudante e do administrador.</p>
-<p>Essa separação permite que o middleware de validação de token seja aplicado de forma centralizada sobre o grupo protegido, sem impactar as rotas de acesso público.</p>
+<p>Rotas públicas, acessíveis sem autenticação, são isoladas no grupo <code>(public)</code> e compreendem as páginas de login e cadastro da plataforma. A Política de Privacidade (<code>/privacy</code>) também é pública, e a página inicial (<code>/</code>) apresenta a plataforma.</p>
+<p>Rotas protegidas, que exigem sessão JWT válida, são isoladas no grupo <code>(protected)</code> e compreendem as funcionalidades do estudante: catálogo e mapa de trilhas, nós de leitura e exercício e o perfil de usuário.</p>
+<p>Essa separação permite que a validação de sessão seja aplicada de forma centralizada sobre o grupo protegido, sem impactar as rotas de acesso público. O <em>proxy</em> valida o token nos prefixos protegidos (<code>/tracks</code>, <code>/practice</code>, <code>/progress</code>, <code>/revision</code> e <code>/admin</code>) e, adicionalmente, as Server Actions das features <code>content</code> e <code>tracks-engine</code> exigem sessão por meio do token JWT, e redirecionam para <code>/auth/login</code> quando há ausência disso.</p>
 <pre><code>src/app/
 ├── (public)/
 │   └── auth/
 │       ├── login/
 │       └── register/
-└── (protected)/
-    ├── trails/
-    ├── trails/[id]/
-    ├── practice/
-    ├── progress/
-    ├── revision/
-    └── admin/
+├── (protected)/
+│   ├── tracks/            # catálogo de trilhas
+│   │   └── [trackId]/     # mapa da trilha e seus nós
+│   └── profile/           # perfil, progresso e exclusão de conta
+├── privacy/               # Política de Privacidade (pública)
+├── error.tsx              # tela de erro com mensagem genérica e código de referência
+├── layout.tsx
+└── page.tsx               # página inicial
 </code></pre>
 <h3 id="42-organizacao-das-features">4.2 Organização das Features<a class="headerlink" href="#42-organizacao-das-features" title="Permanent link">&para;</a></h3>
 <p>A camada modular da aplicação adota o padrão Folder-by-Feature, no qual cada domínio de negócio é encapsulado em um módulo auto suficiente dentro de <em>src/features/</em>. Cada feature contém internamente uma divisão rígida em camadas, garantindo a Separação de Responsabilidades (SoC) e o isolamento lógico entre apresentação, controle, domínio e infraestrutura. O padrão interno de cada feature segue a seguinte estrutura:</p>
 <pre><code>features/[nome-da-feature]/
 ├── components/    → Apresentação (UI React)
-├── hooks/         → Controle de Estados (client-side)
+├── hooks/         → Controle de Estados (client-side), quando necessário
 ├── services/      → Domínio e Regras de Negócio (server-side)
 ├── types/         → DTOs e Schemas de Validação (Zod)
 ├── repositories/  → Infraestrutura de Dados (Prisma ORM)
+├── errors.ts      → Erros de domínio da feature e mapeamento seguro para o cliente
 └── actions.ts     → BFF Controller (Next.js Server Actions)
 </code></pre>
+<p>As features implementadas são:</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Responsabilidade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>auth</strong></td>
+<td>Cadastro, login, logout, perfil, alteração de dados e exclusão de conta (com anonimização). Contém o serviço de limite de tentativas de login (<code>login-rate-limit</code>).</td>
+</tr>
+<tr>
+<td><strong>tracks-engine</strong></td>
+<td>Catálogo de trilhas, mapa interativo da trilha (nós concluídos, nó atual, próximo desbloqueado e teste final), conteúdo de um nó, início de trilha e registro de conclusão do teste final.</td>
+</tr>
+<tr>
+<td><strong>content</strong></td>
+<td>Entrega de conteúdo e registro de progresso. Divide-se em três serviços: <em>content-delivery</em> (valida o acesso ao nó e entrega lições e exercícios sem expor gabarito), <em>progress-tracking</em> (registra conclusão de leitura e submissão de exercícios) e <em>exercise-evaluation</em> (corrige as respostas e calcula a nota).</td>
+</tr>
+</tbody>
+</table>
+<p>Os pacotes compartilhados ficam fora das features:</p>
+<ul>
+<li><strong><code>src/core/</code>:</strong> <code>database</code> (cliente Prisma), <code>security</code> (sessão e JWT), <code>logging</code> (registro seguro de erros) e <code>types</code>.</li>
+<li><strong><code>src/components/</code>:</strong> componentes de interface reutilizáveis (<code>inputs</code>, como o campo de senha e o indicador de força de senha, <code>layout</code> e ícones).</li>
+<li><strong><code>src/utils/</code>:</strong> funções puras reutilizáveis, como a avaliação de força de senha.</li>
+<li><strong><code>src/proxy.ts</code>:</strong> interceptador de requisições (sessão e CSP).</li>
+</ul>
 <p>A árvore completa de features e a materialização física desse padrão em arquivos reais estão detalhadas na Seção 7.</p>
 <h3 id="43-representacao-visual-diagrama-de-pacotes">4.3 Representação Visual (Diagrama de Pacotes)<a class="headerlink" href="#43-representacao-visual-diagrama-de-pacotes" title="Permanent link">&para;</a></h3>
 <p>Esta subseção apresenta o Diagrama de Pacotes UML do sistema, consolidando visualmente a decomposição arquitetural descrita nas subseções anteriores. O diagrama ilustra o encapsulamento e o isolamento lógico das features, as dependências internas entre as camadas de cada módulo e as dependências externas controladas com os pacotes compartilhados de infraestrutura (Core/Infra) e de interface (Components/UI).</p>
@@ -1992,39 +2158,93 @@ João Pedro Rodrigues Morbeck e Pedro Henrique da Silva Melo</p>
 <p><strong>Diagrama de Pacotes</strong></p>
 <p><img alt="Diagrama de Pacotes" src="../images/image2.png" /></p>
 <p><em>Fonte: Autores</em></p>
+<h3 id="44-componentes-transversais-de-seguranca">4.4 Componentes Transversais de Segurança<a class="headerlink" href="#44-componentes-transversais-de-seguranca" title="Permanent link">&para;</a></h3>
+<p>Além das features, a arquitetura possui quatro mecanismos transversais de segurança, que atendem ao RNF01.</p>
+<h4 id="441-tratamento-de-erros-sem-exposicao-de-detalhes-internos">4.4.1 Tratamento de Erros sem Exposição de Detalhes Internos<a class="headerlink" href="#441-tratamento-de-erros-sem-exposicao-de-detalhes-internos" title="Permanent link">&para;</a></h4>
+<p>O tratamento de erros segue o princípio de <strong>lista de permissão por classe</strong>: somente erros de domínio conhecidos podem ter sua mensagem exibida ao usuário. Qualquer outro erro (falha de banco, bug, erro de rede) é convertido em uma mensagem fixa, e o detalhe técnico é registrado apenas no servidor. Cada feature possui um arquivo <code>errors.ts</code> com as classes de erro do seu domínio e um auxiliar que realiza essa conversão:</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Classes de erro conhecidas</th>
+<th>Auxiliar</th>
+<th>Contrato com o cliente</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>auth</strong></td>
+<td><code>ForbiddenError</code> (403), <code>UserNotFoundError</code> (404), <code>EmailAlreadyExistsError</code> (409), <code>InvalidCredentialsError</code>, <code>TooManyAttemptsError</code></td>
+<td><code>getActionFailure</code></td>
+<td>Retorna <code>{ success: false, error, statusCode }</code></td>
+</tr>
+<tr>
+<td><strong>content</strong></td>
+<td><code>ContentError</code> (400, 403 ou 404)</td>
+<td><code>getContentFailure</code></td>
+<td>Retorna <code>{ success: false, error, statusCode }</code></td>
+</tr>
+<tr>
+<td><strong>tracks-engine</strong></td>
+<td><code>TrackEngineError</code></td>
+<td><code>toTrackEngineError</code></td>
+<td>Lança o erro, tratado pelas páginas e por <code>app/error.tsx</code></td>
+</tr>
+</tbody>
+</table>
+<p>Regras comuns aos auxiliares:</p>
+<ul>
+<li>erros inesperados retornam a mensagem fixa da ação (status 500) e são enviados ao registro do servidor com um rótulo de contexto (<code>feature:ação</code>);</li>
+<li>entradas inválidas retornam 400 com a mensagem genérica "Dados inválidos.", sem expor o detalhe da validação;</li>
+<li>os redirecionamentos do Next.js (<code>redirect()</code>, que lançam uma exceção interna) são repassados com <code>unstable_rethrow</code> e nunca capturados como erro;</li>
+<li>a tela <code>app/error.tsx</code> exibe um texto fixo e o <code>digest</code> do erro como "Código de referência", nunca a mensagem do erro.</li>
+</ul>
+<h4 id="442-registro-seguro-de-falhas">4.4.2 Registro Seguro de Falhas<a class="headerlink" href="#442-registro-seguro-de-falhas" title="Permanent link">&para;</a></h4>
+<p>O módulo <code>core/logging/log-server-error.ts</code> centraliza o registro de falhas inesperadas no servidor. Cada registro contém o contexto, o nome e o código do erro e um detalhe truncado em 2000 caracteres. Antes de gravar, a função <code>redactSecrets</code> mascara hashes bcrypt, tokens JWT e pares chave/valor sensíveis (senha, token, segredo, autorização e cookie), pois mensagens de erro do ORM podem incluir argumentos de consultas. O mascaramento é uma defesa em profundidade e não substitui o cuidado de nunca enviar segredos ao registro. Chamadas diretas a <code>console.error</code> no código de servidor foram removidas em favor desse módulo.</p>
+<h4 id="443-proxy-cabecalhos-de-seguranca-e-csp">4.4.3 Proxy, Cabeçalhos de Segurança e CSP<a class="headerlink" href="#443-proxy-cabecalhos-de-seguranca-e-csp" title="Permanent link">&para;</a></h4>
+<p>O arquivo <code>src/proxy.ts</code> é executado em todas as páginas da aplicação (exceto <code>api</code>, arquivos estáticos, imagens otimizadas e <code>favicon</code>) e cumpre duas funções:</p>
+<ul>
+<li><strong>Sessão:</strong> nos prefixos protegidos, valida o token JWT e redireciona para <code>/auth/login</code> em caso de falha.</li>
+<li><strong>Content Security Policy:</strong> gera um <em>nonce</em> novo a cada requisição e define a CSP com <code>default-src 'self'</code>, <code>script-src 'self' 'nonce-…' 'strict-dynamic'</code> (sem <code>'unsafe-inline'</code>), <code>object-src 'none'</code>, <code>base-uri 'self'</code>, <code>form-action 'self'</code> e <code>frame-ancestors 'none'</code>. <code>'unsafe-eval'</code> é permitido apenas em desenvolvimento. Os recursos externos permitidos limitam-se ao Google Fonts.</li>
+</ul>
+<p>Os demais cabeçalhos são definidos em <code>next.config.ts</code>: <code>X-Frame-Options: DENY</code>, <code>X-Content-Type-Options: nosniff</code>, <code>Referrer-Policy: strict-origin-when-cross-origin</code>, <code>Permissions-Policy</code> (câmera, microfone e geolocalização desabilitados) e <code>Strict-Transport-Security</code> (somente em produção). O cabeçalho <code>X-Powered-By</code> é removido. Como o nonce só existe em respostas geradas por requisição, as páginas devem permanecer dinâmicas.</p>
+<h4 id="444-limite-de-tentativas-de-login">4.4.4 Limite de Tentativas de Login<a class="headerlink" href="#444-limite-de-tentativas-de-login" title="Permanent link">&para;</a></h4>
+<p>O serviço <code>auth/services/login-rate-limit.ts</code> limita as tentativas de login por e-mail. Os registros ficam na tabela <code>LoginAttempt</code> (seção 8), identificados por um hash do e-mail, de modo que o e-mail em texto legível não é armazenado e tentativas contra e-mails inexistentes também são contadas. Quando o limite é excedido, o serviço lança <code>TooManyAttemptsError</code>, que a action de login converte em uma mensagem de bloqueio temporário. Após um login bem-sucedido, os registros do e-mail são apagados.</p>
 <hr />
 <h2 id="5-visao-de-processo">5. Visão de Processo<a class="headerlink" href="#5-visao-de-processo" title="Permanent link">&para;</a></h2>
-<p>A visão de processos demonstra a dinâmica de execução do sistema em tempo de execução. O sistema possui dois fluxos críticos documentados: o fluxo de autenticação e autorização, que materializa o requisito de segurança (RNF01), e o fluxo de validação assíncrona de exercícios práticos, regido pelo limite estrito de desempenho de 3 segundos (RNF03).</p>
-<h3 id="51-fluxo-de-submissao-e-correcao-de-exercicios-practice-labs">5.1 Fluxo de Submissão e Correção de Exercícios (practice-labs)<a class="headerlink" href="#51-fluxo-de-submissao-e-correcao-de-exercicios-practice-labs" title="Permanent link">&para;</a></h3>
-<p>O fluxo crítico de validação assíncrona de exercícios práticos, regido pelo limite estrito de desempenho de 3 segundos (RNF03), ocorre por meio da seguinte sequência de processos integrados:</p>
+<p>A visão de processo demonstra a dinâmica de execução do sistema em tempo de execução. O sistema possui três fluxos críticos documentados: a submissão e correção de exercícios, regida pelo limite estrito de desempenho de 3 segundos (RNF03); o consumo de trilha e desbloqueio de nós; e o fluxo de autenticação e autorização, que materializa o requisito de segurança (RNF01).</p>
+<h3 id="51-fluxo-de-submissao-e-correcao-de-exercicios-content">5.1 Fluxo de Submissão e Correção de Exercícios (content)<a class="headerlink" href="#51-fluxo-de-submissao-e-correcao-de-exercicios-content" title="Permanent link">&para;</a></h3>
+<p>O fluxo crítico de validação assíncrona de exercícios, regido pelo limite estrito de desempenho de 3 segundos (RNF03), ocorre por meio da seguinte sequência de processos integrados:</p>
 <ul>
-<li><strong>Gatilho do Usuário (Processo 1):</strong> O estudante acessa o laboratório prático (practice-labs), preenche um código sanitizado ou revisa um código de IA vulnerável e clica em 'Enviar Resposta'.</li>
-<li><strong>Requisição Segura (Processo 2):</strong> O cliente React envia os dados de forma assíncrona por meio de um método HTTP POST ou de uma Server Action criptografada para o servidor BFF do Next.js.</li>
-<li><strong>Filtro de Segurança (Processo 3):</strong> O middleware do Next.js intercepta a chamada, valida a sessão stateless do token JWT e verifica se o usuário possui permissão legal (perfil ativo) para submeter aquele teste.</li>
-<li><strong>Validação Lógica no BFF (Processo 4):</strong> O servidor BFF do Next.js executa o script de correção segura para avaliar as respostas do quiz ou checar o código de defesa submetido.</li>
-<li><strong>Persistência de Progresso (Processo 5):</strong> Caso a resposta esteja correta, o Next.js atualiza o histórico de progresso do estudante, na trilha do exercício, no banco relacional MySQL via Prisma ORM.</li>
-<li><strong>Feedback em Tempo Real (Processo 6):</strong> O BFF Next.js retorna o feedback formatado em JSON para o cliente React, que renderiza visualmente a animação de aprovação em menos de 3 segundos, mantendo a responsividade do layout.</li>
+<li><strong>Gatilho do Usuário (Processo 1):</strong> O estudante acessa um nó de exercício da trilha, responde às questões e clica em enviar.</li>
+<li><strong>Requisição Segura (Processo 2):</strong> O cliente React envia as respostas de forma assíncrona por meio da Server Action <code>submitExercisesAction</code>.</li>
+<li><strong>Filtro de Segurança (Processo 3):</strong> A action obtém a sessão do usuário (se ausente, redireciona para <code>/auth/login</code>) e valida o payload com o schema Zod. Payload inválido é rejeitado com status 400 e a mensagem "Dados inválidos.".</li>
+<li><strong>Validação de Acesso (Processo 4):</strong> O serviço de entrega de conteúdo (<em>content-delivery</em>) verifica se o nó existe, se é do tipo exercício e se o nó anterior da trilha já foi concluído. Falhas retornam <code>ContentError</code> com status 404, 400 ou 403, respectivamente.</li>
+<li><strong>Correção (Processo 5):</strong> O serviço <em>exercise-evaluation</em> exige que todas as questões do nó sejam respondidas uma única vez, compara cada resposta com o gabarito (listas pela ordem, textos sem diferenciar caixa e espaços) e calcula a nota. A nota mínima é de 60% nos exercícios regulares e de 80% no teste final.</li>
+<li><strong>Persistência de Progresso (Processo 6):</strong> O serviço <em>progress-tracking</em> grava, em uma transação, o desempenho por exercício (<code>Answers</code>: tentativas, acertos e erros) e o progresso do nó (<code>Progress</code>: melhor nota, tentativas, conclusão e data). Na aprovação no teste final, o status da trilha em <code>Takes</code> passa a <code>completed</code>.</li>
+<li><strong>Feedback em Tempo Real (Processo 7):</strong> A action retorna ao cliente a nota, a nota de corte, se o nó foi concluído e o feedback de cada questão. Quando o nó é concluído, a página da trilha é revalidada (<code>revalidatePath</code>). Erros de negócio retornam com seu status e mensagem segura, e erros inesperados retornam a mensagem genérica, com o detalhe apenas no log do servidor.</li>
 </ul>
 <h4 id="511-representacao-dinamica-diagrama-de-sequencia">5.1.1 Representação Dinâmica (Diagrama de Sequência)<a class="headerlink" href="#511-representacao-dinamica-diagrama-de-sequencia" title="Permanent link">&para;</a></h4>
-<p>O Diagrama de Sequência (UML) abaixo descreve o comportamento dinâmico e o fluxo temporal de mensagens em tempo de execução para a submissão e correção de códigos vulneráveis ou revisões de IA no laboratório prático (practice-labs), regido pelo limite estrito de desempenho de até 3 segundos (RNF03). O diagrama detalha as chamadas síncronas e assíncronas nas camadas lógicas de software:</p>
+<p>O Diagrama de Sequência (UML) abaixo descreve o comportamento dinâmico e o fluxo temporal de mensagens em tempo de execução para a submissão e correção de exercícios, regido pelo limite estrito de desempenho de até 3 segundos (RNF03). O diagrama detalha as chamadas síncronas e assíncronas nas camadas lógicas de software:</p>
 <ul>
-<li><strong>Estudante (Ator):</strong> Efetua a submissão do código reescrito para a defesa da falha.</li>
-<li><strong>React UI View (Apresentação):</strong> Dispara a Server Action criptografada de backend.</li>
-<li><strong>Next.js BFF Actions (BFF/Controle):</strong> Intercepta a chamada no Middleware, valida o token JWT e invoca o respectivo serviço de domínio.</li>
-<li><strong>PracticeLab Service (Domínio):</strong> Executa a lógica de negócio para conferir o gabarito ou auditar falhas.</li>
-<li><strong>Practice Repository (Infraestrutura):</strong> Chama os comandos do Prisma Client para salvar e confirmar o progresso.</li>
-<li><strong>MySQL DB Server (Dados):</strong> Registra a transação e confirma a alteração de progresso no ledger.</li>
+<li><strong>Estudante (Ator):</strong> Efetua a submissão das respostas do nó de exercício.</li>
+<li><strong>React UI View (Apresentação):</strong> Dispara a Server Action de backend.</li>
+<li><strong>Next.js BFF Actions (BFF/Controle):</strong> Valida a sessão e o payload e invoca o respectivo serviço de domínio.</li>
+<li><strong>Content Services (Domínio):</strong> <em>content-delivery</em> valida o acesso, <em>exercise-evaluation</em> corrige e <em>progress-tracking</em> persiste o resultado.</li>
+<li><strong>Repositories (Infraestrutura):</strong> Chamam os comandos do Prisma Client para salvar e confirmar o progresso.</li>
+<li><strong>MySQL DB Server (Dados):</strong> Registra a transação e confirma a alteração de progresso.</li>
 </ul>
 <p><strong>Diagrama de Sequência - Submissão de Exercício</strong></p>
 <p><img alt="Diagrama de Sequência - Submissão de Exercício" src="../images/image5.png" /></p>
 <p><em>Fonte: Autores</em></p>
 <h3 id="52-consumo-de-trilha-e-desbloqueio">5.2 Consumo de Trilha e Desbloqueio<a class="headerlink" href="#52-consumo-de-trilha-e-desbloqueio" title="Permanent link">&para;</a></h3>
-<p>Este processo ocorre sempre que o estudante consome uma pílula teórica ou finaliza a última etapa prática de uma trilha. A arquitetura delega a responsabilidade de auditar o avanço do aluno ao módulo student-ledger, que se comunica com o revision-center apenas quando o critério de 100% de conclusão é atingido.</p>
+<p>Este processo ocorre sempre que o estudante consome uma pílula teórica ou finaliza um nó de exercício. A trilha é composta por nós ordenados (<code>TrackNode</code>) e o desbloqueio é sequencial: um nó só é acessível se já foi concluído ou se é o próximo nó pendente.</p>
 <ul>
-<li><strong>Estudante (Ator):</strong> Marca uma leitura como concluída ou avança da última questão.</li>
-<li><strong>React UI View:</strong> Envia o evento de progresso para o servidor.</li>
-<li><strong>StudentLedger Service (Domínio):</strong> Registra a etapa concluída e verifica se todas as dependências da Trilha foram finalizadas.</li>
-<li><strong>Revision Service (Domínio):</strong> Invocado condicionalmente caso a trilha esteja 100% concluída, para liberar o Guia de Revisão atrelado.</li>
+<li><strong>Estudante (Ator):</strong> Marca uma leitura como concluída ou conclui um nó de exercício.</li>
+<li><strong>React UI View:</strong> Envia o evento de progresso para o servidor (<code>completeLessonAction</code> ou <code>submitExercisesAction</code>).</li>
+<li><strong>ContentDelivery Service (Domínio):</strong> Valida que o nó existe e que o nó anterior foi concluído. Caso contrário, retorna <code>ContentError</code> com status 403 ("Acesso bloqueado") ou 404.</li>
+<li><strong>ProgressTracking Service (Domínio):</strong> Registra a conclusão do nó na tabela <code>Progress</code>. Em nós de leitura, a conclusão é registrada com nota 100.</li>
+<li><strong>TracksEngine (Domínio):</strong> Ao montar o mapa da trilha, calcula para cada nó se está concluído, se é o atual, se é o próximo a ser liberado e se é o teste final. O progresso é derivado dos registros de <code>Progress</code>, sem campo agregado persistido.</li>
 </ul>
 <p><strong>Diagrama de Sequência - Consumo de Trilha e Desbloqueio</strong></p>
 <p><img alt="Diagrama de Sequência - Consumo de Trilha e Desbloqueio" src="../images/image7.png" /></p>
@@ -2035,12 +2255,12 @@ João Pedro Rodrigues Morbeck e Pedro Henrique da Silva Melo</p>
 <ul>
 <li><strong>Estudante (Ator):</strong> Preenche email e senha e submete o formulário de login.</li>
 <li><strong>React UI View (Apresentação):</strong> Dispara a Server Action de login com os dados do formulário.</li>
-<li><strong>Server Action — actions.ts (BFF/Controle):</strong> Valida o input via LoginSchema (Zod). Em caso de dados inválidos, retorna erro de validação imediatamente.</li>
-<li><strong>Auth Service (Domínio):</strong> Recebe as credenciais validadas, aciona o repositório para localizar o usuário e compara a senha submetida com o hash armazenado via bcrypt.</li>
+<li><strong>Server Action — actions.ts (BFF/Controle):</strong> Valida o input via <code>signInSchema</code> (Zod). Em caso de dados inválidos, retorna erro de validação imediatamente.</li>
+<li><strong>Auth Service — limite de tentativas (Domínio):</strong> <code>beginLoginAttempt</code> calcula o hash do e-mail e registra a tentativa na tabela <code>LoginAttempt</code>. Se o limite foi excedido, lança <code>TooManyAttemptsError</code> e o fluxo termina com a mensagem de bloqueio temporário.</li>
 <li><strong>Auth Repository (Infraestrutura):</strong> Executa a consulta ao banco MySQL via Prisma Client. Retorna o registro do usuário ou nulo caso não exista.</li>
-<li><strong>MySQL DB Server (Dados):</strong> Processa a consulta e retorna o registro correspondente ao email informado.</li>
-<li><strong>Security/JWT (Core/Infra):</strong> Em caso de credenciais válidas, assina um token JWT contendo o identificador e o perfil do usuário.</li>
-<li><strong>Server Action — actions.ts (BFF/Controle):</strong> Persiste o token em um cookie httpOnly e redireciona o cliente para a rota <code>/trails</code>.</li>
+<li><strong>Auth Service (Domínio):</strong> Compara a senha submetida com o hash armazenado via bcrypt. Quando o usuário não existe, a comparação é feita contra um hash fictício (<code>DUMMY_HASH</code>), mantendo o tempo de resposta equivalente e evitando a enumeração de contas. Credenciais inválidas resultam em uma mensagem única ("E-mail ou senha inválidos.").</li>
+<li><strong>Security/JWT (Core/Infra):</strong> Em caso de credenciais válidas, os registros de tentativas do e-mail são apagados (<code>clearLoginAttempts</code>) e é assinado um token JWT contendo o identificador e o perfil do usuário.</li>
+<li><strong>Server Action — actions.ts (BFF/Controle):</strong> Persiste o token em um cookie <code>httpOnly</code> (<code>secure</code> em produção, <code>SameSite=Lax</code>, validade de 2 horas), grava o cookie <code>username</code> usado para exibir o nome na interface e redireciona o cliente para a rota <code>/tracks</code>.</li>
 </ul>
 <p><strong>Diagrama de Sequência - Processo de Autenticação/Login</strong></p>
 <p><img alt="Diagrama de Sequência - Processo de Autenticação/Login" src="../images/image9.png" /></p>
@@ -2048,9 +2268,10 @@ João Pedro Rodrigues Morbeck e Pedro Henrique da Silva Melo</p>
 <p><strong>Processo 2 — Autorização (Acesso a Rotas Protegidas):</strong></p>
 <ul>
 <li><strong>Estudante (Ator):</strong> Navega para qualquer rota do grupo <code>(protected)</code>.</li>
-<li><strong>Middleware Next.js (BFF/Controle):</strong> Intercepta a requisição antes da renderização da página, extrai o token JWT do cookie e aciona a verificação criptográfica.</li>
+<li><strong>Proxy Next.js — <code>proxy.ts</code> (BFF/Controle):</strong> Intercepta a requisição antes da renderização da página, gera o nonce da CSP, extrai o token JWT do cookie e aciona a verificação criptográfica.</li>
 <li><strong>Security/JWT (Core/Infra):</strong> Verifica a assinatura e a validade temporal do token. Retorna o payload decodificado ou lança erro em caso de token inválido ou expirado.</li>
-<li><strong>Middleware Next.js (BFF/Controle):</strong> Em caso de token válido, permite o acesso e a renderização da rota solicitada. Em caso de falha, redireciona o usuário para <code>/auth/login</code>.</li>
+<li><strong>Proxy Next.js — <code>proxy.ts</code> (BFF/Controle):</strong> Em caso de token válido, permite o acesso e a renderização da rota solicitada. Em caso de falha, redireciona o usuário para <code>/auth/login</code>.</li>
+<li><strong>Server Actions (BFF/Controle):</strong> As actions de dados autenticados (<code>content</code> e <code>tracks-engine</code>) verificam a sessão novamente antes de executar, como segunda camada de proteção.</li>
 </ul>
 <p><strong>Diagrama de Sequência - Processo de Autorização/Acesso</strong></p>
 <p><img alt="Diagrama de Sequência - Processo de Autorização/Acesso" src="../images/image3.png" /></p>
@@ -2061,58 +2282,135 @@ João Pedro Rodrigues Morbeck e Pedro Henrique da Silva Melo</p>
 <ul>
 <li><strong>Hospedagem Frontend/Backend (BFF):</strong> A aplicação modular Next.js é implantada no servidor do CEDIS utilizando a tecnologia Docker para o isolamento do ambiente de execução. O contêiner Node.js atua de forma contínua como o Backend-for-Frontend (BFF) da plataforma, processando dinamicamente as respostas SSR (Server-Side Rendering) e centralizando a execução das Server Actions, garantindo a entrega ágil e responsiva das interfaces aos dispositivos dos estudantes.</li>
 <li><strong>Base de Dados Relacional e Segurança:</strong> A persistência estruturada reside em um banco de dados relacional MySQL, instanciado como um contêiner independente e conectado ao BFF por meio de uma rede virtual interna do Docker (Docker Network). A comunicação entre a aplicação Next.js e o banco de dados ocorre de forma direta e protegida via protocolo TCP (porta interna 3306) utilizando o Prisma ORM. Essa topologia elimina a latência de rede externa característica de integrações em nuvem, sendo fundamental para o estrito cumprimento do tempo de resposta máximo de 3 segundos nas correções e submissões.</li>
+<li><strong>Transporte (HTTPS):</strong> O Next.js em produção atende apenas HTTP. O HTTPS é terminado por um proxy reverso à frente do contêiner, que encaminha as requisições para a porta da aplicação e repassa os cabeçalhos <code>X-Forwarded-Proto</code> e <code>Host</code>. Esse requisito é funcional, e não apenas de segurança: o cookie de sessão é <code>Secure</code> em produção, portanto o login só mantém a sessão sobre HTTPS.</li>
+</ul>
+<p>Requisitos de segurança definidos para a imagem e para o ambiente de implantação:</p>
+<ul>
+<li>execução do contêiner com usuário não-root, imagem base com versão fixa e build em múltiplos estágios;</li>
+<li>nenhum segredo dentro da imagem: o <code>.dockerignore</code> exclui arquivos <code>.env</code>, e o segredo do JWT e as credenciais do banco são fornecidos em tempo de execução e são distintos dos de desenvolvimento;</li>
+<li>usuário de banco com privilégios mínimos (não o <code>root</code>) e porta do MySQL sem publicação externa, acessível apenas pela rede interna do Docker;</li>
+<li>aplicação das migrations com <code>prisma migrate deploy</code> e execução do <em>seed</em> apenas para a conta administrativa e o catálogo inicial (RNF05), sem credenciais de teste;</li>
+<li>publicação apenas do proxy reverso, mantendo o contêiner da aplicação acessível somente por ele;</li>
+<li>restrições de execução do contêiner (<code>cap_drop</code>, <code>no-new-privileges</code>) e sem montagem do socket do Docker.</li>
 </ul>
 <p><strong>Diagrama de Implantação</strong></p>
 <p><img alt="Diagrama de Implantação" src="../images/image4.png" /></p>
 <p><em>Fonte: Autores</em></p>
 <hr />
 <h2 id="7-visao-de-implementacao">7. Visão de Implementação<a class="headerlink" href="#7-visao-de-implementacao" title="Permanent link">&para;</a></h2>
-<p>A organização física e as responsabilidades de desenvolvimento dentro de cada pasta de Feature seguem uma divisão interna rigorosa em seis camadas de software (Separation of Concerns). Isso previne que a lógica de banco de dados se misture com componentes visuais da UI:</p>
+<p>A organização física e as responsabilidades de desenvolvimento dentro de cada pasta de Feature seguem uma divisão interna rigorosa em camadas de software (Separation of Concerns). Isso previne que a lógica de banco de dados se misture com componentes visuais da UI:</p>
 <ul>
 <li><strong>1. Camada de Apresentação (Interface React.js):</strong> Composta por arquivos de componentes visuais (.tsx). Cuidam estritamente da renderização da interface e layout responsivo. Não possuem lógica de negócios, chamadas diretas a banco de dados ou consultas cruas de dados. Toda a estilização é injetada de forma declarativa via Tailwind CSS.</li>
-<li><strong>2. Camada de Controle e Estados (Custom Hooks / Context API):</strong> Contida em hooks customizados (ex: <code>useTrails.ts</code> ou <code>usePractice.ts</code>). Gerenciam os estados locais e globais reativos e encapsulam a chamada a funções assíncronas do servidor.</li>
+<li><strong>2. Camada de Controle e Estados (Custom Hooks / Context API):</strong> Contida em hooks customizados, quando necessário. Gerenciam os estados locais e globais reativos e encapsulam a chamada a funções assíncronas do servidor.</li>
 <li><strong>Camada de Domínio e Regras de Negócio (services/):</strong> Contém a lógica de negócio da feature rodando exclusivamente no lado do servidor. É aqui que valida-se regras, orquestra-se chamadas ao repositório e aplica-se a sanitização de dados antes da persistência.</li>
 <li><strong>Especificação de Dados (types/):</strong> Contém os DTOs (Data Transfer Objects) e Schemas de validação Zod que definem o contrato de dados compartilhado entre as camadas da feature. Garante consistência de tipos de ponta a ponta, do input do cliente até a persistência no banco.</li>
-<li><strong>Camada de BFF e Controle (actions.ts):</strong> Ponto de entrada server-side da feature. Valida o input via LoginSchema (Zod), aplica a verificação de autenticação e delega a execução para os respectivos serviços (<em>services</em>) de domínio.</li>
+<li><strong>Camada de Erros (errors.ts):</strong> Define as classes de erro de domínio da feature e o auxiliar que converte qualquer erro capturado em uma resposta segura para o cliente, registrando o detalhe técnico no servidor (seção 4.4.1).</li>
+<li><strong>Camada de BFF e Controle (actions.ts):</strong> Ponto de entrada server-side da feature. Valida o input via schemas Zod, aplica a verificação de autenticação e delega a execução para os respectivos serviços (<em>services</em>) de domínio, devolvendo apenas respostas seguras.</li>
 <li><strong>Camada de Infraestrutura e Dados (Repositories / Prisma Clients):</strong> Camada isolada de persistência. Contém os arquivos responsáveis por mapear queries, filtros e conexões com as tabelas relacionais do MySQL usando os métodos do <em>Prisma Client</em>, aplicando o padrão de Repositório para blindar o restante do software de persistência.</li>
 </ul>
-<p>Para materializar as camadas a nível de código, abaixo especifica-se a árvore física de diretórios que materializa essa visão do software em produção:</p>
-<p><img alt="Árvore de diretórios em produção" src="../images/image8.png" /></p>
-<p><em>Fonte: Autores</em></p>
+<p>Para materializar as camadas a nível de código, abaixo especifica-se a árvore física de diretórios do projeto:</p>
+<pre><code>SecurityAPP/
+├── prisma/                  # schema.prisma, migrations e seed
+├── scripts/
+├── src/
+│   ├── app/                 # rotas (App Router), error.tsx, layout e página inicial
+│   ├── components/
+│   │   ├── inputs/          
+│   │   ├── layout/
+│   │   └── icons.tsx
+│   ├── core/
+│   │   ├── database/        # cliente Prisma
+│   │   ├── logging/         # log-server-error (registro seguro de falhas)
+│   │   ├── security/        # sessão e JWT
+│   │   └── types/
+│   ├── features/
+│   │   ├── auth/
+│   │   ├── content/
+│   │   └── tracks-engine/
+│   ├── utils/               # funções puras úteis
+│   └── proxy.ts             # sessão nas rotas protegidas e CSP com nonce
+├── tests/                   # testes de integração e E2E (Playwright)
+├── .dockerignore
+├── .env.example
+├── .gitignore
+└── docker-compose.yml
+</code></pre>
 <p>Dessa forma, a <strong>camada modular</strong> pode ser trabalhada com a divisão seguindo a seguinte árvore física de diretório, como exemplo da de autenticação:</p>
 <pre><code>features/auth/
-├── components/        # APRESENTAÇÃO (UI React)
-│   ├── sign-in.tsx
-│   ├── sign-up.tsx
-│   └── index.ts
-├── hooks/             # CONTROLE DE ESTADOS (Client-Side)
-│   ├── use-auth.ts    # Hook que gerencia o estado local reativo de login
-│   └── index.ts
-├── services/          # DOMÍNIO / REGRAS DE NEGÓCIO (Server-Side)
-│   ├── auth.ts        # Lógica de negócio (validações, bcrypt, tokens)
-│   └── index.ts
-├── types/             # ESPECIFICAÇÃO DE DADOS E SCHEMAS
-│   ├── auth.types.ts  # DTOs (Data Transfer Objects) e Schemas do Zod
-│   └── index.ts
-├── repositories/      # INFRAESTRUTURA DE DADOS (Prisma ORM &amp; MySQL)
-│   ├── auth.repository.tsx  # Consultas e escritas diretas via Prisma Client
-│   └── index.ts
-├── actions.ts         # BFF CONTROLLER (Next.js Server Actions)
-└── index.ts           # Ponto de exportação pública da Feature
+├── components/          # APRESENTAÇÃO (UI React): SignUpForm, ProfileCard etc.
+├── services/            # DOMÍNIO / REGRAS DE NEGÓCIO (Server-Side)
+│   ├── auth.ts          # Lógica de negócio (validações, bcrypt, tokens) e erros de domínio
+│   ├── auth.test.ts
+│   ├── login-rate-limit.ts       # Limite de tentativas de login
+│   └── login-rate-limit.test.ts
+├── types/               # ESPECIFICAÇÃO DE DADOS E SCHEMAS (DTOs e Zod)
+├── repositories/        # INFRAESTRUTURA DE DADOS (Prisma ORM &amp; MySQL)
+├── errors.ts            # ERROS: conversão segura de erros para o cliente
+├── actions.ts           # BFF CONTROLLER (Next.js Server Actions)
+├── actions.test.ts
+└── index.ts             # Ponto de exportação pública da Feature
 </code></pre>
+<p>Os testes unitários (Jest) ficam ao lado do código que testam, dentro da própria feature. Os testes de integração, que exercitam as actions contra o banco MySQL, e os testes E2E (Playwright) ficam em <code>tests/</code>.</p>
 <hr />
 <h2 id="8-visao-de-dados">8. Visão de Dados<a class="headerlink" href="#8-visao-de-dados" title="Permanent link">&para;</a></h2>
-<p>O modelo lógico de dados relacional (MySQL) é projetado para garantir a integridade referencial das trilhas de aprendizado de desenvolvimento seguro e as regras de desbloqueio de conteúdo. A estrutura de tabelas e relacionamentos contempla as seguintes entidades e tabelas associativas:</p>
+<p>O modelo lógico de dados relacional (MySQL) é projetado para garantir a integridade referencial das trilhas de aprendizado de desenvolvimento seguro e as regras de desbloqueio de conteúdo. A trilha é modelada como uma sequência ordenada de nós (<code>TrackNode</code>), cada um sendo uma lição ou um conjunto de exercícios. A estrutura de tabelas e relacionamentos contempla as seguintes entidades e tabelas associativas:</p>
 <ul>
-<li><strong>Tabela User (Contas dos Usuários):</strong> Persiste o identificador único por email (PK), username, hash seguro de senha (password) e o papel do usuário no sistema (<em>role</em>, como <em>student</em> ou <em>admin</em>).</li>
-<li><strong>Tabela Track (Catálogo de Trilhas):</strong> Armazena o identificador da trilha (id PK), o tema principal abordado (theme) e a ordem de progressão (sequence).</li>
-<li><strong>Tabela Lesson (Pílulas de Conhecimento):</strong> Registra as lições teóricas associadas a uma trilha, contendo o identificador (id PK), título (title), conteúdo instrucional (text) e a chave estrangeira referenciando a trilha de origem (fk_Track_id).</li>
-<li><strong>Tabela Exercise (Questões Práticas de Lab):</strong> Registra as atividades e desafios práticos, persistindo o identificador (id PK), tipo de exercício (type), enunciado/código (command), a resposta/gabarito esperado (response) e a chave estrangeira vinculada à trilha (fk_Track_id).</li>
-<li><strong>Tabela ReviewContent (Guias de Revisão):</strong> Armazena o material complementar e cheatsheets desbloqueáveis, contendo id (PK), título (title), corpo do texto (text) e a chave estrangeira associada à respectiva trilha finalizada (fk_Track_id).</li>
-<li><strong>Tabela Takes (Progresso e Estado da Trilha):</strong> Tabela associativa que vincula User e Track com chave primária composta (fk_User_email, fk_Track_id). Registra o estado atual do estudante na trilha (status), data de conclusão (completed_at) e a liberação de acesso ao guia de revisão (unlocked_revision).</li>
-<li><strong>Tabela Answers (Desempenho em Exercícios):</strong> Tabela associativa que vincula User e Exercise com chave primária composta (fk_Exercise_id, fk_User_email). Utiliza contadores acumuladores para registrar se o exercício foi concluído (is_completed), total de tentativas (attempts_count), quantidade de acertos (correct_count), erros (incorrect_count) e a data da última submissão (last_answered_at).</li>
+<li><strong>Tabela User (Contas dos Usuários):</strong> Persiste o identificador único (id, UUID, PK), o e-mail (único), username, hash seguro de senha (password), o papel do usuário no sistema (<em>role</em>: <em>student</em> ou <em>admin</em>) e as datas de criação e atualização.</li>
+<li><strong>Tabela Track (Catálogo de Trilhas):</strong> Armazena o identificador da trilha (id PK), o tema principal abordado (theme), uma descrição (description) e as datas de criação e atualização.</li>
+<li><strong>Tabela TrackNode (Nós da Trilha):</strong> Representa cada etapa da trilha, contendo o identificador (id PK), a chave estrangeira da trilha (fk_track_id), o tipo do nó (node_type: <em>lesson</em> ou <em>exercise</em>) e a posição na sequência (order_index). O último nó de exercícios da trilha corresponde ao teste final.</li>
+<li><strong>Tabela Lesson (Pílulas de Conhecimento):</strong> Registra o conteúdo teórico de um nó de leitura, contendo o identificador (id PK), título (title), conteúdo estruturado em JSON (json) e a chave estrangeira única do nó (fk_track_node_id), de modo que cada nó de leitura possui uma única lição.</li>
+<li><strong>Tabela Exercise (Questões Práticas):</strong> Registra as questões de um nó de exercício, persistindo o identificador (id PK), o tipo (type: <em>revision</em> ou <em>test</em>), o conteúdo em JSON (json), que inclui enunciado, opções, resposta esperada e explicação, e a chave estrangeira do nó (fk_track_node_id). O gabarito nunca é enviado ao cliente antes da correção.</li>
+<li><strong>Tabela Takes (Estado da Trilha por Usuário):</strong> Tabela associativa que vincula User e Track com chave primária composta (fk_user_id, fk_track_id). Registra o estado do estudante na trilha (status: <em>not_started</em>, <em>in_progress</em> ou <em>completed</em>) e a data de conclusão (completed_at).</li>
+<li><strong>Tabela Progress (Progresso por Nó):</strong> Tabela associativa que vincula User e TrackNode com chave primária composta (fk_user_id, fk_track_node_id). Registra se o nó foi concluído (is_completed), a melhor nota (score), o total de tentativas (attempts_count), a data de conclusão (completed_at) e a data de desbloqueio (unlocked_at). É a base do desbloqueio sequencial e do cálculo de progresso, que é derivado dos registros e não armazenado como campo agregado.</li>
+<li><strong>Tabela Answers (Desempenho em Exercícios):</strong> Tabela associativa que vincula User e Exercise com chave primária composta (fk_exercise_id, fk_user_id). Utiliza contadores acumuladores para registrar se o exercício foi concluído (is_completed), total de tentativas (attempts_count), quantidade de acertos (correct_count), erros (incorrect_count) e a data da última submissão (last_answered_at).</li>
+<li><strong>Tabela LoginAttempt (Tentativas de Login):</strong> Suporta o limite de tentativas de login (seção 4.4.4). É identificada por um hash do e-mail informado, e não pelo e-mail em texto legível, e armazena a contagem de tentativas e a referência temporal da janela de bloqueio <strong>[CONFIRMAR nomes e tipos dos campos no <code>schema.prisma</code>]</strong>. Não possui chave estrangeira para <code>User</code>, pois também registra tentativas contra e-mails inexistentes, e seus registros são apagados após um login bem-sucedido.</li>
 </ul>
+<p>As relações entre <code>User</code>, <code>Track</code>, <code>TrackNode</code>, <code>Lesson</code>, <code>Exercise</code>, <code>Takes</code>, <code>Progress</code> e <code>Answers</code> usam exclusão em cascata. A exclusão de conta de um usuário não remove essas linhas: o e-mail e o username são substituídos por valores anonimizados, a senha é apagada e o histórico permanece associado apenas ao identificador interno, conforme descrito na Política de Privacidade.</p>
+<h3 id="81-evolucao-do-modelo-migrations">8.1 Evolução do Modelo (Migrations)<a class="headerlink" href="#81-evolucao-do-modelo-migrations" title="Permanent link">&para;</a></h3>
+<p>O modelo de dados evoluiu em relação à versão 1.3 deste documento. As principais mudanças, aplicadas por migrations do Prisma, foram:</p>
+<table>
+<thead>
+<tr>
+<th>Mudança</th>
+<th>Motivo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>User</code>: chave primária passou do e-mail para um <code>id</code> UUID; e-mail tornou-se único</td>
+<td>Permitir anonimizar o e-mail na exclusão de conta sem quebrar as referências e usar um identificador estável na sessão (<code>sub</code> do JWT).</td>
+</tr>
+<tr>
+<td>Nova tabela <code>TrackNode</code>; <code>Lesson</code> e <code>Exercise</code> passaram a referenciar o nó (e não a trilha); <code>sequence</code> de <code>Track</code> deu lugar a <code>order_index</code></td>
+<td>Representar a trilha como sequência ordenada de leituras e exercícios, com desbloqueio sequencial e teste final.</td>
+</tr>
+<tr>
+<td><code>Lesson.text</code> → <code>json</code>; <code>Exercise.command</code> e <code>response</code> → <code>json</code>; <code>Exercise.type</code> passou a <code>revision</code> ou <code>test</code></td>
+<td>Conteúdo estruturado (vários fragmentos, opções, gabarito e explicação) e identificação do teste final.</td>
+</tr>
+<tr>
+<td>Nova tabela <code>Progress</code>; <code>unlocked_revision</code> removido de <code>Takes</code>; tabela <code>ReviewContent</code> removida do escopo atual</td>
+<td>Registrar a conclusão por nó (lacuna apontada no mapeamento de gaps do modelo) e derivar o progresso.</td>
+</tr>
+<tr>
+<td><code>Takes.status</code> com os valores <code>not_started</code>, <code>in_progress</code> e <code>completed</code></td>
+<td>Representar o estado da trilha, incluindo a conclusão após a aprovação no teste final.</td>
+</tr>
+<tr>
+<td><code>Track.description</code> adicionada</td>
+<td>Exibir a descrição no catálogo e no detalhe da trilha.</td>
+</tr>
+<tr>
+<td>Nova tabela <code>LoginAttempt</code></td>
+<td>Suportar o limite de tentativas de login.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>[CONFIRMAR nomes e datas das migrations em <code>prisma/migrations</code> e ajustar a tabela se alguma mudança foi agrupada ou renomeada.]</strong></p>
 <p>A seguir, encontram-se o Diagrama Entidade-Relacionamento (DER) e o Diagrama Lógico de Dados (DLD) correspondentes, estruturados conforme o mapeamento acima.</p>
+<blockquote>
+<p><strong>[ATUALIZAR DIAGRAMAS]</strong> O DER e o DLD abaixo representam o modelo antigo (com <code>ReviewContent</code>, chave por e-mail e sem <code>TrackNode</code>, <code>Progress</code> e <code>LoginAttempt</code>) e devem ser regerados a partir do <code>schema.prisma</code> atual.</p>
+</blockquote>
 <p><strong>Diagrama Entidade-Relacionamento</strong></p>
 <p><img alt="Diagrama Entidade-Relacionamento" src="../images/image1.png" /></p>
 <p><em>Fonte: Autores</em></p>
@@ -2123,15 +2421,17 @@ João Pedro Rodrigues Morbeck e Pedro Henrique da Silva Melo</p>
 <h2 id="9-tamanho-e-performance">9. Tamanho e Performance<a class="headerlink" href="#9-tamanho-e-performance" title="Permanent link">&para;</a></h2>
 <p>Para assegurar o estrito cumprimento de <em>feedback</em> prático sob 3 segundos (RNF03), a arquitetura Next.js incorpora estratégias robustas de performance e dimensionamento de carga:</p>
 <ul>
-<li><strong>Server-Side Rendering (SSR) Dinâmico e Stateless:</strong> Prioriza-se a renderização no servidor (SSR) para a entrega dinâmica e em tempo real das pílulas teóricas, laboratórios práticos e painéis de progresso. De modo a mitigar o overhead de banco de dados e garantir escalabilidade linear horizontal (scaling out), o servidor BFF no Next.js é implementado de forma totalmente stateless, transferindo o estado de sessão para tokens JWT criptografados mantidos pelo cliente. Além disso, as consultas pesadas de dados ao banco relacional MySQL via Prisma ORM são encapsuladas por pools de conexões eficientes e chamadas assíncronas assentes, mantendo a latência geral de renderização bem abaixo do limite de 3 segundos exigido pelo RNF03.</li>
-<li><strong>Code Splitting e Lazy Loading Automáticos:</strong> Next.js decompõe o bundle Javascript em pedaços pequenos. O navegador do estudante carrega apenas os scripts necessários para a feature visualizada (ex: practice-labs), impedindo o desperdício de dados móveis no celular (RNF02).</li>
+<li><strong>Server-Side Rendering (SSR) Dinâmico e Stateless:</strong> Prioriza-se a renderização no servidor (SSR) para a entrega dinâmica e em tempo real das pílulas teóricas, exercícios e painéis de progresso. De modo a mitigar o overhead de banco de dados e garantir escalabilidade linear horizontal (scaling out), o servidor BFF no Next.js é implementado de forma totalmente stateless, transferindo o estado de sessão para tokens JWT criptografados mantidos pelo cliente. Além disso, as consultas pesadas de dados ao banco relacional MySQL via Prisma ORM são encapsuladas por pools de conexões eficientes e chamadas assíncronas assentes, mantendo a latência geral de renderização bem abaixo do limite de 3 segundos exigido pelo RNF03. As páginas são dinâmicas por requisição, o que também é necessário para o <em>nonce</em> da CSP.</li>
+<li><strong>Limite de tentativas sem estado em memória:</strong> O controle de tentativas de login é persistido na tabela <code>LoginAttempt</code>, e não na memória do processo, preservando o caráter stateless do servidor e o funcionamento com mais de uma instância.</li>
+<li><strong>Code Splitting e Lazy Loading Automáticos:</strong> Next.js decompõe o bundle Javascript em pedaços pequenos. O navegador do estudante carrega apenas os scripts necessários para a feature visualizada, impedindo o desperdício de dados móveis no celular (RNF02).</li>
 </ul>
 <hr />
 <h2 id="10-qualidade">10. Qualidade<a class="headerlink" href="#10-qualidade" title="Permanent link">&para;</a></h2>
-<p>A arquitetura de software unificada e de feature isolada (folder-by-feature) maximiza os índices de qualidade do projeto sob três perspectivas principais de suporte de engenharia:</p>
+<p>A arquitetura de software unificada e de feature isolada (folder-by-feature) maximiza os índices de qualidade do projeto sob quatro perspectivas principais de suporte de engenharia:</p>
 <ul>
-<li><strong>Manutenibilidade e Testabilidade (RNF04):</strong> Como cada módulo isola suas regras de domínio e chamadas de BFF, testes unitários e de integração podem ser desenvolvidos de forma isolada e localizados dentro da própria pasta da feature (ex: <code>/features/practice-labs/__tests__</code>).</li>
-<li><strong>Segurança e Auditoria do Código (RNF01):</strong> Ao longo do pipeline CI/CD no GitHub, devem ser executadas rotinas de análise estática de segurança (SAST) para auditar vulnerabilidades conhecidas no código, garantindo que a própria plataforma de suporte ao desenvolvimento seguro seja à prova de falhas graves.</li>
+<li><strong>Manutenibilidade e Testabilidade (RNF04):</strong> Como cada módulo isola suas regras de domínio e chamadas de BFF, os testes unitários são desenvolvidos de forma isolada e localizados ao lado do código, dentro da própria feature (ex: <code>features/auth/actions.test.ts</code>). Os componentes são testados por renderização estática. Os testes de integração (<code>tests/</code>) exercitam as Server Actions contra o banco MySQL, e os testes E2E com Playwright validam os fluxos críticos pela interface (login, limite de tentativas, indicador de força de senha e cabeçalhos de segurança).</li>
+<li><strong>Segurança e Auditoria do Código (RNF01):</strong> Ao longo do pipeline CI no GitHub, devem ser executadas rotinas de análise estática de segurança (SAST) para auditar vulnerabilidades conhecidas no código, garantindo que a própria plataforma de suporte ao desenvolvimento seguro seja à prova de falhas graves. Os requisitos de segurança implementados (limite de tentativas, CSP, tratamento de erros sem vazamento e registro com mascaramento de segredos) possuem testes automatizados.</li>
+<li><strong>Tratamento Padronizado de Erros:</strong> O padrão de erros por feature (seção 4.4.1) garante que novas funcionalidades exponham ao usuário apenas mensagens de classes de erro conhecidas. Um novo erro de negócio deve ser declarado como uma dessas classes para chegar ao usuário. Caso contrário, é tratado como falha inesperada.</li>
 <li><strong>Independência de Camadas:</strong> A separação estrita de camadas na feature isola falhas. Caso ocorra um erro de renderização gráfica ou CSS no painel responsivo, a camada controladora ou a consistência transacional do progresso no banco relacional MySQL via Prisma ORM continuará blindada e intacta.</li>
 </ul>
 <hr />
@@ -2170,6 +2470,12 @@ João Pedro Rodrigues Morbeck e Pedro Henrique da Silva Melo</p>
 <td>1.3</td>
 <td>Alteração do nome do projeto</td>
 <td>J. P. Morbeck</td>
+</tr>
+<tr>
+<td>03/Nov/2026</td>
+<td>1.4</td>
+<td>Atualização da arquitetura implementada: features <code>auth</code>, <code>content</code> e <code>tracks-engine</code>; <code>proxy.ts</code> (sessão e CSP com nonce); componentes transversais de segurança (tratamento de erros, registro seguro de falhas e limite de tentativas de login); nova visão de dados (<code>TrackNode</code>, <code>Progress</code>, <code>LoginAttempt</code> e demais migrations); requisitos de segurança para implantação em contêiner.</td>
+<td>J. P. Morbeck e P. H. Melo</td>
 </tr>
 </tbody>
 </table>
