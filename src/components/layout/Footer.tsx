@@ -45,6 +45,8 @@ export default function Footer({ overHero = false }: { overHero?: boolean }) {
           <nav aria-label="Links do rodapé">
             <Link
               href="/privacy"
+              target="_blank"
+              rel="noopener noreferrer"
               className={`text-sm text-foreground-muted transition-colors hover:text-accent ${focusRing}`}
             >
               Política de Privacidade
