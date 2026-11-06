@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import { cookies } from "next/headers";
+import Footer from "@/components/layout/Footer";
 import "./globals.css";
+import { FooterGate } from "@/components/layout/FooterGate";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -26,7 +28,14 @@ export default async function RootLayout({
 
   return (
     <html lang="pt-BR" data-theme={theme} className={montserrat.variable}>
-      <body>{children}</body>
+      <body className="flex min-h-dvh flex-col">
+        {children}
+        <FooterGate>
+          <div className="mt-auto shrink-0 pt-10">
+            <Footer />
+          </div>
+        </FooterGate>
+      </body>
     </html>
   );
 }

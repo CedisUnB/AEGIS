@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { BackButton } from "@/components/layout/BackButton";
 import type { ReactNode } from "react";
 
 export const metadata: Metadata = {
@@ -20,9 +21,9 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
 export default function PrivacyPolicyPage() {
   return (
     <main className="mx-auto w-full max-w-3xl wrap-break-word px-6 py-12 text-foreground">
-      <Link href="/" className="text-sm font-medium text-accent hover:underline">
+      <BackButton className="text-sm font-medium text-accent hover:underline">
         ← Voltar
-      </Link>
+      </BackButton>
 
       <h1 className="mt-6 text-3xl font-bold tracking-tight">Política de Privacidade</h1>
       <p className="mt-2 text-sm text-foreground-muted">

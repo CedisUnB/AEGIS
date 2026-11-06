@@ -1,4 +1,3 @@
-import { PrivacyPolicyLink } from "@/components/layout/PrivacyPolicyLink";
 import { SignInForm } from "@/features/auth/components";
 
 interface LoginPageProps {
@@ -9,7 +8,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
   const { reauth } = await searchParams;
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-surface px-4">
+    <main className="flex flex-1 flex-col items-center justify-center bg-surface px-4">
       <div className="w-full max-w-md">
         <h1 className="mb-6 text-center text-2xl text-foreground font-semibold">
           Entre na sua conta
@@ -22,9 +21,6 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
         )}
         
         <SignInForm />
-        <div className="mt-4 flex justify-center">
-          <PrivacyPolicyLink />
-        </div>
       </div>
     </main>
   );

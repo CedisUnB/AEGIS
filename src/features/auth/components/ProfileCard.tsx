@@ -119,27 +119,27 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ initialUser }) => {
       {!isEditing ? (
         <div className="space-y-4 text-sm">
           <div>
-            <label className="block text-xs font-medium uppercase tracking-wider text-foreground-muted">
+            <p className="block text-xs font-medium uppercase tracking-wider text-foreground-muted">
               Nome de Utilizador
-            </label>
+            </p>
             <p className="mt-1 font-medium text-foreground">
               {user.username}
             </p>
           </div>
 
           <div>
-            <label className="block text-xs font-medium uppercase tracking-wider text-foreground-muted">
+            <p className="block text-xs font-medium uppercase tracking-wider text-foreground-muted">
               E-mail
-            </label>
+            </p>
             <p className="mt-1 font-medium text-foreground">
               {user.email}
             </p>
           </div>
 
           <div>
-            <label className="block text-xs font-medium uppercase tracking-wider text-foreground-muted">
+            <p className="block text-xs font-medium uppercase tracking-wider text-foreground-muted">
               Data de Cadastro
-            </label>
+            </p>
             <p className="mt-1 font-medium text-foreground">
               {formattedCreatedDate}
             </p>
@@ -147,9 +147,9 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ initialUser }) => {
 
           {user.updatedAt && (
             <div>
-              <label className="block text-xs font-medium uppercase tracking-wider text-foreground-muted">
+              <p className="block text-xs font-medium uppercase tracking-wider text-foreground-muted">
                 Última Edição Registrada
-              </label>
+              </p>
               <p className="mt-1 font-medium text-foreground">
                 {formattedUpdatedDate}
               </p>

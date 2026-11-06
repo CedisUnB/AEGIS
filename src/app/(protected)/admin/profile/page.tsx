@@ -17,7 +17,7 @@ export default async function AdminProfilePage() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center px-4 py-10 bg-surface min-h-screen">
+    <div className="flex flex-col items-center justify-center px-4 py-10 bg-surface flex-1">
       <div className="mb-6 w-full max-w-lg">
         <div className="flex items-center gap-2">
           <span className="rounded bg-current-surface px-2 py-0.5 text-xs font-bold text-current-foreground uppercase">

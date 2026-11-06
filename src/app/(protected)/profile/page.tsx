@@ -15,7 +15,7 @@ export default async function ProfilePage() {
   const summary = summarizeProgress(tracks);
 
   return (
-    <main className="flex flex-col items-center justify-center px-4 py-10 bg-surface min-h-screen">
+    <main className="flex flex-col items-center justify-center px-4 py-10 bg-surface flex-1">
       <div className="mb-6 w-full max-w-lg">
         <h1 className="text-2xl font-bold text-foreground">
           Meu Perfil

@@ -20,7 +20,7 @@ export default function ErrorBoundary({
   const isUnauthorized = error.message.includes("401");
 
   return (
-    <div className="flex flex-col items-center justify-center px-4 py-10 bg-surface min-h-screen">
+    <div className="flex flex-col items-center justify-center px-4 py-10 bg-surface flex-1">
       <div className="max-w-md rounded-xl bg-surface-alt p-8 shadow-sm">
         <span className="text-4xl font-extrabold text-cancel">
           {isForbidden ? "403" : isUnauthorized ? "401" : "Erro"}

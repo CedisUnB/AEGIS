@@ -20,7 +20,7 @@ export default async function TrackPage({
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center px-4 py-8">
+    <main className="flex flex-1 flex-col items-center px-4 py-8">
       <div className="mb-4 w-full max-w-3xl">
         <Link
           href="/tracks"

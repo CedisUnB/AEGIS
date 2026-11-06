@@ -54,7 +54,7 @@ export const ReadingNodeView: React.FC<ReadingNodeViewProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-surface text-foreground flex flex-col justify-between p-6 sm:p-10">
+    <div className="flex-1 bg-surface text-foreground flex flex-col justify-between p-6 sm:p-10">
       <div className="max-w-2xl mx-auto w-full flex-1 flex flex-col justify-center">
         {/* Cabeçalho da Trilha e Categoria */}
         <div className="mb-4">

@@ -73,7 +73,7 @@ export const ExerciseNodeView: React.FC<ExerciseNodeViewProps> = ({
   // Renderiza a tela de resultado final com o Feedback
   if (evaluationResult) {
     return (
-      <div className="min-h-screen bg-surface text-foreground flex flex-col items-center justify-center p-6 sm:p-10">
+      <div className="flex-1 bg-surface text-foreground flex flex-col items-center justify-center p-6 sm:p-10">
         <div className="max-w-2xl w-full flex flex-col gap-6">
           
           {/* Cartão de Parabéns / Nota Geral */}
@@ -235,7 +235,7 @@ export const ExerciseNodeView: React.FC<ExerciseNodeViewProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-surface text-foreground flex flex-col p-6 sm:p-10">
+    <div className="flex-1 bg-surface text-foreground flex flex-col p-6 sm:p-10">
       <div className="max-w-2xl mx-auto w-full flex-auto flex flex-col justify-center">
         {/* Cabeçalho */}
         <div className="mb-8 flex justify-between items-center">
