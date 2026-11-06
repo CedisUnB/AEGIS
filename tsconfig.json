@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ES2023",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "types": ["jest", "node"],
+    "types": ["jest", "node", "next/image-types/global"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
