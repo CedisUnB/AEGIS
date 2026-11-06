@@ -1,0 +1,2176 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentação do projeto do TCC">
+      
+      
+      
+      
+        <link rel="prev" href="../strategies/estrategia_acompanhamento_projeto/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Avaliação da Feature 1 - AEGIS – AI, Ética e Gestão de Integridade em Software</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#auditoria-de-seguranca-feature-1-autenticacao-e-gestao-de-contas" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href="../.." title="AEGIS – AI, Ética e Gestão de Integridade em Software" class="md-header__button md-logo" aria-label="AEGIS – AI, Ética e Gestão de Integridade em Software" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            AEGIS – AI, Ética e Gestão de Integridade em Software
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Avaliação da Feature 1
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Modo Escuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Modo Escuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Modo Claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Modo Claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/CedisUnB/SecurityAPP" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Abas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Início
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../planning/development/methodology/" class="md-tabs__link">
+          
+  
+  
+  Planejamento
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../sprints/sprint_0/" class="md-tabs__link">
+          
+  
+  
+  Processo
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="AEGIS – AI, Ética e Gestão de Integridade em Software" class="md-nav__button md-logo" aria-label="AEGIS – AI, Ética e Gestão de Integridade em Software" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    AEGIS – AI, Ética e Gestão de Integridade em Software
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/CedisUnB/SecurityAPP" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Planejamento
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Planejamento
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Metodologia de Desenvolvimento
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Metodologia de Desenvolvimento
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/development/methodology/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scrum + XP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Requisitos
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Requisitos
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/requirements/docs_requisitos_v2.mdþ" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documento de Requisitos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitetura
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Arquitetura
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/architecture/software-architecture-document/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DAS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cronograma
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Cronograma
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/schedule/planned/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Planejado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/schedule/executed/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Executado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Segurança
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Segurança
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/security/guidelines/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Diretrizes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/security/checklist-backend/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Checklist Backend
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/security/checklist-frontend/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Checklist Frontend
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/security/checklist-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Checklist API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/security/checklist-ai-usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Checklist Uso de IA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/security/references/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Referências
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Processo
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Processo
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sprints
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sprints
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sprints/sprint_0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sprint 0
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sprints/sprint_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sprint 1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sprints/sprint_2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sprint 2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sprints/sprint_3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sprint 3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sprints/sprint_4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sprint 4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sprints/template_de_sprint/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Template
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../strategies/estrategia_testes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estratégia de Testes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../strategies/estrategia_acompanhamento_projeto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plano de Métricas do Projeto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Avaliação da Feature 1
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Avaliação da Feature 1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-escopo-auditado" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Escopo auditado
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-status-final-por-area" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Status final por área
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-auditoria-checklist-backend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Auditoria — Checklist Backend
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-auditoria-checklist-frontend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Auditoria — Checklist Frontend
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-estado-atual-do-projeto-e-acoes-de-seguranca-necessarias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Estado atual do projeto e ações de segurança necessárias
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Estado atual do projeto e ações de segurança necessárias">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#baseline-para-o-comparativo-antes-e-depois" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Baseline para o comparativo “antes e depois”
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-classificacao-e-encaminhamento-dos-gaps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Classificação e encaminhamento dos gaps
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Classificação e encaminhamento dos gaps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#correcoes-recomendadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Correções recomendadas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#riscos-aceitos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Riscos aceitos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-conclusao-final" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Conclusão final
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-proximos-passos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Próximos passos
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navegação" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Início
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../sprints/sprint_0/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Processo
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="auditoria-de-seguranca-feature-1-autenticacao-e-gestao-de-contas">Auditoria de Segurança — Feature 1 (Autenticação e Gestão de Contas)<a class="headerlink" href="#auditoria-de-seguranca-feature-1-autenticacao-e-gestao-de-contas" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p><strong>Data da Auditoria Realizada</strong>: 04/10/2026</p>
+<p><strong>Status final da auditoria:</strong> revisão concluída com base em <code>guidelines.md</code>, nos checklists de segurança, no código da feature 1 e na planilha <code>docs/security/arquivos-pendentes-auditoria.xlsx</code>.</p>
+<p>A feature 1 está em estado de implementação funcional, mas ainda não atende integralmente ao DoD de segurança definido nas diretrizes. Há controles importantes já implementados, porém existem gaps de segurança relevantes que precisam ser tratados antes da conclusão da feature.</p>
+</blockquote>
+<h2 id="1-escopo-auditado">1. Escopo auditado<a class="headerlink" href="#1-escopo-auditado" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>História de Usuário</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>US01</td>
+<td>Cadastro de visitante</td>
+</tr>
+<tr>
+<td>US02</td>
+<td>Visualização do próprio perfil</td>
+</tr>
+<tr>
+<td>US03</td>
+<td>Edição do próprio perfil (com reautenticação em caso de e-mail/senha)</td>
+</tr>
+<tr>
+<td>US04</td>
+<td>Exclusão de conta (soft delete + anonimização)</td>
+</tr>
+<tr>
+<td>US05</td>
+<td>Visualização de perfil administrativo</td>
+</tr>
+</tbody>
+</table>
+<h2 id="2-status-final-por-area">2. Status final por área<a class="headerlink" href="#2-status-final-por-area" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Criticidade</th>
+<th>Status</th>
+<th>Conclusão</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Crítica</td>
+<td>❌ Gap confirmado</td>
+<td>Rate limiting no login e invalidação real de sessão no logout ainda não existem.</td>
+</tr>
+<tr>
+<td>Alta</td>
+<td>❌ Gap confirmado</td>
+<td>Cabeçalhos HTTP de segurança e link de Política de Privacidade ainda não foram implementados.</td>
+</tr>
+<tr>
+<td>Média</td>
+<td>✅ Mitigado</td>
+<td>Autenticação JWT, autorização por perfil, cookies HTTPOnly/Secure/SameSite, proteção de rota por layout protegido e UUID em <code>User.id</code>.</td>
+</tr>
+<tr>
+<td>Média</td>
+<td>⚠️ Dependente do ambiente</td>
+<td>HTTPS forçado e CSRF explícito precisam ser confirmados no deploy e no runtime do framework.</td>
+</tr>
+<tr>
+<td>Baixa</td>
+<td>✅ Confirmado</td>
+<td>Não há logs de depuração sensíveis nem uso de SQL bruto; a senha é hash com bcrypt.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3-auditoria-checklist-backend">3. Auditoria — Checklist Backend<a class="headerlink" href="#3-auditoria-checklist-backend" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Ref. checklist</th>
+<th>Item</th>
+<th>Status</th>
+<th>Observação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.1</td>
+<td>Validação rigorosa de entradas</td>
+<td>✅</td>
+<td>Zod (<code>signUpSchema</code>, <code>signInSchema</code>, <code>updateProfileSchema</code>, <code>deleteAccountSchema</code>) valida tipo, formato e tamanho antes de processar a ação.</td>
+</tr>
+<tr>
+<td>1.1</td>
+<td>Rejeição sem expor detalhes internos</td>
+<td>❌ <strong>Gap confirmado</strong></td>
+<td>Em <code>getProfileUserAction</code>, <code>updateProfileUserAction</code>, <code>deleteAccountAction</code> e <code>getAdminProfileAction</code>, erros são devolvidos ao cliente com <code>(err as Error).message</code>. Isso pode expor detalhes da infraestrutura ou do Prisma em produção.</td>
+</tr>
+<tr>
+<td>1.2</td>
+<td>Autenticação forte (JWT/OAuth)</td>
+<td>✅</td>
+<td><code>jose</code> com <code>HS256</code>, secret validado em boot (<code>JWT_SECRET</code> com ≥ 32 caracteres) e token com expiração de 2h.</td>
+</tr>
+<tr>
+<td>1.2</td>
+<td>Autorização por endpoint</td>
+<td>✅</td>
+<td><code>getAdminProfileAction</code> valida <code>session.role !== "admin"</code> antes de liberar dados administrativos.</td>
+</tr>
+<tr>
+<td>1.2</td>
+<td>Proteção contra força bruta no login</td>
+<td>❌ <strong>Gap confirmado</strong></td>
+<td>Não há rate limiting, tentativas por IP/e-mail, bloqueio temporário ou cooldown em <code>signInAction</code>.</td>
+</tr>
+<tr>
+<td>1.3</td>
+<td>SQL Injection</td>
+<td>✅</td>
+<td>A interação com o banco é feita via Prisma ORM; não há concatenação de SQL bruto.</td>
+</tr>
+<tr>
+<td>1.3</td>
+<td>OS Command Injection</td>
+<td>N/A</td>
+<td>Nenhuma execução de comando de sistema na feature 1.</td>
+</tr>
+<tr>
+<td>1.4</td>
+<td>Hash de senha (Argon2/bcrypt)</td>
+<td>✅</td>
+<td>Senha hash com <code>bcrypt.hash(input.password, 10)</code> no registro e comparação com <code>bcrypt.compare</code> no login.</td>
+</tr>
+<tr>
+<td>1.4</td>
+<td>Criptografia de outros dados sensíveis</td>
+<td>N/A</td>
+<td>Não há outros dados sensíveis relevantes nesta feature além da senha e do token de sessão.</td>
+</tr>
+<tr>
+<td>1.5</td>
+<td>Invalidação de sessão no logout</td>
+<td>❌ <strong>Gap confirmado</strong></td>
+<td><code>logoutAction</code> apenas apaga o cookie. O JWT continua válido até expirar e não é revogado no servidor.</td>
+</tr>
+<tr>
+<td>1.5</td>
+<td>Tempo de expiração do token</td>
+<td>✅</td>
+<td>Expiração definida em <code>TOKEN_AGE = 2h</code> e aplicada ao emitir o JWT.</td>
+</tr>
+<tr>
+<td>2.1</td>
+<td>CSP</td>
+<td>❌ <strong>Gap confirmado</strong></td>
+<td><code>next.config.ts</code> está vazio; não há cabeçalho CSP configurado.</td>
+</tr>
+<tr>
+<td>2.1</td>
+<td>HSTS</td>
+<td>❌ <strong>Gap confirmado</strong></td>
+<td>Não há configuração de <code>Strict-Transport-Security</code>.</td>
+</tr>
+<tr>
+<td>2.1</td>
+<td>X-Frame-Options / frame-ancestors</td>
+<td>❌ <strong>Gap confirmado</strong></td>
+<td>Nenhum cabeçalho anti-clickjacking configurado.</td>
+</tr>
+<tr>
+<td>2.1</td>
+<td>X-Content-Type-Options</td>
+<td>❌ <strong>Gap confirmado</strong></td>
+<td>Não há <code>nosniff</code> configurado.</td>
+</tr>
+<tr>
+<td>2.1</td>
+<td>Ocultação de <code>X-Powered-By</code></td>
+<td>❌ <strong>Gap confirmado</strong></td>
+<td><code>next.config.ts</code> não desabilita <code>poweredByHeader</code>, e o Next.js pode expor informações de infraestrutura por padrão.</td>
+</tr>
+<tr>
+<td>2.2</td>
+<td><code>HttpOnly</code> no cookie de sessão</td>
+<td>✅</td>
+<td>Confirmado em <code>signInAction</code> e <code>signUpAction</code>.</td>
+</tr>
+<tr>
+<td>2.2</td>
+<td><code>Secure</code> no cookie</td>
+<td>✅</td>
+<td><code>secure: process.env.NODE_ENV === "production"</code>.</td>
+</tr>
+<tr>
+<td>2.2</td>
+<td><code>SameSite</code> no cookie</td>
+<td>✅</td>
+<td>Configurado como <code>sameSite: "lax"</code>.</td>
+</tr>
+<tr>
+<td>2.3</td>
+<td>Anti-CSRF em mutações</td>
+<td>✅ <strong>Mitigado pelo framework</strong></td>
+<td>Para Server Actions do Next.js, a proteção nativa do framework é a linha defensiva principal; não há implementação manual de token CSRF no código. Essa mitigação deve ser documentada e validada em runtime do app.</td>
+</tr>
+<tr>
+<td>3.1</td>
+<td>SCA / <code>npm audit</code></td>
+<td>❌ <strong>Gap confirmado</strong></td>
+<td>O projeto não apresenta script de auditoria recorrente nem integração de SCA no pipeline; a verificação é manual, e a planilha confirma esse ponto pendente.</td>
+</tr>
+<tr>
+<td>3.4</td>
+<td>IDs não sequenciais (UUID)</td>
+<td>✅</td>
+<td><code>prisma/schema.prisma</code> confirma <code>User.id String @id @default(uuid())</code>.</td>
+</tr>
+<tr>
+<td>3.4</td>
+<td>Modo debug desligado em produção</td>
+<td>✅</td>
+<td>Não há <code>DEBUG=True</code> nem logs de depuração sensíveis na feature 1; os <code>console.log</code> suspeitos citados em diagnósticos anteriores não existem mais no código atual.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-auditoria-checklist-frontend">4. Auditoria — Checklist Frontend<a class="headerlink" href="#4-auditoria-checklist-frontend" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Ref. checklist</th>
+<th>Item</th>
+<th>Status</th>
+<th>Observação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.1</td>
+<td>Validação no cliente</td>
+<td>✅</td>
+<td><code>required</code>, <code>minLength</code>, <code>pattern</code> e Zod do backend justificam a camada de validação do frontend.</td>
+</tr>
+<tr>
+<td>1.1</td>
+<td>Tratamento de erro amigável</td>
+<td>✅</td>
+<td>Mensagens de <code>fieldErrors</code> são exibidas por campo sem expor stack trace.</td>
+</tr>
+<tr>
+<td>1.1</td>
+<td>Sanitização de saída (sem <code>dangerouslySetInnerHTML</code>)</td>
+<td>✅</td>
+<td>Nenhum uso de <code>dangerouslySetInnerHTML</code> ou <code>v-html</code> nesta feature.</td>
+</tr>
+<tr>
+<td>1.2</td>
+<td>Token anti-CSRF enviado pelo frontend</td>
+<td>✅ <strong>Mitigado pelo framework</strong></td>
+<td>Como o fluxo usa Server Actions do Next.js, a proteção anti-CSRF é tratada pelo framework, sem código manual de token do frontend.</td>
+</tr>
+<tr>
+<td>1.3</td>
+<td>Token fora do <code>localStorage</code></td>
+<td>✅</td>
+<td>O token de sessão é armazenado em cookie <code>httpOnly</code>, não acessível via JavaScript.</td>
+</tr>
+<tr>
+<td>1.3</td>
+<td>Tratamento de 401/403</td>
+<td>✅</td>
+<td>Redirecionamentos e mensagens de acesso negado foram implementados corretamente em páginas protegidas.</td>
+</tr>
+<tr>
+<td>1.3</td>
+<td>Ocultação de UI não autorizada</td>
+<td>✅</td>
+<td>Painel administrativo renderiza somente para <code>role === "admin"</code>.</td>
+</tr>
+<tr>
+<td>1.4</td>
+<td>HTTPS forçado</td>
+<td>⚠️ <strong>Dependente do deploy</strong></td>
+<td>O código não força HTTPS de forma explícita. Isso precisa ser assegurado em infraestrutura/deploy do ambiente final.</td>
+</tr>
+<tr>
+<td>1.4</td>
+<td>Sem chave/credencial hardcoded no frontend</td>
+<td>✅</td>
+<td>Nenhuma chave sensível foi detectada em componentes do cliente.</td>
+</tr>
+<tr>
+<td>2.1</td>
+<td>Notificações claras de sucesso/falha</td>
+<td>✅</td>
+<td>Mensagens de login, cadastro e atualização de perfil são informativas e amigáveis.</td>
+</tr>
+<tr>
+<td>2.1</td>
+<td>Indicador de força de senha</td>
+<td>❌ <strong>Gap confirmado</strong></td>
+<td>Há validação de formato/length, mas não há medidor visual de força da senha.</td>
+</tr>
+<tr>
+<td>2.1</td>
+<td>Consciência sobre phishing</td>
+<td>N/A</td>
+<td>Nenhuma funcionalidade de e-mail ou redefinição por e-mail foi implementada nesta feature.</td>
+</tr>
+<tr>
+<td>2.2</td>
+<td>Link para Política de Privacidade</td>
+<td>❌ <strong>Gap confirmado</strong></td>
+<td>Não há link ou página de política de privacidade no fluxo atual.</td>
+</tr>
+<tr>
+<td>2.2</td>
+<td>Banner de consentimento de cookies</td>
+<td>N/A</td>
+<td>Há apenas cookie essencial de sessão. Sem cookies não essenciais, o banner não se aplica.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-estado-atual-do-projeto-e-acoes-de-seguranca-necessarias">5. Estado atual do projeto e ações de segurança necessárias<a class="headerlink" href="#5-estado-atual-do-projeto-e-acoes-de-seguranca-necessarias" title="Permanent link">&para;</a></h2>
+<p>Esta seção resume o que já está aplicado na Feature 1 e o que ainda precisa ser tratado no desenvolvimento ou no processo de segurança do projeto. A avaliação representa o estado do código verificado nesta auditoria, em 04/10/2026; não pressupõe que o projeto tenha estado anteriormente sem controles de segurança.</p>
+<table>
+<thead>
+<tr>
+<th>Área</th>
+<th>Estado observado</th>
+<th>Ação necessária</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Autenticação e senhas</td>
+<td>JWT assinado com <code>jose</code>, segredo mínimo validado, expiração de 2 horas e senha armazenada com bcrypt.</td>
+<td>Avaliar a task de access + refresh tokens para reduzir a janela do access token e permitir revogação de sessão no servidor.</td>
+</tr>
+<tr>
+<td>Proteção de rotas</td>
+<td><code>src/proxy.ts</code> é o entry point de proxy do Next.js e desempenha o papel de middleware: aplica-se às rotas do <code>matcher</code>, valida o token e redireciona sessões inválidas. O layout protegido também verifica a sessão.</td>
+<td>Manter verificações de autorização no servidor. A verificação de papel administrativo dentro do proxy está comentada; não depender da ocultação de interface como controle de acesso.</td>
+</tr>
+<tr>
+<td>Sessão e logout</td>
+<td>O logout apaga os cookies, mas não revoga no servidor um JWT já copiado; o token permanece válido até expirar.</td>
+<td>Implementar e testar revogação da sessão/refresh token. Documentar que um access token emitido ainda pode valer até expirar, a menos que também seja verificado contra mecanismo de revogação.</td>
+</tr>
+<tr>
+<td>Cabeçalhos HTTP</td>
+<td><code>next.config.ts</code> não configura CSP, HSTS, proteção contra framing, <code>X-Content-Type-Options</code> ou remoção do <code>X-Powered-By</code>.</td>
+<td>Definir uma política de cabeçalhos adequada aos recursos e ambientes do projeto e validá-la no runtime, evitando diretivas que quebrem a aplicação.</td>
+</tr>
+<tr>
+<td>Tentativas de login</td>
+<td>Não foi identificado rate limiting ou bloqueio temporário no login.</td>
+<td>Definir e implementar limitação de tentativas, considerando a infraestrutura de execução e evitando depender apenas de estado em memória se houver múltiplas instâncias.</td>
+</tr>
+<tr>
+<td>Erros enviados ao cliente</td>
+<td>Algumas actions devolvem <code>err.message</code> diretamente.</td>
+<td>Retornar mensagens genéricas ao usuário e manter detalhes técnicos apenas em logging protegido no servidor.</td>
+</tr>
+<tr>
+<td>Dependências</td>
+<td><code>package.json</code> não demonstra integração recorrente de SCA ou <code>npm audit</code> no pipeline.</td>
+<td>Executar uma verificação de dependências e estabelecer quando ela será repetida; tratar ou documentar vulnerabilidades relevantes conforme as diretrizes.</td>
+</tr>
+<tr>
+<td>Privacidade e experiência de segurança</td>
+<td>Não foi encontrado link para Política de Privacidade nem indicador visual de força da senha.</td>
+<td>Avaliar a criação da página/link de privacidade e adicionar orientação visual de força de senha.</td>
+</tr>
+<tr>
+<td>Identificadores e cookies</td>
+<td><code>User.id</code> usa UUID; o cookie de sessão é <code>HttpOnly</code>, <code>SameSite=Lax</code> e <code>Secure</code> em produção.</td>
+<td>Preservar essas configurações e confirmar HTTPS no ambiente de deploy.</td>
+</tr>
+<tr>
+<td>CSRF</td>
+<td>As mutações da feature usam Server Actions do Next.js, que fornecem proteção nativa contra requisições cross-origin.</td>
+<td>Validar o comportamento no ambiente de execução e garantir que fluxos futuros fora de Server Actions adotem proteção CSRF apropriada.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="baseline-para-o-comparativo-antes-e-depois">Baseline para o comparativo “antes e depois”<a class="headerlink" href="#baseline-para-o-comparativo-antes-e-depois" title="Permanent link">&para;</a></h3>
+<p><strong>“Antes” é o estado do código registrado nesta auditoria, em 04/10/2026</strong>. Portanto, quando uma correção for implementada, o <strong>“Depois”</strong> deve descrever a mudança efetivamente realizada e apontar evidência verificável, como código, teste ou configuração. Enquanto um gap não for corrigido, ele deve permanecer como pendente, sem preencher um “Depois” como se a mitigação já existisse.</p>
+<p>Se a equipe decidir não corrigir determinado gap, registrar <strong>“Decisão e justificativa”</strong>, incluindo a decisão explícita da equipe, a razão baseada no Princípio do Esforço Proporcional, as medidas compensatórias, o risco residual e quando a decisão será revista. A auditoria identifica riscos e recomendações, ela, por si só, não representa aprovação da equipe para aceitar um risco.</p>
+<h2 id="6-classificacao-e-encaminhamento-dos-gaps">6. Classificação e encaminhamento dos gaps<a class="headerlink" href="#6-classificacao-e-encaminhamento-dos-gaps" title="Permanent link">&para;</a></h2>
+<p>Usando o Princípio do Esforço Proporcional (<code>guidelines.md</code>, 2.1):</p>
+<h3 id="correcoes-recomendadas">Correções recomendadas<a class="headerlink" href="#correcoes-recomendadas" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Alto retorno e esforço baixo:</strong> <ul>
+<li>Configurar cabeçalhos HTTP em <code>next.config.ts</code></li>
+<li>Evitar devolver mensagens internas dos erros ao cliente;</li>
+<li>Executar e documentar <code>npm audit</code>;</li>
+<li>Adicionar indicador visual de força de senha.</li>
+</ul>
+</li>
+<li><strong>Esforço moderado:</strong> <ul>
+<li>Implementar rate limiting no login;</li>
+<li>Criar página/link de Política de Privacidade;</li>
+<li>Completar a task “Implementar tokens access + refresh” em que trata a redução da janela de exposição do access token e a revogação do refresh token/sessão no logout. Um access token já emitido poderá continuar válido até expirar, salvo se também houver verificação de revogação.</li>
+</ul>
+</li>
+</ul>
+<h3 id="riscos-aceitos">Riscos aceitos<a class="headerlink" href="#riscos-aceitos" title="Permanent link">&para;</a></h3>
+<p>No momento desta auditoria, <strong>nenhum gap está registrado como risco formalmente aceito</strong>. A possibilidade de aceitar um risco deve ser decidida pela equipe e documentada conforme o baseline acima. Uma recomendação ou proposta nesta auditoria não equivale à aceitação.</p>
+<h2 id="7-conclusao-final">7. Conclusão final<a class="headerlink" href="#7-conclusao-final" title="Permanent link">&para;</a></h2>
+<p>A Feature 1 está funcional e tem controles importantes de autenticação, autorização, validação de entradas e cookies seguros. O <code>src/proxy.ts</code> protege centralmente as rotas listadas no matcher ao validar a sessão e redirecionar usuários sem sessão válida; as páginas/actions também fazem verificações próprias. Ainda assim, a feature não atende integralmente ao checklist de segurança: permanecem pendentes, entre outros itens, rate limiting, revogação de sessão no logout, cabeçalhos HTTP de segurança, tratamento genérico de erros internos e Política de Privacidade.</p>
+<p><strong>Status recomendado:</strong> “Aprovada com pendências de segurança”. As pendências devem ser corrigidas antes do fechamento final ou, caso a equipe decida não corrigi-las, formalmente avaliadas e registradas como risco aceito.</p>
+<h2 id="8-proximos-passos">8. Próximos passos<a class="headerlink" href="#8-proximos-passos" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Usar esta auditoria, datada de 04/10/2026, como baseline do “Antes” para o comparativo de segurança.</li>
+<li>Registrar issues com tag <code>security</code> para gaps confirmados, conforme <code>guidelines.md</code>, seção 5.1.</li>
+<li>Implementar as correções priorizadas e atualizar o comparativo com o “Depois” e evidências verificáveis.</li>
+<li>Para qualquer gap que a equipe decida não corrigir, registrar a decisão, justificativa, medidas compensatórias, risco residual e data/condição de revisão.</li>
+<li>Atualizar o DoD de Segurança (<code>guidelines.md</code>, seção 6) quando os controles correspondentes tiverem sido efetivamente implementados e verificados.</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar para o topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.path", "navigation.top", "toc.integrate", "search.suggest"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
