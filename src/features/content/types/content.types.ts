@@ -11,36 +11,40 @@ export const QuestionFormatSchema = z.enum([
   "ordering",
 ]);
 
+const positiveIdSchema = z.number().int().safe().min(1).max(2_147_483_647);
+const answerTextSchema = z.string().max(2_000);
+const answerArraySchema = z.array(z.union([z.number().int().safe(), answerTextSchema])).max(100);
+
 export const lessonSchema = z.object({
-    id: z.number().int(),
-    orderIndex: z.number().int(),
+    id: positiveIdSchema,
+    orderIndex: z.number().int().safe().min(0).max(2_147_483_647),
     nodeType: NodeTypeSchema,
-    trackId: z.number().int(),
-    title: z.string(),
+    trackId: positiveIdSchema,
+    title: z.string().max(500),
     json: z.object({
         slides: z.array(
             z.object({
-                tag: z.string(),
-                body: z.string(),
-                title: z.string(),
-                source: z.string().nullable(),
-            })
-        ),
-    }),
-})
+                tag: z.string().max(100),
+                body: z.string().max(20_000),
+                title: z.string().max(500),
+                source: z.string().max(2_000).nullable(),
+            }).strict()
+        ).max(100),
+    }).strict(),
+}).strict()
 
 export const answerValueSchema = z.union([
-  z.number().int(),
-  z.string(),
-  z.array(z.union([z.number().int(), z.string()])),
+  z.number().int().safe(),
+  answerTextSchema,
+  answerArraySchema,
 ]);
 
 export const exerciseInternalJsonSchema = z.object({
-  questionType: QuestionFormatSchema.or(z.string()),
-  prompt: z.string(),
-  options: z.array(z.string()).default([]),
+  questionType: QuestionFormatSchema.or(z.string().max(100)),
+  prompt: z.string().max(20_000),
+  options: z.array(z.string().max(2_000)).max(100).default([]),
   correctAnswer: answerValueSchema,
-  explanation: z.string().optional(),
+  explanation: z.string().max(20_000).optional(),
 });
 
 export const exercisePublicJsonSchema = exerciseInternalJsonSchema.omit({
@@ -49,27 +53,27 @@ export const exercisePublicJsonSchema = exerciseInternalJsonSchema.omit({
 });
 
 export const exercisesSchema = z.object({
-  id: z.number().int(),
-  orderIndex: z.number().int(),
+  id: positiveIdSchema,
+  orderIndex: z.number().int().safe().min(0).max(2_147_483_647),
   nodeType: NodeTypeSchema,
   exercises: z.array(
     z.object({
-      id: z.number().int(),
+      id: positiveIdSchema,
       type: ExerciseTypeSchema,
       json: exercisePublicJsonSchema,
-    })
-  ),
-});
+    }).strict()
+  ).max(100),
+}).strict();
 
 export const submissionSchema = z.object({
-    trackNodeId: z.number().int(),
+    trackNodeId: positiveIdSchema,
     exercises: z.array(
         z.object({
-            id: z.number().int(),
+            id: positiveIdSchema,
             value: answerValueSchema,
-        })
-    ).min(1),
-}).superRefine((submission, context) => {
+        }).strict()
+    ).min(1).max(100),
+}).strict().superRefine((submission, context) => {
   const exerciseIds = submission.exercises.map(({ id }) => id);
   if (new Set(exerciseIds).size !== exerciseIds.length) {
     context.addIssue({

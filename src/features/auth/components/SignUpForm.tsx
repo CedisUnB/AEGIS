@@ -4,6 +4,11 @@ import { useActionState, useState } from "react";
 import { PasswordStrengthIndicator } from "@/components/inputs/PasswordStrengthIndicator";
 import { signUpAction, type SignUpState } from "@/features/auth";
 import { PasswordInput } from "@/components/inputs/PasswordInput";
+import {
+  EMAIL_MAX_LENGTH,
+  PASSWORD_MAX_LENGTH,
+  USERNAME_MAX_LENGTH,
+} from "../types/auth.types";
 
 const initialState: SignUpState = {
   error: null,
@@ -19,11 +24,27 @@ export function SignUpForm() {
   return (
     <form
       action={formAction}
-      onReset={() => setPassword("")}
+      onReset={(e) => {
+        setPassword("");
+        const confirmationInput = e.currentTarget.elements.namedItem("confirmPassword");
+        if (confirmationInput instanceof HTMLInputElement) {
+          confirmationInput.setCustomValidity("");
+        }
+      }}
       onInput={(e) => {
         const target = e.target;
         if (target instanceof HTMLInputElement && target.name === "password") {
           setPassword(target.value);
+        }
+        const passwordInput = e.currentTarget.elements.namedItem("password");
+        const confirmationInput = e.currentTarget.elements.namedItem("confirmPassword");
+        if (
+          passwordInput instanceof HTMLInputElement &&
+          confirmationInput instanceof HTMLInputElement
+        ) {
+          confirmationInput.setCustomValidity(
+            confirmationInput.value === passwordInput.value ? "" : "As senhas não coincidem",
+          );
         }
       }}
       className="flex flex-col gap-4"
@@ -39,13 +60,17 @@ export function SignUpForm() {
           type="text"
           required
           minLength={3}
+          maxLength={USERNAME_MAX_LENGTH}
           defaultValue={state.fieldValues.username}
           aria-invalid={Boolean(state.fieldErrors.username)}
           aria-describedby={state.fieldErrors.username ? "username-error" : undefined}
           className="rounded-md border border-brand-primary px-3 py-2 text-foreground outline-none focus:ring-2 focus:ring-brand-secondary"
         />
-        <p className="field-error text-sm text-cancel">
-          Informe um nome de usuário com pelo menos 3 caracteres.
+        <p
+          id="username-error"
+          className={`${state.fieldErrors.username ? "block" : "field-error"} text-sm text-cancel`}
+        >
+          {state.fieldErrors.username ?? "Informe um nome de usuário com pelo menos 3 caracteres."}
         </p>
       </div>
 
@@ -59,13 +84,17 @@ export function SignUpForm() {
           name="email"
           type="email"
           required
+          maxLength={EMAIL_MAX_LENGTH}
           defaultValue={state.fieldValues.email}
           aria-invalid={Boolean(state.fieldErrors.email)}
           aria-describedby={state.fieldErrors.email ? "email-error" : undefined}
           className="rounded-md border border-brand-primary px-3 py-2 text-foreground outline-none focus:ring-2 focus:ring-brand-secondary"
         />
-        <p className="field-error text-sm text-cancel">
-          Informe um e-mail válido.
+        <p
+          id="email-error"
+          className={`${state.fieldErrors.email ? "block" : "field-error"} text-sm text-cancel`}
+        >
+          {state.fieldErrors.email ?? "Informe um e-mail válido."}
         </p>
       </div>
 
@@ -75,7 +104,7 @@ export function SignUpForm() {
         label="Senha"
         required
         minLength={8}
-        maxLength={20}
+        maxLength={PASSWORD_MAX_LENGTH}
         pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).+"
         title="8-20 caracteres, com maiúscula, minúscula, número e caractere especial"
         error={state.fieldErrors.password}
@@ -88,6 +117,7 @@ export function SignUpForm() {
         name="confirmPassword"
         label="Confirmar Senha"
         required
+        maxLength={PASSWORD_MAX_LENGTH}
         error={state.fieldErrors.confirmPassword}
       />
 

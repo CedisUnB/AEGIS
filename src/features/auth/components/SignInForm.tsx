@@ -3,6 +3,7 @@
 import { useActionState } from "react";
 import { signInAction, type SignInState } from "@/features/auth";
 import { PasswordInput } from "@/components/inputs/PasswordInput";
+import { EMAIL_MAX_LENGTH, PASSWORD_MAX_LENGTH } from "../types/auth.types";
 
 const initialState: SignInState = { 
   error: null, 
@@ -26,6 +27,7 @@ export function SignInForm() {
           name="email"
           type="email"
           required
+          maxLength={EMAIL_MAX_LENGTH}
           defaultValue={state.fieldValues.email}
           aria-invalid={Boolean(state.fieldErrors.email)}
           aria-describedby={state.fieldErrors.email ? "email-error" : undefined}
@@ -45,6 +47,7 @@ export function SignInForm() {
         label="Senha"
         required
         minLength={8}
+        maxLength={PASSWORD_MAX_LENGTH}
         error={state.fieldErrors.password}
       />
 

@@ -1,5 +1,6 @@
 "use server";
 
+import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { ContentDeliveryService } from "./services/content-delivery";
 import { ProgressTrackingService } from "./services/progress-tracking";
@@ -15,6 +16,7 @@ import { getContentFailure } from "./errors";
 
 const contentDeliveryService = new ContentDeliveryService();
 const progressTrackingService = new ProgressTrackingService();
+const entityIdSchema = z.number().int().safe().min(1).max(2_147_483_647);
 
 async function getAuthenticatedUserId(): Promise<string> {
   const session = await getSessionWithRefresh();
@@ -31,6 +33,9 @@ export async function getLessonContentAction(
 ): Promise<ActionResponse<LessonContent>> {
   try {
     const userId = await getAuthenticatedUserId();
+    if (!entityIdSchema.safeParse(trackNodeId).success) {
+      return { success: false, statusCode: 400, error: "Dados inválidos." };
+    }
     const data = await contentDeliveryService.getLessonContent(userId, trackNodeId);
     return { success: true, statusCode: 200, data };
   } catch (err) {
@@ -43,6 +48,9 @@ export async function getExercisesContentAction(
 ): Promise<ActionResponse<ExercisesContent>> {
   try {
     const userId = await getAuthenticatedUserId();
+    if (!entityIdSchema.safeParse(trackNodeId).success) {
+      return { success: false, statusCode: 400, error: "Dados inválidos." };
+    }
     const data = await contentDeliveryService.getExercisesContent(userId, trackNodeId);
     return { success: true, statusCode: 200, data };
   } catch (err) {
@@ -56,6 +64,12 @@ export async function completeLessonAction(
 ): Promise<ActionResponse<{ message: string }>> {
   try {
     const userId = await getAuthenticatedUserId();
+    if (
+      !entityIdSchema.safeParse(trackNodeId).success ||
+      !entityIdSchema.safeParse(trackId).success
+    ) {
+      return { success: false, statusCode: 400, error: "Dados inválidos." };
+    }
     await progressTrackingService.completeLesson(userId, trackNodeId);
 
     // Revalida a rota da trilha para atualizar os nós acessíveis
@@ -77,7 +91,9 @@ export async function submitExercisesAction(
 ): Promise<ActionResponse<Result>> {
   try {
     const userId = await getAuthenticatedUserId();
-
+    if (!entityIdSchema.safeParse(trackId).success) {
+      return { success: false, statusCode: 400, error: "Dados inválidos." };
+    }
     // Validação estrita dos dados recebidos com o Zod
     const parsedSubmission = submissionSchema.safeParse(rawPayload);
     if (!parsedSubmission.success) {
@@ -106,6 +122,9 @@ export async function getNodeTypeAction(
 ): Promise<ActionResponse<{ nodeType: "lesson" | "exercise" }>> {
   try {
     const userId = await getAuthenticatedUserId();
+    if (!entityIdSchema.safeParse(trackNodeId).success) {
+      return { success: false, statusCode: 400, error: "Dados inválidos." };
+    }
     const node = await contentDeliveryService.validateNodeAccess(userId, trackNodeId);
 
     return {

@@ -7,6 +7,12 @@ import { updateProfileUserAction } from "../actions";
 import { FormatDate } from "@/utils/dateFormatter";
 import { DeleteAccountModal } from "./DeleteAccountModal";
 import { PasswordStrengthIndicator } from "@/components/inputs/PasswordStrengthIndicator";
+import {
+  EMAIL_MAX_LENGTH,
+  PASSWORD_MAX_LENGTH,
+  PASSWORD_MIN_LENGTH,
+  USERNAME_MAX_LENGTH,
+} from "../types/auth.types";
 
 interface ProfileCardProps {
   initialUser: UserProfile;
@@ -18,6 +24,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ initialUser }) => {
   const [user, setUser] = useState<UserProfile>(initialUser);
   const [isPending, startTransition] = useTransition();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [accessDenied, setAccessDenied] = useState(false);
 
   const [formData, setFormData] = useState<UpdateProfileInput>({
     username: initialUser.username,
@@ -54,6 +61,17 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ initialUser }) => {
       const response = await updateProfileUserAction(formData);
 
       if (!response.success) {
+        if (response.statusCode === 401) {
+          router.replace("/auth/login?reauth=1");
+          return;
+        }
+        if (response.statusCode === 403) {
+          setAccessDenied(true);
+          setIsEditing(false);
+          setIsDeleteModalOpen(false);
+          setErrorMessage("Você não tem permissão para executar esta ação.");
+          return;
+        }
         setErrorMessage(response.error);
         if (response.fieldErrors) {
           setFieldErrors(response.fieldErrors);
@@ -105,7 +123,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ initialUser }) => {
           </div>
         </div>
 
-        {!isEditing && (
+        {!isEditing && !accessDenied && (
           <button
             type="button"
             onClick={() => setIsEditing(true)}
@@ -157,21 +175,42 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ initialUser }) => {
           )}
         </div>
       ) : (
-        <form onSubmit={handleSave} className="space-y-4 text-sm">
+        <form
+          onSubmit={handleSave}
+          onInput={(event) => {
+            const passwordInput = event.currentTarget.elements.namedItem("password");
+            const confirmationInput = event.currentTarget.elements.namedItem("confirmPassword");
+            if (
+              passwordInput instanceof HTMLInputElement &&
+              confirmationInput instanceof HTMLInputElement
+            ) {
+              confirmationInput.setCustomValidity(
+                confirmationInput.value === passwordInput.value ? "" : "As senhas não coincidem",
+              );
+            }
+          }}
+          className="space-y-4 text-sm"
+        >
           <div>
             <label htmlFor="profile-username" className="block text-xs font-medium uppercase tracking-wider text-foreground-muted">
               Nome de Utilizador
             </label>
             <input
               id="profile-username"
+              name="username"
               type="text"
               value={formData.username}
               onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+              minLength={3}
+              maxLength={USERNAME_MAX_LENGTH}
+              autoComplete="username"
+              aria-invalid={Boolean(fieldErrors.username)}
+              aria-describedby={fieldErrors.username ? "profile-username-error" : undefined}
               className="mt-1 w-full rounded-md border border-border bg-surface p-2 text-sm text-foreground focus:outline-none focus:border-brand-primary"
               required
             />
             {fieldErrors.username && (
-              <p className="mt-1 text-xs text-cancel">{fieldErrors.username}</p>
+              <p id="profile-username-error" className="mt-1 text-xs text-cancel">{fieldErrors.username}</p>
             )}
           </div>
 
@@ -181,14 +220,19 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ initialUser }) => {
             </label>
             <input
               id="profile-email"
+              name="email"
               type="email"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              maxLength={EMAIL_MAX_LENGTH}
+              autoComplete="email"
+              aria-invalid={Boolean(fieldErrors.email)}
+              aria-describedby={fieldErrors.email ? "profile-email-error" : undefined}
               className="mt-1 w-full rounded-md border border-border bg-surface p-2 text-sm text-foreground focus:outline-none focus:border-brand-primary"
               required
             />
             {fieldErrors.email && (
-              <p className="mt-1 text-xs text-cancel">{fieldErrors.email}</p>
+              <p id="profile-email-error" className="mt-1 text-xs text-cancel">{fieldErrors.email}</p>
             )}
           </div>
 
@@ -198,11 +242,17 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ initialUser }) => {
             </label>
             <input
               id="profile-password"
+              name="password"
               type="password"
               placeholder="Deixe em branco para manter a atual"
               value={formData.password}
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+              minLength={PASSWORD_MIN_LENGTH}
+              maxLength={PASSWORD_MAX_LENGTH}
+              pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).+"
+              title="8-20 caracteres, com maiúscula, minúscula, número e caractere especial"
               aria-describedby={formData.password ? "profile-password-strength" : undefined}
+              aria-invalid={Boolean(fieldErrors.password)}
               className="mt-1 w-full rounded-md border border-border bg-surface p-2 text-sm text-foreground focus:outline-none focus:border-brand-primary"
             />
             {formData.password && (
@@ -211,7 +261,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ initialUser }) => {
               </div>
             )}
             {fieldErrors.password && (
-              <p className="mt-1 text-xs text-cancel">{fieldErrors.password}</p>
+              <p id="profile-password-error" className="mt-1 text-xs text-cancel">{fieldErrors.password}</p>
             )}
           </div>
 
@@ -222,13 +272,19 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ initialUser }) => {
               </label>
               <input
                 id="profile-confirm-password"
+                name="confirmPassword"
                 type="password"
                 value={formData.confirmPassword}
                 onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                required
+                minLength={PASSWORD_MIN_LENGTH}
+                maxLength={PASSWORD_MAX_LENGTH}
+                aria-invalid={Boolean(fieldErrors.confirmPassword)}
+                aria-describedby={fieldErrors.confirmPassword ? "profile-confirm-password-error" : undefined}
                 className="mt-1 w-full rounded-md border border-border bg-surface p-2 text-sm text-foreground focus:outline-none focus:border-brand-primary"
               />
               {fieldErrors.confirmPassword && (
-                <p className="mt-1 text-xs text-cancel">{fieldErrors.confirmPassword}</p>
+                <p id="profile-confirm-password-error" className="mt-1 text-xs text-cancel">{fieldErrors.confirmPassword}</p>
               )}
             </div>
           )}
@@ -252,7 +308,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ initialUser }) => {
           </div>
         </form>
       )}
-      <div className="mt-8 border-t border-border pt-6">
+      {!accessDenied && <div className="mt-8 border-t border-border pt-6">
         <div className="flex items-center justify-between">
           <div>
             <h4 className="text-sm font-semibold text-foreground">
@@ -270,11 +326,16 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({ initialUser }) => {
             Excluir Conta
           </button>
         </div>
-      </div>
+      </div>}
 
       <DeleteAccountModal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
+        onAccessDenied={() => {
+          setAccessDenied(true);
+          setIsEditing(false);
+          setErrorMessage("Você não tem permissão para executar esta ação.");
+        }}
       />
     </div>
   );

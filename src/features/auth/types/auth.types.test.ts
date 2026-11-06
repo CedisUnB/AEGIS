@@ -60,6 +60,22 @@ describe("signUpSchema", () => {
       });
       expect(result.success).toBe(false);
     });
+
+    it("rejects an email longer than 254 characters", () => {
+      const result = signUpSchema.safeParse({
+        ...validSignUpInput,
+        email: `${"a".repeat(243)}@example.com`,
+      });
+      expect(result.success).toBe(false);
+    });
+
+    it("rejects unknown registration fields", () => {
+      const result = signUpSchema.safeParse({
+        ...validSignUpInput,
+        role: "admin",
+      });
+      expect(result.success).toBe(false);
+    });
   });
 
   describe("password", () => {
@@ -169,6 +185,14 @@ describe("signInSchema", () => {
     });
     expect(result.success).toBe(false);
   });
+
+  it("rejeita senha acima do limite", () => {
+    const result = signInSchema.safeParse({
+      email: "user@example.com",
+      password: `a${"b".repeat(20)}`,
+    });
+    expect(result.success).toBe(false);
+  });
 });
 
 describe("UserProfileSchema", () => {
@@ -266,6 +290,11 @@ describe("updateProfileSchema", () => {
     });
     expect(result.success).toBe(false);
   });
+
+  it("rejeita campos desconhecidos e nomes vazios após trim", () => {
+    expect(updateProfileSchema.safeParse({ ...baseUpdate, role: "admin" }).success).toBe(false);
+    expect(updateProfileSchema.safeParse({ ...baseUpdate, username: "   " }).success).toBe(false);
+  });
 });
 
 describe("deleteAccountSchema", () => {
@@ -282,5 +311,10 @@ describe("deleteAccountSchema", () => {
   it("rejeita quando o campo password não é enviado", () => {
     const result = deleteAccountSchema.safeParse({});
     expect(result.success).toBe(false);
+  });
+
+  it("rejeita senha acima do limite e propriedades extras", () => {
+    expect(deleteAccountSchema.safeParse({ password: "x".repeat(21) }).success).toBe(false);
+    expect(deleteAccountSchema.safeParse({ password: "senha", admin: true }).success).toBe(false);
   });
 });

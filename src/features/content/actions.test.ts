@@ -246,6 +246,27 @@ describe("content server actions", () => {
       expect(result).toEqual({ success: false, statusCode: 400, error: "Dados inválidos." });
       expect(tracking.submitExercises).not.toHaveBeenCalled();
     });
+
+    it("rejects invalid action identifiers before calling the services", async () => {
+      await expect(getLessonContentAction(0)).resolves.toEqual({
+        success: false,
+        statusCode: 400,
+        error: "Dados inválidos.",
+      });
+      await expect(completeLessonAction(8, Number.MAX_SAFE_INTEGER)).resolves.toEqual({
+        success: false,
+        statusCode: 400,
+        error: "Dados inválidos.",
+      });
+      await expect(submitExercisesAction(0, payload)).resolves.toEqual({
+        success: false,
+        statusCode: 400,
+        error: "Dados inválidos.",
+      });
+      expect(delivery.getLessonContent).not.toHaveBeenCalled();
+      expect(tracking.completeLesson).not.toHaveBeenCalled();
+      expect(tracking.submitExercises).not.toHaveBeenCalled();
+    });
   });
 
   describe("authentication", () => {

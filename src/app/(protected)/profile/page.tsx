@@ -3,11 +3,18 @@ import { ProfileCard } from "@/features/auth/components";
 import { getCatalogAction } from "@/features/tracks-engine/actions";
 import { ProgressSummary } from "@/features/tracks-engine/components/ProgressSummary";
 import { summarizeProgress } from "@/features/tracks-engine/utils/progress";
+import { redirect } from "next/navigation";
 
 export default async function ProfilePage() {
   const result = await getProfileUserAction();
 
   if (!result.success) {
+    if (result.statusCode === 401) {
+      redirect("/auth/login?reauth=1");
+    }
+    if (result.statusCode === 403) {
+      throw new Error("403: Acesso não autorizado");
+    }
     throw new Error("401: Acesso não autorizado");
   }
 

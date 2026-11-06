@@ -2,7 +2,14 @@
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { signUpSchema, signInSchema, updateProfileSchema, deleteAccountSchema } from "./types/auth.types";
+import {
+  EMAIL_MAX_LENGTH,
+  USERNAME_MAX_LENGTH,
+  signUpSchema,
+  signInSchema,
+  updateProfileSchema,
+  deleteAccountSchema,
+} from "./types/auth.types";
 import type { DeleteAccountInput, SignInInput, SignUpInput, UpdateProfileInput, UserProfile } from "./types/auth.types";
 import { deleteUserAccount, getAdminProfile, getUserProfile, InvalidCredentialsError, loginUser, registerUser, updateUserProfile } from "./services/auth";
 import { getActionFailure, getAuthErrorState } from "./errors";
@@ -55,11 +62,14 @@ export async function signInAction(
   _prevState: SignInState,
   formData: FormData
 ): Promise<SignInState> {
-  const fieldValues = { email: String(formData.get("email") ?? "") };
+  const rawEmail = formData.get("email");
+  const fieldValues = {
+    email: typeof rawEmail === "string" ? rawEmail.slice(0, EMAIL_MAX_LENGTH) : "",
+  };
   const resetKey = crypto.randomUUID();
 
   const parsed = signInSchema.safeParse({
-    email: fieldValues.email,
+    email: rawEmail,
     password: formData.get("password"),
   });
 
@@ -107,15 +117,17 @@ export async function signUpAction(
   _prevState: SignUpState,
   formData: FormData
 ): Promise<SignUpState> {
+  const rawUsername = formData.get("username");
+  const rawEmail = formData.get("email");
   const fieldValues = {
-    username: String(formData.get("username") ?? ""),
-    email: String(formData.get("email") ?? ""),
+    username: typeof rawUsername === "string" ? rawUsername.slice(0, USERNAME_MAX_LENGTH) : "",
+    email: typeof rawEmail === "string" ? rawEmail.slice(0, EMAIL_MAX_LENGTH) : "",
   };
   const resetKey = crypto.randomUUID();
 
   const parsed = signUpSchema.safeParse({
-    username: fieldValues.username,
-    email: fieldValues.email,
+    username: rawUsername,
+    email: rawEmail,
     password: formData.get("password"),
     confirmPassword: formData.get("confirmPassword"),
   });

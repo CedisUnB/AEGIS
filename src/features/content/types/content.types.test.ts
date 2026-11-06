@@ -92,6 +92,21 @@ describe("content schemas", () => {
     })).toThrow("Cada questão deve ser respondida apenas uma vez.");
   });
 
+  it("rejects oversized or out-of-range submission values", () => {
+    expect(submissionSchema.safeParse({
+      trackNodeId: 2,
+      exercises: [{ id: 10, value: "x".repeat(2_001) }],
+    }).success).toBe(false);
+    expect(submissionSchema.safeParse({
+      trackNodeId: 0,
+      exercises: [{ id: 10, value: 1 }],
+    }).success).toBe(false);
+    expect(submissionSchema.safeParse({
+      trackNodeId: 2,
+      exercises: [{ id: 10, value: 1, unexpected: true }],
+    }).success).toBe(false);
+  });
+
   it("validates exercise results and score bounds", () => {
     const result = {
       trackNodeId: 2,
