@@ -21,7 +21,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -2381,19 +2381,20 @@ João Pedro Rodrigues Morbeck e Pedro Henrique da Silva Melo</p>
 <p>Os testes unitários (Jest) ficam ao lado do código que testam, dentro da própria feature. Os testes de integração, que exercitam as actions contra o banco MySQL, e os testes E2E (Playwright) ficam em <code>tests/</code>.</p>
 <hr />
 <h2 id="8-visao-de-dados">8. Visão de Dados<a class="headerlink" href="#8-visao-de-dados" title="Permanent link">&para;</a></h2>
-<p>O modelo lógico de dados relacional (MySQL) é projetado para garantir a integridade referencial das trilhas de aprendizado de desenvolvimento seguro e as regras de desbloqueio de conteúdo. A trilha é modelada como uma sequência ordenada de nós (<code>TrackNode</code>), cada um sendo uma lição ou um conjunto de exercícios. A estrutura de tabelas e relacionamentos contempla as seguintes entidades e tabelas associativas:</p>
+<p>O modelo relacional em MySQL representa as trilhas como sequências ordenadas de nós (<code>TrackNode</code>) e registra o conteúdo, as tentativas e o progresso dos usuários. A estrutura definida em <code>prisma/schema.prisma</code> contém:</p>
 <ul>
-<li><strong>Tabela User (Contas dos Usuários):</strong> Persiste o identificador único (id, UUID, PK), o e-mail (único), username, hash seguro de senha (password), o papel do usuário no sistema (<em>role</em>: <em>student</em> ou <em>admin</em>) e as datas de criação e atualização.</li>
-<li><strong>Tabela Track (Catálogo de Trilhas):</strong> Armazena o identificador da trilha (id PK), o tema principal abordado (theme), uma descrição (description) e as datas de criação e atualização.</li>
-<li><strong>Tabela TrackNode (Nós da Trilha):</strong> Representa cada etapa da trilha, contendo o identificador (id PK), a chave estrangeira da trilha (fk_track_id), o tipo do nó (node_type: <em>lesson</em> ou <em>exercise</em>) e a posição na sequência (order_index). O último nó de exercícios da trilha corresponde ao teste final.</li>
-<li><strong>Tabela Lesson (Pílulas de Conhecimento):</strong> Registra o conteúdo teórico de um nó de leitura, contendo o identificador (id PK), título (title), conteúdo estruturado em JSON (json) e a chave estrangeira única do nó (fk_track_node_id), de modo que cada nó de leitura possui uma única lição.</li>
-<li><strong>Tabela Exercise (Questões Práticas):</strong> Registra as questões de um nó de exercício, persistindo o identificador (id PK), o tipo (type: <em>revision</em> ou <em>test</em>), o conteúdo em JSON (json), que inclui enunciado, opções, resposta esperada e explicação, e a chave estrangeira do nó (fk_track_node_id). O gabarito nunca é enviado ao cliente antes da correção.</li>
-<li><strong>Tabela Takes (Estado da Trilha por Usuário):</strong> Tabela associativa que vincula User e Track com chave primária composta (fk_user_id, fk_track_id). Registra o estado do estudante na trilha (status: <em>not_started</em>, <em>in_progress</em> ou <em>completed</em>) e a data de conclusão (completed_at).</li>
-<li><strong>Tabela Progress (Progresso por Nó):</strong> Tabela associativa que vincula User e TrackNode com chave primária composta (fk_user_id, fk_track_node_id). Registra se o nó foi concluído (is_completed), a melhor nota (score), o total de tentativas (attempts_count), a data de conclusão (completed_at) e a data de desbloqueio (unlocked_at). É a base do desbloqueio sequencial e do cálculo de progresso, que é derivado dos registros e não armazenado como campo agregado.</li>
-<li><strong>Tabela Answers (Desempenho em Exercícios):</strong> Tabela associativa que vincula User e Exercise com chave primária composta (fk_exercise_id, fk_user_id). Utiliza contadores acumuladores para registrar se o exercício foi concluído (is_completed), total de tentativas (attempts_count), quantidade de acertos (correct_count), erros (incorrect_count) e a data da última submissão (last_answered_at).</li>
-<li><strong>Tabela LoginAttempt (Tentativas de Login):</strong> Suporta o limite de tentativas de login (seção 4.4.4). É identificada por um hash do e-mail informado, e não pelo e-mail em texto legível, e armazena a contagem de tentativas e a referência temporal da janela de bloqueio <strong>[CONFIRMAR nomes e tipos dos campos no <code>schema.prisma</code>]</strong>. Não possui chave estrangeira para <code>User</code>, pois também registra tentativas contra e-mails inexistentes, e seus registros são apagados após um login bem-sucedido.</li>
+<li><strong>User (<code>users</code>):</strong> identificador UUID (PK), e-mail único, username, senha armazenada como hash, papel (<code>student</code> ou <code>admin</code>) e datas de criação e atualização.</li>
+<li><strong>Track (<code>tracks</code>):</strong> identificador inteiro (PK), tema, descrição e datas de criação e atualização. Cada trilha pode conter zero ou muitos nós.</li>
+<li><strong>TrackNode (<code>track_nodes</code>):</strong> identificador inteiro (PK), FK <code>fk_track_id</code>, tipo do nó (<code>lesson</code> ou <code>exercise</code>) e posição (<code>order_index</code>). Cada nó pertence a uma trilha.</li>
+<li><strong>Lesson (<code>lessons</code>):</strong> identificador inteiro (PK), título, conteúdo JSON e FK única <code>fk_track_node_id</code>. Cada lição pertence a exatamente um nó, e um nó pode ter zero ou uma lição.</li>
+<li><strong>Exercise (<code>exercises</code>):</strong> identificador inteiro (PK), tipo (<code>revision</code> ou <code>test</code>), conteúdo JSON e FK <code>fk_track_node_id</code>. Cada exercício pertence a exatamente um nó, que pode conter vários exercícios. O conteúdo de resposta esperada não deve ser enviado ao cliente antes da correção.</li>
+<li><strong>Takes (<code>takes</code>):</strong> associação entre User e Track, com PK composta (<code>fk_user_id</code>, <code>fk_track_id</code>), estado (<code>not_started</code>, <code>in_progress</code> ou <code>completed</code>) e data opcional de conclusão. Cada registro referencia exatamente um usuário e uma trilha; cada usuário e trilha pode participar de zero ou muitas associações.</li>
+<li><strong>Answers (<code>answers</code>):</strong> associação entre User e Exercise, com PK composta (<code>fk_exercise_id</code>, <code>fk_user_id</code>), indicador de conclusão, contadores de tentativas, acertos e erros e data opcional da última resposta. Cada registro referencia exatamente um usuário e exercício; cada usuário e exercício pode ter zero ou muitas respostas.</li>
+<li><strong>Progress (<code>progress</code>):</strong> associação entre User e TrackNode, com PK composta (<code>fk_user_id</code>, <code>fk_track_node_id</code>), indicador de conclusão, pontuação, tentativas e datas opcionais de conclusão e desbloqueio. Cada registro referencia exatamente um usuário e nó; cada usuário e nó pode ter zero ou muitos registros. O progresso agregado é derivado desses registros.</li>
+<li><strong>RefreshToken (<code>refresh_tokens</code>):</strong> identificador UUID (PK), identificador da família, FK <code>fk_user_id</code>, hash único do token, validade, revogação opcional e data de criação. Cada token pertence a exatamente um usuário; um usuário pode ter zero ou muitos tokens. O token é armazenado como hash.</li>
+<li><strong>LoginAttempt (<code>login_attempts</code>):</strong> identificador inteiro autoincremental (PK), hash do e-mail (<code>email_hash</code>, <code>VARCHAR(64)</code>) e data/hora da tentativa (<code>created_at</code>). Há um índice composto nesses dois últimos campos; não há FK para User. A tabela não armazena contador nem uma data de bloqueio.</li>
 </ul>
-<p>As relações entre <code>User</code>, <code>Track</code>, <code>TrackNode</code>, <code>Lesson</code>, <code>Exercise</code>, <code>Takes</code>, <code>Progress</code> e <code>Answers</code> usam exclusão em cascata. A exclusão de conta de um usuário não remove essas linhas: o e-mail e o username são substituídos por valores anonimizados, a senha é apagada e o histórico permanece associado apenas ao identificador interno, conforme descrito na Política de Privacidade.</p>
+<p>As FKs de <code>TrackNode</code>, <code>Lesson</code>, <code>Exercise</code>, <code>Takes</code>, <code>Answers</code>, <code>Progress</code> e <code>RefreshToken</code> definem exclusão em cascata conforme o schema. Isso se aplica à exclusão física do registro referenciado. A anonimização de uma conta é uma regra de aplicação descrita na Política de Privacidade e não é implementada por uma coluna de exclusão lógica no schema.</p>
 <h3 id="81-evolucao-do-modelo-migrations">8.1 Evolução do Modelo (Migrations)<a class="headerlink" href="#81-evolucao-do-modelo-migrations" title="Permanent link">&para;</a></h3>
 <p>O modelo de dados evoluiu em relação à versão 1.3 deste documento. As principais mudanças, aplicadas por migrations do Prisma, foram:</p>
 <table>
@@ -2432,13 +2433,13 @@ João Pedro Rodrigues Morbeck e Pedro Henrique da Silva Melo</p>
 <td>Nova tabela <code>LoginAttempt</code></td>
 <td>Suportar o limite de tentativas de login.</td>
 </tr>
+<tr>
+<td>Nova tabela <code>RefreshToken</code></td>
+<td>Persistir hashes de tokens de atualização, sua validade, revogação e agrupamento por família.</td>
+</tr>
 </tbody>
 </table>
-<p><strong>[CONFIRMAR nomes e datas das migrations em <code>prisma/migrations</code> e ajustar a tabela se alguma mudança foi agrupada ou renomeada.]</strong></p>
-<p>A seguir, encontram-se o Diagrama Entidade-Relacionamento (DER) e o Diagrama Lógico de Dados (DLD) correspondentes, estruturados conforme o mapeamento acima.</p>
-<blockquote>
-<p><strong>[ATUALIZAR DIAGRAMAS]</strong> O DER e o DLD abaixo representam o modelo antigo (com <code>ReviewContent</code>, chave por e-mail e sem <code>TrackNode</code>, <code>Progress</code> e <code>LoginAttempt</code>) e devem ser regerados a partir do <code>schema.prisma</code> atual.</p>
-</blockquote>
+<p>A seguir, encontram-se o Diagrama Entidade-Relacionamento (DER) e o Diagrama Lógico de Dados (DLD) do modelo atual. No DLD, cada linha das tabelas associativas <code>Takes</code>, <code>Answers</code> e <code>Progress</code> referencia exatamente um registro de cada entidade relacionada; cada entidade pode participar de zero ou muitas dessas associações.</p>
 <p><strong>Diagrama Entidade-Relacionamento</strong></p>
 <p><img alt="Diagrama Entidade-Relacionamento" src="../images/image1.png" /></p>
 <p><em>Fonte: Autores</em></p>
@@ -2505,6 +2506,12 @@ João Pedro Rodrigues Morbeck e Pedro Henrique da Silva Melo</p>
 <td>Atualização da arquitetura implementada: features <code>auth</code>, <code>content</code> e <code>tracks-engine</code>; <code>proxy.ts</code> (sessão e CSP com nonce); componentes transversais de segurança (tratamento de erros, registro seguro de falhas e limite de tentativas de login); nova visão de dados (<code>TrackNode</code>, <code>Progress</code>, <code>LoginAttempt</code> e demais migrations); requisitos de segurança para implantação em contêiner.</td>
 <td>J. P. Morbeck e P. H. Melo</td>
 </tr>
+<tr>
+<td>09/Nov/2026</td>
+<td>1.5</td>
+<td>Atualização da visão de dados, incluindo novos diagramas e explicação</td>
+<td>J. P. Morbeck</td>
+</tr>
 </tbody>
 </table>
 
@@ -2565,7 +2572,7 @@ João Pedro Rodrigues Morbeck e Pedro Henrique da Silva Melo</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.path", "navigation.top", "toc.integrate", "search.suggest"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>
