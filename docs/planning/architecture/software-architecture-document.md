@@ -4,9 +4,9 @@ _Plataforma de Apoio ao Aprendizado de Segurança de Software_
 
 **Projeto:** AEGIS – AI, Ética e Gestão de Integridade em Software
 
-**Versão:** 1.4
+**Versão:** 1.5
 
-**Data:** 3 de Novembro de 2026
+**Data:** 9 de Novembro de 2026
 
 **Autores:**
 João Pedro Rodrigues Morbeck e Pedro Henrique da Silva Melo

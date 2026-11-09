@@ -40,6 +40,9 @@ A documentação está organizada nas seguintes áreas:
 - **Planejamento:** [Arquitetura](planning/architecture/software-architecture-document.md), [Requisitos](planning/requirements/docs_requisitos_v2.md), [Segurança](planning/security/guidelines.md) e [Cronogramas](planning/schedule/planned.md).
 - **Processo:** [Sprints](process/sprints/sprint_1.md), [Estratégia de testes](process/strategies/estrategia_testes.md), [Acompanhamento do projeto](process/strategies/estrategia_acompanhamento_projeto.md) e [Avaliação de segurança](process/auditoria-seguranca-feature1.md).
 
+## Trilhas de Aprendizado
+As trilhas desenvolvidas para a aplicação podem ser encontradas por este [link](https://unbbr.sharepoint.com/:f:/s/OrientaesTCC407/IgAjZoYyvUoLSrFxMXZlvLckAeBPh2SQO5YhicOu8ENeaZc?e=Gt8XJ4), ele deve ser acessado com uso do e-mail institucional.
+
 ## Equipe
 
 <ul class="team-members">
