@@ -36,7 +36,7 @@ services:
     cap_drop:
       - ALL
     ports:
-      - "3000:3000"
+      - "${APP_PORT:-3000}:3000"
     environment:
       DATABASE_HOST: db
       DATABASE_PORT: 3306

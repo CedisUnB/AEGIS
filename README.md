@@ -143,6 +143,11 @@ container de produção localmente, copie `.env.production.example` para
 `.env.production`, gere segredos próprios e configure `DATABASE_URL` com host
 `db` e as mesmas credenciais do banco. Use credenciais URL-safe ou codifique
 caracteres reservados na URL. Não versione `.env.production`.
+Configure `APP_PORT` com uma porta livre no host. Ela é mapeada para a porta
+interna `3000` da aplicação; outros projetos podem usar a mesma porta interna,
+mas cada publicação no mesmo host precisa de uma porta host distinta. O MySQL
+permanece apenas na rede interna do Compose (`3306`) e não precisa de uma porta
+publicada.
 
 No PowerShell, copie o exemplo com:
 
@@ -176,7 +181,8 @@ docker compose --env-file .env.production -f docker-compose.prod.yml up --build 
 A imagem final usa o build standalone do Next.js, executa como usuário sem
 privilégios e não inclui código de testes, documentação ou o seed de
 demonstração. O MySQL não publica uma porta no host; os dados são mantidos no
-volume `mysql_data`. A aplicação fica disponível em `http://localhost:3000`.
+volume `mysql_data`. A aplicação fica disponível em `http://localhost:3000` quando
+`APP_PORT=3000`; se escolher outra porta, use essa porta no endereço.
 
 O seed de demonstração (`prisma/seed.demo.ts`) cria uma conta com senha
 conhecida e substitui trilhas de mesmo tema, por isso não é incluído nem
