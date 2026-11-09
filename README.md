@@ -155,6 +155,12 @@ No PowerShell, copie o exemplo com:
 Copy-Item .env.production.example .env.production
 ```
 
+No Linux/macOS:
+
+```bash
+cp .env.production.example .env.production
+```
+
 Gere valores aleatórios diferentes para `DATABASE_PASSWORD`,
 `MYSQL_ROOT_PASSWORD` e `JWT_SECRET` (execute o comando três vezes e não
 reutilize os valores):
@@ -184,10 +190,8 @@ demonstração. O MySQL não publica uma porta no host; os dados são mantidos n
 volume `mysql_data`. A aplicação fica disponível em `http://localhost:3000` quando
 `APP_PORT=3000`; se escolher outra porta, use essa porta no endereço.
 
-O seed de demonstração (`prisma/seed.demo.ts`) cria uma conta com senha
-conhecida e substitui trilhas de mesmo tema, por isso não é incluído nem
-executado no container de produção. O seed de produção (`prisma/seed.ts`) cria
-as trilhas de `prisma/seed-data.json` e ignora trilhas cujo tema já exista,
+O seed de produção (`prisma/seed.ts`) cria as trilhas de 
+`prisma/seed-data.json` e ignora trilhas cujo tema já exista,
 preservando conteúdo e progresso existentes. Execute-o manualmente após as
 migrações:
 
