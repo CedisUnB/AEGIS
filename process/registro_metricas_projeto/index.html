@@ -1,0 +1,3056 @@
+
+<!doctype html>
+<html lang="pt" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentação do projeto do TCC">
+      
+      
+      
+      
+        <link rel="prev" href="../auditoria-seguranca-feature1/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Registro das Métricas do Projeto - AEGIS – AI, Ética e Gestão de Integridade em Software</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#registro-de-metricas-e-analises-por-sprint" class="md-skip">
+          Pular para conteúdo
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabeçalho">
+    <a href="../.." title="AEGIS – AI, Ética e Gestão de Integridade em Software" class="md-header__button md-logo" aria-label="AEGIS – AI, Ética e Gestão de Integridade em Software" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            AEGIS – AI, Ética e Gestão de Integridade em Software
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Registro das Métricas do Projeto
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Modo Escuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Modo Escuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Modo Claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Modo Claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Buscar" placeholder="Buscar" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Pesquisar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpar" aria-label="Limpar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando busca
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/CedisUnB/SecurityAPP" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Abas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Início
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../planning/development/methodology/" class="md-tabs__link">
+          
+  
+  
+  Planejamento
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../sprints/sprint_0/" class="md-tabs__link">
+          
+  
+  
+  Processo
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navegação" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="AEGIS – AI, Ética e Gestão de Integridade em Software" class="md-nav__button md-logo" aria-label="AEGIS – AI, Ética e Gestão de Integridade em Software" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    AEGIS – AI, Ética e Gestão de Integridade em Software
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/CedisUnB/SecurityAPP" title="Ir para repositório" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Início
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Planejamento
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Planejamento
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Metodologia de Desenvolvimento
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Metodologia de Desenvolvimento
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/development/methodology/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scrum + XP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Requisitos
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Requisitos
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/requirements/docs_requisitos_v2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documento de Requisitos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Arquitetura
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Arquitetura
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/architecture/software-architecture-document/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DAS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cronograma
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Cronograma
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/schedule/planned/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Planejado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/schedule/executed/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Executado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Segurança
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Segurança
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/security/guidelines/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Diretrizes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/security/checklist-backend/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Checklist Backend
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/security/checklist-frontend/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Checklist Frontend
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/security/checklist-api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Checklist API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/security/checklist-ai-usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Checklist Uso de IA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../planning/security/references/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Referências
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Processo
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Processo
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sprints
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Sprints
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sprints/sprint_0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sprint 0
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sprints/sprint_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sprint 1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sprints/sprint_2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sprint 2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sprints/sprint_3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sprint 3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sprints/sprint_4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sprint 4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sprints/sprint_5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sprint 5
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sprints/template_de_sprint/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Template
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../strategies/estrategia_testes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estratégia de Testes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../strategies/estrategia_acompanhamento_projeto/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Plano de Métricas do Projeto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../auditoria-seguranca-feature1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Avaliação da Feature 1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Registro das Métricas do Projeto
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Registro das Métricas do Projeto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Índice">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Índice
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-introducao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Introdução
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-criterios-de-medicao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Critérios de Medição
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-parametros-do-mvp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Parâmetros do MVP
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-levantamento-do-backlog-por-sprint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Levantamento do Backlog por Sprint
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Levantamento do Backlog por Sprint">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-sprint-1-070926-a-200926-fechamento-em-240926" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Sprint 1 (07/09/26 a 20/09/26, fechamento em 24/09/26)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-sprint-2-220926-a-061026-contagem-a-partir-de-250926" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Sprint 2 (22/09/26 a 06/10/26, contagem a partir de 25/09/26)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-sprint-3-061026-a-191026" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Sprint 3 (06/10/26 a 19/10/26)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-sprint-4-201026-a-021126" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Sprint 4 (20/10/26 a 02/11/26)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-sprint-5-021126-a-131126-em-andamento" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 Sprint 5 (02/11/26 a 13/11/26, em andamento)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-metricas-consolidadas-por-sprint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Métricas Consolidadas por Sprint
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Métricas Consolidadas por Sprint">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-composicao-da-vazao-por-tipo-de-item" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Composição da Vazão por tipo de item
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-burnup-do-mvp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Burnup do MVP
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-analise-por-sprint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Análise por Sprint
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Análise por Sprint">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-sprint-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Sprint 1
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-sprint-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Sprint 2
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-sprint-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 Sprint 3
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74-sprint-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4 Sprint 4
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#75-sprint-5-parcial-em-071126" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.5 Sprint 5 (parcial, em 07/11/26)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-yesterdays-weather-capacidade-usada-em-cada-sprint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Yesterday's Weather: Capacidade Usada em Cada Sprint
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-defeitos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Defeitos
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Defeitos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-resumo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 Resumo
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92-tempo-medio-de-correcao-mttr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 Tempo médio de correção (MTTR)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#93-analise" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3 Análise
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-taxa-de-sucesso-do-sprint-goal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Taxa de Sucesso do Sprint Goal
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-conformidade-de-dor-e-dod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Conformidade de DoR e DoD
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-observacoes-sobre-o-uso-do-quadro" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Observações sobre o Uso do Quadro
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-sintese-e-conclusoes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. Síntese e Conclusões
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14-referencias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        14. Referências
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="14. Referências">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#historico-de-versao" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Histórico de Versão
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navegação" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Início
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../sprints/sprint_0/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Processo
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<style> .md-typeset__table { display: block !important; width: 100% !important; } .md-typeset__table table:not([class]), .md-typeset table:not([class]) { display: table !important; width: 100% !important; margin: 0 auto !important; } </style>
+
+<h1 id="registro-de-metricas-e-analises-por-sprint">Registro de Métricas e Análises por Sprint<a class="headerlink" href="#registro-de-metricas-e-analises-por-sprint" title="Permanent link">&para;</a></h1>
+<p><em>Plataforma de Apoio ao Aprendizado de Segurança de Software — TCC</em></p>
+<h2 id="1-introducao">1. Introdução<a class="headerlink" href="#1-introducao" title="Permanent link">&para;</a></h2>
+<p>Este documento registra as métricas coletadas ao longo das sprints do projeto e as análises feitas a partir delas. Ele aplica o <a href="estrategia_acompanhamento_projeto.md">Plano de Métricas e Acompanhamento do Projeto</a>.</p>
+<p>Os dados foram extraídos do quadro do GitHub Projects pelo repositório AEGIS em <strong>07/11/26</strong>, a partir do estado atual dos 39 itens e do histórico de mudanças de status de cada issue.</p>
+<h2 id="2-criterios-de-medicao">2. Critérios de Medição<a class="headerlink" href="#2-criterios-de-medicao" title="Permanent link">&para;</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Como os números foram obtidos</p>
+<ul>
+<li>
+<p><strong>Sprint de conclusão:</strong> vale a sprint em que o item foi entregue e validado, conforme o relatório de cada sprint (Sprint Review) e o quadro. Para as Histórias de Usuário e as tarefas listadas nos relatórios, vale o que a Review registrou como "Entregue". Para os demais itens, vale a data de fechamento da issue.</p>
+</li>
+<li>
+<p><strong>Sprint 1 estendida:</strong> a Sprint 1 foi considerada encerrada em 24/09/26. A equipe não conseguiu fechá-la dentro do período planejado (07/09 a 20/09, Review em 21/09) e usou os dias adicionais para contabilizar as métricas de fechamento. A Sprint 2 passa a ser contada a partir de 25/09.</p>
+</li>
+<li><strong>Fechamento no quadro depois da Review:</strong> 8 Histórias da Sprint 3 (US06 a US09 e US12 a US15) constam como "Entregue" na Review de 19/10, mas foram movidas para "Done" apenas em 25/10. Da mesma forma, 4 itens de Security da Sprint 4 (#15, #32, #34 e #37) constam como "Entregue" na Review de 02/11 e foram fechados entre 03/11 e 04/11. Esses itens foram contabilizados na sprint da Review.</li>
+<li><strong>Janelas das sprints:</strong> <ul>
+<li>Sprint 1 de 07/09 a 24/09;</li>
+<li>Sprint 2 de 25/09 a 06/10; </li>
+<li>Sprint 3 de 07/10 a 19/10; </li>
+<li>Sprint 4 de 20/10 a 02/11; </li>
+<li>Sprint 5 de 03/11 a 13/11.</li>
+</ul>
+</li>
+<li><strong>Vazão:</strong> conta todos os itens concluídos na sprint, de qualquer tipo (Histórias de Usuário, Fix, Security, Docs, Task, Test, Requisitos e Protótipos), independentemente do tamanho.</li>
+<li><strong>Escopo do MVP:</strong> as 15 Histórias de Usuário das Features 1 a 4 (US01 a US15), que compõem o MVP1 (Must have).</li>
+<li><strong>Burnup:</strong> usa apenas as Histórias de Usuário do MVP concluídas, porque o escopo do MVP é medido em Histórias.</li>
+<li><strong>Defeitos:</strong> os itens de tipo Fix são tratados como ajustes de defeitos encontrados. Um defeito é "aberto" na sprint em que a issue foi criada e "corrigido" na sprint em que foi fechada.</li>
+</ul>
+</div>
+<h2 id="3-parametros-do-mvp">3. Parâmetros do MVP<a class="headerlink" href="#3-parametros-do-mvp" title="Permanent link">&para;</a></h2>
+<center>
+    Tabela 1 - Parâmetros do MVP
+</center>
+
+<table>
+<thead>
+<tr>
+<th>Parâmetro</th>
+<th>Valor</th>
+<th>Observação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Escopo total do MVP (Histórias Must have)</td>
+<td>15</td>
+<td>US01 a US15 (Features 1, 2, 3 e 4)</td>
+</tr>
+<tr>
+<td>Sprints previstas até o MVP</td>
+<td>5</td>
+<td>Sprints de desenvolvimento do projeto</td>
+</tr>
+<tr>
+<td>Referência planejada por sprint</td>
+<td>3,00</td>
+<td>Escopo total ÷ Sprints previstas</td>
+</tr>
+<tr>
+<td>Sprints realizadas</td>
+<td>5</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<center>
+    Fonte: Elaborado pelos autores.
+</center>
+
+<h2 id="4-levantamento-do-backlog-por-sprint">4. Levantamento do Backlog por Sprint<a class="headerlink" href="#4-levantamento-do-backlog-por-sprint" title="Permanent link">&para;</a></h2>
+<p>Itens que chegaram a "Done" em cada sprint, com a data de conclusão registrada no quadro.</p>
+<h3 id="41-sprint-1-070926-a-200926-fechamento-em-240926">4.1 Sprint 1 (07/09/26 a 20/09/26, fechamento em 24/09/26)<a class="headerlink" href="#41-sprint-1-070926-a-200926-fechamento-em-240926" title="Permanent link">&para;</a></h3>
+<p><strong>Objetivo da sprint:</strong> Desenvolver as fundações de autenticação, gestão de contas e o motor de navegação e mapa interativo das trilhas (US01 a US07).</p>
+<center>
+    Tabela 2 - Itens concluídos na Sprint 1
+</center>
+
+<table>
+<thead>
+<tr>
+<th>Issue</th>
+<th>Tipo</th>
+<th>Título</th>
+<th>Fechada no quadro em</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>#1</td>
+<td>História (US)</td>
+<td>US01 - Cadastrar na plataforma de estudos</td>
+<td>21/09/26 16:27</td>
+</tr>
+<tr>
+<td>#8</td>
+<td>Fix</td>
+<td>Fix: Ajustar o campo de senha no formulário de cadastro</td>
+<td>22/09/26 18:29</td>
+</tr>
+<tr>
+<td>#2</td>
+<td>História (US)</td>
+<td>US02 - Visualizar as informações do perfil de usuário.</td>
+<td>24/09/26 16:25</td>
+</tr>
+<tr>
+<td>#3</td>
+<td>História (US)</td>
+<td>US03 - Editar as informações do perfil</td>
+<td>24/09/26 16:25</td>
+</tr>
+<tr>
+<td>#4</td>
+<td>História (US)</td>
+<td>US04 - Deletar a conta da plataforma</td>
+<td>24/09/26 16:25</td>
+</tr>
+<tr>
+<td>#5</td>
+<td>História (US)</td>
+<td>US05 - Como administrador, Visualizar as informações da conta.</td>
+<td>24/09/26 16:25</td>
+</tr>
+</tbody>
+</table>
+<center>
+    Fonte: Elaborado pelos autores, com dados do GitHub Projects.
+</center>
+
+<p><strong>Concluídos:</strong> 6 (5 Histórias de Usuário, 1 Fix)</p>
+<p>As US01 a US05 foram validadas até o fechamento da sprint em 24/09/26. As US06 e US07, também citadas no objetivo, ficaram pendentes e foram entregues na Sprint 3. O Fix #8 não fazia parte do planejamento.</p>
+<h3 id="42-sprint-2-220926-a-061026-contagem-a-partir-de-250926">4.2 Sprint 2 (22/09/26 a 06/10/26, contagem a partir de 25/09/26)<a class="headerlink" href="#42-sprint-2-220926-a-061026-contagem-a-partir-de-250926" title="Permanent link">&para;</a></h3>
+<p><strong>Objetivo da sprint:</strong> Desenvolver o motor de navegação e mapa interativo das trilhas (Feature 2) e os laboratórios de prática, avaliação e apresentação de conteúdo (Feature 4). Durante o planejamento, a sprint passou a priorizar o refinamento de requisitos dessas features.</p>
+<center>
+    Tabela 3 - Itens concluídos na Sprint 2
+</center>
+
+<table>
+<thead>
+<tr>
+<th>Issue</th>
+<th>Tipo</th>
+<th>Título</th>
+<th>Fechada no quadro em</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>#13</td>
+<td>Test</td>
+<td>Test: Criar testes unitários, testes E2E e testes de integração</td>
+<td>27/09/26 18:10</td>
+</tr>
+<tr>
+<td>#20</td>
+<td>Docs</td>
+<td>Docs: Formalizar e Definir Diretrizes para Desenvolvimento de Software Seguro</td>
+<td>28/09/26 17:50</td>
+</tr>
+<tr>
+<td>#26</td>
+<td>Security</td>
+<td>Security: Aplicar Diretrizes de Segurança no Projeto</td>
+<td>05/10/26 17:37</td>
+</tr>
+<tr>
+<td>#25</td>
+<td>Requisitos</td>
+<td>Requisitos: Estrutura para Apresentação do Conteúdo das Trilhas</td>
+<td>05/10/26 17:38</td>
+</tr>
+<tr>
+<td>#23</td>
+<td>Docs</td>
+<td>Docs: Documentar decisões técnicas e refinamento de Requisitos</td>
+<td>05/10/26 17:39</td>
+</tr>
+<tr>
+<td>#30</td>
+<td>Protótipo</td>
+<td>Desenvolver Protótipos para Features de Trilhas e Apresentação de Conteúdo/Exercícios</td>
+<td>06/10/26 17:13</td>
+</tr>
+</tbody>
+</table>
+<center>
+    Fonte: Elaborado pelos autores, com dados do GitHub Projects.
+</center>
+
+<p><strong>Concluídos:</strong> 6 (1 Security, 2 Docs, 1 Test, 1 Requisitos, 1 Protótipo)</p>
+<p>Nenhuma História de Usuário foi concluída na sprint, porque ela foi dedicada aos requisitos de software: a definição de como apresentar as trilhas e o conteúdo aos usuários, o refinamento de cada requisito em Histórias e a prototipação das Features 2 e 4. Nela também foram desenvolvidas e formalizadas as estratégias de segurança do projeto, com as diretrizes e os checklists de segurança. As 8 Histórias do planejamento (US06 a US09 e US12 a US15) foram repassadas para a Sprint 3.</p>
+<h3 id="43-sprint-3-061026-a-191026">4.3 Sprint 3 (06/10/26 a 19/10/26)<a class="headerlink" href="#43-sprint-3-061026-a-191026" title="Permanent link">&para;</a></h3>
+<p><strong>Objetivo da sprint:</strong> Desenvolver o motor de navegação e mapa das trilhas (Feature 2), os laboratórios de prática, avaliação e apresentação de conteúdo (Feature 4) e o painel de progresso do estudante (Feature 3), repassados da sprint anterior (US06 a US15).</p>
+<center>
+    Tabela 4 - Itens concluídos na Sprint 3
+</center>
+
+<table>
+<thead>
+<tr>
+<th>Issue</th>
+<th>Tipo</th>
+<th>Título</th>
+<th>Fechada no quadro em</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>#6</td>
+<td>História (US)</td>
+<td>US06 - Acessar o catálogo de trilhas com visualização em cards</td>
+<td>25/10/26 18:14</td>
+</tr>
+<tr>
+<td>#7</td>
+<td>História (US)</td>
+<td>US07 - Visualizar o fluxo da trilha estruturado em nós e carregar a tela de conteúdo ao acionar um nó</td>
+<td>25/10/26 18:17</td>
+</tr>
+<tr>
+<td>#39</td>
+<td>História (US)</td>
+<td>US08 - Visualizar e Revisitar Nós já Concluídos</td>
+<td>25/10/26 18:17</td>
+</tr>
+<tr>
+<td>#40</td>
+<td>História (US)</td>
+<td>US09 - Visualizar Nó de Teste Final para Conclusão da Trilha</td>
+<td>25/10/26 18:19</td>
+</tr>
+<tr>
+<td>#41</td>
+<td>História (US)</td>
+<td>US12 - Acessar o Conteúdo Teórico do Nó de Leitura</td>
+<td>25/10/26 18:23</td>
+</tr>
+<tr>
+<td>#42</td>
+<td>História (US)</td>
+<td>US13 - Acessar Nó de Exercício para Conteúdo Prático</td>
+<td>25/10/26 18:24</td>
+</tr>
+<tr>
+<td>#43</td>
+<td>História (US)</td>
+<td>US14 - Acessar Nó de Teste Final da Trilha</td>
+<td>25/10/26 18:37</td>
+</tr>
+<tr>
+<td>#44</td>
+<td>História (US)</td>
+<td>US15 - Submeter Resposta e Validar Exercícios</td>
+<td>25/10/26 18:44</td>
+</tr>
+</tbody>
+</table>
+<center>
+    Fonte: Elaborado pelos autores, com dados do GitHub Projects.
+</center>
+
+<p><strong>Concluídos:</strong> 8 (8 Histórias de Usuário)</p>
+<p>As US06 a US09 e US12 a US15 foram entregues na Review de 19/10/26, mas movidas para "Done" no quadro apenas em 25/10/26. As US10 e US11 (Feature 3), também planejadas, ficaram pendentes e foram entregues na Sprint 4.</p>
+<h3 id="44-sprint-4-201026-a-021126">4.4 Sprint 4 (20/10/26 a 02/11/26)<a class="headerlink" href="#44-sprint-4-201026-a-021126" title="Permanent link">&para;</a></h3>
+<p><strong>Objetivo da sprint:</strong> Finalizar a implementação do MVP1 com a Feature 3 (Painel de Progresso, US10 e US11) e as tarefas de configuração de segurança e de ajuste do projeto (9 tarefas planejadas).</p>
+<center>
+    Tabela 5 - Itens concluídos na Sprint 4
+</center>
+
+<table>
+<thead>
+<tr>
+<th>Issue</th>
+<th>Tipo</th>
+<th>Título</th>
+<th>Fechada no quadro em</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>#58</td>
+<td>História (US)</td>
+<td>US11 - Visualizar Progresso Geral na Plataforma</td>
+<td>29/10/26 14:59</td>
+</tr>
+<tr>
+<td>#57</td>
+<td>História (US)</td>
+<td>US10 - Visualizar Percentual de Progresso em uma Trilha</td>
+<td>29/10/26 14:59</td>
+</tr>
+<tr>
+<td>#14</td>
+<td>Fix</td>
+<td>Fix: Padronizar cores e atributos de estilização do projeto</td>
+<td>01/11/26 15:17</td>
+</tr>
+<tr>
+<td>#16</td>
+<td>Fix</td>
+<td>Fix: Ajustar a responsividade das páginas</td>
+<td>01/11/26 15:17</td>
+</tr>
+<tr>
+<td>#33</td>
+<td>Security</td>
+<td>Security: Implementar Rate Limiting no Login</td>
+<td>02/11/26 15:41</td>
+</tr>
+<tr>
+<td>#36</td>
+<td>Security</td>
+<td>Security: Adicionar indicador de força de senha</td>
+<td>02/11/26 15:41</td>
+</tr>
+<tr>
+<td>#35</td>
+<td>Security</td>
+<td>Security: Automatizar verificação de vulnerabilidades de dependências</td>
+<td>02/11/26 20:29</td>
+</tr>
+<tr>
+<td>#32</td>
+<td>Security</td>
+<td>Security: Não expor mensagens internas de erros ao cliente</td>
+<td>03/11/26 17:45</td>
+</tr>
+<tr>
+<td>#34</td>
+<td>Security</td>
+<td>Security: Configurar cabeçalhos HTTP de segurança</td>
+<td>03/11/26 19:45</td>
+</tr>
+<tr>
+<td>#37</td>
+<td>Security</td>
+<td>Security: Publicar Política de Privacidade e disponibilizar link</td>
+<td>03/11/26 19:45</td>
+</tr>
+<tr>
+<td>#15</td>
+<td>Security</td>
+<td>Security: Implementar tokens access + refresh</td>
+<td>04/11/26 21:40</td>
+</tr>
+</tbody>
+</table>
+<center>
+    Fonte: Elaborado pelos autores, com dados do GitHub Projects.
+</center>
+
+<p><strong>Concluídos:</strong> 11 (2 Histórias de Usuário, 2 Fix, 7 Security)</p>
+<p>Os 7 itens de Security (#15, #32, #33, #34, #35, #36 e #37) e as 2 correções (Fix #14 e #16) constam como "Entregue" na Review de 02/11/26. Quatro dos itens de Security (#15, #32, #34 e #37) foram fechados no quadro apenas em 03/11 e 04/11. As US10 e US11 foram fechadas em 29/10/26.</p>
+<h3 id="45-sprint-5-021126-a-131126-em-andamento">4.5 Sprint 5 (02/11/26 a 13/11/26, em andamento)<a class="headerlink" href="#45-sprint-5-021126-a-131126-em-andamento" title="Permanent link">&para;</a></h3>
+<p><strong>Objetivo da sprint:</strong> Validação do MVP1 com clientes usuários por meio de entrevistas e deploy da aplicação em produção, com as trilhas cadastradas (3 tarefas planejadas).</p>
+<center>
+    Tabela 6 - Itens concluídos na Sprint 5
+</center>
+
+<table>
+<thead>
+<tr>
+<th>Issue</th>
+<th>Tipo</th>
+<th>Título</th>
+<th>Fechada no quadro em</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>#54</td>
+<td>Docs</td>
+<td>Docs: Atualizar Cronograma - Planejado X Executado</td>
+<td>03/11/26 17:06</td>
+</tr>
+<tr>
+<td>#27</td>
+<td>Docs</td>
+<td>Docs: Atualização no Processo de Desenvolvimento</td>
+<td>03/11/26 17:06</td>
+</tr>
+<tr>
+<td>#38</td>
+<td>Docs</td>
+<td>Docs: Estilizar e padronizar Layout para GitPages</td>
+<td>03/11/26 17:06</td>
+</tr>
+<tr>
+<td>#61</td>
+<td>Task</td>
+<td>Task: Criar imagem Docker para build e deploy da aplicação</td>
+<td>03/11/26 19:46</td>
+</tr>
+</tbody>
+</table>
+<center>
+    Fonte: Elaborado pelos autores, com dados do GitHub Projects.
+</center>
+
+<p><strong>Concluídos:</strong> 4 (3 Docs, 1 Task)</p>
+<p>Os 4 itens concluídos (#27, #38, #54 e #61) não estavam no planejamento da sprint. As tarefas planejadas ainda estão em andamento em 07/11/26: #62 (criação e revisão das trilhas) e #63 (trilhas no banco de produção), ambas em "In review", e a validação com usuários (entrevistas), ainda pendente. Também seguem abertos #71 (Docs, em "In progress") e #59 (Task, em "Backlog").</p>
+<h2 id="5-metricas-consolidadas-por-sprint">5. Métricas Consolidadas por Sprint<a class="headerlink" href="#5-metricas-consolidadas-por-sprint" title="Permanent link">&para;</a></h2>
+<p>A coluna <strong>Planejadas</strong> informa quantos itens estavam no planejamento de cada sprint, conforme o relatório da própria sprint:</p>
+<ul>
+<li>Sprint 1: as 7 Histórias do objetivo, de US01 a US07.</li>
+<li>Sprint 2: as 8 Histórias das Features 2 e 4: US06 a US09 e US12 a US15.</li>
+<li>Sprint 3: as 10 Histórias que a sprint planejou: as 8 repassadas da Sprint 2 (US06 a US09 e US12 a US15) e as 2 Histórias da Feature 3 (US10 e US11).</li>
+<li>Sprint 4: 2 Histórias (US10 e US11) e 9 tarefas de segurança e de ajustes do projeto, como responsividade, padronização de cores, cabeçalhos HTTP, política de privacidade, indicador de força de senha, rate limiting, tokens de acesso e refresh, verificação de vulnerabilidades e tratamento de mensagens de erro.</li>
+<li>Sprint 5: 3 tarefas, sendo a criação e revisão das trilhas, a inclusão das trilhas no banco de produção com deploy de produção e a validação do MVP1 com usuários.</li>
+</ul>
+<p>A <strong>Vazão (%)</strong> é a razão entre os itens planejados que foram concluídos e os itens planejados da sprint. Por exemplo, na Sprint 3 foram concluídas 8 das 10 Histórias planejadas, o que dá 80%. Itens concluídos que não estavam no planejamento, como os 6 da Sprint 2 (requisitos, documentação, segurança, teste e protótipo), entram na coluna Concluídas (Vazão), mas não entram neste percentual. O mesmo vale para o Fix #8 na Sprint 1 e para os 4 itens concluídos até agora na Sprint 5.</p>
+<center>
+    Tabela 7 - Métricas consolidadas por sprint
+</center>
+
+<table>
+<thead>
+<tr>
+<th>Sprint</th>
+<th>Planejadas</th>
+<th>Concluídas (Vazão)</th>
+<th>Vazão (%)</th>
+<th>Vazão acumulada</th>
+<th>US do MVP (acum.)</th>
+<th>Referência acumulada</th>
+<th>% do MVP</th>
+<th>Defeitos abertos</th>
+<th>Defeitos corrigidos</th>
+<th>Taxa de resolução</th>
+<th>Densidade</th>
+<th>DoR (%)</th>
+<th>DoD (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>7</td>
+<td>6</td>
+<td>71,4%</td>
+<td>6</td>
+<td>5</td>
+<td>3,00</td>
+<td>33,3%</td>
+<td>1</td>
+<td>1</td>
+<td>100%</td>
+<td>0,17</td>
+<td>100%</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>2</td>
+<td>8</td>
+<td>6</td>
+<td>0,0%</td>
+<td>12</td>
+<td>5</td>
+<td>6,00</td>
+<td>33,3%</td>
+<td>0</td>
+<td>0</td>
+<td>—</td>
+<td>0,00</td>
+<td>100%</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>3</td>
+<td>10</td>
+<td>8</td>
+<td>80,0%</td>
+<td>20</td>
+<td>13</td>
+<td>9,00</td>
+<td>86,7%</td>
+<td>0</td>
+<td>0</td>
+<td>—</td>
+<td>0,00</td>
+<td>100%</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>4</td>
+<td>11</td>
+<td>11</td>
+<td>100,0%</td>
+<td>31</td>
+<td>15</td>
+<td>12,00</td>
+<td>100,0%</td>
+<td>2</td>
+<td>2</td>
+<td>100%</td>
+<td>0,18</td>
+<td>100%</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>5 (parcial)</td>
+<td>3</td>
+<td>4</td>
+<td>0,0%</td>
+<td>35</td>
+<td>15</td>
+<td>15,00</td>
+<td>100,0%</td>
+<td>0</td>
+<td>0</td>
+<td>—</td>
+<td>0,00</td>
+<td>100%</td>
+<td>100%</td>
+</tr>
+</tbody>
+</table>
+<center>
+    Fonte: Elaborado pelos autores.
+</center>
+
+<p>A "Vazão acumulada" soma todos os itens concluídos. </p>
+<p>"US do MVP (acum.)" soma apenas as Histórias de Usuário e é a base do <em>Burnup</em>. </p>
+<p>A "Densidade" é Defeitos abertos ÷ Concluídas. </p>
+<p>A "Taxa de resolução" (corrigidos ÷ abertos na sprint) fica sem valor quando não houve defeitos abertos (Sprints 2, 3 e 5).</p>
+<h3 id="51-composicao-da-vazao-por-tipo-de-item">5.1 Composição da Vazão por tipo de item<a class="headerlink" href="#51-composicao-da-vazao-por-tipo-de-item" title="Permanent link">&para;</a></h3>
+<center>
+    Tabela 8 - Composição da Vazão por tipo de item
+</center>
+
+<table>
+<thead>
+<tr>
+<th>Sprint</th>
+<th>US</th>
+<th>Fix</th>
+<th>Security</th>
+<th>Docs</th>
+<th>Task</th>
+<th>Test</th>
+<th>Requisitos</th>
+<th>Protótipo</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>5</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>6</td>
+</tr>
+<tr>
+<td>2</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>6</td>
+</tr>
+<tr>
+<td>3</td>
+<td>8</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>8</td>
+</tr>
+<tr>
+<td>4</td>
+<td>2</td>
+<td>2</td>
+<td>7</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>11</td>
+</tr>
+<tr>
+<td>5 (parcial)</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>3</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>4</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td>15</td>
+<td>3</td>
+<td>8</td>
+<td>5</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>35</td>
+</tr>
+</tbody>
+</table>
+<center>
+    Fonte: Elaborado pelos autores, com dados do GitHub Projects.
+</center>
+
+<h2 id="6-burnup-do-mvp">6. Burnup do MVP<a class="headerlink" href="#6-burnup-do-mvp" title="Permanent link">&para;</a></h2>
+<p>O <em>Burnup</em> compara as Histórias do MVP concluídas (acumuladas) com a referência planejada de 3,00 Histórias por sprint (15 Histórias em 5 sprints).</p>
+<p><img alt="Burnup do MVP" src="../assets/burnup_mvp.png" /></p>
+<center>
+    Fonte: Elaborado pelos autores.
+</center>
+
+<center>
+    Tabela 9 - Burnup do MVP1
+</center>
+
+<table>
+<thead>
+<tr>
+<th>Sprint</th>
+<th>US concluídas na sprint</th>
+<th>US acumuladas</th>
+<th>Referência acumulada</th>
+<th>Diferença</th>
+<th>Situação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>5</td>
+<td>5</td>
+<td>3,00</td>
+<td>+2,00</td>
+<td>À frente</td>
+</tr>
+<tr>
+<td>2</td>
+<td>0</td>
+<td>5</td>
+<td>6,00</td>
+<td>-1,00</td>
+<td>Atrasado</td>
+</tr>
+<tr>
+<td>3</td>
+<td>8</td>
+<td>13</td>
+<td>9,00</td>
+<td>+4,00</td>
+<td>À frente</td>
+</tr>
+<tr>
+<td>4</td>
+<td>2</td>
+<td>15</td>
+<td>12,00</td>
+<td>+3,00</td>
+<td>À frente (MVP1 completo)</td>
+</tr>
+<tr>
+<td>5 (parcial)</td>
+<td>0</td>
+<td>15</td>
+<td>15,00</td>
+<td>0,00</td>
+<td>MVP1 completo</td>
+</tr>
+</tbody>
+</table>
+<center>
+    Fonte: Elaborado pelos autores.
+</center>
+
+<h2 id="7-analise-por-sprint">7. Análise por Sprint<a class="headerlink" href="#7-analise-por-sprint" title="Permanent link">&para;</a></h2>
+<p>A análise segue as regras do Plano de Métricas: a Vazão pontual é comparada com o Burnup acumulado, e o atraso do MVP só é caracterizado quando o Burnup se distancia da referência.</p>
+<p><strong>Critérios de alerta do Plano de Métricas</strong></p>
+<ul>
+<li>Vazão realizada abaixo de 80% do planejado por 2 sprints consecutivas indica atraso;</li>
+<li>Vazão acumulada abaixo da referência planejada indica atraso no MVP;</li>
+<li>Taxa de sucesso do Sprint Goal abaixo de 70% sinaliza risco recorrente de prazo;</li>
+<li>Aumento sustentado da densidade de defeitos por 2 sprints consecutivas é gatilho para revisão do processo na Retrospective.</li>
+</ul>
+<h3 id="71-sprint-1">7.1 Sprint 1<a class="headerlink" href="#71-sprint-1" title="Permanent link">&para;</a></h3>
+<p>A sprint foi fechada em 24/09/26. Das 7 Histórias do objetivo (US01 a US07), 5 foram concluídas (US01 a US05): Vazão de 71,4% das Histórias planejadas. Contando o Fix #8, a Vazão total foi de 6 itens. O Burnup ficou em 5 Histórias contra a referência de 3,00, ou seja, 2,00 à frente. As US06 e US07 ficaram para a Sprint 3. DoR e DoD ficaram em 100%.</p>
+<p>Foi aberto 1 defeito (Fix #8) e corrigido em cerca de 1 dia, o que dá taxa de resolução de 100% e densidade de 0,17 defeito por item concluído.</p>
+<h3 id="72-sprint-2">7.2 Sprint 2<a class="headerlink" href="#72-sprint-2" title="Permanent link">&para;</a></h3>
+<p>Nenhuma das 8 Histórias planejadas (US06 a US09 e US12 a US15) foi concluída (Vazão de 0% das planejadas). A sprint foi dedicada aos requisitos de software: a definição de como apresentar as trilhas e o conteúdo aos usuários, validada com os clientes, e o refinamento de cada requisito em Histórias. Nela também foram desenvolvidas e formalizadas as estratégias de segurança, com as diretrizes e os checklists de segurança. Esse trabalho aparece em 6 itens concluídos, todos fora do planejamento de Histórias: Test #13, Docs #20 e #23, Requisitos #25, Security #26 e o protótipo #30. Segundo a Retrospective, os requisitos demandaram mais tempo que o previsto para serem refinados e aprovados, o que atrasou a execução.</p>
+<p>O Burnup permaneceu em 5 Histórias contra 6,00 da referência (diferença de -1,00). Não houve defeitos abertos. DoR e DoD ficaram em 100%.</p>
+<h3 id="73-sprint-3">7.3 Sprint 3<a class="headerlink" href="#73-sprint-3" title="Permanent link">&para;</a></h3>
+<p>Foram entregues 8 das 10 Histórias planejadas (80%): as 8 repassadas da Sprint 2 (US06 a US09 e US12 a US15, Features 2 e 4). As US10 e US11 (Feature 3) ficaram pendentes. A Vazão total foi de 8 itens, todos Histórias. O Burnup subiu de 5 para 13 Histórias contra 9,00 da referência, ficando 4,00 à frente e compensando o atraso da Sprint 2. DoR e DoD ficaram em 100%.</p>
+<p>A Review registra que a integração entre as features demandou mais tempo que o esperado e que, pela primeira vez, os checklists de segurança foram executados. Foi decidido aplicar os checklists e o DoD de segurança nos Pull Requests para a branch <code>dev</code>, para acelerar o desenvolvimento. No quadro, as 8 Histórias só foram movidas para "Done" em 25/10/26 (seção 12).</p>
+<h3 id="74-sprint-4">7.4 Sprint 4<a class="headerlink" href="#74-sprint-4" title="Permanent link">&para;</a></h3>
+<p>Foram concluídos os 11 itens planejados (100%): as 2 Histórias da Feature 3 (US10 e US11), as 2 correções (Fix #14 e #16) e 7 itens de Security (#15, #32, #33, #34, #35, #36 e #37). O Burnup chegou a 15 contra 12,00 da referência (+3,00): o MVP1 foi concluído na Sprint 4, uma sprint antes da quinta e última sprint prevista. As correções Fix #14 e #16 são defeitos do MVP como um todo, pois trataram de ajustes em todo o código desenvolvido desde a Sprint 1.  Por isso entram como abertos e corrigidos na Sprint 4 (densidade de 0,18). DoR e DoD ficaram em 100%. Segundo a Review, a Feature 3 foi entregue na primeira semana e a segunda semana foi usada para resolver tarefas do backlog, em ajustes de segurança e de interatividade. Entre os problemas da sprint estão a quebra da pipeline de CI e as correções de vulnerabilidades da Feature 1, mapeadas na auditoria de segurança.</p>
+<h3 id="75-sprint-5-parcial-em-071126">7.5 Sprint 5 (parcial, em 07/11/26)<a class="headerlink" href="#75-sprint-5-parcial-em-071126" title="Permanent link">&para;</a></h3>
+<p>Foram concluídos 4 itens, nenhum deles planejado: Docs #27, #38 e #54 e Task #61 (imagem Docker). Das 3 tarefas planejadas (criação e revisão das trilhas, trilhas no banco de produção e validação com usuários), duas estão em "In review" (#62 e #63) e a validação ainda não ocorreu. A Vazão (%) das planejadas é de 0% até agora. O Burnup se mantém em 15 de 15 Histórias (MVP1 completo). Não houve novos defeitos. DoR e DoD estão em 100% nos itens concluídos até agora. Os números desta sprint devem ser atualizados após a Review de 13/11.</p>
+<h2 id="8-yesterdays-weather-capacidade-usada-em-cada-sprint">8. Yesterday's Weather: Capacidade Usada em Cada Sprint<a class="headerlink" href="#8-yesterdays-weather-capacidade-usada-em-cada-sprint" title="Permanent link">&para;</a></h2>
+<p>Conforme a Seção 2.1 do Plano de Métricas, a capacidade da sprint seguinte é a Vazão realizada na anterior.</p>
+<center>
+    Tabela 10 - Yesterday's Weather: capacidade usada em cada sprint
+</center>
+
+<table>
+<thead>
+<tr>
+<th>Sprint</th>
+<th>Capacidade de referência (Vazão da sprint anterior)</th>
+<th>Vazão realizada</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>— (primeira sprint)</td>
+<td>6</td>
+</tr>
+<tr>
+<td>2</td>
+<td>6</td>
+<td>6</td>
+</tr>
+<tr>
+<td>3</td>
+<td>6</td>
+<td>8</td>
+</tr>
+<tr>
+<td>4</td>
+<td>8</td>
+<td>11</td>
+</tr>
+<tr>
+<td>5</td>
+<td>11</td>
+<td>4 (parcial)</td>
+</tr>
+</tbody>
+</table>
+<center>
+    Fonte: Elaborado pelos autores.
+</center>
+
+<p><strong>Análise:</strong> a Vazão realizada acompanhou razoavelmente a da sprint anterior (6, 6, 8 e 11), com diferenças de 0, 2 e 3 itens, e a Vazão da sprint anterior serviu como capacidade de referência nas Sprints 2 a 4. Como a Vazão conta itens de natureza diferente (Histórias de Usuário, requisitos, documentação e segurança), a Sprint 2 manteve a Vazão, mas sem Histórias, o que limita a leitura. Para a Sprint 5, a capacidade pela média das Sprints 1 a 4 seria de cerca de aproximadamente 8 itens (31 itens ÷ 4 sprints = 7,75).</p>
+<h2 id="9-defeitos">9. Defeitos<a class="headerlink" href="#9-defeitos" title="Permanent link">&para;</a></h2>
+<h3 id="91-resumo">9.1 Resumo<a class="headerlink" href="#91-resumo" title="Permanent link">&para;</a></h3>
+<center>
+    Tabela 11 - Defeitos por sprint
+</center>
+
+<table>
+<thead>
+<tr>
+<th>Sprint</th>
+<th>Abertos</th>
+<th>Corrigidos</th>
+<th>Taxa de resolução</th>
+<th>Densidade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>100%</td>
+<td>0,17</td>
+</tr>
+<tr>
+<td>2</td>
+<td>0</td>
+<td>0</td>
+<td>—</td>
+<td>0,00</td>
+</tr>
+<tr>
+<td>3</td>
+<td>0</td>
+<td>0</td>
+<td>—</td>
+<td>0,00</td>
+</tr>
+<tr>
+<td>4</td>
+<td>2</td>
+<td>2</td>
+<td>100%</td>
+<td>0,18</td>
+</tr>
+<tr>
+<td>5 (parcial)</td>
+<td>0</td>
+<td>0</td>
+<td>—</td>
+<td>0,00</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td>3</td>
+<td>3</td>
+<td>100%</td>
+<td>0,09</td>
+</tr>
+</tbody>
+</table>
+<center>
+    Fonte: Elaborado pelos autores, com dados do GitHub Projects (issues Fix).
+</center>
+
+<p>A densidade total é 3 defeitos ÷ 35 itens concluídos. Os 3 defeitos abertos foram todos corrigidos até 01/11/26. Os Fix #14 e #16 são tratados como defeitos do MVP como um todo, porque os ajustes alcançaram o código desenvolvido desde a Sprint 1, e por isso contam na Sprint 4, em que foram tratados e corrigidos.</p>
+<h3 id="92-tempo-medio-de-correcao-mttr">9.2 Tempo médio de correção (MTTR)<a class="headerlink" href="#92-tempo-medio-de-correcao-mttr" title="Permanent link">&para;</a></h3>
+<center>
+    Tabela 12 - Tempo médio de correção (MTTR) dos defeitos
+</center>
+
+<table>
+<thead>
+<tr>
+<th>Issue</th>
+<th>Descrição</th>
+<th>Sprint de abertura</th>
+<th>Aberta em</th>
+<th>Fechada em</th>
+<th>Dias até corrigir</th>
+<th>Dias em desenvolvimento</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>#8</td>
+<td>Ajustar o campo de senha no formulário de cadastro</td>
+<td>1</td>
+<td>21/09/26</td>
+<td>22/09/26</td>
+<td>1,05</td>
+<td>1,05</td>
+</tr>
+<tr>
+<td>#14</td>
+<td>Padronizar cores e atributos de estilização do projeto</td>
+<td>4</td>
+<td>23/09/26</td>
+<td>01/11/26</td>
+<td>38,92</td>
+<td>1,98</td>
+</tr>
+<tr>
+<td>#16</td>
+<td>Ajustar a responsividade das páginas</td>
+<td>4</td>
+<td>23/09/26</td>
+<td>01/11/26</td>
+<td>38,92</td>
+<td>2,01</td>
+</tr>
+</tbody>
+</table>
+<center>
+    Fonte: Elaborado pelos autores.
+</center>
+
+<p><strong>MTTR acumulado:</strong> 26,3 dias entre abertura e fechamento. Considerando só o tempo em desenvolvimento (de "In progress" até "Done"), a média é de 1,7 dia.</p>
+<h3 id="93-analise">9.3 Análise<a class="headerlink" href="#93-analise" title="Permanent link">&para;</a></h3>
+<p>O MTTR de 26,3 dias é puxado pelos Fix #14 e #16, que ficaram no "Backlog" de 23/09 até 30/10 como ajustes do MVP como um todo, e não como correções demoradas. Quando entraram em desenvolvimento, foram resolvidos em cerca de 2 dias. A densidade de defeitos foi de 0,17 na Sprint 1, zero nas Sprints 2 e 3 e 0,18 na Sprint 4, sem aumento sustentado em duas sprints consecutivas. Portanto, o gatilho de revisão do processo previsto no Plano de Métricas não foi acionado.</p>
+<h2 id="10-taxa-de-sucesso-do-sprint-goal">10. Taxa de Sucesso do Sprint Goal<a class="headerlink" href="#10-taxa-de-sucesso-do-sprint-goal" title="Permanent link">&para;</a></h2>
+<center>
+    Tabela 13 - Taxa de sucesso do Sprint Goal
+</center>
+
+<table>
+<thead>
+<tr>
+<th>Sprint</th>
+<th>Resultado frente ao objetivo</th>
+<th>Cumprido</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Fundações de autenticação e gestão de contas entregues (US01 a US05); US06 e US07 repassadas</td>
+<td>Sim</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Nenhuma História desenvolvida: a sprint foi dedicada à engenharia de requisitos, pré-requisito para o desenvolvimento do MVP. Resultados: apresentação do conteúdo das trilhas definida e validada com os clientes, requisitos refinados em Histórias, protótipos e diretrizes e checklists de segurança</td>
+<td>Não</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Motor de navegação e laboratórios de prática (Features 2 e 4) entregues, com 8 das 10 Histórias; Feature 3 repassada</td>
+<td>Sim</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Feature 3 e as 9 tarefas planejadas entregues; MVP1 concluído</td>
+<td>Sim</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Em andamento</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>Taxa de sucesso</strong></td>
+<td></td>
+<td>3 de 4 (75%)</td>
+</tr>
+</tbody>
+</table>
+<center>
+    Fonte: Elaborado pelos autores.
+</center>
+
+<p>Pelo critério do Plano de Métricas, uma taxa abaixo de 70% sinaliza risco recorrente de prazo. Com 75% nas Sprints 1 a 4, esse alerta não foi acionado. A avaliação de "Cumprido" é a da equipe.</p>
+<p>O objetivo inicial da Sprint 2 (desenvolver as Features 2 e 4) não foi cumprido, porque nenhuma História foi desenvolvida. Os resultados da sprint, no entanto, foram cruciais para o processo e para o desenvolvimento das sprints seguintes e do MVP: a definição de como apresentar as trilhas e o conteúdo, validada com os clientes, o refinamento dos requisitos em Histórias, os protótipos e as diretrizes e checklists de segurança sustentaram as entregas das Sprints 3 e 4 (US06 a US15) e a aplicação dos checklists de segurança a partir da Sprint 3.</p>
+<h2 id="11-conformidade-de-dor-e-dod">11. Conformidade de DoR e DoD<a class="headerlink" href="#11-conformidade-de-dor-e-dod" title="Permanent link">&para;</a></h2>
+<center>
+    Tabela 14 - Conformidade de DoR e DoD por sprint
+</center>
+
+<table>
+<thead>
+<tr>
+<th>Sprint</th>
+<th>DoR (%)</th>
+<th>DoD (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>100%</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>2</td>
+<td>100%</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>3</td>
+<td>100%</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>4</td>
+<td>100%</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>5</td>
+<td>100%</td>
+<td>100%</td>
+</tr>
+</tbody>
+</table>
+<center>
+    Fonte: Elaborado pelos autores.
+</center>
+
+<p>Todas as Histórias e tarefas concluídas nas Sprints 1 a 5 atenderam integralmente às checklists de DoR e de DoD, o que resulta em conformidade de 100% em todas as sprints, conforme o registro da equipe. Os valores da Sprint 5 consideram os itens concluídos até o momento.</p>
+<h2 id="12-observacoes-sobre-o-uso-do-quadro">12. Observações sobre o Uso do Quadro<a class="headerlink" href="#12-observacoes-sobre-o-uso-do-quadro" title="Permanent link">&para;</a></h2>
+<p>O histórico do quadro mostra pontos que afetam a leitura das métricas:</p>
+<ul>
+<li><strong>Conclusões em lote:</strong> 4 Histórias (US02 a US05) foram movidas para "Done" no mesmo minuto em 24/09/26, data adotada como fechamento da Sprint 1; 8 Histórias da Sprint 3 entre 18:14 e 18:44 de 25/10/26, seis dias depois da Review; e itens de segurança e documentação da Sprint 4 em 03/11 e 04/11, depois da Review. Neste documento, esses itens foram contabilizados na sprint em que a Review os registrou como entregues. A data de conclusão registrada tende a ser a da atualização do quadro, e não a da validação.</li>
+<li><strong>Itens sem passagem por todas as colunas:</strong> vários itens (por exemplo, #5, #20, #23, #26 e #30) foram fechados com poucos ou nenhum registro de "In progress" ou "In review".</li>
+<li><strong>Retornos de coluna:</strong> a US06 voltou de "Ready" para "Backlog" em 24/09, o #32 voltou de "In review" para "In progress" em 03/11 e o #34 voltou de "In progress" para "Ready" em 30/10.</li>
+</ul>
+<p>Por isso, a Vazão por sprint deve ser lida com cautela: ela reflete quando o quadro foi atualizado. O acompanhamento acumulado (Burnup) é menos sensível a esse efeito do que a Vazão pontual.</p>
+<h2 id="13-sintese-e-conclusoes">13. Síntese e Conclusões<a class="headerlink" href="#13-sintese-e-conclusoes" title="Permanent link">&para;</a></h2>
+<p><strong>Situação do MVP1:</strong> as 15 Histórias de Usuário das Features 1 a 4 foram entregues até a Review da Sprint 4 (02/11/26), uma sprint antes da prevista. A Vazão acumulada total é de 35 itens concluídos até 07/11/26.</p>
+<p><strong>Principais resultados</strong></p>
+<ul>
+<li>O Burnup esteve à frente da referência na Sprint 1 (+2,00), ficou abaixo dela na Sprint 2 (-1,00), quando a equipe se dedicou aos requisitos, e voltou a ficar à frente na Sprint 3 (+4,00) e na Sprint 4 (+3,00), com o MVP1 completo.</li>
+<li>A Vazão total foi de 6, 6, 8, 11 e 4 (parcial) itens, crescente ao longo do projeto.</li>
+<li>Os 3 defeitos registrados (itens Fix) foram todos corrigidos, com densidade total baixa (0,09 defeito por item entregue).</li>
+<li>O Sprint Goal foi cumprido nas Sprints 1, 3 e 4 (taxa de sucesso de 75%), acima do limite de 70% do Plano. O objetivo da Sprint 2 não foi cumprido, pois a sprint foi dedicada à engenharia de requisitos, cujos resultados foram cruciais para o desenvolvimento das sprints seguintes e do MVP.</li>
+</ul>
+<p><strong>Limitações:</strong> o projeto tem um histórico curto (5 sprints) e uma equipe de duas pessoas, e o quadro foi atualizado em lote em alguns momentos. Os indicadores devem ser lidos como tendências, e não como previsões estatísticas.</p>
+<h2 id="14-referencias">14. Referências<a class="headerlink" href="#14-referencias" title="Permanent link">&para;</a></h2>
+<p>BECK, Kent; FOWLER, Martin. Planning Extreme Programming. Boston, MA: Addison-Wesley Professional, 2000.</p>
+<p>KNIBERG, Henrik; SKARIN, Mattias. Kanban and Scrum: Making the Most of Both. Lulu.com, 2010.</p>
+<p>RUBIN, Kenneth S. Essential Scrum: A Practical Guide to the Most Popular Agile Process. Boston, MA: Addison-Wesley Professional, 2013.</p>
+<hr />
+<h3 id="historico-de-versao">Histórico de Versão<a class="headerlink" href="#historico-de-versao" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Data</th>
+<th>Versão</th>
+<th>Descrição</th>
+<th>Autor</th>
+<th>Revisor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>07/11/26</td>
+<td>1.0</td>
+<td>Inclusão do registro de métricas e análises por sprint</td>
+<td><a href="https://github.com/phmelosilva">Pedro Henrique</a></td>
+<td><a href="https://github.com/uMorbeck">João Pedro Morbeck</a></td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Voltar para o topo
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.path", "navigation.top", "toc.integrate", "search.suggest"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado para \u00e1rea de transfer\u00eancia", "clipboard.copy": "Copiar para \u00e1rea de transfer\u00eancia", "search.result.more.one": "mais 1 nesta p\u00e1gina", "search.result.more.other": "# mais nesta p\u00e1gina", "search.result.none": "Nenhum documento encontrado", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Digite para iniciar a busca", "search.result.term.missing": "Ausente", "select.version": "Selecione a vers\u00e3o"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
