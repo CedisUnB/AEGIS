@@ -590,7 +590,7 @@
   <span class="md-ellipsis">
     
   
-    Documento de Requisitos
+    Declaração de Requisitos
   
 
     
@@ -1814,15 +1814,15 @@ Como a sprint 3 ficou apenas com o planejamento das features e desenvolvimento d
 <tr>
 <td>2 - Motor de Navegação de Trilhas</td>
 <td><strong>US06</strong></td>
-<td>Como um Estudante, eu quero acessar o catálogo de trilhas com visualização em cards, para que eu possa comparar os temas disponíveis e selecionar a trilha adequada aos meus objetivos de estudo.</td>
-<td>1. O catálogo de trilhas deve ser exibido em um formato de grade centralizada e simétrica (visual similar a uma tela de seleção de fases).<br>2. Cada trilha é representada por um card contendo título e total de nós/etapas; ao clicar no card, um modal deve exibir a descrição sumária da trilha.<br>3. Cards de trilhas já iniciadas pelo estudante devem exibir um indicador de progresso (ex: "3 de 8 nós concluídos").<br>4. Caso não existam trilhas cadastradas, a interface deve exibir uma mensagem de estado vazio informando que nenhuma trilha está disponível no momento.<br>5. Ao clicar em um card, a aplicação deve abrir um modal com os detalhes da trilha. A partir dele, o usuário deve poder confirmar e ser redirecionado para a visualização do mapa da respectiva trilha.</td>
+<td>Como estudante, eu quero acessar o catálogo de trilhas com visualização em cards, para que eu possa comparar os temas disponíveis e selecionar a trilha adequada aos meus objetivos de estudo.</td>
+<td>1. O catálogo de trilhas deve ser exibido em um formato de grade centralizada e simétrica (visual similar a uma tela de seleção de fases) (RNF02 - Usabilidade).<br>2. Cada trilha é representada por um card contendo título e total de nós/etapas; ao clicar no card, um modal deve exibir a descrição sumária da trilha.<br>3. Cards de trilhas já iniciadas pelo estudante devem exibir um indicador de progresso (ex: "3 de 8 nós concluídos").<br>4. Caso não existam trilhas cadastradas, a interface deve exibir uma mensagem de estado vazio informando que nenhuma trilha está disponível no momento.<br>5. Ao clicar em um card, a aplicação deve abrir um modal com os detalhes da trilha. A partir dele, o usuário deve poder confirmar e ser redirecionado para a visualização do mapa da respectiva trilha.<br>6. A trilha deve ser estruturada com um tema específico, um conjunto de lições e um conjunto de exercícios (RN06 - Estrutura de Aprendizado Obrigatória).</td>
 <td>Entregue</td>
 </tr>
 <tr>
 <td>2 - Motor de Navegação de Trilhas</td>
 <td><strong>US07</strong></td>
-<td>Como um Estudante, eu quero visualizar o fluxo da trilha estruturado em nós interativos (mapa), para que eu possa percorrer visualmente a sequência de tópicos e acessar o material didático de cada etapa.</td>
-<td>1. As etapas de uma trilha devem ser exibidas como nós interativos conectados visualmente, dispostos em um caminho sequencial lógico.<br>2. A estrutura de navegação deve obrigatoriamente intercalar os conteúdos: um nó teórico ligado a um nó de exercícios práticos, repetindo até o nó de teste final.<br>3. O nó correspondente à etapa mais avançada já alcançada pelo estudante deve ser visualmente destacado no mapa.<br>4. Ao clicar em um nó, a aplicação deve carregar um modal de confirmação correspondente.<br>5. Ao retornar, o sistema deve restaurar a visualização do mapa com foco no nó previamente selecionado.</td>
+<td>Como estudante, eu quero visualizar o fluxo da trilha estruturado em nós interativos (mapa) e carregar a tela de conteúdo ao acionar um nó selecionado, para que eu possa percorrer visualmente a sequência de tópicos e acessar o material didático de cada etapa.</td>
+<td>1. As etapas de uma trilha devem ser exibidas como nós interativos conectados visualmente, dispostos em um caminho sequencial lógico.<br>2. A estrutura de navegação deve obrigatoriamente intercalar os conteúdos: um nó teórico ligado a um nó de exercícios práticos, repetindo até o nó de teste final (RN07 - Ordem dos nós).<br> 3. O nó correspondente à etapa mais avançada já alcançada pelo estudante deve ser visualmente destacado no mapa.<br> 4. Ao clicar em um nó, a aplicação deve carregar um modal de confirmação correspondente.<br> 5. Ao retornar, o sistema deve restaurar a visualização do mapa com foco no nó previamente selecionado.</td>
 <td>Entregue</td>
 </tr>
 <tr>
@@ -1836,49 +1836,49 @@ Como a sprint 3 ficou apenas com o planejamento das features e desenvolvimento d
 <td>2 - Motor de Navegação de Trilhas</td>
 <td><strong>US09</strong></td>
 <td>Como um Estudante, eu quero visualizar um nó com teste final na conclusão da trilha, para que assim eu possa avaliar meus conhecimentos e objetivos atingidos para finalizar a trilha.</td>
-<td>1. Ao concluir todos os nós de conteúdo (leitura/exercício) de uma trilha, um nó de teste final deve se tornar disponível no mapa.<br>2. O nó de teste final deve ser visualmente distinto dos demais (ex: ícone ou cor específica), indicando se tratar da etapa avaliativa conclusiva.<br>3. Ao concluir o teste final com sucesso, a trilha deve ser marcada como concluída, refletindo esse status no catálogo (US06) e no mapa.</td>
+<td>1. Ao concluir todos os nós de conteúdo (leitura/exercício) de uma trilha, um nó de teste final deve se tornar disponível no mapa (RN08 - Consumo Integral de Conteúdo).<br>2. O nó de teste final deve ser visualmente distinto dos demais (ex: ícone ou cor específica), indicando se tratar da etapa avaliativa conclusiva.<br>3. Ao concluir o teste final com sucesso (Taxa de acerto de 80%), a trilha deve ser marcada como concluída, refletindo esse status no catálogo (US06) e no mapa (RN09 - Sistema de conclusão de trilha).</td>
 <td>Entregue</td>
 </tr>
 <tr>
 <td>3 - Painel de Progresso</td>
 <td><strong>US10</strong></td>
 <td>Como um Estudante, eu quero visualizar meu percentual de progresso específico em uma trilha, para que eu saiba o quanto falta para concluir o tema atual.</td>
-<td>1. O card de cada trilha já iniciada no catálogo (<code>/tracks</code>) deve exibir o progresso como percentual de nós concluídos em relação ao total de nós da trilha, incluindo o nó de teste final na contagem.<br>2. O percentual deve ser acompanhado da contagem de nós (ex: "3/8 concluídos · 38%"), de modo que o estudante saiba quantas etapas faltam.<br>3. Uma trilha com todos os nós concluídos deve exibir 100% e ser identificada como concluída; uma trilha ainda não iniciada não exibe indicador de progresso, conforme a US06.<br>4. O percentual deve considerar apenas o progresso do estudante autenticado, sem refletir o progresso de outros usuários.<br>5. O percentual deve ser atualizado após o estudante concluir um nó, sem ação manual além de retornar à tela.</td>
+<td>1. O card de cada trilha já iniciada no catálogo (<code>/tracks</code>) deve exibir o progresso como percentual de nós concluídos em relação ao total de nós da trilha, incluindo o nó de teste final na contagem (RN10 - Cálculo de progresso da trilha/plataforma).<br>2. O percentual deve ser acompanhado da contagem de nós (ex: "3/8 concluídos · 38%"), de modo que o estudante saiba quantas etapas faltam.<br>3. Uma trilha com todos os nós concluídos deve exibir 100% e ser identificada como concluída; uma trilha ainda não iniciada não exibe indicador de progresso, conforme a US06.<br>4. O percentual deve considerar apenas o progresso do estudante autenticado, sem refletir o progresso de outros usuários (RN11 - Privacidade de progresso).<br>5. O percentual deve ser atualizado após o estudante concluir um nó, sem ação manual além de retornar à tela.</td>
 <td>Pendente</td>
 </tr>
 <tr>
 <td>3 - Painel de Progresso</td>
 <td><strong>US11</strong></td>
 <td>Como um Estudante, eu quero visualizar meu progresso geral consolidado, para que eu consiga acompanhar meu desempenho total na plataforma.</td>
-<td>1. A tela de perfil (<code>/profile</code>) deve exibir um progresso geral consolidado do estudante, calculado sobre todas as trilhas da plataforma (total de nós concluídos em relação ao total de nós).<br>2. O consolidado deve exibir também a quantidade de trilhas concluídas em relação ao total de trilhas disponíveis (ex: "2 de 10 trilhas concluídas").<br>3. Trilhas ainda não iniciadas devem entrar no total, de modo que o percentual geral reflita o que falta cumprir na plataforma.<br>4. Um estudante sem nenhum progresso deve ver o consolidado zerado (0%), sem erro ou área em branco; sem trilhas cadastradas, deve ver uma mensagem de estado vazio.<br>5. O consolidado deve considerar apenas o progresso do estudante autenticado e ser coerente com os percentuais por trilha exibidos no catálogo (US10).</td>
+<td>1. A tela de perfil (<code>/profile</code>) deve exibir um progresso geral consolidado do estudante, calculado sobre todas as trilhas da plataforma (total de nós concluídos em relação ao total de nós) (RN10 - Cálculo de progresso da trilha/plataforma).<br>2. O consolidado deve exibir também a quantidade de trilhas concluídas em relação ao total de trilhas disponíveis (ex: "2 de 10 trilhas concluídas").<br>3. Trilhas ainda não iniciadas devem entrar no total, de modo que o percentual geral reflita o que falta cumprir na plataforma. (RN10 - Cálculo de progresso da trilha/plataforma)<br>4. Um estudante sem nenhum progresso deve ver o consolidado zerado (0%), sem erro ou área em branco; sem trilhas cadastradas, deve ver uma mensagem de estado vazio.<br>5. O consolidado deve considerar apenas o progresso do estudante autenticado e ser coerente com os percentuais por trilha exibidos no catálogo (US10) (RN11 - Privacidade de progresso).</td>
 <td>Pendente</td>
 </tr>
 <tr>
 <td>4 - Apresentação e Prática de Conteúdos</td>
 <td><strong>US12</strong></td>
 <td>Como um Estudante, eu quero acessar o conteúdo teórico do nó de leitura, para que eu possa aprender o conteúdo antes de iniciar os exercícios.</td>
-<td>1. O conteúdo teórico não deve ser exibido como um texto corrido extenso, mas sim distribuído em uma estrutura navegável e interativa (balão navegável com botões "Voltar" e "Próximo").<br>2. Ao final de cada slide, o sistema deve exibir uma área dedicada às referências bibliográficas e leituras complementares daquele assunto, caso esteja cadastrado no banco de dados.<br>3. O estudante deve poder marcar o nó como concluído após visualizá-lo.<br>4. Deve haver uma ação clara para finalizar o nó, retornar ao mapa da trilha e visualizar o nó concluído.</td>
+<td>1. O conteúdo teórico não deve ser exibido como um texto corrido extenso, mas sim distribuído em uma estrutura navegável e interativa (balão navegável com botões "Voltar" e "Próximo") (RNF02 - Usabilidade).<br> 2. Ao final de cada slide, o sistema deve exibir uma área dedicada às referências bibliográficas e leituras complementares daquele assunto, caso esteja cadastrado no banco de dados.<br>3. O estudante deve poder marcar o nó como concluído após visualizá-lo (RN12 - Sistema de Conclusão de nó).<br>4. Deve haver uma ação clara para finalizar o nó, retornar ao mapa da trilha e visualizar o nó concluído.</td>
 <td>Entregue</td>
 </tr>
 <tr>
 <td>4 - Apresentação e Prática de Conteúdos</td>
 <td><strong>US13</strong></td>
 <td>Como um Estudante, eu quero acessar o conteúdo prático do nó de exercício, para que eu possa praticar o que aprendi do assunto e reforçar o meu conhecimento.</td>
-<td>1. Ao acessar um nó de exercício, o sistema deve exibir os enunciados das questões práticas vinculadas àquele nó.<br>2. O estudante deve poder interagir com os campos de resposta conforme o tipo de exercício.<br>3. O sistema deve indicar visualmente quais exercícios já foram respondidos anteriormente, mesmo antes da submissão final.</td>
+<td>1. Ao acessar um nó de exercício, o sistema deve exibir os enunciados das questões práticas vinculadas àquele nó.<br>2. O estudante deve poder interagir com os campos de resposta conforme o tipo de exercício.<br>3. O sistema deve indicar visualmente quais exercícios já foram respondidos anteriormente, mesmo antes da submissão final.<br> 4. O estudante deve poder concluir o nó de exercício caso atinja a nota de corte (RN12 - Sistema de Conclusão de nó)</td>
 <td>Entregue</td>
 </tr>
 <tr>
 <td>4 - Apresentação e Prática de Conteúdos</td>
 <td><strong>US14</strong></td>
 <td>Como um Estudante, eu quero acessar o teste final da trilha, para que eu possa testar o meu conhecimento e concluir a trilha.</td>
-<td>1. O nó de teste final deve exibir todas as questões avaliativas da trilha em uma única sessão de teste.<br>2. O sistema deve considerar questões sem respostas como incorretas.<br>3. Ao concluir o teste, o estudante deve visualizar um resumo do resultado (pontuação, feedback, acertos e erros).</td>
+<td>1. O nó de teste final deve exibir todas as questões avaliativas da trilha em uma única sessão de teste.<br>2. O sistema deve considerar questões sem respostas como incorretas (RN13 - Questões sem respostas são incorretas).<br>3. Ao concluir o teste, o estudante deve visualizar um resumo do resultado (pontuação, feedback, acertos e erros) RN09 - (Sistema de conclusão de trilha).</td>
 <td>Entregue</td>
 </tr>
 <tr>
 <td>4 - Apresentação e Prática de Conteúdos</td>
 <td><strong>US15</strong></td>
 <td>Como um Estudante, eu quero submeter respostas para exercícios práticos e receber validação, para que eu possa testar o conhecimento adquirido na prática.</td>
-<td>1. Ao submeter as respostas de um nó de exercícios, o sistema deve validar pelo lado do servidor quais questões foram respondidas corretamente.<br>2. Caso a resposta esteja incorreta, o sistema deve retornar um feedback detalhado sobre como resolver a questão.<br>3. Respostas corretas devem ser persistidas associadas ao estudante e ao nó, para acompanhamento de métricas.</td>
+<td>1. Ao submeter as respostas de um nó de exercícios, o sistema deve validar pelo lado do servidor quais questões foram respondidas corretamente (RNF01 - Segurança).<br>2. Caso a resposta esteja incorreta, o sistema deve retornar um feedback detalhado sobre como resolver a questão (RN14 - Feedbacks de questões incorretas).<br>3. Respostas corretas devem ser persistidas associadas ao estudante e ao nó, para acompanhamento de métricas.</td>
 <td>Entregue</td>
 </tr>
 </tbody>

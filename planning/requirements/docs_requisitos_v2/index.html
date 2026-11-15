@@ -25,7 +25,7 @@
     
     
       
-        <title>Documento de Requisitos - AEGIS – AI, Ética e Gestão de Integridade em Software</title>
+        <title>Declaração de Requisitos - AEGIS – AI, Ética e Gestão de Integridade em Software</title>
       
     
     
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Documento de Requisitos
+              Declaração de Requisitos
             
           </span>
         </div>
@@ -606,7 +606,7 @@
   <span class="md-ellipsis">
     
   
-    Documento de Requisitos
+    Declaração de Requisitos
   
 
     
@@ -624,7 +624,7 @@
   <span class="md-ellipsis">
     
   
-    Documento de Requisitos
+    Declaração de Requisitos
   
 
     
@@ -1782,7 +1782,7 @@
   
 
 
-  <h1>Documento de Requisitos</h1>
+  <h1>Declaração de Requisitos</h1>
 
 <h2 id="requisitos-nao-funcionais-rnf">Requisitos Não Funcionais (RNF)<a class="headerlink" href="#requisitos-nao-funcionais-rnf" title="Permanent link">&para;</a></h2>
 <p>Os Requisitos Não Funcionais especificam características e restrições de qualidade, desempenho, segurança e usabilidade do sistema como um todo. A seguir está listado os requisitos não funcionais elicitados pela tabela 1.</p>
@@ -1799,27 +1799,22 @@
 <tr>
 <td>RNF01</td>
 <td>Segurança</td>
-<td>O sistema deve ser seguro, protegendo os dados dos usuários contra vulnerabilidades web e garantir controle de acesso restrito (impedindo que usuários acessem rotas do administrador).</td>
+<td>As senhas devem ser armazenadas com criptografia de hash unidirecional. A API não deve retornar dados sensíveis (hashes/tokens) no payload. Acessos não autenticados a rotas privadas devem retornar HTTP 401 (Unauthorized), e acessos de estudantes a rotas de administrador devem retornar HTTP 403 (Forbidden). Alterações de dados sensíveis devem invalidar o token atual, exigindo reautenticação. A exclusão de contas deve aplicar soft delete (anonimização LGPD) e revogar sessões no servidor. A correção de testes deve ocorrer exclusivamente via validação server-side.</td>
 </tr>
 <tr>
 <td>RNF02</td>
 <td>Usabilidade</td>
-<td>A interface da aplicação (feita em React) deve ser responsiva, adaptando-se perfeitamente a diferentes tamanhos de tela (desktop, tablets e smartphones).</td>
+<td>A interface (React/Next.js) deve renderizar sem gerar rolagem horizontal ou quebra de componentes em resoluções de tela variando de 320px (smartphones) a 1920px (desktops). Em caso de falha de validação em formulários, o sistema deve preservar 100% dos dados já preenchidos pelo usuário. Mensagens de sucesso ou erro (toasts) devem permanecer visíveis para leitura antes de desaparecerem automaticamente (ex: auto-dismiss de 3 segundos).</td>
 </tr>
 <tr>
 <td>RNF03</td>
-<td>Desempenho</td>
-<td>O sistema deve processar o <em>feedback</em> das avaliações de código e quizzes com tempo de resposta de até 3 segundos.</td>
+<td>Suportabilidade</td>
+<td>O sistema deve implementar separação de responsabilidades em camadas distintas (Camada de Repositório, Serviços e Server Actions), utilizando um cliente de banco de dados singleton (Prisma). A adição de novas trilhas ou tipos de exercícios não deve exigir modificação nos módulos centrais de autenticação ou conexão com o banco de dados.</td>
 </tr>
 <tr>
 <td>RNF04</td>
-<td>Suportabilidade</td>
-<td>A arquitetura do sistema deve ser projetada de forma modular e extensível, permitindo a implementação futura de novas features (funcionalidades) com o mínimo de impacto e refatoração no código existente.</td>
-</tr>
-<tr>
-<td>RNF05</td>
 <td>Implementação</td>
-<td>O ambiente de implantação/banco de dados deve ser configurado para que a única conta de administrador seja criada automaticamente durante a inicialização do sistema, tornando-a previamente disponível para uso.</td>
+<td>O sistema deve executar um script de seed (povoamento automático) no banco de dados (MySQL) durante o processo de inicialização ou deploy. Este script deve garantir a criação de 1 (uma) conta de administrador padrão com credenciais válidas e senha já em formato hash, disponibilizando-a para acesso imediato no primeiro uso do ambiente.</td>
 </tr>
 </tbody>
 </table>
@@ -2005,10 +2000,20 @@
 <h2 id="regras-de-negocio">Regras de negócio<a class="headerlink" href="#regras-de-negocio" title="Permanent link">&para;</a></h2>
 <p>As regras de negócio são caracteristicas que descrevem um aspecto do negócio ou produto, definindo ou restringindo o seu comportamento ao interagir com o usuário ou o ambiente em que está exposto.</p>
 <ul>
-<li>RN01 - Estrutura de Aprendizado Obrigatória: Toda trilha de conhecimento deve ser obrigatoriamente estruturada e persistida no sistema contendo um tema específico, uma sequência ordenada de pílulas de conhecimento e um conjunto de exercícios práticos.</li>
-<li>RN02 - Sistema de Conclusão de nó: O sistema deve definir a conclusão de um nó apenas caso, tenha a confirmação da leitura completa acionando o botão "Concluir" nos nós de leitura, ou a resolução correta de 60% dos exercícios em um nó de exercício.</li>
-<li>RN03 - Consumo Integral de Conteúdo: O sistema deve exigir e monitorar que o estudante consuma integralmente todo o conteúdo do nó antes de poder avançar para o próximo nó.</li>
-<li>RN04 - Sistema de conclusão de trilha: O sistema irá considerar a trilha concluída apenas caso o usuário conclua o nó de teste final com uma taxa de acerto de 80% das questões do teste.</li>
+<li>RN01 - Formato da Senha: O sistema deve exigir do usuário uma senha com pelo menos 8 caracteres e no máximo 20, contendo ao menos uma letra maiuscula, uma letra minuscula, um número e um caracter especial.</li>
+<li>RN02 - Email Único: O usuário deve se cadastrar com um email que não foi cadastrado anteriormente.</li>
+<li>RN03 - Exigir autenticação para ver perfil: O sistema deve exigir que o usuário esteja autenticado para permitir acesso à página de perfil.</li>
+<li>RN04 - Exclusão da conta exige senha: O sistema deve exigir a senha do usuário para que possa deletar a conta.</li>
+<li>RN05 - Exclusão de acordo com a LGPD: A exclusão de dados do usuário deve estar de acordo com o implementado pela LGPD.</li>
+<li>RN06 - Estrutura de Aprendizado Obrigatória: Toda trilha de conhecimento deve ser obrigatoriamente estruturada e persistida no sistema contendo um tema específico, uma sequência ordenada de pílulas de conhecimento e um conjunto de exercícios práticos.</li>
+<li>RN07 - Ordem dos nós: Cada nó de Lição deve possuir um nó de exercícios como sucessor na trilha.</li>
+<li>RN08 - Consumo Integral de Conteúdo: O sistema deve exigir e monitorar que o estudante consuma integralmente todo o conteúdo do nó antes de poder avançar para o próximo nó.</li>
+<li>RN09 - Sistema de conclusão de trilha: O sistema irá considerar a trilha concluída apenas caso o usuário conclua o nó de teste final com uma taxa de acerto de 80% das questões do teste.</li>
+<li>RN10 - Cálculo de progresso da trilha/plataforma: O cálculo de progresso da trilha deve ser feito através do percentual da quantidade de nós concluídas em relação ao total de nós da trilha, para o cálculo de progresso na plataforma, o cálculo se diz sobre as trilhas concluídas em relação ao total de trilhas</li>
+<li>RN11 - Privacidade de progresso: O usuário deve ter acesso apenas ao próprio progresso, estando inacessível acompanhar o progresso de outros usuários. </li>
+<li>RN12 - Sistema de Conclusão de nó: O sistema deve definir a conclusão de um nó apenas caso, tenha a confirmação da leitura completa acionando o botão "Concluir" nos nós de leitura, ou a resolução correta de 60% dos exercícios em um nó de exercício.</li>
+<li>RN13 - Questões sem respostas são incorretas: Qualquer questão que seja enviada sem uma resposta definida deve ser considerada incorreta.</li>
+<li>RN14 - Feedbacks de questões incorretas: Deve ser disponibilizado ao estudante um feedback sobre qual é a resposta correta de um exercício resolvido de maneira incorreta.</li>
 </ul>
 <h2 id="definicao-de-mvps-prioridade-moscow">Definição de MVPs – Prioridade MoSCoW<a class="headerlink" href="#definicao-de-mvps-prioridade-moscow" title="Permanent link">&para;</a></h2>
 <h3 id="1-criterios-de-priorizacao">1. Critérios de Priorização<a class="headerlink" href="#1-criterios-de-priorizacao" title="Permanent link">&para;</a></h3>
@@ -2236,6 +2241,13 @@
 <td>Despriorização da Feature 5 (Guias de Revisão), alteração do MoSCoW e ajustes nas Histórias de Usuário</td>
 <td><a href="https://github.com/phmelosilva">Pedro Henrique</a></td>
 <td><a href="https://github.com/uMorbeck">João Pedro Morbeck</a></td>
+</tr>
+<tr>
+<td>15/11/26</td>
+<td>1.3</td>
+<td>Alterações nas regras de negócio e requisitos não funcionais</td>
+<td><a href="https://github.com/uMorbeck">João Pedro Morbeck</a></td>
+<td><a href="https://github.com/phmelosilva">Pedro Henrique</a></td>
 </tr>
 </tbody>
 </table>

@@ -590,7 +590,7 @@
   <span class="md-ellipsis">
     
   
-    Documento de Requisitos
+    Declaração de Requisitos
   
 
     
@@ -1821,6 +1821,7 @@ definidas no início do projeto.</p>
 <table>
 <thead>
 <tr>
+<th>Feature</th>
 <th>ID</th>
 <th>História de Usuário (US)</th>
 <th>Critérios de Aceitação / Como Demonstrar</th>
@@ -1829,15 +1830,17 @@ definidas no início do projeto.</p>
 </thead>
 <tbody>
 <tr>
+<td>3 - Painel de Progresso</td>
 <td><strong>US10</strong></td>
 <td>Como um Estudante, eu quero visualizar meu percentual de progresso específico em uma trilha, para que eu saiba o quanto falta para concluir o tema atual.</td>
-<td>1. O card de cada trilha já iniciada no catálogo (<code>/tracks</code>) deve exibir o progresso como percentual de nós concluídos em relação ao total de nós da trilha, incluindo o nó de teste final na contagem.<br>2. O percentual deve ser acompanhado da contagem de nós (ex: "3/8 concluídos · 38%"), de modo que o estudante saiba quantas etapas faltam.<br>3. Uma trilha com todos os nós concluídos deve exibir 100% e ser identificada como concluída; uma trilha ainda não iniciada não exibe indicador de progresso, conforme a US06.<br>4. O percentual deve considerar apenas o progresso do estudante autenticado, sem refletir o progresso de outros usuários.<br>5. O percentual deve ser atualizado após o estudante concluir um nó, sem ação manual além de retornar à tela.</td>
+<td>1. O card de cada trilha já iniciada no catálogo (<code>/tracks</code>) deve exibir o progresso como percentual de nós concluídos em relação ao total de nós da trilha, incluindo o nó de teste final na contagem (RN10 - Cálculo de progresso da trilha/plataforma).<br>2. O percentual deve ser acompanhado da contagem de nós (ex: "3/8 concluídos · 38%"), de modo que o estudante saiba quantas etapas faltam.<br>3. Uma trilha com todos os nós concluídos deve exibir 100% e ser identificada como concluída; uma trilha ainda não iniciada não exibe indicador de progresso, conforme a US06.<br>4. O percentual deve considerar apenas o progresso do estudante autenticado, sem refletir o progresso de outros usuários (RN11 - Privacidade de progresso).<br>5. O percentual deve ser atualizado após o estudante concluir um nó, sem ação manual além de retornar à tela.</td>
 <td>Entregue</td>
 </tr>
 <tr>
+<td>3 - Painel de Progresso</td>
 <td><strong>US11</strong></td>
 <td>Como um Estudante, eu quero visualizar meu progresso geral consolidado, para que eu consiga acompanhar meu desempenho total na plataforma.</td>
-<td>1. A tela de perfil (<code>/profile</code>) deve exibir um progresso geral consolidado do estudante, calculado sobre todas as trilhas da plataforma (total de nós concluídos em relação ao total de nós).<br>2. O consolidado deve exibir também a quantidade de trilhas concluídas em relação ao total de trilhas disponíveis (ex: "2 de 10 trilhas concluídas").<br>3. Trilhas ainda não iniciadas devem entrar no total, de modo que o percentual geral reflita o que falta cumprir na plataforma.<br>4. Um estudante sem nenhum progresso deve ver o consolidado zerado (0%), sem erro ou área em branco; sem trilhas cadastradas, deve ver uma mensagem de estado vazio.<br>5. O consolidado deve considerar apenas o progresso do estudante autenticado e ser coerente com os percentuais por trilha exibidos no catálogo (US10).</td>
+<td>1. A tela de perfil (<code>/profile</code>) deve exibir um progresso geral consolidado do estudante, calculado sobre todas as trilhas da plataforma (total de nós concluídos em relação ao total de nós) (RN10 - Cálculo de progresso da trilha/plataforma).<br>2. O consolidado deve exibir também a quantidade de trilhas concluídas em relação ao total de trilhas disponíveis (ex: "2 de 10 trilhas concluídas").<br>3. Trilhas ainda não iniciadas devem entrar no total, de modo que o percentual geral reflita o que falta cumprir na plataforma. (RN10 - Cálculo de progresso da trilha/plataforma)<br>4. Um estudante sem nenhum progresso deve ver o consolidado zerado (0%), sem erro ou área em branco; sem trilhas cadastradas, deve ver uma mensagem de estado vazio.<br>5. O consolidado deve considerar apenas o progresso do estudante autenticado e ser coerente com os percentuais por trilha exibidos no catálogo (US10) (RN11 - Privacidade de progresso).</td>
 <td>Entregue</td>
 </tr>
 </tbody>
