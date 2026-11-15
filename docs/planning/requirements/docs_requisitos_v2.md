@@ -6,11 +6,10 @@ Os Requisitos Não Funcionais especificam características e restrições de qua
 
 | ID | Categoria | Descrição |
 |---|---|---|
-| RNF01 | Segurança | O sistema deve ser seguro, protegendo os dados dos usuários contra vulnerabilidades web e garantir controle de acesso restrito (impedindo que usuários acessem rotas do administrador). |
-| RNF02 | Usabilidade | A interface da aplicação (feita em React) deve ser responsiva, adaptando-se perfeitamente a diferentes tamanhos de tela (desktop, tablets e smartphones). |
-| RNF03 | Desempenho | O sistema deve processar o *feedback* das avaliações de código e quizzes com tempo de resposta de até 3 segundos. |
-| RNF04 | Suportabilidade | A arquitetura do sistema deve ser projetada de forma modular e extensível, permitindo a implementação futura de novas features (funcionalidades) com o mínimo de impacto e refatoração no código existente. |
-| RNF05 | Implementação | O ambiente de implantação/banco de dados deve ser configurado para que a única conta de administrador seja criada automaticamente durante a inicialização do sistema, tornando-a previamente disponível para uso. |
+| RNF01 | Segurança | As senhas devem ser armazenadas com criptografia de hash unidirecional. A API não deve retornar dados sensíveis (hashes/tokens) no payload. Acessos não autenticados a rotas privadas devem retornar HTTP 401 (Unauthorized), e acessos de estudantes a rotas de administrador devem retornar HTTP 403 (Forbidden). Alterações de dados sensíveis devem invalidar o token atual, exigindo reautenticação. A exclusão de contas deve aplicar soft delete (anonimização LGPD) e revogar sessões no servidor. A correção de testes deve ocorrer exclusivamente via validação server-side. |
+| RNF02 | Usabilidade | A interface (React/Next.js) deve renderizar sem gerar rolagem horizontal ou quebra de componentes em resoluções de tela variando de 320px (smartphones) a 1920px (desktops). Em caso de falha de validação em formulários, o sistema deve preservar 100% dos dados já preenchidos pelo usuário. Mensagens de sucesso ou erro (toasts) devem permanecer visíveis para leitura antes de desaparecerem automaticamente (ex: auto-dismiss de 3 segundos). |
+| RNF03 | Suportabilidade | O sistema deve implementar separação de responsabilidades em camadas distintas (Camada de Repositório, Serviços e Server Actions), utilizando um cliente de banco de dados singleton (Prisma). A adição de novas trilhas ou tipos de exercícios não deve exigir modificação nos módulos centrais de autenticação ou conexão com o banco de dados. |
+| RNF04 | Implementação | O sistema deve executar um script de seed (povoamento automático) no banco de dados (MySQL) durante o processo de inicialização ou deploy. Este script deve garantir a criação de 1 (uma) conta de administrador padrão com credenciais válidas e senha já em formato hash, disponibilizando-a para acesso imediato no primeiro uso do ambiente. |
 
 <center>
     Fonte: Elaborado pelos autores.
@@ -61,10 +60,21 @@ Os Requisitos Funcionais especificam o que é esperado de funcionalidades e cara
 
 As regras de negócio são caracteristicas que descrevem um aspecto do negócio ou produto, definindo ou restringindo o seu comportamento ao interagir com o usuário ou o ambiente em que está exposto.
 
-- RN01 - Estrutura de Aprendizado Obrigatória: Toda trilha de conhecimento deve ser obrigatoriamente estruturada e persistida no sistema contendo um tema específico, uma sequência ordenada de pílulas de conhecimento e um conjunto de exercícios práticos.
-- RN02 - Sistema de Conclusão de nó: O sistema deve definir a conclusão de um nó apenas caso, tenha a confirmação da leitura completa acionando o botão "Concluir" nos nós de leitura, ou a resolução correta de 60% dos exercícios em um nó de exercício.
-- RN03 - Consumo Integral de Conteúdo: O sistema deve exigir e monitorar que o estudante consuma integralmente todo o conteúdo do nó antes de poder avançar para o próximo nó.
-- RN04 - Sistema de conclusão de trilha: O sistema irá considerar a trilha concluída apenas caso o usuário conclua o nó de teste final com uma taxa de acerto de 80% das questões do teste.
+- RN01 - Formato da Senha: O sistema deve exigir do usuário uma senha com pelo menos 8 caracteres e no máximo 20, contendo ao menos uma letra maiuscula, uma letra minuscula, um número e um caracter especial.
+- RN02 - Email Único: O usuário deve se cadastrar com um email que não foi cadastrado anteriormente.
+- RN03 - Exigir autenticação para ver perfil: O sistema deve exigir que o usuário esteja autenticado para permitir acesso à página de perfil.
+- RN04 - Exclusão da conta exige senha: O sistema deve exigir a senha do usuário para que possa deletar a conta.
+- RN05 - Exclusão de acordo com a LGPD: A exclusão de dados do usuário deve estar de acordo com o implementado pela LGPD.
+- RN06 - Estrutura de Aprendizado Obrigatória: Toda trilha de conhecimento deve ser obrigatoriamente estruturada e persistida no sistema contendo um tema específico, uma sequência ordenada de pílulas de conhecimento e um conjunto de exercícios práticos.
+- RN07 - Ordem dos nós: Cada nó de Lição deve possuir um nó de exercícios como sucessor na trilha.
+- RN08 - Consumo Integral de Conteúdo: O sistema deve exigir e monitorar que o estudante consuma integralmente todo o conteúdo do nó antes de poder avançar para o próximo nó.
+- RN09 - Sistema de conclusão de trilha: O sistema irá considerar a trilha concluída apenas caso o usuário conclua o nó de teste final com uma taxa de acerto de 80% das questões do teste.
+- RN10 - Cálculo de progresso da trilha/plataforma: O cálculo de progresso da trilha deve ser feito através do percentual da quantidade de nós concluídas em relação ao total de nós da trilha, para o cálculo de progresso na plataforma, o cálculo se diz sobre as trilhas concluídas em relação ao total de trilhas
+- RN11 - Privacidade de progresso: O usuário deve ter acesso apenas ao próprio progresso, estando inacessível acompanhar o progresso de outros usuários. 
+- RN12 - Sistema de Conclusão de nó: O sistema deve definir a conclusão de um nó apenas caso, tenha a confirmação da leitura completa acionando o botão "Concluir" nos nós de leitura, ou a resolução correta de 60% dos exercícios em um nó de exercício.
+- RN13 - Questões sem respostas são incorretas: Qualquer questão que seja enviada sem uma resposta definida deve ser considerada incorreta.
+- RN14 - Feedbacks de questões incorretas: Deve ser disponibilizado ao estudante um feedback sobre qual é a resposta correta de um exercício resolvido de maneira incorreta.
+
 
 ## Definição de MVPs – Prioridade MoSCoW
 
@@ -147,8 +157,9 @@ Durante a fase de detalhamento e refinamento das histórias de usuário, a equip
 ---
 
 ### Histórico de Versão
-Data     | Versão | Descrição | Autor | Revisor
--------- | ------ | --------- | ----- | ---------
-27/09/26 | 1.0 | Inclusão do documento no git pages | [Pedro Henrique](https://github.com/phmelosilva) | [João Pedro Morbeck](https://github.com/uMorbeck) 
-29/09/26 | 1.1 | Alteração no nome da feature 4, adição das regras de negócio e mudanças nos requisitos funcionais das features 2 e 4 | [João Pedro Morbeck](https://github.com/uMorbeck) |  [Pedro Henrique](https://github.com/phmelosilva)
-01/10/26 | 1.2 | Despriorização da Feature 5 (Guias de Revisão), alteração do MoSCoW e ajustes nas Histórias de Usuário | [Pedro Henrique](https://github.com/phmelosilva) | [João Pedro Morbeck](https://github.com/uMorbeck)
+| Data     | Versão | Descrição | Autor | Revisor |
+| -------- | ------ | --------- | ----- | ------- |
+| 27/09/26 | 1.0 | Inclusão do documento no git pages | [Pedro Henrique](https://github.com/phmelosilva) | [João Pedro Morbeck](https://github.com/uMorbeck) |
+| 29/09/26 | 1.1 | Alteração no nome da feature 4, adição das regras de negócio e mudanças nos requisitos funcionais das features 2 e 4 | [João Pedro Morbeck](https://github.com/uMorbeck) |  [Pedro Henrique](https://github.com/phmelosilva) |
+| 01/10/26 | 1.2 | Despriorização da Feature 5 (Guias de Revisão), alteração do MoSCoW e ajustes nas Histórias de Usuário | [Pedro Henrique](https://github.com/phmelosilva) | [João Pedro Morbeck](https://github.com/uMorbeck) |
+| 15/11/26 | 1.3 | Alterações nas regras de negócio e requisitos não funcionais | [João Pedro Morbeck](https://github.com/uMorbeck) | [Pedro Henrique](https://github.com/phmelosilva) |
