@@ -50,7 +50,7 @@ Os Requisitos Funcionais especificam o que é esperado de funcionalidades e cara
 | 6 | US18 | Administrador | Visualizar as trilhas já cadastradas | Eu possa auditar e acompanhar o catálogo da plataforma. |
 | 6 | US19 | Administrador | Editar o conteúdo e a estrutura das trilhas | Eu possa manter os materiais de apoio atualizados. |
 | 6 | US20 | Administrador | Excluir trilhas de conhecimento | Eu possa remover conteúdos obsoletos ou incorretos |
-| 6 | US21 | Administrador | Acessar um painel métrico (dashboard) com dados de uso | Eu possa remover conteúdos obsoletos ou incorretos |
+| 6 | US21 | Administrador | Acessar um painel métrico (dashboard) com dados de uso | Eu possa identificar conteúdos obsoletos ou incorretos, e avaliar o uso da plataforma. |
 
 <center>
     Fonte: Elaborado pelos autores.

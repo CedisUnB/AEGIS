@@ -8,7 +8,7 @@
 
 Este documento registra as métricas coletadas ao longo das sprints do projeto e as análises feitas a partir delas. Ele aplica o [Plano de Métricas e Acompanhamento do Projeto](estrategia_acompanhamento_projeto.md).
 
-Os dados foram extraídos do quadro do GitHub Projects pelo repositório AEGIS em **07/11/26**, a partir do estado atual dos 39 itens e do histórico de mudanças de status de cada issue.
+Os dados foram extraídos do quadro do GitHub Projects pelo repositório AEGIS em **07/11/26** e atualizados em **19/11/26**, após o encerramento da Sprint 5, a partir do estado atual dos 39 itens e do histórico de mudanças de status de cada issue.
 
 ## 2. Critérios de Medição
 
@@ -18,6 +18,7 @@ Os dados foram extraídos do quadro do GitHub Projects pelo repositório AEGIS e
     
     - **Sprint 1 estendida:** a Sprint 1 foi considerada encerrada em 24/09/26. A equipe não conseguiu fechá-la dentro do período planejado (07/09 a 20/09, Review em 21/09) e usou os dias adicionais para contabilizar as métricas de fechamento. A Sprint 2 passa a ser contada a partir de 25/09.
     - **Fechamento no quadro depois da Review:** 8 Histórias da Sprint 3 (US06 a US09 e US12 a US15) constam como "Entregue" na Review de 19/10, mas foram movidas para "Done" apenas em 25/10. Da mesma forma, 4 itens de Security da Sprint 4 (#15, #32, #34 e #37) constam como "Entregue" na Review de 02/11 e foram fechados entre 03/11 e 04/11. Esses itens foram contabilizados na sprint da Review.
+    - **Itens sem card no quadro:** as entrevistas de validação do MVP1 e o deploy em produção, da Sprint 5, foram executados em paralelo à escrita do TCC e não geraram itens no quadro. Por isso não entram na Vazão, mas constam como cumpridos no relatório da sprint.
     - **Janelas das sprints:** 
         - Sprint 1 de 07/09 a 24/09;
         - Sprint 2 de 25/09 a 06/10; 
@@ -27,7 +28,7 @@ Os dados foram extraídos do quadro do GitHub Projects pelo repositório AEGIS e
     - **Vazão:** conta todos os itens concluídos na sprint, de qualquer tipo (Histórias de Usuário, Fix, Security, Docs, Task, Test, Requisitos e Protótipos), independentemente do tamanho.
     - **Escopo do MVP:** as 15 Histórias de Usuário das Features 1 a 4 (US01 a US15), que compõem o MVP1 (Must have).
     - **Burnup:** usa apenas as Histórias de Usuário do MVP concluídas, porque o escopo do MVP é medido em Histórias.
-    - **Defeitos:** os itens de tipo Fix são tratados como ajustes de defeitos encontrados. Um defeito é "aberto" na sprint em que a issue foi criada e "corrigido" na sprint em que foi fechada.
+    - **Defeitos:** os itens de tipo Fix são tratados como ajustes de defeitos encontrados. Um defeito é "aberto" na sprint em que a issue foi criada e "corrigido" na sprint em que foi fechada. A exceção são os Fix #14 e #16, criados na Sprint 2 como ajustes do MVP como um todo e contados na Sprint 4, em que foram tratados (seções 7.4 e 9.1).
 
 ## 3. Parâmetros do MVP
 
@@ -100,7 +101,7 @@ As US01 a US05 foram validadas até o fechamento da sprint em 24/09/26. As US06 
 
 Nenhuma História de Usuário foi concluída na sprint, porque ela foi dedicada aos requisitos de software: a definição de como apresentar as trilhas e o conteúdo aos usuários, o refinamento de cada requisito em Histórias e a prototipação das Features 2 e 4. Nela também foram desenvolvidas e formalizadas as estratégias de segurança do projeto, com as diretrizes e os checklists de segurança. As 8 Histórias do planejamento (US06 a US09 e US12 a US15) foram repassadas para a Sprint 3.
 
-### 4.3 Sprint 3 (06/10/26 a 19/10/26)
+### 4.3 Sprint 3 (06/10/26 a 19/10/26, contagem a partir de 07/10/26)
 
 **Objetivo da sprint:** Desenvolver o motor de navegação e mapa das trilhas (Feature 2), os laboratórios de prática, avaliação e apresentação de conteúdo (Feature 4) e o painel de progresso do estudante (Feature 3), repassados da sprint anterior (US06 a US15).
 
@@ -157,7 +158,7 @@ As US06 a US09 e US12 a US15 foram entregues na Review de 19/10/26, mas movidas 
 
 Os 7 itens de Security (#15, #32, #33, #34, #35, #36 e #37) e as 2 correções (Fix #14 e #16) constam como "Entregue" na Review de 02/11/26. Quatro dos itens de Security (#15, #32, #34 e #37) foram fechados no quadro apenas em 03/11 e 04/11. As US10 e US11 foram fechadas em 29/10/26.
 
-### 4.5 Sprint 5 (02/11/26 a 13/11/26, em andamento)
+### 4.5 Sprint 5 (02/11/26 a 13/11/26, contagem a partir de 03/11/26)
 
 **Objetivo da sprint:** Validação do MVP1 com clientes usuários por meio de entrevistas e deploy da aplicação em produção, com as trilhas cadastradas (3 tarefas planejadas).
 
@@ -171,14 +172,18 @@ Os 7 itens de Security (#15, #32, #33, #34, #35, #36 e #37) e as 2 correções (
 | #27 | Docs | Docs: Atualização no Processo de Desenvolvimento | 03/11/26 17:06 |
 | #38 | Docs | Docs: Estilizar e padronizar Layout para GitPages | 03/11/26 17:06 |
 | #61 | Task | Task: Criar imagem Docker para build e deploy da aplicação | 03/11/26 19:46 |
+| #62 | Task | Criação e Revisão das trilhas para o MVP1 | [dd/mm/26 hh:mm] |
+| #63 | Task | Adicionar as trilhas no banco de dados de produção | 08/11/26 12:12 |
+| #71 | Docs | Documentar Métricas do Projeto | 15/11/26 10:35 |
+| #59 | Task | Task: Atualizar Lógica para Exercícios do Teste Final | Aberta como débito técnico |
 
 <center>
     Fonte: Elaborado pelos autores, com dados do GitHub Projects.
 </center>
 
-**Concluídos:** 4 (3 Docs, 1 Task)
+**Concluídos:** 7 de 8 (4 Docs, 3 Task)
 
-Os 4 itens concluídos (#27, #38, #54 e #61) não estavam no planejamento da sprint. As tarefas planejadas ainda estão em andamento em 07/11/26: #62 (criação e revisão das trilhas) e #63 (trilhas no banco de produção), ambas em "In review", e a validação com usuários (entrevistas), ainda pendente. Também seguem abertos #71 (Docs, em "In progress") e #59 (Task, em "Backlog").
+Das 3 tarefas planejadas, a criação e revisão das trilhas (#62) e a inclusão delas no banco de produção (#63) foram concluídas no quadro. A terceira, a validação do MVP1 com usuários por meio de entrevistas, não gerou item no quadro. As entrevistas e o deploy em produção foram executados em paralelo à escrita do TCC e constam como concluídos no relatório da sprint. Os outros 5 itens concluídos (#27, #38, #54, #61, #71) não estavam no planejamento, com a excessão do item #59 que virou débito técnico para o projeto.
 
 ## 5. Métricas Consolidadas por Sprint
 
@@ -188,9 +193,9 @@ A coluna **Planejadas** informa quantos itens estavam no planejamento de cada sp
 - Sprint 2: as 8 Histórias das Features 2 e 4: US06 a US09 e US12 a US15.
 - Sprint 3: as 10 Histórias que a sprint planejou: as 8 repassadas da Sprint 2 (US06 a US09 e US12 a US15) e as 2 Histórias da Feature 3 (US10 e US11).
 - Sprint 4: 2 Histórias (US10 e US11) e 9 tarefas de segurança e de ajustes do projeto, como responsividade, padronização de cores, cabeçalhos HTTP, política de privacidade, indicador de força de senha, rate limiting, tokens de acesso e refresh, verificação de vulnerabilidades e tratamento de mensagens de erro.
-- Sprint 5: 3 tarefas, sendo a criação e revisão das trilhas, a inclusão das trilhas no banco de produção com deploy de produção e a validação do MVP1 com usuários.
+- Sprint 5: 3 tarefas, sendo a criação e revisão das trilhas, a inclusão das trilhas no banco de produção e a validação do MVP1 com usuários. O deploy em produção consta no objetivo da sprint.
 
-A **Vazão (%)** é a razão entre os itens planejados que foram concluídos e os itens planejados da sprint. Por exemplo, na Sprint 3 foram concluídas 8 das 10 Histórias planejadas, o que dá 80%. Itens concluídos que não estavam no planejamento, como os 6 da Sprint 2 (requisitos, documentação, segurança, teste e protótipo), entram na coluna Concluídas (Vazão), mas não entram neste percentual. O mesmo vale para o Fix #8 na Sprint 1 e para os 4 itens concluídos até agora na Sprint 5.
+A **Vazão (%)** é a razão entre os itens planejados que foram concluídos e os itens planejados da sprint. Por exemplo, na Sprint 3 foram concluídas 8 das 10 Histórias planejadas, o que dá 80%. Itens concluídos que não estavam no planejamento, como os 6 da Sprint 2 (requisitos, documentação, segurança, teste e protótipo), entram na coluna Concluídas (Vazão), mas não entram neste percentual. O mesmo vale para o Fix #8 na Sprint 1 e para os 6 itens não planejados da Sprint 5. Na Sprint 5, a validação com usuários não tem item no quadro e é contada como concluída pelo relatório da sprint.
 
 <center>
     Tabela 7 - Métricas consolidadas por sprint
@@ -202,7 +207,7 @@ A **Vazão (%)** é a razão entre os itens planejados que foram concluídos e o
 | 2 | 8 | 6 | 0,0% | 12 | 5 | 6,00 | 33,3% | 0 | 0 | — | 0,00 | 100% | 100% |
 | 3 | 10 | 8 | 80,0% | 20 | 13 | 9,00 | 86,7% | 0 | 0 | — | 0,00 | 100% | 100% |
 | 4 | 11 | 11 | 100,0% | 31 | 15 | 12,00 | 100,0% | 2 | 2 | 100% | 0,18 | 100% | 100% |
-| 5 (parcial) | 3 | 4 | 0,0% | 35 | 15 | 15,00 | 100,0% | 0 | 0 | — | 0,00 | 100% | 100% |
+| 5 | 3 | 8 | 100,0% | 39 | 15 | 15,00 | 100,0% | 0 | 0 | — | 0,00 | 100% | 100% |
 
 <center>
     Fonte: Elaborado pelos autores.
@@ -228,8 +233,8 @@ A "Taxa de resolução" (corrigidos ÷ abertos na sprint) fica sem valor quando 
 | 2 | 0 | 0 | 1 | 2 | 0 | 1 | 1 | 1 | 6 |
 | 3 | 8 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 8 |
 | 4 | 2 | 2 | 7 | 0 | 0 | 0 | 0 | 0 | 11 |
-| 5 (parcial) | 0 | 0 | 0 | 3 | 1 | 0 | 0 | 0 | 4 |
-| **Total** | 15 | 3 | 8 | 5 | 1 | 1 | 1 | 1 | 35 |
+| 5 | 0 | 0 | 0 | 4 | 4 | 0 | 0 | 0 | 8 |
+| **Total** | 15 | 3 | 8 | 6 | 4 | 1 | 1 | 1 | 39 |
 
 <center>
     Fonte: Elaborado pelos autores, com dados do GitHub Projects.
@@ -255,7 +260,7 @@ O *Burnup* compara as Histórias do MVP concluídas (acumuladas) com a referênc
 | 2 | 0 | 5 | 6,00 | -1,00 | Atrasado |
 | 3 | 8 | 13 | 9,00 | +4,00 | À frente |
 | 4 | 2 | 15 | 12,00 | +3,00 | À frente (MVP1 completo) |
-| 5 (parcial) | 0 | 15 | 15,00 | 0,00 | MVP1 completo |
+| 5 | 0 | 15 | 15,00 | 0,00 | MVP1 completo |
 
 <center>
     Fonte: Elaborado pelos autores.
@@ -284,6 +289,8 @@ Nenhuma das 8 Histórias planejadas (US06 a US09 e US12 a US15) foi concluída (
 
 O Burnup permaneceu em 5 Histórias contra 6,00 da referência (diferença de -1,00). Não houve defeitos abertos. DoR e DoD ficaram em 100%.
 
+Como a Vazão das planejadas foi de 71,4% na Sprint 1 e de 0% na Sprint 2, o alerta de Vazão abaixo de 80% por 2 sprints consecutivas foi acionado. O atraso, no entanto, foi recuperado na Sprint 3, em que o Burnup passou a +4,00 em relação à referência.
+
 ### 7.3 Sprint 3
 
 Foram entregues 8 das 10 Histórias planejadas (80%): as 8 repassadas da Sprint 2 (US06 a US09 e US12 a US15, Features 2 e 4). As US10 e US11 (Feature 3) ficaram pendentes. A Vazão total foi de 8 itens, todos Histórias. O Burnup subiu de 5 para 13 Histórias contra 9,00 da referência, ficando 4,00 à frente e compensando o atraso da Sprint 2. DoR e DoD ficaram em 100%.
@@ -294,9 +301,11 @@ A Review registra que a integração entre as features demandou mais tempo que o
 
 Foram concluídos os 11 itens planejados (100%): as 2 Histórias da Feature 3 (US10 e US11), as 2 correções (Fix #14 e #16) e 7 itens de Security (#15, #32, #33, #34, #35, #36 e #37). O Burnup chegou a 15 contra 12,00 da referência (+3,00): o MVP1 foi concluído na Sprint 4, uma sprint antes da quinta e última sprint prevista. As correções Fix #14 e #16 são defeitos do MVP como um todo, pois trataram de ajustes em todo o código desenvolvido desde a Sprint 1.  Por isso entram como abertos e corrigidos na Sprint 4 (densidade de 0,18). DoR e DoD ficaram em 100%. Segundo a Review, a Feature 3 foi entregue na primeira semana e a segunda semana foi usada para resolver tarefas do backlog, em ajustes de segurança e de interatividade. Entre os problemas da sprint estão a quebra da pipeline de CI e as correções de vulnerabilidades da Feature 1, mapeadas na auditoria de segurança.
 
-### 7.5 Sprint 5 (parcial, em 07/11/26)
+### 7.5 Sprint 5
 
-Foram concluídos 4 itens, nenhum deles planejado: Docs #27, #38 e #54 e Task #61 (imagem Docker). Das 3 tarefas planejadas (criação e revisão das trilhas, trilhas no banco de produção e validação com usuários), duas estão em "In review" (#62 e #63) e a validação ainda não ocorreu. A Vazão (%) das planejadas é de 0% até agora. O Burnup se mantém em 15 de 15 Histórias (MVP1 completo). Não houve novos defeitos. DoR e DoD estão em 100% nos itens concluídos até agora. Os números desta sprint devem ser atualizados após a Review de 13/11.
+Foram concluídos 8 itens: as 3 tarefas planejadas e 6 itens não planejados. No quadro constam as tarefas #62 e #63 e os itens #27, #38, #54, #61, #71 e #59 (4 Docs e 4 Task). A validação do MVP1 com usuários não gerou item no quadro e consta como concluída no relatório da sprint, assim como o deploy em produção. Com isso, a Vazão (%) das planejadas é de 100%. O Burnup se manteve em 15 de 15 Histórias (MVP1 completo) e não houve novos defeitos.
+
+A Vazão de 8 itens não reflete todo o esforço da sprint, porque as entrevistas e o deploy foram executados em paralelo à escrita do TCC e não foram registrados no quadro.
 
 ## 8. Yesterday's Weather: Capacidade Usada em Cada Sprint
 
@@ -312,13 +321,13 @@ Conforme a Seção 2.1 do Plano de Métricas, a capacidade da sprint seguinte é
 | 2 | 6 | 6 |
 | 3 | 6 | 8 |
 | 4 | 8 | 11 |
-| 5 | 11 | 4 (parcial) |
+| 5 | 11 | 8 |
 
 <center>
     Fonte: Elaborado pelos autores.
 </center>
 
-**Análise:** a Vazão realizada acompanhou razoavelmente a da sprint anterior (6, 6, 8 e 11), com diferenças de 0, 2 e 3 itens, e a Vazão da sprint anterior serviu como capacidade de referência nas Sprints 2 a 4. Como a Vazão conta itens de natureza diferente (Histórias de Usuário, requisitos, documentação e segurança), a Sprint 2 manteve a Vazão, mas sem Histórias, o que limita a leitura. Para a Sprint 5, a capacidade pela média das Sprints 1 a 4 seria de cerca de aproximadamente 8 itens (31 itens ÷ 4 sprints = 7,75).
+**Análise:** a Vazão realizada acompanhou razoavelmente a da sprint anterior nas Sprints 2 a 4 (6, 6, 8 e 11), com diferenças de 0, 2 e 3 itens, e a Vazão da sprint anterior serviu como capacidade de referência. Na Sprint 5, a Vazão ficou em 8 itens contra 11 de referência. Como a Vazão conta itens de natureza diferente (Histórias de Usuário, requisitos, documentação, segurança e tarefas), a Sprint 2 manteve a Vazão, mas sem Histórias, o que limita a leitura. A Sprint 5 também teve trabalho sem registro no quadro (entrevistas e deploy), de modo que sua Vazão está subestimada. A média das Sprints 1 a 5 foi de 7,8 itens por sprint (39 itens ÷ 5 sprints).
 
 ## 9. Defeitos
 
@@ -334,14 +343,14 @@ Conforme a Seção 2.1 do Plano de Métricas, a capacidade da sprint seguinte é
 | 2 | 0 | 0 | — | 0,00 |
 | 3 | 0 | 0 | — | 0,00 |
 | 4 | 2 | 2 | 100% | 0,18 |
-| 5 (parcial) | 0 | 0 | — | 0,00 |
-| **Total** | 3 | 3 | 100% | 0,09 |
+| 5 | 0 | 0 | — | 0,00 |
+| **Total** | 3 | 3 | 100% | 0,08 |
 
 <center>
     Fonte: Elaborado pelos autores, com dados do GitHub Projects (issues Fix).
 </center>
 
-A densidade total é 3 defeitos ÷ 35 itens concluídos. Os 3 defeitos abertos foram todos corrigidos até 01/11/26. Os Fix #14 e #16 são tratados como defeitos do MVP como um todo, porque os ajustes alcançaram o código desenvolvido desde a Sprint 1, e por isso contam na Sprint 4, em que foram tratados e corrigidos.
+A densidade total é 3 defeitos ÷ 39 itens concluídos. Os 3 defeitos abertos foram todos corrigidos até 01/11/26. Os Fix #14 e #16 são tratados como defeitos do MVP como um todo, porque os ajustes alcançaram o código desenvolvido desde a Sprint 1, e por isso contam na Sprint 4, em que foram tratados e corrigidos.
 
 ### 9.2 Tempo médio de correção (MTTR)
 
@@ -377,14 +386,14 @@ O MTTR de 26,3 dias é puxado pelos Fix #14 e #16, que ficaram no "Backlog" de 2
 | 2 | Nenhuma História desenvolvida: a sprint foi dedicada à engenharia de requisitos, pré-requisito para o desenvolvimento do MVP. Resultados: apresentação do conteúdo das trilhas definida e validada com os clientes, requisitos refinados em Histórias, protótipos e diretrizes e checklists de segurança | Não |
 | 3 | Motor de navegação e laboratórios de prática (Features 2 e 4) entregues, com 8 das 10 Histórias; Feature 3 repassada | Sim |
 | 4 | Feature 3 e as 9 tarefas planejadas entregues; MVP1 concluído | Sim |
-| 5 | Em andamento | — |
-| **Taxa de sucesso** | | 3 de 4 (75%) |
+| 5 | Entrevistas com usuários realizadas e deploy de produção enviado para o CEDIS, executados sem itens no quadro | Sim |
+| **Taxa de sucesso** | | 4 de 5 (80%) |
 
 <center>
     Fonte: Elaborado pelos autores.
 </center>
 
-Pelo critério do Plano de Métricas, uma taxa abaixo de 70% sinaliza risco recorrente de prazo. Com 75% nas Sprints 1 a 4, esse alerta não foi acionado. A avaliação de "Cumprido" é a da equipe.
+Pelo critério do Plano de Métricas, uma taxa abaixo de 70% sinaliza risco recorrente de prazo. Com 80% nas Sprints 1 a 5, esse alerta não foi acionado. A avaliação de "Cumprido" é a da equipe.
 
 O objetivo inicial da Sprint 2 (desenvolver as Features 2 e 4) não foi cumprido, porque nenhuma História foi desenvolvida. Os resultados da sprint, no entanto, foram cruciais para o processo e para o desenvolvimento das sprints seguintes e do MVP: a definição de como apresentar as trilhas e o conteúdo, validada com os clientes, o refinamento dos requisitos em Histórias, os protótipos e as diretrizes e checklists de segurança sustentaram as entregas das Sprints 3 e 4 (US06 a US15) e a aplicação dos checklists de segurança a partir da Sprint 3.
 
@@ -406,28 +415,29 @@ O objetivo inicial da Sprint 2 (desenvolver as Features 2 e 4) não foi cumprido
     Fonte: Elaborado pelos autores.
 </center>
 
-Todas as Histórias e tarefas concluídas nas Sprints 1 a 5 atenderam integralmente às checklists de DoR e de DoD, o que resulta em conformidade de 100% em todas as sprints, conforme o registro da equipe. Os valores da Sprint 5 consideram os itens concluídos até o momento.
+Todas as Histórias e tarefas concluídas nas Sprints 1 a 5 atenderam integralmente às checklists de DoR e de DoD, o que resulta em conformidade de 100% em todas as sprints, conforme o registro da equipe.
 
 ## 12. Observações sobre o Uso do Quadro
 
 O histórico do quadro mostra pontos que afetam a leitura das métricas:
 
-- **Conclusões em lote:** 4 Histórias (US02 a US05) foram movidas para "Done" no mesmo minuto em 24/09/26, data adotada como fechamento da Sprint 1; 8 Histórias da Sprint 3 entre 18:14 e 18:44 de 25/10/26, seis dias depois da Review; e itens de segurança e documentação da Sprint 4 em 03/11 e 04/11, depois da Review. Neste documento, esses itens foram contabilizados na sprint em que a Review os registrou como entregues. A data de conclusão registrada tende a ser a da atualização do quadro, e não a da validação.
+- **Conclusões em lote:** 4 Histórias (US02 a US05) foram movidas para "Done" no mesmo minuto em 24/09/26, data adotada como fechamento da Sprint 1; 8 Histórias da Sprint 3 entre 18:14 e 18:44 de 25/10/26, seis dias depois da Review; e itens de segurança da Sprint 4 em 03/11 e 04/11, depois da Review. Neste documento, esses itens foram contabilizados na sprint em que a Review os registrou como entregues. A data de conclusão registrada tende a ser a da atualização do quadro, e não a da validação.
 - **Itens sem passagem por todas as colunas:** vários itens (por exemplo, #5, #20, #23, #26 e #30) foram fechados com poucos ou nenhum registro de "In progress" ou "In review".
+- **Trabalho sem card:** as entrevistas de validação e o deploy em produção, da Sprint 5, foram executados sem itens no quadro e, por isso, não aparecem na Vazão.
 - **Retornos de coluna:** a US06 voltou de "Ready" para "Backlog" em 24/09, o #32 voltou de "In review" para "In progress" em 03/11 e o #34 voltou de "In progress" para "Ready" em 30/10.
 
 Por isso, a Vazão por sprint deve ser lida com cautela: ela reflete quando o quadro foi atualizado. O acompanhamento acumulado (Burnup) é menos sensível a esse efeito do que a Vazão pontual.
 
 ## 13. Síntese e Conclusões
 
-**Situação do MVP1:** as 15 Histórias de Usuário das Features 1 a 4 foram entregues até a Review da Sprint 4 (02/11/26), uma sprint antes da prevista. A Vazão acumulada total é de 35 itens concluídos até 07/11/26.
+**Situação do MVP1:** as 15 Histórias de Usuário das Features 1 a 4 foram entregues até a Review da Sprint 4 (02/11/26), uma sprint antes da prevista. A Vazão acumulada total é de 39 itens concluídos nas 5 sprints, e a Sprint 5 foi dedicada à validação do MVP1 com usuários e ao deploy em produção.
 
 **Principais resultados**
 
 - O Burnup esteve à frente da referência na Sprint 1 (+2,00), ficou abaixo dela na Sprint 2 (-1,00), quando a equipe se dedicou aos requisitos, e voltou a ficar à frente na Sprint 3 (+4,00) e na Sprint 4 (+3,00), com o MVP1 completo.
-- A Vazão total foi de 6, 6, 8, 11 e 4 (parcial) itens, crescente ao longo do projeto.
-- Os 3 defeitos registrados (itens Fix) foram todos corrigidos, com densidade total baixa (0,09 defeito por item entregue).
-- O Sprint Goal foi cumprido nas Sprints 1, 3 e 4 (taxa de sucesso de 75%), acima do limite de 70% do Plano. O objetivo da Sprint 2 não foi cumprido, pois a sprint foi dedicada à engenharia de requisitos, cujos resultados foram cruciais para o desenvolvimento das sprints seguintes e do MVP.
+- A Vazão total foi de 6, 6, 8, 11 e 8 itens por sprint. A Sprint 5 não reflete as entrevistas e o deploy, executados sem itens no quadro.
+- Os 3 defeitos registrados (itens Fix) foram todos corrigidos, com densidade total baixa (0,08 defeito por item entregue).
+- O Sprint Goal foi cumprido nas Sprints 1, 3, 4 e 5 (taxa de sucesso de 80%), acima do limite de 70% do Plano. O objetivo da Sprint 2 não foi cumprido, pois a sprint foi dedicada à engenharia de requisitos, cujos resultados foram cruciais para o desenvolvimento das sprints seguintes e do MVP.
 
 **Limitações:** o projeto tem um histórico curto (5 sprints) e uma equipe de duas pessoas, e o quadro foi atualizado em lote em alguns momentos. Os indicadores devem ser lidos como tendências, e não como previsões estatísticas.
 
@@ -445,3 +455,4 @@ RUBIN, Kenneth S. Essential Scrum: A Practical Guide to the Most Popular Agile P
 Data     | Versão | Descrição | Autor | Revisor
 -------- | ------ | --------- | ----- | ---------
 07/11/26 | 1.0 | Inclusão do registro de métricas e análises por sprint | [Pedro Henrique](https://github.com/phmelosilva) | [João Pedro Morbeck](https://github.com/uMorbeck)
+19/11/26 | 1.1 | Atualização com o encerramento da Sprint 5 e correção de inconsistências | [Pedro Henrique](https://github.com/phmelosilva) | [João Pedro Morbeck](https://github.com/uMorbeck)
